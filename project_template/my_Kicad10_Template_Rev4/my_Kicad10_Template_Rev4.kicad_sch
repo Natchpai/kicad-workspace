@@ -1,0 +1,48 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "76162bf1-0d95-48cb-b65a-4de551455d04")
+	(paper "A3")
+	(title_block
+		(rev "1.0")
+		(comment 1 "Comment1")
+		(comment 2 "Comment2")
+	)
+	(lib_symbols)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+	(embedded_files
+		(file
+			(name "V2-0_MyCustomTemplate_A3_CGFont_Sche.kicad_wks")
+			(type worksheet)
+			(data |KLUv/WD2HV0jAOYvjyfwsuYBSJggErAtAAaR7Wa9hlmdVdNekfcipEiS2wwjby3wDAY9jweJAIkA
+				fwCRR3w76M3cx9p7Zg/UYSurPl+KdqiEjzUzYMYai1pq2au6G2bM+FrqeqKIKYeybkUt57r3ynSu
+				i3FRLXO26oWlOJhrQTeQ580Y42rqh1p1A3E525l6VM/toLcAoLNxqYc18wgTVQ3FbDoR2+tSllr0
+				AiLdvT17tq7qsZSjACBAwKPxwWioqmoUBDAyXCTKZZoYLC7+x24SQppMb1F+SzddpAhmYtJsrgxD
+				oPz+/+/m7EKTCIlFIjFVPggiTeVLKYYlYg7nqpyxvTZX5f5VFeNeCwyyG9eiCc/gbOgcJesDDlqx
+				1oIsvRatGGRRr2cj4z27BPrHLJPJMG+QyKI4V4U/dMIeyqmXiGlFXeuycH7PnqsT/89Yu/OUs/2d
+				tXb8pLfF9dE1F6pMFOk5ZoFtwvnN3uFrGZoWJAqGYvogMAgNfCC499xrx895z4H5vEXorV/zS8LU
+				EFGhNJ6Q9ZPSsW7/4OvpraWH/DKZICAiEt7Jns/v/1Y047KUGefHln8tqlpKQsJ/raVzurn1IqG3
+				5OexAwECEBljdF6ZJDARKUHiMNvJquBmnB4kCjD6syrcfbbP/35nGN276BrKn84f7BiRxPfZXvPJ
+				Ik0PzWeD3/BSHZm9+P76n7Vvd/74rR+czl9/c/7OZ7u/sOqHshEHY0Nn1x6UYQ390MpBK+/af2Ei
+				mZAqEfmaZN7xMpEkFUkigN2g8TDnlJoSGUmSDGNQhEzJWHEbhYOEgWpZWiIwjFUc4qdOWmCK/S/K
+				qZsIrjVh5A7F/vA4iP4JLCdJnZXRj5BLfTBIDCu+F3Ojej3YZfVHFIYbQQ+T6Gd6wuD+NDUwJ9jS
+				PecX6W/3UfbXvJTHyOaBmVcXpsBtZtxjIlG2rB4NZAwQ2XsHl9OnbbH7j4ttk5Ycg4sxK18jczU3
+				UKqDpGSvS8gAT/v3UEggaRWWhSn2QAzoSld6ArZ4XZsALoqJfsPhw4JrflHY1p4xP4Pbe8qDMVyk
+				uWfBR6oBP+A4pw67AzekkrAMu0CaAyTkGnU7OdHqiVs4nF89tDYAJIrhI64TbsGeFACX8f1L4l+I
+				Vtr8sEiNOuyyyKYSwL3LqTUgXnfi55o6OoBrARgriNCAQEjwgMrZVRfDBihRzOQeTx3YCor07jmO
+				yvwRT2wrXQO3YZweNDMZRqMRGQK3pkBuACG9IDK2f5iSzwt/KYgiFDmrsG7ZgxlWUZC8gKKag2yQ
+				GIJZmpMIWAU//mo2eCZAiEmYHw0+8UQgEBcL9j7MLQBArK3tppg7aliw81ulICwsT50jI90DDQqF
+				WTzMdp0fCtQCdNjWHsYGtAmleKBFaR9nlYJScBs+P7t0zANAYzVwBnBb0sVXbzi3qJeT9mCSHPOb
+				uAvgZ+wH7uHg3OMDkZNVxk+Lx0s6W3hAoQ0J+VYksPO+Yt5Og0hNYztEMWIAA+ggJ2GjzLWAGoNX
+				BQ==|
+			)
+			(checksum "E5196DD6AF452067E8905980B46E9848")
+		)
+	)
+)
