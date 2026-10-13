@@ -31,6 +31,10 @@ Reusable KiCad libraries collected from earlier projects, merged into one layout
 - `fp-lib-table` and `sym-lib-table` are not kept here. Add the libraries from the project that uses them.
 - Not verified in KiCad itself: library loading and 3D rendering.
 
+## Licensing warning
+
+The 3D models, footprints and symbols here were copied from earlier projects and vendor downloads (for example Molex, TI, GCT, Amphenol, Würth, Murata). Their licenses and redistribution terms have not been checked. Verify them before making this repository public or sharing it outside your team, and remove anything you cannot redistribute.
+
 ## Maintenance
 
 Use the `lib-organize` skill (`.claude/skills/lib-organize/`) when adding more libraries copied from other projects. Rules for Claude are in the root `CLAUDE.md`.

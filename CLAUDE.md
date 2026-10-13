@@ -18,6 +18,10 @@ Workspace of reusable KiCad 10 resources: project templates and shared libraries
 - Edit KiCad library files only when the user asks. Change only what the task needs (paths, nicknames, names), keep line endings, and re-check that parentheses balance.
 - Do not edit hooks or permission settings to get around a block.
 
+## Licensing
+
+Library files include vendor 3D models and symbols whose redistribution terms are unchecked. Before making the repo public or sharing it, remind the user to verify licenses. Do not add vendor files without noting their source.
+
 ## Skills
 
 - Local: `lib-organize` (`.claude/skills/lib-organize/`) merges and categorizes libraries copied from other projects.
