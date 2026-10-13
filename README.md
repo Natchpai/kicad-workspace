@@ -5,7 +5,7 @@ This repository is a collection of reusable KiCad resources. It is intended to k
 ## Repository contents
 
 - `project_template/` — KiCad project templates, including their starter project files, documentation folders, worksheet templates, and project-local library locations.
-- `library/` — Shared, repository-level KiCad libraries created for reuse across projects. This is the home for reusable symbols, footprints, and 3D models.
+- `library/` — Shared, repository-level KiCad libraries created for reuse across projects. This is the home for reusable symbols, footprints, and 3D models. See `library/README.md` for naming and categories.
 - `LICENSE` — Repository license.
 
 ## Intended workflow
