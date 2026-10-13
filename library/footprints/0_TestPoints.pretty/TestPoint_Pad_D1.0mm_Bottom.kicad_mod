@@ -1,0 +1,111 @@
+(footprint "TestPoint_Pad_D1.0mm_Bottom"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "SMD pad as test Point, diameter 1.0mm")
+	(tags "test point SMD pad")
+	(property "Reference" "REF**"
+		(at 0 -1.7 0)
+		(layer "F.SilkS")
+		(uuid "72a20054-5410-4390-be65-cd0c5fd8f20a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "TestPoint_Pad_D1.0mm_Bottom"
+		(at 0 1.55 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "86b500eb-77eb-4ac8-82be-9aed6f1463b6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "125aa4b3-fd30-410e-8b2a-0daecfd95ab9")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e312bc91-8f31-44e4-b4f0-002517ee74f5")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr exclude_from_pos_files exclude_from_bom)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center 0 0)
+		(end 0.75 0)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "06070ba8-f3e3-46ce-a080-aa8b56b0d748")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0.85 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "3e6383a5-ece4-4564-9560-9f175cdb1bcb")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0.75 0)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(fill no)
+		(layer "User.2")
+		(uuid "5bbabc6d-bd58-47fd-a494-4447e65ae68a")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 -1.7 0)
+		(layer "User.2")
+		(uuid "a7dc6112-4987-46c9-bb29-c5a21aaab364")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify mirror)
+		)
+	)
+	(pad "1" smd circle
+		(at 0 0)
+		(size 1 1)
+		(layers "F.Cu" "F.Mask")
+		(uuid "fc7216c4-decb-4e26-9d50-3817ae0aec63")
+	)
+	(embedded_fonts no)
+)

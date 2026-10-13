@@ -1,0 +1,316 @@
+(footprint "USB_Micro-B_GCT_USB3076-30-A"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "GCT Micro USB https://gct.co/files/drawings/usb3076.pdf")
+	(tags "Micro-USB SMD Typ-B GCT")
+	(property "Reference" "REF**"
+		(at 0 -4.1 0)
+		(layer "F.SilkS")
+		(uuid "4d4a0505-576a-4ca7-8b58-26b5bfe30c5a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "USB_Micro-B_GCT_USB3076-30-A"
+		(at 0 5.2 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "230ea12e-c528-430f-9b1f-43459344b93c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "dd2b9b2c-00d0-4675-8aa9-7595d6d15e98")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a3ce4c6a-34b4-49da-9cb5-1bf57f1de686")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -3.81 -1.71)
+		(end -3.15 -1.71)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d5db2fb8-ec99-4b52-b0e8-aee86a9f0c70")
+	)
+	(fp_line
+		(start -3.81 0.02)
+		(end -3.81 -1.71)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "aa04c17d-0b90-4856-8e98-cb0c243aad14")
+	)
+	(fp_line
+		(start 3.81 -1.71)
+		(end 3.16 -1.71)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "a41d2394-ce33-45ec-9810-f7035e1129f1")
+	)
+	(fp_line
+		(start 3.81 0.02)
+		(end 3.81 -1.71)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "89b938b1-9412-49cd-be58-9d7c658ca4f4")
+	)
+	(fp_poly
+		(pts
+			(xy -1.3 -2.5) (xy -1.6 -3) (xy -1 -3)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "b960bdb4-a06b-43ba-8a5a-7bf731ea0d9d")
+	)
+	(fp_line
+		(start -3 2.65)
+		(end 3 2.65)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "Cmts.User")
+		(uuid "9b0c8ab0-25be-48b2-970a-422ace8fccb7")
+	)
+	(fp_line
+		(start -4.6 -2.65)
+		(end 4.6 -2.65)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f888a70d-78ed-492f-b9d5-3f30782bbacf")
+	)
+	(fp_line
+		(start -4.6 4.45)
+		(end -4.6 -2.65)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "dc28df19-3621-4f27-b7c5-c2b7834a7aea")
+	)
+	(fp_line
+		(start -4.6 4.45)
+		(end 4.6 4.45)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "bbf7b155-8410-432d-8977-2d169cea89b2")
+	)
+	(fp_line
+		(start 4.6 -2.65)
+		(end 4.6 4.45)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "c283b453-d0b7-4164-8c9d-f9d035140d3e")
+	)
+	(fp_line
+		(start -3.7 -1.6)
+		(end 3.7 -1.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "73ce1034-8444-4de3-bc1a-6ab8ebdfbf39")
+	)
+	(fp_line
+		(start -3.7 3.95)
+		(end -3.7 -1.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "1fc9c941-6aaa-45d8-a10f-430dad9f0af0")
+	)
+	(fp_line
+		(start -3.7 3.95)
+		(end 3.7 3.95)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "d1342534-71e3-47c1-a2ed-7b997ade3c72")
+	)
+	(fp_line
+		(start 3.7 3.95)
+		(end 3.7 -1.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "364f74b6-a4c4-431c-90bd-26d949b41a03")
+	)
+	(fp_circle
+		(center -1.3 -2.5)
+		(end -1.1 -2.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "3c3b59bf-8500-4cf4-908e-0740bea3f229")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0.85 0)
+		(layer "F.Fab")
+		(uuid "4a217699-10fd-4099-b3bf-b79f92a9b56a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.12)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -1.3 -1.45)
+		(size 0.4 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "b6bc1171-c0ab-4bf6-b4d0-87713b4d79ef")
+	)
+	(pad "2" smd roundrect
+		(at -0.65 -1.45)
+		(size 0.4 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "2a94013f-5b02-49da-a5ba-1bdcddccb8d5")
+	)
+	(pad "3" smd roundrect
+		(at 0 -1.45)
+		(size 0.4 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "6446914b-cffe-41a1-8458-997409e053bf")
+	)
+	(pad "4" smd roundrect
+		(at 0.65 -1.45)
+		(size 0.4 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "b52a1881-6721-42c5-9713-b51c04251999")
+	)
+	(pad "5" smd roundrect
+		(at 1.3 -1.45)
+		(size 0.4 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "e238b212-d876-4124-beba-25e68e719100")
+	)
+	(pad "SH" thru_hole oval
+		(at -3.575 1.2 180)
+		(size 1.05 1.9)
+		(drill oval 0.45 1.25)
+		(property pad_prop_mechanical)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "800b4f50-22bf-44c8-b62f-8c195706ee96")
+	)
+	(pad "SH" smd roundrect
+		(at -2.32 -1.03)
+		(size 1.15 1.45)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.2173913043)
+		(uuid "4d92656a-adef-4a73-affe-cf95d8d797f6")
+	)
+	(pad "SH" smd roundrect
+		(at -1.125 1.2)
+		(size 1.75 1.9)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1428571429)
+		(uuid "ea17d678-94dd-4bbb-b598-01799c097a2c")
+	)
+	(pad "SH" smd roundrect
+		(at 1.125 1.2)
+		(size 1.75 1.9)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.1428571429)
+		(uuid "08b1f32f-4fab-40d8-9361-8798613e2e47")
+	)
+	(pad "SH" smd roundrect
+		(at 2.32 -1.03)
+		(size 1.15 1.45)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.2173913043)
+		(uuid "77558ca3-56ed-4771-a398-799f474e9f84")
+	)
+	(pad "SH" thru_hole oval
+		(at 3.575 1.2)
+		(size 1.05 1.9)
+		(drill oval 0.45 1.25)
+		(property pad_prop_mechanical)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "a750dd38-fa2e-4a3d-912c-b1668f3c8315")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/library/3D/Conn_USB/USB3076-30-A_microUSB.stp"
+		(offset
+			(xyz -3.7 -4.3 0.3)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 90 -180 -180)
+		)
+	)
+)
