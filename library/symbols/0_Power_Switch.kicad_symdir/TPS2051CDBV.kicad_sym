@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_SOT:SOT-23-5"
+		(property "Footprint" "0_Package_TO_SOT_SMD:SOT-23-5"
 			(at 0 8.89 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -31,7 +31,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_QFN:QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias"
+		(property "Footprint" "0_Package_DFN_QFN:QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias"
 			(at 0 26.67 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_BGA:BGA96C80P9X16_800X1400X120"
+		(property "Footprint" "0_Package_BGA:BGA96C80P9X16_800X1400X120"
 			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

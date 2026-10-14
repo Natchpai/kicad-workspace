@@ -1,36 +1,39 @@
 # CLAUDE.md
 
-Workspace of reusable KiCad 10 resources: project templates and shared libraries. See `README.md` for the overview and `library/README.md` for the library layout.
+Instructions for working in this KiCad 10 workspace. See README.md for the repository overview and library/README.md for the shared library guide.
 
 ## Layout
 
-- `project_template/` : KiCad project templates. Each has its own project-local `library/` placeholders.
-- `library/` : shared symbols, footprints and 3D models.
-  - `symbols/0_<Name>.kicad_symdir/`, `footprints/0_<Name>.pretty/`, `3D/<Name>/`, `_extras/`.
+- project_template/ contains reusable KiCad project templates and project-local resources.
+- library/ contains shared symbols, footprints, and 3D models. Its directory indexes are library/SYMBOLS_DIRECTORY.md, library/FOOTPRINTS_DIRECTORY.md, and library/3D_DIRECTORY.md.
+- libDump/ is the temporary staging area for imported libraries. It may be absent when there is no pending import.
 
-## Library rules
+## Library organization
 
-- Nicknames are case-sensitive. Library nickname = folder name without extension.
-- 3D folder name = `.pretty` name without `0_`, same letter case.
-- Local model paths are `${KIPRJMOD}/library/3D/<Name>/<file>` (lowercase `library`). Leave `${KICAD10_3DMODEL_DIR}` paths alone.
-- No `*_alt` files and no catch-all folders such as `_unassigned`. When two sources collide, keep the existing name; if their 3D files differ, leave the 3D link empty and report it.
-- Do not create 3D or footprint files. Missing items are reported, not invented.
-- Edit KiCad library files only when the user asks. Change only what the task needs (paths, nicknames, names), keep line endings, and re-check that parentheses balance.
-- Do not edit hooks or permission settings to get around a block.
+- Use the current library directories and indexes as the source of truth; do not hardcode family lists or create empty libraries.
+- Preserve the 0_ prefix and existing library spelling. Classify symbols by electrical function, footprints by physical package or connector family, and 3D models using actual footprint references and package evidence.
+- When the user asks to categorize or organize an import in libDump/, move unique files into library/. Do not copy them first or create backup archives. Consolidate a same-name file only after directly confirming it is byte-identical to the destination.
+- Leave differing collisions, uncertain classifications, shared models without a safe destination, and unknown files in libDump/ and report them. Never overwrite, delete, merge, or rename a differing item without explicit direction.
+- Preserve symbols, inheritance, pins, properties, footprint pads and geometry, model files, and model transforms. Do not rename individual symbols or footprints for cosmetic consistency.
+- Update only local 3D path strings made stale by a model move. Keep global KiCad model references unchanged and follow the path convention already used in the affected library.
+- Do not edit symbol Footprint properties, perform Symbol–Footprint linking, or synchronize fp-lib-table/sym-lib-table during categorization. Use the dedicated sync skills only when separately requested.
+- Do not modify projects, schematics, PCB files, or files outside the requested library scope.
+- Refresh the existing library indexes after membership changes. Do not create migration reports, manifests, hashes, or scripts unless requested.
+- Validate moved files and affected local 3D references with KiCad tools when available; state NOT_VERIFIED for checks that could not be performed.
 
 ## Licensing
 
-Library files include vendor 3D models and symbols whose redistribution terms are unchecked. Before making the repo public or sharing it, remind the user to verify licenses. Do not add vendor files without noting their source.
+Vendor model and library redistribution terms may be unchecked. Before publishing or sharing the repository, remind the user to verify applicable licenses. Do not add vendor files without recording their source when known.
 
 ## Skills
 
-- Local: `lib-organize` (`.claude/skills/lib-organize/`) merges and categorizes libraries copied from other projects.
-- Global: `hw-link-audit` checks links read-only, `hw-footprint-sync` and `hw-symbol-sync` fix them. They expect `fp-lib-table` / `sym-lib-table`, which this repo does not keep; run them against a project that has the tables.
+- Local: lib-organize at .claude/skills/lib-organize/SKILL.md handles move-based import categorization from libDump/.
+- Global: hw-footprint-sync and hw-symbol-sync handle separately requested 3D/footprint and symbol/footprint synchronization.
 
-## Working notes
+## Git and workspace safety
 
-- The Claude Code sandbox may refuse to create folders or delete files in this repo. Report it and let the user run the script or authorize running outside the sandbox.
-- Put scripts and backups in the scratchpad, not in the repo.
-- Source folders copied in from projects are usually untracked. Back them up before deleting.
-- Do not stage, commit, or push without being asked.
-- Library loading and 3D rendering are `NOT_VERIFIED` until checked in KiCad.
+- Inspect Git status before edits and preserve unrelated working-tree changes.
+- Do not stage, commit, or push unless asked.
+- Do not bypass filesystem permissions or edit hooks/settings to get around a block.
+- Report pre-existing changes and scope any cleanup to files the user named.
+- KiCad CLI parsing does not by itself verify interactive library loading or rendered 3D appearance; report those checks separately when relevant.

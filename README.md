@@ -1,23 +1,29 @@
 # KiCad Workspace
 
-This repository is a collection of reusable KiCad resources. It is intended to keep project templates and KiCad libraries that have been created or collected for reuse across future projects.
+This repository keeps reusable KiCad project templates and shared symbols, footprints, and 3D models.
 
 ## Repository contents
 
-- `project_template/` — KiCad project templates, including their starter project files, documentation folders, worksheet templates, and project-local library locations.
-- `library/` — Shared, repository-level KiCad libraries created for reuse across projects. This is the home for reusable symbols, footprints, and 3D models. See `library/README.md` for naming and categories.
-- `LICENSE` — Repository license.
+- project_template/ — Starter KiCad projects and project-specific resources.
+- library/ — Shared KiCad symbol, footprint, and 3D model libraries.
+- libDump/ — Temporary staging area for libraries imported from other projects. Categorization moves usable files into library/; files with unresolved conflicts may remain here for review.
+- LICENSE — Repository license.
 
-## Intended workflow
+## Shared library directories
 
-1. Start a new KiCad project from a suitable directory under `project_template/`.
-2. Rename the new project and update its project-specific metadata.
-3. Reuse shared resources from `library/` when appropriate.
-4. Keep project-specific resources inside the project when they should not be shared globally.
-5. Review the schematic, PCB, libraries, and generated manufacturing outputs before fabrication.
+- [Symbol directory](library/SYMBOLS_DIRECTORY.md) — Symbol libraries grouped by electrical function.
+- [Footprint directory](library/FOOTPRINTS_DIRECTORY.md) — Footprint libraries grouped by package or physical family.
+- [3D model directory](library/3D_DIRECTORY.md) — 3D models organized to match footprint families.
+- [Library guidance](library/README.md) — Naming and organization conventions.
+
+## Workflow
+
+1. Start new designs from a suitable project under project_template/.
+2. Keep project-specific design files and resources with their project.
+3. Reuse shared resources from library/ when appropriate.
+4. To import reusable libraries, stage them under libDump/ and request categorization. Files are moved into their matching shared library families; identical duplicates are consolidated, while differing conflicts are retained for review.
+5. Review each design and its manufacturing outputs before fabrication.
 
 ## Authority and scope
 
-Native KiCad files such as `.kicad_pro`, `.kicad_sch`, `.kicad_pcb`, `.kicad_sym`, and footprint library files remain authoritative. README files describe directory purpose and usage; they do not replace or modify KiCad design data.
-
-This repository stores reusable starting points and libraries. Each project created from a template still requires its own design review, verification, and release checks.
+Native KiCad design and library files remain authoritative. README files and directory indexes document repository organization; they do not replace or modify KiCad design data. Each project still requires its own design review, verification, and release checks.

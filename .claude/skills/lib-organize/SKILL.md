@@ -1,71 +1,80 @@
 ---
 name: lib-organize
-description: Merge and categorize KiCad libraries copied from other projects into this workspace's library/{3D,footprints,symbols} layout. Use when the user adds a folder of symbols, footprints and 3D models (for example library/Library_fromXxx) and wants it merged, de-duplicated, renamed to the 0_ convention, and its 3D links repaired. Edits and deletes files only after the engineer approves the plan.
+description: Move imported KiCad symbols, footprints, and 3D models from libDump into this repository's existing library families. Use when the user asks to categorize, organize, or import a library from another project. Preserves differing conflicts in libDump and updates only local 3D paths affected by a move.
 ---
 
 # Library Organize
 
-Merge copied KiCad libraries into the shared layout of this repo. Link
-verification belongs to `hw-link-audit`; table alignment to `hw-footprint-sync`
-and `hw-symbol-sync`. This skill only categorizes and merges.
+Categorize imported KiCad library files in this repository. The normal source is libDump/; the destination is the existing library/ tree. Treat a direct request to categorize or organize the import as authorization to carry out the moves in this skill. Do not stop after presenting a proposal or ask for approval for routine, reversible moves.
 
-## Target layout (`library/`)
-- `footprints/0_<Name>.pretty/` : one folder per footprint category.
-- `symbols/0_<Name>.kicad_symdir/` : one `<Symbol>.kicad_sym` per symbol.
-- `3D/<Name>/` : `<Name>` is the `.pretty` name without `0_`, same letter case.
-- `_extras/` : non-library files (zip, csv, datasheets).
-- No `fp-lib-table` / `sym-lib-table` here unless the user asks.
+## Scope
 
-## Conventions
-- Library nicknames are case-sensitive. Pick one spelling per library
-  (`0_Switch`, not `0_switch`) and apply it to footprints, 3D folders and symbol
-  `Footprint` properties together.
-- Local model path: `${KIPRJMOD}/library/3D/<Name>/<file>` (lowercase `library`).
-  Leave `${KICAD10_3DMODEL_DIR}/...` paths unchanged.
-- Folders without the `.pretty` / `.kicad_symdir` suffix are normalized.
-  3D files sitting inside a `.pretty` folder move to `3D/`.
-- Symbol libraries of the same family (for example `Regulator_*`) may be merged.
-  Ask before merging anything not obviously the same family.
+- Move library files into existing symbol, footprint, and 3D family directories.
+- Update directory indexes already maintained in the repository when membership changes.
+- Change only local 3D model path strings made stale by a model move.
+- Leave unresolved files in libDump/ and report them.
 
-## Procedure
-1. **Inspect (read-only).** List sources, count files by extension, find name
-   collisions across sources (case-insensitive) with hashes: IDENTICAL or
-   DIFFERENT. List which `${KIPRJMOD}` model paths exist and which do not.
-2. **Present the plan and ask** before writing: how to treat DIFFERENT
-   duplicates, final layout, loose files. Do not guess.
-3. **Dry-run script** in the scratchpad (never in the repo). It should print
-   every move, rename and rewrite, then run with an `exec` flag.
-   - Copy to the target first. Never delete a source until step 5.
-   - Identical files are merged into one. Same name with different content is
-     handled as the user decided. The usual choice is to keep the primary
-     source's name and drop the other, with no `_alt` files left behind.
-   - Rewrite only: model path strings, symbol `Footprint` nicknames, and the
-     file/symbol name when a duplicate is renamed.
-   - Read and write with `newline=''` to keep CRLF/LF as they are.
-4. **Verify** (read-only): every local model path resolves, every symbol
-   `Footprint` resolves to an existing footprint, parentheses balance in edited
-   `.kicad_mod`, no leftover `_alt` or `_unassigned`.
-5. **Back up, then delete the sources.** Zip the source folders into the
-   scratchpad first (they are usually untracked in git), then remove them.
-6. **Report.** Footprints with no 3D link, unreferenced 3D files, and links to
-   global libraries are listed, not fixed. Never create 3D or footprint files.
-   State `NOT_VERIFIED` for anything not confirmed in KiCad itself.
+Do not modify project files, schematics, PCB files, symbol pin or graphic data, symbol Footprint properties, footprint geometry, model transforms, or 3D model contents. Do not synchronize library tables or perform Symbol–Footprint linking; use the dedicated sync skills when separately requested. Ignore project directories and project files inside an import folder.
 
-## 3D handling rules
-- Move each model to the folder of the footprint that references it.
-- Models no footprint references go to the folder of the matching category
-  (by part type), not into a catch-all folder.
-- When two footprints of the same name reference different model files and the
-  user wants no duplicates, keep the primary footprint and, if the models
-  differ, clear the `(model ...)` block and report it. Fill it later only when a
-  matching existing file is found, restoring the original offset, scale, rotate.
-- Footprints that legitimately have no 3D (test points, net ties, logos,
-  mounting holes, layer markers) are not an error.
+## Repository layout
 
-## Pitfalls
-- The Claude Code sandbox may refuse to create folders or delete files in this
-  repo (`Could not find file` or `Permission denied`). Report it and let the
-  user run the script (`! python -I <script> exec`) or authorize running
-  outside the sandbox. Do not work around it silently.
-- Windows is case-insensitive: rename case-only changes through a temporary name.
-- Do not stage, commit, or push without separate approval.
+Use the live repository and directory indexes as the authority. Typical locations are:
+
+- library/symbols/0_<Family>.kicad_symdir/
+- library/footprints/0_<Family>.pretty/
+- library/3D/<Family>/ (family name without the 0_ prefix)
+- libDump/ for incoming libraries and files that cannot yet be safely categorized
+
+Do not hardcode a family list. Inspect current nonempty libraries and indexes before choosing destinations. Preserve existing 0_ nicknames and spelling. Create a new family only when the imported content clearly belongs together and no current family is suitable. Do not create empty libraries.
+
+## Move and collision rules
+
+- Move unique files with a filesystem move/rename. Do not copy first, make backup copies, or create archive zips.
+- Before moving, detect exact and case-insensitive name collisions across the source and destination.
+- If a destination file is byte-identical, keep the destination and consolidate the redundant import. Confirm equality directly; do not calculate hashes.
+- If a same-name destination differs, leave the imported file in libDump/. Never overwrite, rename to an _alt name, merge, or choose a preferred version without explicit direction.
+- Preserve uncertain classifications in libDump/ and continue with the files that can be safely categorized.
+- Keep unrelated documents and assets in the import folder unless they are clearly part of the library index update. Do not discard unreferenced models or unknown files.
+- Remove only empty source library directories after their contents have been accounted for.
+
+## Classification
+
+- Classify symbols by electrical function and inspect each symbol, especially in mixed source libraries. Preserve symbol names, inheritance, pins, units, graphics, properties, and hidden fields.
+- Classify footprints by physical package or connector family using footprint metadata and geometry, not just the symbol function or filename. Preserve filenames and all footprint content.
+- Classify 3D models by actual footprint references and package evidence. Preserve model filename, extension, bytes, and transforms. Do not infer a package family from a model filename alone.
+- For a model referenced by multiple families, a collision, or a model with no reliable family evidence, preserve it in libDump/ until its destination is clear. Do not duplicate a model merely to satisfy multiple folders.
+- Preserve global model references such as KICAD10_3DMODEL_DIR. For local references, inspect the repository's existing convention; do not assume KIPRJMOD points to the repository root.
+- When a moved local model makes an imported footprint path stale, update only the model path string. Keep offset, scale, rotation, and all other footprint text unchanged. Do not edit unrelated existing footprints to repair broad link issues.
+
+## Workflow
+
+1. **Inspect**
+   - Check Git status and read applicable repository instructions.
+   - Inventory import files by type and source library. Exclude project files/directories from the categorization scope.
+   - Enumerate current destination libraries and indexes.
+   - Detect name collisions, exact duplicates, inheritance, footprint-to-model references, shared models, missing models, and uncertain items.
+   - Do not generate hashes, checksum manifests, or scripts unless requested.
+
+2. **Categorize and move**
+   - Apply clear source-to-family mappings and move the files.
+   - Consolidate only byte-identical destination duplicates.
+   - Leave differing collisions and uncertain files in libDump/; continue safe moves without pausing for a proposal approval.
+   - Update only local model paths affected by moved models.
+   - Do not modify tables, projects, symbol footprint links, or unrelated files.
+
+3. **Verify**
+   - Account for every imported library file as moved, consolidated with an identical destination, or preserved in libDump/ with a reason.
+   - Recount destination libraries, symbols, footprints, and models; refresh existing indexes.
+   - Check that moved files exist at their destinations and no destination was overwritten.
+   - Validate moved symbols and footprints with KiCad CLI when available. For unpacked symbol libraries, validate the individual symbol files with a supported KiCad command.
+   - Verify all affected local 3D paths resolve and that path edits did not change transforms.
+   - Report checks that cannot be confirmed as NOT_VERIFIED. Do not claim a full library-link audit unless separately performed.
+
+4. **Report**
+   - Summarize moved and consolidated counts, final library counts, files left in libDump/, differing collisions, uncertain classifications, path updates, and validation results.
+   - Mention pre-existing unrelated Git changes and confirm they were preserved.
+   - Do not commit or push.
+
+## Completion
+
+Finish the requested categorization in the current repository. Do not stop at an inventory or migration plan. Preserve unresolved data for review and state clearly what remains in libDump/ and why.

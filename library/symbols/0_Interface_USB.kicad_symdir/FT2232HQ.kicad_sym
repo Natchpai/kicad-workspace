@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "0_QFN:QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm"
+		(property "Footprint" "0_Package_DFN_QFN:QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

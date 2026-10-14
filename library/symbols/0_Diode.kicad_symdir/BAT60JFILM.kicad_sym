@@ -35,7 +35,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_SOD:D_SOD-323"
+		(property "Footprint" "0_Diode_SMD:D_SOD-323"
 			(at 0 -4.445 0)
 			(show_name no)
 			(do_not_autoplace no)
