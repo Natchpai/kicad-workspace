@@ -1,12 +1,15 @@
 """Apply a KLC rename map: move/rename symbols, footprints and 3D models and keep links working.
 
 Usage (from the project or repo root, the folder that holds the library folder):
-    python -I klc_apply.py <map.json> sym|fp|3d [--dry] [--lib <library folder>]
+    python -I klc_apply.py <map.json> sym|fp|3d [--dry] [--lib <library folder>] [--root <dir>] [--copy]
 
 --lib defaults to "library". The library folder holds symbols/, footprints/ and 3D/, and model paths are
 written as ${KIPRJMOD}/<library folder>/3D/<Folder>/<file>.
+--root runs from <dir> instead of the current folder (the destination repo or project).
+--copy leaves every source file untouched: the renamed copy is written to the destination and models are
+copied. Use it when the source is another project (publish); "src" paths may then be absolute.
 
-Map format (all paths relative to the root, forward slashes):
+Map format (paths relative to the root unless absolute, forward slashes):
 {
   "symbols":    [{"src": "<path>.kicad_sym", "dst_lib": "0_Diode", "new": "MBRA340"}],
   "footprints": [{"src": "<path>.pretty/<old>.kicad_mod", "dst_lib": "0_Package_SO", "new": "SOIC-8_3.9x4.9mm_P1.27mm"}],
@@ -28,7 +31,10 @@ import json, os, re, shutil, sys
 MAP = json.load(open(sys.argv[1], encoding='utf-8'))
 STEP = sys.argv[2]
 DRY = '--dry' in sys.argv
+COPY = '--copy' in sys.argv
 LIB = sys.argv[sys.argv.index('--lib') + 1].strip('/') if '--lib' in sys.argv else 'library'
+if '--root' in sys.argv:
+    os.chdir(sys.argv[sys.argv.index('--root') + 1])
 SYM_ROOT = f'{LIB}/symbols'
 FP_ROOT = f'{LIB}/footprints'
 ALLOWED = re.compile(rb'^\s*(\(footprint "|\(symbol "|\(property "Value" "|\(property "Footprint" "|\(model ")')
@@ -40,12 +46,34 @@ def rd(p):
         return f.read()
 
 
-def wr(p, old, new):
+def check(p, old, new):
     a, b = old.splitlines(), new.splitlines()
     if len(a) != len(b) or any(x != y and not (ALLOWED.match(x) and ALLOWED.match(y)) for x, y in zip(a, b)):
         sys.exit(f'UNEXPECTED EDIT in {p}: only name/Value/Footprint/model lines may change')
+
+
+def wr(p, old, new):
+    check(p, old, new)
     if not DRY and new != old:
         with open(p, 'wb') as f:
+            f.write(new)
+
+
+def put(src, old, new, dst):
+    """Move mode: edit src in place, then move it. Copy mode: write the edited bytes to dst; src untouched."""
+    if not COPY:
+        wr(src, old, new)
+        move(src, dst)
+        return
+    check(src, old, new)
+    if exists_ci(dst):
+        if not DRY:
+            sys.exit(f'COLLISION: {dst}')
+        LOG.append(f'WARN dry run, target exists: {dst}')
+    LOG.append(f'cp  {src} -> {dst}')
+    if not DRY:
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        with open(dst, 'wb') as f:
             f.write(new)
 
 
@@ -79,6 +107,7 @@ def copy(src, dst):
         sys.exit(f'COLLISION: {dst}')
     LOG.append(f'cp  {src} -> {dst}')
     if not DRY:
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy2(src, dst)
 
 
@@ -98,8 +127,7 @@ def do_sym():
         b = b0.replace(b'(symbol "' + o + b'"', b'(symbol "' + n + b'"')
         b = re.sub(rb'\(symbol "' + re.escape(o) + rb'(_\d+_\d+")', b'(symbol "' + n + rb'\1', b)
         b = b.replace(b'(property "Value" "' + o + b'"', b'(property "Value" "' + n + b'"')
-        wr(src, b0, b)
-        move(src, dst)
+        put(src, b0, b, dst)
 
 
 def do_fp():
@@ -114,8 +142,7 @@ def do_fp():
         b = b0.replace(b'(footprint "' + internal + b'"', b'(footprint "' + new.encode() + b'"', 1)
         for v in {internal, old.encode()}:
             b = b.replace(b'(property "Value" "' + v + b'"', b'(property "Value" "' + new.encode() + b'"')
-        wr(src, b0, b)
-        move(src, dst)
+        put(src, b0, b, dst)
         links[f'{src_lib}:{old}'] = f"{e['dst_lib']}:{new}"
     for d, _, files in os.walk(SYM_ROOT):
         for f in files:
@@ -139,6 +166,9 @@ def do_3d():
         fpath = f'{FP_ROOT}/{lib}.pretty/{name}.kicad_mod'
         if src in moved:
             copy(moved[src], dst)
+        elif COPY:
+            copy(src, dst)
+            moved[src] = dst
         else:
             move(src, dst)
             moved[src] = dst

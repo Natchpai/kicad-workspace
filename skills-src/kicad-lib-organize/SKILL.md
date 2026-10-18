@@ -1,18 +1,19 @@
 ---
 name: kicad-lib-organize
-description: Import KiCad symbols, footprints and 3D models from a staging folder (libDump/) into a local library tree's families with KLC names, or rename existing library items to KLC. Use when the user asks to categorize, organize or import a library from another project, or to KLC-rename library files. Keeps Footprint links and 3D paths working; leaves differing conflicts in the staging folder.
+description: Import KiCad symbols, footprints and 3D models from a staging folder (libDump/) into a local library tree's families with KLC names, publish a project's new parts into the archive library, or rename existing library items to KLC. Use when the user asks to categorize, organize or import a library from another project, to publish or archive new parts made in a project, or to KLC-rename library files. Keeps Footprint links and 3D paths working; never overwrites differing items.
 ---
 
 # KiCad Library Organize
 
 Works in any repository or KiCad project that keeps its own library tree: a library folder (`library/` by default) holding `symbols/0_<Family>.kicad_symdir/`, `footprints/0_<Family>.pretty/` and `3D/<Family>/`, with model paths `${KIPRJMOD}/<library folder>/3D/...`. For another folder name, pass `--lib <folder>` to both scripts.
 
-Two branches share one procedure:
+Three branches share one procedure:
 
 - **Import**: the source is the staging folder, libDump/ unless the user names another. Each file moves into its library family and takes its KLC name in the same run.
+- **Publish**: the source is a project's own library folder; the destination is the archive library repo. Only parts the archive does not have yet go over, as KLC-named **copies** (`--copy`); nothing in the project is written. Ask for the archive path (and the project library path, when not running in that project); never write either path into a file. Pass the archive as `--root` to both scripts. It works from either session, the project's or the archive's.
 - **Rename**: the source is the library folder itself, when the user asks to rename existing items to KLC.
 
-A direct request to import, categorize or rename authorizes the moves and renames below. Finish the run without pausing for approval of routine items; leave conflicts and uncertain items as described and report them.
+A direct request to import, publish, categorize or rename authorizes the moves, copies and renames below. Finish the run without pausing for approval of routine items; leave conflicts and uncertain items as described and report them.
 
 ## Authority
 
@@ -34,12 +35,12 @@ What goes in the map:
 Collisions, checked case-insensitively against the destination:
 
 - Byte-identical file already in the destination: keep the destination, drop the import (confirm equality directly), and leave it out of the map.
-- Same name, different content: leave the import in the staging folder and report it. Never overwrite, merge, or pick a version without the user.
+- Same name, different content: leave the import in the staging folder (Publish: leave it out of the map) and report it. Never overwrite, merge, or pick a version without the user.
 - Two different items that would get the same KLC name: name the second by its real difference (`_ThermalVias_Via0.4mm`, `_NoCourtyard`), and list it as a conflict in the report.
 
 ## Steps
 
-1. **Inspect.** Check `git status`. For an import, inventory the staging folder by type and source library, and skip project files. Split packed multi-symbol `.kicad_sym` libraries into `.kicad_symdir` first (`kicad-cli sym upgrade --force -o <name>.kicad_symdir <lib>.kicad_sym`). Read each symbol's `Footprint` property and each footprint's `(model ...)` paths.
+1. **Inspect.** Check `git status` (for Publish, in the archive repo). For an import, inventory the staging folder by type and source library, and skip project files. For Publish, run the read-only `python -I <skill dir>/scripts/lib_diff.py <project library> --root <archive>`: it sorts every item into IDENTICAL, DIFFERS, OTHER NAME (the archive holds the same content under another name, usually a rename), NEW and PACKED. Only NEW items go on; the others are reported. Split packed multi-symbol `.kicad_sym` libraries into `.kicad_symdir` first (`kicad-cli sym upgrade --force -o <name>.kicad_symdir <lib>.kicad_sym`). Read each symbol's `Footprint` property and each footprint's `(model ...)` paths.
    Done when every source file is listed as symbol, footprint, model or other, and every footprint-to-model and symbol-to-footprint reference is known.
 
 2. **Build the map**, using the rules above.
@@ -47,13 +48,14 @@ Collisions, checked case-insensitively against the destination:
 
 3. **Apply**, in order, from the folder that holds the library folder, with a dry run before each real run:
    ```
-   python -I <skill dir>/scripts/klc_apply.py <map.json> sym|fp|3d [--dry] [--lib <folder>]
+   python -I <skill dir>/scripts/klc_apply.py <map.json> sym|fp|3d [--dry] [--lib <folder>] [--root <archive>] [--copy]
    ```
-   `sym` renames symbols. `fp` renames footprints and rewrites matching symbol `Footprint` properties. `3d` moves or copies models and rewrites their footprint paths. The script edits bytes (line endings kept), changes only name, Value, Footprint and model lines, and stops on a collision or an unexpected edit.
+   Publish always uses `--copy` and `--root <archive>`, with absolute `src` paths into the project library. `sym` renames symbols. `fp` renames footprints and rewrites matching symbol `Footprint` properties. `3d` moves or copies models and rewrites their footprint paths. The script edits bytes (line endings kept), changes only name, Value, Footprint and model lines, and stops on a collision or an unexpected edit.
    Done when all three steps have run with no stop.
 
 4. **Verify.**
-   - Run `python -I <skill dir>/scripts/klc_verify.py [--lib <folder>]`. It must print `all checks passed`.
+   - Run `python -I <skill dir>/scripts/klc_verify.py [--lib <folder>] [--root <archive>]`. It must print `all checks passed`.
+   - Publish: hash every file in the project library before step 3 and again now; the lists must match, and `git status` in the project must show nothing new.
    - Parse every new or renamed file with kicad-cli: `sym export svg` and `fp export svg --fp <name>`, with output in the scratchpad. Footprint export is slow (about 10 s each), so run it in the background.
    - Rename branch: compare each renamed file against its HEAD version. Only name, Value, Footprint and model lines may differ, and model bytes must match.
    - Optionally, have a read-only agent re-check names and links against the map.
@@ -64,7 +66,8 @@ Collisions, checked case-insensitively against the destination:
 
 6. **Report**:
    - counts moved, renamed, copied and consolidated, plus final library counts;
-   - what stays in the staging folder and why;
+   - what stays in the staging folder and why (Publish: the DIFFERS, OTHER NAME and PACKED items);
+   - Publish: an `old -> new` list (`nickname:name` and model files) for every item the archive named differently from the project, so `hw-footprint-sync` / `hw-symbol-sync` can update the project when the user asks;
    - conflicts, and names built on unconfirmed facts;
    - checks run, with `NOT_VERIFIED` for KiCad GUI loading and 3D rendering;
    - pre-existing Git changes, preserved.
