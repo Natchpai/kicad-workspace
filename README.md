@@ -7,7 +7,7 @@ This repository keeps reusable KiCad project templates and shared symbols, footp
 - project_template/ — Starter KiCad projects and project-specific resources.
 - library/ — Shared KiCad symbol, footprint, and 3D model libraries.
 - libDump/ — Temporary staging area for libraries imported from other projects. Categorization moves usable files into library/; files with unresolved conflicts may remain here for review.
-- LICENSE — Repository license.
+- LICENSE — Repository license. It covers the author's own work only; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for third-party files.
 
 ## Shared library directories
 
