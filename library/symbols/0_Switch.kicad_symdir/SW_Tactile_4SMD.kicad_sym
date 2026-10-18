@@ -37,7 +37,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_Switch:SW_Push_SPST_NO_SameSky_TS06-667-34_6x6.7mm_H3.4mm"
+		(property "Footprint" ""
 			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

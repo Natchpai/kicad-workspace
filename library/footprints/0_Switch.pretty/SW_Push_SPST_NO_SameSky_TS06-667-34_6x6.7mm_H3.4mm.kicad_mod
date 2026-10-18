@@ -3,8 +3,8 @@
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "Tactile switch, 6x6 mm, H4.3 mm, gullwing terminals, https://www.ckswitches.com/media/1471/pts645.pdf")
-	(tags "SPST Button Switch CK C&K")
+	(descr "Tactile switch, Same Sky TS06-667-34, 6x6.7mm, H3.4mm, gullwing terminals, https://www.sameskydevices.com/product/resource/ts06.pdf")
+	(tags "SPST Button Switch SameSky TS06")
 	(property "Reference" "REF**"
 		(at 0 -4.05 0)
 		(layer "F.SilkS")

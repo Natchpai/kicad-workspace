@@ -57,7 +57,7 @@ are treated as correct.
   .kicad_mod>`, where `0_<Family>` is a `.pretty` library from `fp-lib-table`.
 - **Files inside** (`<Symbol>.kicad_sym` names and symbol names) use the
   reference's names exactly. The reference follows the KiCad Library Convention
-  (KLC; see its `CLAUDE.md` and `KLC-*.md` files). Names come from the reference,
+  (KLC; see its `CLAUDE.md` and `library/KLC/` rule files). Names come from the reference,
   never from your own KLC rebuild: renaming library items is the reference
   repo's job (`kicad-lib-organize` there). When adding a symbol, find the
   comparable one in the reference and use its family.

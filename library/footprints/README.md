@@ -6,10 +6,10 @@ The shared footprint libraries use family-based `0_*.pretty` names. There are 29
 library/
 └── footprints/
     ├── 0_Capacitor_SMD.pretty/
+    ├── 0_Conn_AMASS.pretty/
     ├── 0_Conn_Barrel.pretty/
     ├── 0_Conn_Ethernet.pretty/
     ├── 0_Conn_FFC.pretty/
-    ├── 0_Conn_Generic.pretty/
     ├── 0_Conn_JST.pretty/
     ├── 0_Conn_Mezzanine.pretty/
     ├── 0_Conn_Molex.pretty/
@@ -60,4 +60,4 @@ See [FOOTPRINTS_DIRECTORY.md](../FOOTPRINTS_DIRECTORY.md) for the full footprint
 - `<pitch>` : P0.5mm, P0.8mm, P51.27mm, P2.54mm, P5.00mm
 - `<option>` : reference, from Part number (for example, STM32G474,), Logo
 
-Follow KLC-F Guideline
+Follow the KLC F rules in [../KLC/footprint/](../KLC/README.md).

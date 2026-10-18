@@ -30,7 +30,7 @@
 				(justify right bottom)
 			)
 		)
-		(property "Footprint" "0_Conn_PinHeader:PinHeader_2x05_P1.27mm_Vertical_SMD"
+		(property "Footprint" ""
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

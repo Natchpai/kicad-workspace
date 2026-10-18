@@ -64,7 +64,7 @@ are treated as correct.
   the real folders (matters on case-sensitive systems).
 - **Files inside** (`.kicad_mod` names, 3D model file names) use the reference's
   names exactly. The reference follows the KiCad Library Convention (KLC; see its
-  `CLAUDE.md` and `KLC-*.md` files), and its 3D files are named
+  `CLAUDE.md` and `library/KLC/` rule files), and its 3D files are named
   `<footprint name>[_<extra>].step`. Names come from the reference, never from
   your own KLC rebuild: renaming library items is the reference repo's job
   (`kicad-lib-organize` there). When adding or placing one, find the comparable

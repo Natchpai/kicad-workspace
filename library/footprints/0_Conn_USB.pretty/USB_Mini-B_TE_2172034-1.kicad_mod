@@ -14,7 +14,7 @@
 			)
 		)
 	)
-	(property "Value" "TE_2172034-1"
+	(property "Value" "USB_Mini-B_TE_2172034-1"
 		(at 2.79 -7.735 0)
 		(layer "F.Fab")
 		(hide yes)
