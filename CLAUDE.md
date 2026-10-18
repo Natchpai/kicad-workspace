@@ -101,9 +101,10 @@ Vendor model and library redistribution terms may be unchecked. Before publishin
 
 ## Skills
 
-All skills are local, under .claude/skills/.
+Per-project skills are under .claude/skills/. kicad-naming and kicad-lib-organize run globally from `~/.claude/skills/`; their Git sources are in skills-src/, which Claude does not load. Edit a global skill in skills-src/, then copy it over the global folder (skills-src/README.md).
 
-- kicad-lib-organize: imports from libDump/ into library families with KLC names, or KLC-renames existing items. Map-driven, with bundled apply and verify scripts.
+- kicad-naming (global): proposes and checks KLC names; the naming authority for every other skill.
+- kicad-lib-organize (global): imports from libDump/ into library families with KLC names, publishes a project's new parts into this library (copies only; the project is not written), or KLC-renames existing items. Map-driven, with bundled diff, apply and verify scripts. User manual: skills-src/kicad-lib-organize/MANUAL.md.
 - hw-link-audit: read-only audit of symbol Footprint properties, 3D paths, library tables, and schematic nicknames.
 - hw-footprint-sync and hw-symbol-sync: user-invoked only (`disable-model-invocation`). They handle separately requested 3D/footprint and symbol/footprint synchronization.
 

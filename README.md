@@ -37,9 +37,10 @@ The shared library uses the [KiCad Library Convention](https://klc.kicad.org) (K
 
 ## Claude Code skills
 
-Project skills live in .claude/skills/; rules for Claude are in [CLAUDE.md](CLAUDE.md).
+Project skills live in .claude/skills/; rules for Claude are in [CLAUDE.md](CLAUDE.md). Global skills run from `~/.claude/skills/` in every project; their sources are in [skills-src/](skills-src/README.md).
 
-- kicad-lib-organize: imports libraries from libDump/ with KLC names, or renames library items to KLC.
+- kicad-naming (global): proposes and checks KLC names.
+- kicad-lib-organize (global): imports libraries from libDump/ with KLC names, publishes new parts made in a project straight into library/ (without copying them here first), or renames library items to KLC. How to use it: [MANUAL.md](skills-src/kicad-lib-organize/MANUAL.md).
 - hw-link-audit: read-only check of symbol, footprint, 3D and library-table links.
 - hw-footprint-sync, hw-symbol-sync: fix footprint and symbol links and library tables in a project, only when asked.
 

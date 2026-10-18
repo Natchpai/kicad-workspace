@@ -1,7 +1,7 @@
 """Read-only library checks.
-Usage (from the folder that holds the library folder): python -I klc_verify.py [--lib <library folder>]
+Usage (from the folder that holds the library folder): python -I klc_verify.py [--lib <library folder>] [--root <dir>]
 
---lib defaults to "library" (with symbols/, footprints/ and 3D/ inside).
+--lib defaults to "library" (with symbols/, footprints/ and 3D/ inside). --root runs from <dir>.
 Checks: counts; file name == internal name (symbols, units, footprints); every symbol Footprint
 property resolves to a footprint file; every ${KIPRJMOD} model path resolves with exact letter case
 and lies under <library folder>/3D/; KLC G1.1 characters in file and folder names.
@@ -9,6 +9,8 @@ and lies under <library folder>/3D/; KLC G1.1 characters in file and folder name
 import glob, os, re, sys
 
 LIB = sys.argv[sys.argv.index('--lib') + 1].strip('/') if '--lib' in sys.argv else 'library'
+if '--root' in sys.argv:
+    os.chdir(sys.argv[sys.argv.index('--root') + 1])
 OK = re.compile(r'^[A-Za-z0-9_.,+-]+$')
 bad = []
 
