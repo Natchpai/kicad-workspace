@@ -36,3 +36,24 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 | **0_SoC_AMD_Zynq** | 1 | **XC7Z010-2CLG400I** |
 | **0_Switch** | 5 | **SW_DIP_x03**, **SW_SPDT**, **SW_Tactile_2SMD**, **SW_Tactile_4SMD**, **SW_Tactile_PTS815SJM250** |
 | **0_Transistor_FET** | 6 | **2N7002K**, **BSZ018N04LS6**, **GS2N7002KW**, **IQE013N04LM6**, **PJC7409**, **SSF2320Y** |
+
+
+## How to naming
+
+### Symbol Directory (.kicad_symdir)
+
+- **Library folder:** `0_<Family>.kicad_symdir`.
+- `<Family>` is`<Category>[_<Subcategory>]`, for example .
+
+    0_`<Category>`_`<Subcategory>`.pretty
+    0_`<Component>`.pretty
+
+### Symbol Files (.kicad_sym)
+
+`<Package>`-`<pin_count>`_`<diamension>`_`<pitch>`_`<option>`.kicad_sym
+
+- **Files inside**`.kicad_sym` names, are flexible: keep
+  them as they are and do not rename them to enforce a pattern.
+
+Follow KLC-S Guideline
+
