@@ -6,7 +6,7 @@ This repository keeps reusable KiCad project templates and shared symbols, footp
 
 - project_template/ — Starter KiCad projects and project-specific resources.
 - library/ — Shared KiCad symbol, footprint, and 3D model libraries.
-- libDump/ — Temporary staging area for libraries imported from other projects. Categorization moves usable files into library/; files with unresolved conflicts may remain here for review.
+- libDump/ — Temporary staging area for libraries imported from other projects, ignored by Git. Import moves usable files into library/ and gives them KLC names; files with unresolved conflicts may remain here for review.
 - LICENSE — Repository license. It covers the author's own work only; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for third-party files.
 
 ## Shared library directories
@@ -16,13 +16,29 @@ This repository keeps reusable KiCad project templates and shared symbols, footp
 - [3D model directory](library/3D_DIRECTORY.md) — 3D models organized to match footprint families.
 - [Library guidance](library/README.md) — Naming and organization conventions.
 
+## Naming
+
+The shared library follows the [KiCad Library Convention](https://klc.kicad.org) (KLC), with a local `0_` prefix on library names (for example `0_Package_QFP`, `0_Conn_USB`).
+
+- Rules: [general](library/KLC-G1-General-Guideline.md), [symbols](library/symbols/KLC-S2-Symbol-Naming.md), [footprints](library/footprints/KLC-F2-General-FP-Naming-Guideline.md), and the other `KLC-*.md` files next to them.
+- 3D model file: footprint name plus an extra descriptor when one exists, for example `LED_0603_1608Metric_LiteOn_LTST-C190KFKT.step`.
+- The library was renamed to these rules on 2026-10-18. Projects that still use old names can list old and current names with `python -I .claude/skills/hw-link-audit/scripts/rename_map.py .`.
+
 ## Workflow
 
 1. Start new designs from a suitable project under project_template/.
 2. Keep project-specific design files and resources with their project.
 3. Reuse shared resources from library/ when appropriate.
-4. To import reusable libraries, stage them under libDump/ and request categorization. Files are moved into their matching shared library families; identical duplicates are consolidated, while differing conflicts are retained for review.
+4. To import reusable libraries, stage them under libDump/ and request categorization. Files are moved into their matching shared library families and renamed to KLC; identical duplicates are consolidated, while differing conflicts are retained for review.
 5. Review each design and its manufacturing outputs before fabrication.
+
+## Claude Code skills
+
+Project skills live in .claude/skills/; rules for Claude are in [CLAUDE.md](CLAUDE.md).
+
+- kicad-lib-organize: imports libraries from libDump/ with KLC names, or renames library items to KLC.
+- hw-link-audit: read-only check of symbol, footprint, 3D and library-table links.
+- hw-footprint-sync, hw-symbol-sync: fix footprint and symbol links and library tables in a project, only when asked.
 
 ## Authority and scope
 
