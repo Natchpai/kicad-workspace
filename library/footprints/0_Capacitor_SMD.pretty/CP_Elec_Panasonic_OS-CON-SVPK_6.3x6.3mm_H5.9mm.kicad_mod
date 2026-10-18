@@ -1,4 +1,4 @@
-(footprint "CP_Elec_Panasonic_OS-CON-SVPK_D6.3mm_H5.9mm"
+(footprint "CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
@@ -16,7 +16,7 @@
 			)
 		)
 	)
-	(property "Value" "CP_Elec_Panasonic_OS-CON-SVPK_D6.3mm_H5.9mm"
+	(property "Value" "CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm"
 		(at 0 4.35 0)
 		(layer "User.1")
 		(hide yes)
@@ -414,7 +414,7 @@
 		(uuid "28137939-8230-4d0e-843c-563953b38740")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Capacitor_SMD/CP_Elec_Panasonic_OS-CON-SVPK_D6.3mm_H5.9mm_35SVPK47M.step"
+	(model "${KIPRJMOD}/library/3D/Capacitor_SMD/CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm_35SVPK47M.step"
 		(offset
 			(xyz 0 0 0)
 		)

@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_Package_SO:Allegro_LZ_SOIC-6"
+		(property "Footprint" "0_Package_SO:Allegro_LZ_SOIC-6_3.9x4.9mm_P1.27mm"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
