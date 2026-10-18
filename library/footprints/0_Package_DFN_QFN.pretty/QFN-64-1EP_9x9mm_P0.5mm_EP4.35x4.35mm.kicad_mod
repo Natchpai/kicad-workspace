@@ -909,7 +909,7 @@
 		(uuid "b3c88fc5-3e22-43f4-b9ef-5cc83d00d687")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Package_DFN_QFN/QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm.STEP"
+	(model "${KIPRJMOD}/library/3D/Package_DFN_QFN/QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm.step"
 		(offset
 			(xyz 0 0 0)
 		)

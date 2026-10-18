@@ -55,12 +55,18 @@ are treated as correct.
   `${KIPRJMOD}/<path to symbol root>/<folder>`, identical letter case.
 - **Symbol `Footprint` property:** `0_<Family>:<footprint file name without
   .kicad_mod>`, where `0_<Family>` is a `.pretty` library from `fp-lib-table`.
-- **Files inside** (`<Symbol>.kicad_sym` names and symbol names) are flexible:
-  keep them as they are and do not rename them to enforce a pattern. When adding
-  a symbol, find the comparable one in the reference and follow its family and
-  style. If the family exists in the reference, use exactly that family name.
-- **Family not in the reference:** propose a `<Category>_<Subcategory>` name in
-  the same style and wait for the human to choose.
+- **Files inside** (`<Symbol>.kicad_sym` names and symbol names) use the
+  reference's names exactly. The reference follows the KiCad Library Convention
+  (KLC; see its `CLAUDE.md` and `KLC-*.md` files). Names come from the reference,
+  never from your own KLC rebuild: renaming library items is the reference
+  repo's job (`kicad-lib-organize` there). When adding a symbol, find the
+  comparable one in the reference and use its family.
+- **Family not in the reference:** propose a KLC library name (`0_` + function,
+  sub-function, qualifier, manufacturer, series) and wait for the human to choose.
+- **Renamed upstream:** when the reference renamed a symbol or footprint, build
+  the old-to-current map with `hw-link-audit`'s `scripts/rename_map.py` on the
+  reference repo (`LINK old new` lines). Without that script or Git history,
+  report the mismatches and ask.
 - If the project's folder name differs from the reference for the same family
   (missing `0_`, case, spelling), report it and propose renaming the project's
   folder to the reference name. A rename changes the nickname, so also list
@@ -112,8 +118,10 @@ Decide the action for each class:
   `0_<Family>:<footprint>`. Otherwise report it and ask which library is meant.
 - **Linked to a global library:** report it. If an equivalent project-local
   footprint exists and the human wants local links, repoint to it.
-- **Linked to local, file missing** (or library missing): keep as is and report
-  footprint and library.
+- **Old upstream name** (the link text is a `LINK` old name in the rename map):
+  propose repointing to the current `nickname:name` from the map.
+- **Linked to local, file missing** (or library missing) and not in the rename
+  map: keep as is and report footprint and library.
 - **Empty Footprint:** generic parts (R, C, connectors, jumpers) stay as is
   unless the human says otherwise.
 
@@ -141,7 +149,11 @@ Edit procedure (these files are easy to break):
 Grep `(lib_id "..."` in `*.kicad_sch`. For every nickname that refers to a
 project-local library, confirm it matches `sym-lib-table` (case-sensitive) and
 that the symbol exists in that library. Global libraries (`Device:`, etc.) are
-out of scope. Change schematics only when the human asks.
+out of scope. For a `lib_id` that is an old name in the rename map, report the
+current name and suggest KiCad's Change Symbols or Update Symbols from Library
+tool. Change schematics only when the human asks; a text edit must change both
+the `lib_id` and the matching `(symbol "<lib_id>"` entry in the schematic's
+`lib_symbols` cache.
 
 ## Report
 - List created folders, removed files, and `sym-lib-table` changes.

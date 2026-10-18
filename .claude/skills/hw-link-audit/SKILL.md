@@ -80,8 +80,24 @@ footprints that do not exist, `lib_id` nicknames that differ in case or whose
 symbol is missing from a local library. Global libraries (`Device:` and so on)
 are ignored.
 
+## Renamed upstream
+A link can break because the shared library renamed the item (for example the
+KLC rename: `0_Conn_BarrelJack` became `0_Conn_Barrel`). When a reference
+library repo with Git history is available, build the old-to-current name map:
+```bash
+python -I <skill dir>/scripts/rename_map.py <library repo dir>
+```
+It prints `LINK old new` for footprint and symbol links (`nickname:name`, the
+text in `Footprint` properties and `lib_id`), `3D old new` for model files,
+chained across every rename in history. For each `LOCAL_FILE_MISSING`,
+`GLOBAL_OR_UNKNOWN`, or missing local model, look the old text up and report the
+current name next to the defect. The `3D` lines are hints only: a model copied
+for a second footprint maps to the first footprint's file, so the model path
+inside the current reference footprint is the authority.
+
 ## Report
-1. Counts per category, then the failing items grouped by library.
+1. Counts per category, then the failing items grouped by library, with the
+   current upstream name for items found in the rename map.
 2. Separate **confirmed defects** (missing file, case mismatch, filter that
    cannot match an existing footprint) from **items needing a decision**
    (global links, empty footprints, links to files not yet created).

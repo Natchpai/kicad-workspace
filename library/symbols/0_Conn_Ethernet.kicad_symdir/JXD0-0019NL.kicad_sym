@@ -33,7 +33,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "0_Conn_Ethernet:Pulse_JXD0-0019NL"
+		(property "Footprint" "0_Conn_Ethernet:RJ45_Pulse_JXD0-0019NL_Horizontal"
 			(at 0 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)

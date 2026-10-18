@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_Package_SON:PG-TSDSON-8-26"
+		(property "Footprint" "0_Package_SON:Infineon_PG-TSDSON-8-26"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

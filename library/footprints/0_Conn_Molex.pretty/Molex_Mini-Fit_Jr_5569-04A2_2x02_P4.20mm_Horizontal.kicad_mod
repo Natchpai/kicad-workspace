@@ -331,7 +331,7 @@
 		(uuid "611ad220-5273-442b-8ce4-04965f7ca8a5")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Conn_Molex/Molex-Mini-Fit-Jr-5569-04A2.STEP"
+	(model "${KIPRJMOD}/library/3D/Conn_Molex/Molex_Mini-Fit_Jr_5569-04A2_2x02_P4.20mm_Horizontal.step"
 		(offset
 			(xyz 2.1 7.3 0)
 		)
