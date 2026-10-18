@@ -43,7 +43,7 @@ The KLC rule files are the naming authority. They are copies of klc.kicad.org pa
 
 The "How to naming" sections in library/symbols/README.md and library/footprints/README.md are short summaries. Where they differ from the KLC files, follow the KLC files.
 
-**Scope.** The library was renamed to these rules on 2026-10-18. Apply them to new library families, to symbols and footprints you create, and to any name you propose. Keep imported names as they are unless the user asks for a rename; report non-compliant names instead. A rename must also update the symbol `Footprint` properties and 3D model paths that point to the renamed item.
+**Scope.** The library was renamed to these rules on 2026-10-18. Apply them to new library families, to symbols and footprints you create, to imports (kicad-lib-organize renames them on import), and to any name you propose. An item keeps its current name only when its KLC name cannot be confirmed; report it. A rename must also update the symbol `Footprint` properties and 3D model paths that point to the renamed item.
 
 **3D model files.** A local model is named `<footprint name>[_<extra>].step`. The extra descriptor is added when the model carries information the footprint name does not: vendor MPN, stand-in part, color, cable, or state (for example `LED_0603_1608Metric_LiteOn_LTST-C190KFKT.step`). Each footprint has its own model file. Models not used by any footprint keep their part-number names.
 
@@ -85,11 +85,11 @@ The "How to naming" sections in library/symbols/README.md and library/footprints
 - Preserve the 0_ prefix and existing library spelling. Classify symbols by electrical function, footprints by physical package or connector family, and 3D models using actual footprint references and package evidence.
 - When the user asks to categorize or organize an import in libDump/, move unique files into library/. Do not copy them first or create backup archives. Consolidate a same-name file only after directly confirming it is byte-identical to the destination.
 - Leave differing collisions, uncertain classifications, shared models without a safe destination, and unknown files in libDump/ and report them. Never overwrite, delete, merge, or rename a differing item without explicit direction.
-- Preserve symbols, inheritance, pins, properties, footprint pads and geometry, model files, and model transforms. Do not rename individual symbols or footprints for cosmetic consistency.
-- Update only local 3D path strings made stale by a model move. Keep global KiCad model references unchanged and follow the path convention already used in the affected library.
-- Do not edit symbol Footprint properties, perform Symbol–Footprint linking, or synchronize fp-lib-table/sym-lib-table during categorization. Use the dedicated sync skills only when separately requested.
+- Preserve symbols, inheritance, pins, properties, footprint pads and geometry, model files, and model transforms. Names change only to KLC names, through the kicad-lib-organize map.
+- Update only local 3D path strings made stale by a model move or rename. Keep global KiCad model references unchanged.
+- Edit symbol Footprint properties only to follow a renamed or moved footprint. Other Symbol–Footprint linking and fp-lib-table/sym-lib-table sync belong to the dedicated sync skills, when separately requested.
 - Do not modify projects, schematics, PCB files, or files outside the requested library scope.
-- Refresh the existing library indexes after membership changes. Do not create migration reports, manifests, hashes, or scripts unless requested.
+- Refresh the existing library indexes after membership or name changes. Keep maps and helper output in the scratchpad; do not add migration reports, manifests, hashes, or scripts to the repository unless requested.
 - Validate moved files and affected local 3D references with KiCad tools when available; state NOT_VERIFIED for checks that could not be performed.
 
 ## Licensing
@@ -100,7 +100,7 @@ Vendor model and library redistribution terms may be unchecked. Before publishin
 
 All skills are local, under .claude/skills/.
 
-- lib-organize: move-based import categorization from libDump/. Name any new family with the KLC library rules above.
+- kicad-lib-organize: imports from libDump/ into library families with KLC names, or KLC-renames existing items. Map-driven, with bundled apply and verify scripts.
 - hw-link-audit: read-only audit of symbol Footprint properties, 3D paths, library tables, and schematic nicknames.
 - hw-footprint-sync and hw-symbol-sync: user-invoked only (`disable-model-invocation`). They handle separately requested 3D/footprint and symbol/footprint synchronization.
 

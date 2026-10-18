@@ -47,4 +47,4 @@ The 3D models, footprints and symbols here were copied from earlier projects and
 
 ## Maintenance
 
-Use the `lib-organize` skill (`.claude/skills/lib-organize/`) when adding more libraries copied from other projects. Rules for Claude are in the root `CLAUDE.md`.
+Use the `kicad-lib-organize` skill (`.claude/skills/kicad-lib-organize/`) when adding more libraries copied from other projects or renaming library items to KLC. Rules for Claude are in the root `CLAUDE.md`.
