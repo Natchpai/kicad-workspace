@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_Package_SON:PG-TSON-8-4"
+		(property "Footprint" "0_Package_SON:Infineon_PG-TSON-8-4_3.3x3.3mm"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

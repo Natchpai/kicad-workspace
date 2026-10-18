@@ -302,7 +302,7 @@
 		(uuid "a750dd38-fa2e-4a3d-912c-b1668f3c8315")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Conn_USB/USB3076-30-A_microUSB.stp"
+	(model "${KIPRJMOD}/library/3D/Conn_USB/USB_Micro-B_GCT_USB3076-30-A.step"
 		(offset
 			(xyz -3.7 -4.3 0.3)
 		)

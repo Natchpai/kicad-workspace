@@ -37,7 +37,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_Switch:SW_Tactile_PTS815SJM250"
+		(property "Footprint" "0_Switch:SW_Push_SPST_NO_CK_PTS815_4.2x3.2mm_H2.5mm"
 			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

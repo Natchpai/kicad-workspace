@@ -340,7 +340,7 @@
 		(uuid "a4072342-1084-4750-94f8-b215727d5794")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Conn_USB/USB_miniB_TE-2172034-1.step"
+	(model "${KIPRJMOD}/library/3D/Conn_USB/USB_Mini-B_TE_2172034-1.step"
 		(offset
 			(xyz 0 0 0)
 		)

@@ -33,7 +33,7 @@
 				(justify left bottom)
 			)
 		)
-		(property "Footprint" "0_Conn_Mezzanine:Conn_AMPHENOL_10144518-101802LF"
+		(property "Footprint" "0_Conn_Mezzanine:Amphenol_10144518-101802LF_2x50_P0.8mm_Vertical"
 			(at 1.27 74.93 0)
 			(show_name no)
 			(do_not_autoplace no)

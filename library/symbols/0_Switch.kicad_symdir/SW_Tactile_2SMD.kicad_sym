@@ -36,7 +36,7 @@
 				)
 			)
 		)
-		(property "Footprint" "0_Switch:SW_Tactile_2P_TS09-63-25-R-160-SMT-TR"
+		(property "Footprint" "0_Switch:SW_Push_SPST_NO_SameSky_TS09-63-25_6.1x3.7mm_H2.5mm"
 			(at 0 5.08 0)
 			(show_name no)
 			(do_not_autoplace no)

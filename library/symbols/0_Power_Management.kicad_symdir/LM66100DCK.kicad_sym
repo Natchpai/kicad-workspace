@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "0_Package_TO_SOT_SMD:DCK0006A_TI"
+		(property "Footprint" "0_Package_TO_SOT_SMD:Texas_DCK0006A_SC-70-6_2x1.25mm_P0.65mm"
 			(at 0 1.27 0)
 			(show_name no)
 			(do_not_autoplace no)

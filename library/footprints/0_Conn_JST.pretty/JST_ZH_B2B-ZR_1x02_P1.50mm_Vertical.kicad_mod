@@ -297,7 +297,7 @@
 		(uuid "ca1cbf26-2299-4377-8f40-456403fb19ee")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Conn_JST/JST-B2B-ZR.STEP"
+	(model "${KIPRJMOD}/library/3D/Conn_JST/JST_ZH_B2B-ZR_1x02_P1.50mm_Vertical.step"
 		(offset
 			(xyz 0.75 -0.45 0)
 		)

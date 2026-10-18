@@ -979,7 +979,7 @@
 		(uuid "b7419746-db16-4a0b-84a2-06b6d6ff7d7b")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Conn_Generic/XT60PW-F.STEP"
+	(model "${KIPRJMOD}/library/3D/Conn_Generic/AMASS_XT60PW-F_1x02_P7.20mm_Horizontal.step"
 		(offset
 			(xyz -3.6 -0.05 -0.2)
 		)

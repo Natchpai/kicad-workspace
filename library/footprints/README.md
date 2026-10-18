@@ -1,12 +1,12 @@
 # Footprint Libraries
 
-The shared footprint libraries use family-based `0_*.pretty` names. There are 29 libraries containing 120 footprints. The empty LGA target was omitted because the inventory contains no verified LGA footprint.
+The shared footprint libraries use family-based `0_*.pretty` names. There are 29 libraries containing 122 footprints. The empty LGA target was omitted because the inventory contains no verified LGA footprint.
 
 ```text
 library/
 └── footprints/
     ├── 0_Capacitor_SMD.pretty/
-    ├── 0_Conn_BarrelJack.pretty/
+    ├── 0_Conn_Barrel.pretty/
     ├── 0_Conn_Ethernet.pretty/
     ├── 0_Conn_FFC.pretty/
     ├── 0_Conn_Generic.pretty/
@@ -36,7 +36,7 @@ library/
     └── 0_TestPoint.pretty/
 ```
 
-See [FOOTPRINTS_DIRECTORY.md](../../FOOTPRINTS_DIRECTORY.md) for the full footprint index and [FOOTPRINT_MIGRATION_REPORT.md](../../FOOTPRINT_MIGRATION_REPORT.md) for migration and validation details
+See [FOOTPRINTS_DIRECTORY.md](../FOOTPRINTS_DIRECTORY.md) for the full footprint index.
 
 ## How to naming
 

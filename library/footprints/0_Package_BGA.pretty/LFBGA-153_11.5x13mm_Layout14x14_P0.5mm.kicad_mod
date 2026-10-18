@@ -1216,7 +1216,7 @@
 		(uuid "494b6416-b102-401e-a6e8-73112e6e22a9")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Package_BGA/LFBGA-153_11.5x13mm_eMMC.STEP"
+	(model "${KIPRJMOD}/library/3D/Package_BGA/LFBGA-153_11.5x13mm_Layout14x14_P0.5mm_eMMC.step"
 		(offset
 			(xyz 0 0 0)
 		)

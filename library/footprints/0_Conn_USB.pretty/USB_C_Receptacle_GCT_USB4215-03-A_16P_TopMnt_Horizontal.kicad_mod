@@ -336,7 +336,7 @@
 		(uuid "c2691b4b-bc0a-4fb0-8dbd-2a5ab60c2414")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Conn_USB/USB4215-03-A.stp"
+	(model "${KIPRJMOD}/library/3D/Conn_USB/USB_C_Receptacle_GCT_USB4215-03-A_16P_TopMnt_Horizontal.step"
 		(offset
 			(xyz 0 -6.1 1.65)
 		)

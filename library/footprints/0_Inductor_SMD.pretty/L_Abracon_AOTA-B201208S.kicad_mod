@@ -1,0 +1,142 @@
+(footprint "L_Abracon_AOTA-B201208S"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "inductor")
+	(property "Reference" "REF**"
+		(at 0 -1.8 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "ef888253-d836-4178-be7c-45dc15f1e0b1")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Untitled"
+		(at 0 1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d43a17f2-d9d0-4dcf-9bfe-fe8c5315f5f4")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://abracon.com/datasheets/AOTA-B201208S.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "1d4442ae-b074-45ee-b64e-51965c3f5235")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "7fe4e5ed-8a15-4def-ba02-44e1b7c0bd25")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(solder_mask_margin 0.05)
+	(solder_paste_margin_ratio -0.05)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.2 -0.75)
+		(end 0.2 -0.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "ce375a2e-03db-4389-a303-e0244dd147b2")
+	)
+	(fp_line
+		(start -0.2 0.75)
+		(end 0.2 0.75)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "10cb6216-e620-4154-b5e0-c9f7cdc09ec7")
+	)
+	(fp_rect
+		(start -1.75 -0.95)
+		(end 1.75 0.95)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "c21e71ab-e859-40c1-9198-195d2d34964f")
+	)
+	(fp_rect
+		(start -1.1 0.7)
+		(end 1.1 -0.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "4ef650f8-9623-4f28-a0d3-0f74f3a13eb3")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "bd2c4155-dbc7-4a0c-8df1-a9622e9cda67")
+		(effects
+			(font
+				(size 0.5 0.45)
+				(thickness 0.06)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -1 0)
+		(size 1 1.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.2)
+		(uuid "f1e40339-bbb5-483d-b9aa-9cf7c7eec3d1")
+	)
+	(pad "2" smd roundrect
+		(at 1 0)
+		(size 1 1.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.2)
+		(uuid "651cdb78-cafd-481f-b645-f56e3724cb48")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/library/3D/Inductor_SMD/L_Abracon_AOTA-B201208S.step"
+		(offset
+			(xyz 0 0 0.4)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 -0)
+		)
+	)
+)

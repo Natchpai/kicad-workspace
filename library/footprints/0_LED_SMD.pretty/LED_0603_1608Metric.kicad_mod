@@ -183,7 +183,7 @@
 		(uuid "73835137-c583-46c9-9687-967f8d01cc13")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/LED_SMD/LTST-C190KFKT.STEP"
+	(model "${KIPRJMOD}/library/3D/LED_SMD/LED_0603_1608Metric_LiteOn_LTST-C190KFKT.step"
 		(offset
 			(xyz 0 0 0)
 		)

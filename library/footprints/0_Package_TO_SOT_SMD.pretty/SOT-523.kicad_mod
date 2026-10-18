@@ -204,7 +204,7 @@
 		(uuid "2c11e5c2-83f6-4722-945e-9096dc08b94d")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Package_TO_SOT_SMD/SOT-523.STEP"
+	(model "${KIPRJMOD}/library/3D/Package_TO_SOT_SMD/SOT-523.step"
 		(offset
 			(xyz 0 0 0)
 		)

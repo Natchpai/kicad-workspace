@@ -2192,7 +2192,7 @@
 		(uuid "9bc0a57c-78c7-4549-9e86-77df97635c4c")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Package_QFP/LQFP-100_14x14mm_P0.5mm_ST-logo.step"
+	(model "${KIPRJMOD}/library/3D/Package_QFP/LQFP-100_14x14mm_P0.5mm_ST-Logo.step"
 		(offset
 			(xyz 0 0 0)
 		)

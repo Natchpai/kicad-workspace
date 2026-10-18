@@ -33,7 +33,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "0_Package_DFN_QFN:SOT1176-2-_1x2.5mm_P0.5mm"
+		(property "Footprint" "0_Package_DFN_QFN:Nexperia_SOT1176-2_DFN-10_1x2.5mm_P0.5mm"
 			(at 7.62 -1.27 0)
 			(show_name no)
 			(do_not_autoplace no)
