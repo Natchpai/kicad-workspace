@@ -200,11 +200,12 @@ def classify_symbol(lib, sym, block, fp_idx):
     elif not filt.strip():
         row['filter'] = 'EMPTY'
     elif row['link'] in ('LOCAL_OK', 'LOCAL_NAME_CASE'):
+        # KiCad (common/footprint_filter.cpp): a pattern with ':' matches
+        # "nickname:name", any other pattern matches the name only
         name = fp.split(':', 1)[1]
-        full = fp
         pats = filt.split()
-        hit = [p for p in pats if fnmatch.fnmatchcase(name.lower(), p.lower())
-               or fnmatch.fnmatchcase(full.lower(), p.lower())]
+        hit = [p for p in pats
+               if fnmatch.fnmatchcase((fp if ':' in p else name).lower(), p.lower())]
         row['filter'] = 'MATCH' if hit else 'NO_MATCH'
         if not hit and len(pats) > 1 and not any(c in filt for c in '*?'):
             row['notes'].append('space splits patterns; no wildcard used')
@@ -371,7 +372,7 @@ def print_report(r):
     print('\n== Schematics ==')
     print('\n'.join(r['schematic_issues']) or 'OK (no issues)')
     print('\nNOTE: read-only static check. Not verified inside KiCad '
-          '(table reload, filter matching, model rendering).')
+          '(table reload, footprint chooser list, model rendering).')
 
 
 if __name__ == '__main__':

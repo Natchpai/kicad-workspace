@@ -65,8 +65,10 @@ python -I <skill dir>/scripts/audit_links.py <project dir>
 linked, existing footprint), `MISSING`, `EMPTY`, `SUSPECT` (several
 space-separated tokens and no wildcard, so each token is a separate exact
 pattern, e.g. `SOD 882`), `UNCHECKED` (footprint file missing, nothing to
-compare). Patterns are matched case-insensitively against both the footprint
-name and `lib:name`; KiCad's exact matching rules are `NOT_VERIFIED` here.
+compare). Matching follows KiCad (`common/footprint_filter.cpp`): a pattern
+with `:` is matched against `nickname:name`, any other pattern against the
+name only; case-insensitive, whole string. So `Connector*:*_1x??_*` never
+matches a local library whose nickname does not start with `Connector`.
 
 **Footprint -> 3D model**
 `LOCAL_OK`, `LOCAL_MISSING` (file not found), `LOCAL_CASE_MISMATCH` (found only
@@ -81,9 +83,10 @@ symbol is missing from a local library. Global libraries (`Device:` and so on)
 are ignored.
 
 ## Renamed upstream
-A link can break because the shared library renamed the item (for example the
-KLC rename: `0_Conn_BarrelJack` became `0_Conn_Barrel`). When a reference
-library repo with Git history is available, build the old-to-current name map:
+A link can break because the shared library the project copied from renamed
+the item (for example a library `Conn_BarrelJack` renamed to `Conn_Barrel`).
+When that reference library repo, with its Git history, is available, build the
+old-to-current name map:
 ```bash
 python -I <skill dir>/scripts/rename_map.py <library repo dir>
 ```

@@ -1,12 +1,14 @@
-"""Read-only library checks. Usage (from the repo root): python -I klc_verify.py
+"""Read-only library checks.
+Usage (from the folder that holds the library folder): python -I klc_verify.py [--lib <library folder>]
 
+--lib defaults to "library" (with symbols/, footprints/ and 3D/ inside).
 Checks: counts; file name == internal name (symbols, units, footprints); every symbol Footprint
-property resolves to a footprint file; every ${KIPRJMOD} model path resolves with exact letter case;
-KLC G1.1 characters in file and folder names.
+property resolves to a footprint file; every ${KIPRJMOD}/<library folder>/3D model path resolves
+with exact letter case; KLC G1.1 characters in file and folder names.
 """
-import glob, os, re
+import glob, os, re, sys
 
-LIB = 'library'
+LIB = sys.argv[sys.argv.index('--lib') + 1].strip('/') if '--lib' in sys.argv else 'library'
 OK = re.compile(r'^[A-Za-z0-9_.,+-]+$')
 bad = []
 
@@ -25,8 +27,8 @@ for p in fps:
     if not m or m.group(1) != name:
         bad.append(f'footprint name mismatch: {p} internal={m and m.group(1)}')
     for mp in re.findall(r'\(model "([^"]+)"', t):
-        if mp.startswith('${KIPRJMOD}/library/3D/'):
-            folder, f = mp.split('library/3D/')[1].split('/')
+        if mp.startswith(f'${{KIPRJMOD}}/{LIB}/3D/'):
+            folder, f = mp.split(f'{LIB}/3D/')[1].split('/')
             d = f'{LIB}/3D/{folder}'
             if not os.path.isdir(d) or f not in os.listdir(d):
                 bad.append(f'missing model (exact case): {p} -> {mp}')

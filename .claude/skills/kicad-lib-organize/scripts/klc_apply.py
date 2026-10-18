@@ -1,19 +1,22 @@
 """Apply a KLC rename map: move/rename symbols, footprints and 3D models and keep links working.
 
-Usage (from the repo root):
-    python -I klc_apply.py <map.json> sym|fp|3d [--dry]
+Usage (from the project or repo root, the folder that holds the library folder):
+    python -I klc_apply.py <map.json> sym|fp|3d [--dry] [--lib <library folder>]
 
-Map format (all paths relative to the repo root, forward slashes):
+--lib defaults to "library". The library folder holds symbols/, footprints/ and 3D/, and model paths are
+written as ${KIPRJMOD}/<library folder>/3D/<Folder>/<file>.
+
+Map format (all paths relative to the root, forward slashes):
 {
   "symbols":    [{"src": "<path>.kicad_sym", "dst_lib": "0_Diode", "new": "MBRA340"}],
   "footprints": [{"src": "<path>.pretty/<old>.kicad_mod", "dst_lib": "0_Package_SO", "new": "SOIC-8_3.9x4.9mm_P1.27mm"}],
-  "models":     [{"src": "<path to model>", "dst": "library/3D/<Folder>/<new>.step", "footprint": "0_Lib:<new fp name>"}],
+  "models":     [{"src": "<path to model>", "dst": "<library folder>/3D/<Folder>/<new>.step", "footprint": "0_Lib:<new fp name>"}],
   "link_fixes": {"<old lib:name>": "<new lib:name>"}
 }
 
 - sym: renames each symbol file and its internal names (root, unit sub-symbols, Value when equal to the old name).
 - fp:  renames each footprint file and its internal name (and Value when equal), then rewrites every symbol
-       Footprint property that pointed at "<src .pretty name>:<old name>" (plus link_fixes) across library/symbols.
+       Footprint property that pointed at "<src .pretty name>:<old name>" (plus link_fixes) across <library>/symbols.
 - 3d:  moves each model to dst (a second entry with the same src copies it, so each footprint owns its file)
        and rewrites the one (model "...") path in that footprint whose file name matches src.
 Edits are byte-level, so CRLF/LF line endings are kept. Each edited file is checked: only name, Value,
@@ -25,8 +28,9 @@ import json, os, re, shutil, sys
 MAP = json.load(open(sys.argv[1], encoding='utf-8'))
 STEP = sys.argv[2]
 DRY = '--dry' in sys.argv
-SYM_ROOT = 'library/symbols'
-FP_ROOT = 'library/footprints'
+LIB = sys.argv[sys.argv.index('--lib') + 1].strip('/') if '--lib' in sys.argv else 'library'
+SYM_ROOT = f'{LIB}/symbols'
+FP_ROOT = f'{LIB}/footprints'
 ALLOWED = re.compile(rb'^\s*(\(footprint "|\(symbol "|\(property "Value" "|\(property "Footprint" "|\(model ")')
 LOG = []
 
@@ -144,7 +148,7 @@ def do_3d():
         if len(hits) != 1:
             sys.exit(f'{fpath}: expected one model path ending in {os.path.basename(src)}, found {len(hits)}')
         folder, f = dst.split('/')[-2:]
-        b = b0[:hits[0].start(1)] + f'${{KIPRJMOD}}/library/3D/{folder}/{f}'.encode() + b0[hits[0].end(1):]
+        b = b0[:hits[0].start(1)] + f'${{KIPRJMOD}}/{LIB}/3D/{folder}/{f}'.encode() + b0[hits[0].end(1):]
         LOG.append(f'    model {fpath}: {hits[0].group(1).decode()} -> {folder}/{f}')
         wr(fpath, b0, b)
 

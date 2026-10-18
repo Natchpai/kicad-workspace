@@ -57,12 +57,14 @@ are treated as correct.
   .kicad_mod>`, where `0_<Family>` is a `.pretty` library from `fp-lib-table`.
 - **Files inside** (`<Symbol>.kicad_sym` names and symbol names) use the
   reference's names exactly. The reference follows the KiCad Library Convention
-  (KLC; see its `CLAUDE.md` and `library/KLC/` rule files). Names come from the reference,
-  never from your own KLC rebuild: renaming library items is the reference
-  repo's job (`kicad-lib-organize` there). When adding a symbol, find the
-  comparable one in the reference and use its family.
-- **Family not in the reference:** propose a KLC library name (`0_` + function,
-  sub-function, qualifier, manufacturer, series) and wait for the human to choose.
+  (KLC). Names come from the reference, never from your own KLC rebuild:
+  renaming library items is the reference repo's job (`kicad-lib-organize`).
+  When adding a symbol, find the comparable one in the reference and use its
+  family.
+- **Family not in the reference:** propose a name with the `kicad-naming` skill
+  (it holds the KLC rules and the `0_` house rules), or, without that skill, a
+  KLC library name (`0_` + function, sub-function, qualifier, manufacturer,
+  series). Wait for the human to choose.
 - **Renamed upstream:** when the reference renamed a symbol or footprint, build
   the old-to-current map with `hw-link-audit`'s `scripts/rename_map.py` on the
   reference repo (`LINK old new` lines). Without that script or Git history,
