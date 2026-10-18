@@ -2,7 +2,7 @@
 
 Custom KiCad footprints are stored in footprints/. Each nonempty .pretty folder is one library. Names below omit the .kicad_mod suffix.
 
-Inventory: 29 libraries, 122 footprints.
+Inventory: 29 libraries, 125 footprints.
 
 - **0_Capacitor_SMD.pretty** (9) — C_0201_0603Metric_Murata, C_0402_1005Metric_NomDensity, C_0603_1608Metric_NomDensity, C_0805_2012Metric_NomDensity, C_1206_3216Metric_NomDensity, C_1210_3225Metric_NomDensity, CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm, CP_Elec_Wuerth_WCAP-ASLI_5x5mm_H5.5mm, CP_Elec_Wuerth_WCAP-ASLI_6.3x6.3mm_H5.5mm
 - **0_Conn_AMASS.pretty** (2) — AMASS_XT60PW-F_1x02_P7.20mm_Horizontal, AMASS_XT60PW-M_1x02_P7.20mm_Horizontal
@@ -18,16 +18,16 @@ Inventory: 29 libraries, 122 footprints.
 - **0_Crystal.pretty** (1) — Crystal_SMD_Abracon_ABM11W-4Pin_2.0x1.6mm
 - **0_Diode_SMD.pretty** (8) — D_SMA, D_SMB_J-Bend, D_SOD-123, D_SOD-123FL, D_SOD-323, D_SOD-523, D_SOD-882, D_SOD-923
 - **0_Graphics.pretty** (4) — HotSurface, LayerMarker_4_6.35x2.54mm_TextH1mm_P1.27mm_LowerMirrored, NP_Logo_5mm, NP_Logo_8mm
-- **0_Inductor_SMD.pretty** (9) — L_0603_1608Metric, L_Abracon_AMDLA3020S, L_Abracon_AMDLA4020S, L_Abracon_AMELA2012S, L_Abracon_AMPLH5030S, L_Abracon_AOTA-B201208S, L_Abracon_ASPI-8040HS, L_Chilisin_BDCD00201610, L_Wuerth_WE-XHMI-744393665100
+- **0_Inductor_SMD.pretty** (10) — L_0603_1608Metric, L_Abracon_AMDLA3020S, L_Abracon_AMDLA4020S, L_Abracon_AMELA2012S, L_Abracon_AMPLH5030S, L_Abracon_AOTA-B201208S, L_Abracon_AOTA-B252010S, L_Abracon_ASPI-8040HS, L_Chilisin_BDCD00201610, L_Wuerth_WE-XHMI-744393665100
 - **0_LED_SMD.pretty** (1) — LED_0603_1608Metric
 - **0_MountingHole.pretty** (1) — MountingHole_3.2mm_M3_Pad_Via
 - **0_NetTie.pretty** (5) — NetTie-2_SMD_Pad0.15mm, NetTie-2_SMD_Pad0.2mm, NetTie-2_SMD_Pad0.3mm, NetTie-2_SMD_Pad0.4mm, NetTie-2_SMD_Pad0.5mm
 - **0_Oscillator.pretty** (2) — Oscillator_SMD_Abracon_ASDMB-4Pin_2.5x2.0mm, Oscillator_SMD_ECS_2520MV-4Pin_2.5x2.0mm
 - **0_Package_BGA.pretty** (3) — BGA-400_17x17mm_Layout20x20_P0.8mm, BGA-96_8x14mm_Layout9x16_P0.8mm, LFBGA-153_11.5x13mm_Layout14x14_P0.5mm
-- **0_Package_DFN_QFN.pretty** (5) — DFN-10-1EP_3x3mm_P0.5mm, Nexperia_SOT1176-2_DFN-10_1x2.5mm_P0.5mm, QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias, QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias, QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm
+- **0_Package_DFN_QFN.pretty** (6) — DFN-10-1EP_3x3mm_P0.5mm, Nexperia_SOT1176-2_DFN-10_1x2.5mm_P0.5mm, QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias, QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias, QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm, VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm_ThermalVias
 - **0_Package_QFP.pretty** (3) — LQFP-100_14x14mm_P0.5mm, LQFP-48_7x7mm_P0.5mm, LQFP-64_10x10mm_P0.5mm
 - **0_Package_SO.pretty** (2) — Allegro_LZ_SOIC-6_3.9x4.9mm_P1.27mm, SOIC-8_3.9x4.9mm_P1.27mm
-- **0_Package_SON.pretty** (5) — Infineon_PG-TSDSON-8-26_3.3x3.3mm, Infineon_PG-TSON-8-4_3.3x3.3mm, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm, WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm
+- **0_Package_SON.pretty** (6) — Infineon_PG-TSDSON-8-26_3.3x3.3mm, Infineon_PG-TSON-8-4_3.3x3.3mm, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm, VSON-8-1EP_3x3mm_P0.65mm_EP1.5x1.75mm_ThermalVias, WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm
 - **0_Package_TO_SOT_SMD.pretty** (9) — SOT-23, SOT-23-5, SOT-23-6, SOT-323_SC-70, SOT-523, SOT-666, TSOT-23-6, Texas_DCK0005A_SC-70-5_2x1.25mm_P0.65mm, Texas_DCK0006A_SC-70-6_2x1.25mm_P0.65mm
 - **0_Resistor_SMD.pretty** (9) — R_0201_0603Metric_Yageo, R_0402_1005Metric_NomDensity, R_0603_1608Metric_NomDensity, R_1206_3216Metric_Yageo, R_Shunt_Stackpole_CSNL2010_5025Metric_R002, R_Shunt_Yageo_PA1206_3216Metric_R004-R020, R_Shunt_Yageo_PA2010_5025Metric_R001-R003, R_Shunt_Yageo_PA2010_5025Metric_R004-R020, R_Shunt_Yageo_PA2512_6332Metric_R005-R006
 - **0_SolderJumper.pretty** (1) — SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm

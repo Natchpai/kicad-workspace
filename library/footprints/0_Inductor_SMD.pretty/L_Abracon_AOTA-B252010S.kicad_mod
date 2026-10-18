@@ -1,0 +1,211 @@
+(footprint "L_Abracon_AOTA-B252010S"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 -2.35 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "67c65926-ca4a-410e-a8ff-583879d1ee95")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "L_AOTA-B252010S"
+		(at 0 1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5bc7d677-37c4-450e-999d-766eb0c7ed67")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "180beb84-8967-4a16-87b1-b8abb3fe4481")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a21eba36-3068-409a-9141-a666d61ce67b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -1.15 -1.25)
+		(end 1.15 -1.25)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "f6104b5a-34fb-44e5-80d8-e4cf56f31860")
+	)
+	(fp_line
+		(start -1.15 1.25)
+		(end 1.15 1.25)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "9887484d-4513-4ecd-84cd-554fc61c6395")
+	)
+	(fp_poly
+		(pts
+			(arc
+				(start -0.687069 0.043102)
+				(mid -0.693395 0)
+				(end -0.687069 -0.043102)
+			)
+			(arc
+				(start -0.457931 -0.806898)
+				(mid -0.48126 -0.93954)
+				(end -0.601605 -1)
+			)
+			(arc
+				(start -1.25 -1)
+				(mid -1.356066 -0.956066)
+				(end -1.4 -0.85)
+			)
+			(arc
+				(start -1.4 0.85)
+				(mid -1.356066 0.956066)
+				(end -1.25 1)
+			)
+			(arc
+				(start -0.601605 1)
+				(mid -0.481261 0.939539)
+				(end -0.457931 0.806898)
+			)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Paste")
+		(uuid "4ab8001c-ac85-4d3d-8ec8-84a4d52f34f9")
+	)
+	(fp_poly
+		(pts
+			(arc
+				(start 0.687069 -0.043102)
+				(mid 0.693395 0)
+				(end 0.687069 0.043102)
+			)
+			(arc
+				(start 0.457931 0.806898)
+				(mid 0.48126 0.93954)
+				(end 0.601605 1)
+			)
+			(arc
+				(start 1.25 1)
+				(mid 1.356066 0.956066)
+				(end 1.4 0.85)
+			)
+			(arc
+				(start 1.4 -0.85)
+				(mid 1.356066 -0.956066)
+				(end 1.25 -1)
+			)
+			(arc
+				(start 0.601605 -1)
+				(mid 0.481261 -0.939539)
+				(end 0.457931 -0.806898)
+			)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Paste")
+		(uuid "d6540bcf-9ca5-481c-82cf-012699376bac")
+	)
+	(fp_rect
+		(start -1.6 -1.5)
+		(end 1.6 1.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "4b05a079-bf54-4d21-b3ad-bec54f1ae8aa")
+	)
+	(fp_rect
+		(start -1.25 -1)
+		(end 1.25 1)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "abad85d3-c615-4aaa-8ba6-d011b0a08373")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "98513729-5a94-4a72-833a-c9aa1de444a1")
+		(effects
+			(font
+				(size 1 0.5)
+				(thickness 0.1)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -0.9 0)
+		(size 1 2)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.15)
+		(uuid "ac74fe89-67e4-418d-8ef8-0a5a4310b13b")
+	)
+	(pad "2" smd roundrect
+		(at 0.9 0)
+		(size 1 2)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.15)
+		(uuid "73b8b80f-19de-49a1-935c-30c809aaf3b1")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/library/3D/Inductor_SMD/L_Abracon_AOTA-B252010S.step"
+		(offset
+			(xyz 0 0 0.51)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 -0)
+		)
+	)
+)
