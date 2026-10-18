@@ -23,6 +23,7 @@ It is a personal archive, not an official KiCad library and not meant for contri
 The shared library uses the [KiCad Library Convention](https://klc.kicad.org) (KLC) as a naming guide, with a local `0_` prefix on library names (for example `0_Package_QFP`, `0_Conn_USB`). Upstream-only details (fab layer text, model transforms, metadata polish) are not enforced.
 
 - Rules: [library/KLC/](library/KLC/README.md), one file per KLC rule (general, symbols, footprints, 3D models).
+- Checklist for new items: [library/KLC_CHECKLIST.md](library/KLC_CHECKLIST.md), with rules ranked by priority, script versus human checks, and step-by-step naming.
 - 3D model file: footprint name plus an extra descriptor when one exists, for example `LED_0603_1608Metric_LiteOn_LTST-C190KFKT.step`.
 - The library was renamed to these rules on 2026-10-18. Projects that still use old names can list old and current names with `python -I .claude/skills/hw-link-audit/scripts/rename_map.py .`.
 

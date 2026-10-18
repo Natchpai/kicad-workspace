@@ -16,6 +16,7 @@ Reusable KiCad libraries collected from earlier projects, merged into one layout
 - Local 3D path in a footprint: `${KIPRJMOD}/library/3D/<Name>/<file>`. Copy this folder into a project as `library/` so the path resolves.
 - Footprints that use `${KICAD10_3DMODEL_DIR}/...` refer to KiCad's own models and are not stored here.
 - Symbol, footprint and library names follow the KLC rules in [`KLC/`](KLC/README.md) (one file per rule), with the local `0_` prefix on library names.
+- Before you add a symbol, footprint or 3D model, work through [`KLC_CHECKLIST.md`](KLC_CHECKLIST.md). Its T3 section covers naming.
 - Local 3D model file = footprint name, plus an extra descriptor when one exists (vendor MPN, color, cable, state), for example `LED_0603_1608Metric_LiteOn_LTST-C190KFKT.step`. Each footprint has its own model file.
 
 ## Directory indexes
