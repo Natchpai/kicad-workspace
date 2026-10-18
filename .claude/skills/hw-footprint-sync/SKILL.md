@@ -63,14 +63,15 @@ are treated as correct.
   `${KIPRJMOD}/<relative path to 3D root>/<Family>/<file>`, same letter case as
   the real folders (matters on case-sensitive systems).
 - **Files inside** (`.kicad_mod` names, 3D model file names) use the reference's
-  names exactly. The reference follows the KiCad Library Convention (KLC; see its
-  `CLAUDE.md` and `library/KLC/` rule files), and its 3D files are named
-  `<footprint name>[_<extra>].step`. Names come from the reference, never from
-  your own KLC rebuild: renaming library items is the reference repo's job
-  (`kicad-lib-organize` there). When adding or placing one, find the comparable
-  item in the reference and use its family.
-- **Family not in the reference:** propose a KLC library name (`0_` + function,
-  sub-function, qualifier, manufacturer, series) and wait for the human to choose.
+  names exactly. The reference follows the KiCad Library Convention (KLC), and
+  its 3D files are named `<footprint name>[_<extra>].step`. Names come from the
+  reference, never from your own KLC rebuild: renaming library items is the
+  reference repo's job (`kicad-lib-organize`). When adding or placing one, find
+  the comparable item in the reference and use its family.
+- **Family not in the reference:** propose a name with the `kicad-naming` skill
+  (it holds the KLC rules and the `0_` house rules), or, without that skill, a
+  KLC library name (`0_` + function, sub-function, qualifier, manufacturer,
+  series). Wait for the human to choose.
 - **Renamed upstream:** a project item whose name differs from the reference
   because the reference renamed it is migrated with step 7 of the procedure.
 - If the project's folder name differs from the reference for the same family
