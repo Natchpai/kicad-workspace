@@ -23,7 +23,7 @@ Inventory: 23 folders, 77 models.
 - **Package_DFN_QFN** (5) — DFN-10-1EP_3x3mm_P0.5mm.step, Nexperia_SOT1176-2_DFN-10_1x2.5mm_P0.5mm_PUSB3FR4Z.step, QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm.step, QFN48_NX_MCH.step, USB3320C-EZK-TR.step
 - **Package_QFP** (1) — LQFP-100_14x14mm_P0.5mm_ST-Logo.step
 - **Package_SO** (1) — Allegro_LZ_SOIC-6_3.9x4.9mm_P1.27mm_ACS37030LLZATR-040B3.step
-- **Package_SON** (6) — infineon-PG-TSON-8-5-package.step, Infineon_PG-TSDSON-8-26_PG-TSDSON-8-32.step, Infineon_PG-TSON-8-4_3.3x3.3mm_PG-TSDSON-8-32.step, UCC27282-DRC0010J_Ti.step, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias.step, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm_UCC27282DRCR.step
+- **Package_SON** (6) — infineon-PG-TSON-8-5-package.step, Infineon_PG-TSDSON-8-26_3.3x3.3mm_PG-TSDSON-8-32.step, Infineon_PG-TSON-8-4_3.3x3.3mm_PG-TSDSON-8-32.step, UCC27282-DRC0010J_Ti.step, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias.step, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm_UCC27282DRCR.step
 - **Package_TO_SOT_SMD** (3) — DCK0006A.step, LM66100DCKR.step, SOT-523.step
 - **Resistor_SMD** (4) — R_1206_3216Metric_Yageo_AC1206FR-7W1KL.step, R_Shunt_Stackpole_CSNL2010_5025Metric_R002.step, R_Shunt_Yageo_PA2010_5025Metric_R001-R003_Stackpole_CSNL2010.step, R_Shunt_Yageo_PA2512_6332Metric_R005-R006_PA2512FKE7W0R005E.step
 - **Switch** (3) — SW_Push_SPST_NO_CK_PTS815_4.2x3.2mm_H2.5mm_PTS815SJM250SMTRLFS.step, SW_Push_SPST_NO_SameSky_TS06-667-34_6x6.7mm_H3.4mm_Red.step, SW_Push_SPST_NO_SameSky_TS09-63-25_6.1x3.7mm_H2.5mm_Red.step

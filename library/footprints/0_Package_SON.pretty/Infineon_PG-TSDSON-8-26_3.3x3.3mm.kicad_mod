@@ -1,4 +1,4 @@
-(footprint "Infineon_PG-TSDSON-8-26"
+(footprint "Infineon_PG-TSDSON-8-26_3.3x3.3mm"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
@@ -16,7 +16,7 @@
 			)
 		)
 	)
-	(property "Value" "Infineon_PG-TSDSON-8-26"
+	(property "Value" "Infineon_PG-TSDSON-8-26_3.3x3.3mm"
 		(at 0 -3.06 0)
 		(unlocked yes)
 		(layer "User.1")
@@ -379,7 +379,7 @@
 		(uuid "40911788-609d-457a-bbe9-b7473ed2ee37")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Package_SON/Infineon_PG-TSDSON-8-26_PG-TSDSON-8-32.step"
+	(model "${KIPRJMOD}/library/3D/Package_SON/Infineon_PG-TSDSON-8-26_3.3x3.3mm_PG-TSDSON-8-32.step"
 		(offset
 			(xyz 0 0 0)
 		)

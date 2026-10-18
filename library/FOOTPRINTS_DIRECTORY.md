@@ -27,7 +27,7 @@ Inventory: 29 libraries, 121 footprints.
 - **0_Package_DFN_QFN.pretty** (5) — DFN-10-1EP_3x3mm_P0.5mm, Nexperia_SOT1176-2_DFN-10_1x2.5mm_P0.5mm, QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias, QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias, QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm
 - **0_Package_QFP.pretty** (3) — LQFP-100_14x14mm_P0.5mm, LQFP-48_7x7mm_P0.5mm, LQFP-64_10x10mm_P0.5mm
 - **0_Package_SO.pretty** (2) — Allegro_LZ_SOIC-6_3.9x4.9mm_P1.27mm, SOIC-8_3.9x4.9mm_P1.27mm
-- **0_Package_SON.pretty** (5) — Infineon_PG-TSDSON-8-26, Infineon_PG-TSON-8-4_3.3x3.3mm, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm, WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm
+- **0_Package_SON.pretty** (5) — Infineon_PG-TSDSON-8-26_3.3x3.3mm, Infineon_PG-TSON-8-4_3.3x3.3mm, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm, WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm
 - **0_Package_TO_SOT_SMD.pretty** (8) — SOT-23, SOT-23-5, SOT-23-6, SOT-323_SC-70, SOT-523, SOT-666, Texas_DCK0005A_SC-70-5_2x1.25mm_P0.65mm, Texas_DCK0006A_SC-70-6_2x1.25mm_P0.65mm
 - **0_Resistor_SMD.pretty** (9) — R_0201_0603Metric_Yageo, R_0402_1005Metric_NomDensity, R_0603_1608Metric_NomDensity, R_1206_3216Metric_Yageo, R_Shunt_Stackpole_CSNL2010_5025Metric_R002, R_Shunt_Yageo_PA1206_3216Metric_R004-R020, R_Shunt_Yageo_PA2010_5025Metric_R001-R003, R_Shunt_Yageo_PA2010_5025Metric_R004-R020, R_Shunt_Yageo_PA2512_6332Metric_R005-R006
 - **0_SolderJumper.pretty** (1) — SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm
