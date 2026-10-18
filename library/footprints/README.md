@@ -1,6 +1,6 @@
 # Footprint Libraries
 
-The shared footprint libraries use family-based `0_*.pretty` names. There are 29 libraries containing 122 footprints. The empty LGA target was omitted because the inventory contains no verified LGA footprint.
+The shared footprint libraries use family-based `0_*.pretty` names. There are 29 libraries containing 125 footprints. The empty LGA target was omitted because the inventory contains no verified LGA footprint.
 
 ```text
 library/

@@ -2,7 +2,7 @@
 
 Custom KiCad 10 symbols are stored in symbols/ as unpacked .kicad_symdir libraries. Each file contains one symbol.
 
-Inventory: 34 libraries, 86 symbols.
+Inventory: 34 libraries, 88 symbols.
 
 - **0_Amplifier_Operational.kicad_symdir** (1) — TLV9061xDBV
 - **0_Conn_Ethernet.kicad_symdir** (2) — JXD0-0019NL, MGB005-1CF1B002H
@@ -31,8 +31,8 @@ Inventory: 34 libraries, 86 symbols.
 - **0_Protection_ESD.kicad_symdir** (9) — DF2S6.2CT, ESD5Z3V3, ESD9L5.0S, GSEWT3U003C, PESD4USB5BTBR-Q, PUSB3FR4Z, SMBJ30A, SP3031-01E, USBLC6-2SC6
 - **0_Reference_Voltage.kicad_symdir** (1) — MCP1501-30xCHY
 - **0_Regulator_DDR_VTT.kicad_symdir** (1) — TPS51200DRC
-- **0_Regulator_Linear.kicad_symdir** (2) — LDLN025M33, SPX3819M5-L-3-3
-- **0_Regulator_Switching.kicad_symdir** (2) — LMR54410DBV, TPS62A0xPDDC
+- **0_Regulator_Linear.kicad_symdir** (3) — LDLN025M33, SPX3819M5-L-3-3, TPS73533DRB
+- **0_Regulator_Switching.kicad_symdir** (3) — LMR54410DBV, TPS62142, TPS62A0xPDDC
 - **0_Sensor_Current.kicad_symdir** (3) — ACS37030LLZA-040B3, INA180Ax, INA187Ax
 - **0_Sensor_Temperature.kicad_symdir** (1) — TMP235A4DCK
 - **0_SoC_AMD_Zynq.kicad_symdir** (1) — XC7Z010-xCLG400
