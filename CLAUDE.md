@@ -2,7 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-KiCad 10 workspace with reusable project templates and a shared library of symbols, footprints, and 3D models. There is no build or test system; the content is KiCad library data. See README.md for the repository overview and library/README.md for the shared library guide.
+KiCad 10 workspace with reusable project templates and a shared library of symbols, footprints, and 3D models. There is no build or test system; the content is KiCad library data.
+
+This is the user's personal archive on GitHub, not an official KiCad library and not an upstream contribution. See README.md for the repository overview and library/README.md for the shared library guide.
 
 ## Layout
 
@@ -41,6 +43,8 @@ The KLC rule files are the naming authority. library/KLC/ holds one file per rul
 - Naming rules: G1.1 to G1.6, G1.9, G2.1, S1.1, S2.1 to S2.3, F1.1, F1.2, F2.1 to F2.5, F3.1 to F3.7
 
 The "How to naming" sections in library/symbols/README.md and library/footprints/README.md are short summaries. Where they differ from the KLC files, follow the KLC files.
+
+**Strictness.** KLC is a guideline here. Always keep the critical parts: allowed characters, true facts in names, functional variants (package, pinout, voltage, current range) in symbol names, and symbol, footprint and 3D links that resolve. Cosmetic or upstream-only rules (hard-to-source optional fields such as BGA ball diameter or pitch, exact MPN wildcard form, fab text, model transforms, metadata polish) may be relaxed; say which rule was relaxed and why.
 
 **Scope.** The library was renamed to these rules on 2026-10-18. Apply them to new library families, to symbols and footprints you create, to imports (kicad-lib-organize renames them on import), and to any name you propose. An item keeps its current name only when its KLC name cannot be confirmed; report it. A rename must also update the symbol `Footprint` properties and 3D model paths that point to the renamed item.
 
