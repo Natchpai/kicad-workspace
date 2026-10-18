@@ -3,7 +3,7 @@
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "SMD capacitor, aluminum electrolytic, Nichicon, 5.0x5.4mm")
+	(descr "SMD capacitor, aluminum electrolytic, Wuerth WCAP-ASLI, 5x5mm, H5.5mm")
 	(tags "capacitor electrolytic")
 	(property "Reference" "REF**"
 		(at 0 -3.7 0)

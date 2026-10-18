@@ -3,7 +3,7 @@
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "SMD capacitor, aluminum electrolytic, Panasonic C55, 6.3x5.4mm")
+	(descr "SMD capacitor, aluminum polymer, Panasonic OS-CON SVPK, 6.3x6.3mm, H5.9mm")
 	(tags "capacitor electrolytic")
 	(property "Reference" "REF**"
 		(at 0 -4.35 0)
