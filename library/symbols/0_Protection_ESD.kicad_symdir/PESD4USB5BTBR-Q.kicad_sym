@@ -78,7 +78,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "DFN2510A-10"
+		(property "ki_fp_filters" "*DFN*1x2.5mm*P0.5mm*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
