@@ -2,7 +2,7 @@
 	(version 20251024)
 	(generator "kicad_symbol_editor")
 	(generator_version "10.0")
-	(symbol "EMMC04G-M627-M06U"
+	(symbol "EMMC04G-W627-M06U"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -18,7 +18,7 @@
 				)
 			)
 		)
-		(property "Value" "EMMC04G-M627-M06U"
+		(property "Value" "EMMC04G-W627-M06U"
 			(at 0 1.27 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -61,7 +61,7 @@
 				)
 			)
 		)
-		(symbol "EMMC04G-M627-M06U_1_0"
+		(symbol "EMMC04G-W627-M06U_1_0"
 			(pin bidirectional line
 				(at -20.32 -2.54 0)
 				(length 5.08)
@@ -657,7 +657,7 @@
 				)
 			)
 		)
-		(symbol "EMMC04G-M627-M06U_1_1"
+		(symbol "EMMC04G-W627-M06U_1_1"
 			(rectangle
 				(start -15.24 0)
 				(end 15.24 -43.18)
@@ -670,7 +670,7 @@
 				)
 			)
 		)
-		(symbol "EMMC04G-M627-M06U_2_0"
+		(symbol "EMMC04G-W627-M06U_2_0"
 			(pin passive line
 				(at -15.24 -2.54 0)
 				(length 5.08)
@@ -2931,7 +2931,7 @@
 				)
 			)
 		)
-		(symbol "EMMC04G-M627-M06U_2_1"
+		(symbol "EMMC04G-W627-M06U_2_1"
 			(rectangle
 				(start -10.16 0)
 				(end 10.16 -25.4)

@@ -21,7 +21,7 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 | **0_MCU_ST_STM32H7** | 1 | **STM32H743VITx** |
 | **0_Memory_DDR3** | 1 | **MT41K256M16TW-107** |
 | **0_Memory_EEPROM** | 1 | **M93C46-WMN** |
-| **0_Memory_eMMC** | 2 | **EMMC04G-M627-M06U**, **FEMC008GTTG7-T14-16** |
+| **0_Memory_eMMC** | 2 | **EMMC04G-W627-M06U**, **FEMC008GTTG7-T14-16** |
 | **0_Memory_Flash** | 1 | **W25Q128JVP** |
 | **0_Misc** | 1 | **BlankSymbol** |
 | **0_Oscillator** | 2 | **ASDMB**, **ECS-2520MV** |
@@ -32,8 +32,8 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 | **0_Reference_Voltage** | 1 | **MCP1501-30xCHY** |
 | **0_Regulator_DDR_VTT** | 1 | **TPS51200DRC** |
 | **0_Regulator_Linear** | 2 | **LDLN025M33**, **SPX3819M5-L-3-3** |
-| **0_Regulator_Switching** | 2 | **LMR54410DBV**, **TPS62A0x** |
-| **0_Sensor_Current** | 3 | **ACS37030LLZA**, **INA180Ax**, **INA187Ax** |
+| **0_Regulator_Switching** | 2 | **LMR54410DBV**, **TPS62A0xPDDC** |
+| **0_Sensor_Current** | 3 | **ACS37030LLZA-040B3**, **INA180Ax**, **INA187Ax** |
 | **0_Sensor_Temperature** | 1 | **TMP235A4DCK** |
 | **0_SoC_AMD_Zynq** | 1 | **XC7Z010-xCLG400** |
 | **0_Switch** | 5 | **SW_DIP_x03**, **SW_SPDT**, **SW_Tactile_2SMD**, **SW_Tactile_4SMD**, **SW_Tactile_PTS815SJM250** |
