@@ -57,5 +57,5 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 - **Files inside**`.kicad_sym` names, are flexible: keep
   them as they are and do not rename them to enforce a pattern.
 
-Follow KLC-S Guideline
+Follow the KLC S rules in [../KLC/symbol/](../KLC/README.md).
 

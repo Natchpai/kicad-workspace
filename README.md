@@ -20,7 +20,7 @@ This repository keeps reusable KiCad project templates and shared symbols, footp
 
 The shared library follows the [KiCad Library Convention](https://klc.kicad.org) (KLC), with a local `0_` prefix on library names (for example `0_Package_QFP`, `0_Conn_USB`).
 
-- Rules: [general](library/KLC-G1-General-Guideline.md), [symbols](library/symbols/KLC-S2-Symbol-Naming.md), [footprints](library/footprints/KLC-F2-General-FP-Naming-Guideline.md), and the other `KLC-*.md` files next to them.
+- Rules: [library/KLC/](library/KLC/README.md), one file per KLC rule (general, symbols, footprints, 3D models).
 - 3D model file: footprint name plus an extra descriptor when one exists, for example `LED_0603_1608Metric_LiteOn_LTST-C190KFKT.step`.
 - The library was renamed to these rules on 2026-10-18. Projects that still use old names can list old and current names with `python -I .claude/skills/hw-link-audit/scripts/rename_map.py .`.
 
