@@ -315,7 +315,6 @@
 			(offset 0 -0.3375)
 		)
 		(layers "F.Cu" "F.Mask")
-		(clearance 0.1)
 		(options
 			(clearance outline)
 			(anchor rect)
@@ -338,7 +337,6 @@
 		(size 0.35 1.14)
 		(layers "F.Cu" "F.Mask")
 		(roundrect_rratio 0.25)
-		(clearance 0.1)
 		(uuid "396137d5-7235-4316-986b-ced1232f2c9f")
 	)
 	(pad "8" smd custom
@@ -349,7 +347,6 @@
 		)
 		(layers "F.Cu" "F.Mask")
 		(solder_paste_margin 0)
-		(clearance 0.1)
 		(options
 			(clearance outline)
 			(anchor rect)

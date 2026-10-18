@@ -88,6 +88,17 @@
 		(layer "F.Fab")
 		(uuid "26bf14de-9509-4b83-a0f9-43b1cf966f6b")
 	)
+	(fp_rect
+		(start -1.85 -1.25)
+		(end 1.85 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "95d1b406-6478-45f1-a505-c947637ea951")
+	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
