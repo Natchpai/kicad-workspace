@@ -62,12 +62,17 @@ are treated as correct.
 - **Local model path** in `.kicad_mod`:
   `${KIPRJMOD}/<relative path to 3D root>/<Family>/<file>`, same letter case as
   the real folders (matters on case-sensitive systems).
-- **Files inside** (`.kicad_mod` names, 3D model file names) are flexible: keep
-  them as they are and do not rename them to enforce a pattern. When adding or
-  placing one, find the comparable item in the reference and follow its style and
-  family. If the family exists in the reference, use exactly that family name.
-- **Family not in the reference:** propose a `<Category>_<Subcategory>` name in
-  the same style and wait for the human to choose.
+- **Files inside** (`.kicad_mod` names, 3D model file names) use the reference's
+  names exactly. The reference follows the KiCad Library Convention (KLC; see its
+  `CLAUDE.md` and `KLC-*.md` files), and its 3D files are named
+  `<footprint name>[_<extra>].step`. Names come from the reference, never from
+  your own KLC rebuild: renaming library items is the reference repo's job
+  (`kicad-lib-organize` there). When adding or placing one, find the comparable
+  item in the reference and use its family.
+- **Family not in the reference:** propose a KLC library name (`0_` + function,
+  sub-function, qualifier, manufacturer, series) and wait for the human to choose.
+- **Renamed upstream:** a project item whose name differs from the reference
+  because the reference renamed it is migrated with step 7 of the procedure.
 - If the project's folder name differs from the reference for the same family
   (missing `0_`, case, spelling), report it and propose renaming the project's
   folder to the reference name. A rename changes the nickname, so also list every
@@ -97,9 +102,26 @@ are treated as correct.
    and compare each nickname with `fp-lib-table`. Fix only the nickname text in
    the Footprint property, and only when the human asks. Do not alter any other
    field.
-7. **Verify.** Re-grep model paths and confirm each local path resolves to an
+7. **Migrate upstream renames** (only when the reference renamed items). Build
+   the old-to-current map with `hw-link-audit`'s `scripts/rename_map.py` on the
+   reference repo; without that script or Git history, report the mismatches and
+   ask. For each old name in use:
+   - project library copy: propose refreshing the affected `.pretty` folders and
+     3D folders from the reference; copy only when the human asks. The model
+     path inside the current reference footprint is the authority for its 3D
+     file (the map's `3D` lines are hints);
+   - `fp-lib-table`: rename the nickname to the current folder name;
+   - schematic `Footprint` properties: replace the old `nickname:name` text with
+     the current one, only when the human asks;
+   - `.kicad_pcb`: list footprints that still carry the old library link and let
+     the human update them in KiCad (Tools > Update Footprints from Library, or
+     Change Footprints). Do not edit the PCB file.
+   On Windows, case-only renames (for example `.STEP` to `.step`) go through a
+   temporary name, and Git records them only through `git rm --cached` plus
+   `git add`; report them.
+8. **Verify.** Re-grep model paths and confirm each local path resolves to an
    existing file. Search `.kicad_sch/.kicad_pcb/.kicad_pro` for old nicknames
-   affected by a rename.
+   and old `nickname:name` text affected by a rename.
 
 ## Report
 - List each change as `file: old -> new`.
