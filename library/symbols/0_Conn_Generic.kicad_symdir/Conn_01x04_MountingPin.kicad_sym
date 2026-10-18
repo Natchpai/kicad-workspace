@@ -77,7 +77,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "Connector*:*_1x??-1MP*"
+		(property "ki_fp_filters" "Connector*:*_1x??-1MP* 0_Conn*:*_1x??-1MP*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
