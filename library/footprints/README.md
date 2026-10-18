@@ -36,4 +36,28 @@ library/
     └── 0_TestPoint.pretty/
 ```
 
-See [FOOTPRINTS_DIRECTORY.md](../../FOOTPRINTS_DIRECTORY.md) for the full footprint index and [FOOTPRINT_MIGRATION_REPORT.md](../../FOOTPRINT_MIGRATION_REPORT.md) for migration and validation details.
+See [FOOTPRINTS_DIRECTORY.md](../../FOOTPRINTS_DIRECTORY.md) for the full footprint index and [FOOTPRINT_MIGRATION_REPORT.md](../../FOOTPRINT_MIGRATION_REPORT.md) for migration and validation details
+
+## How to naming
+
+### Footprint Directory (.pretty)
+
+- **Library folder:** `0_<Family>.pretty`.
+- `<Family>` is`<Category>[_<Subcategory>]`, for example `Package_QFP`, `Conn_USB`, `Resistor_SMD`.
+
+    0_`<Category>`_`<Subcategory>`.pretty
+    0_`<Component>`.pretty
+
+### Footprint Files (.kicad_mod)
+
+`<Package>`-`<pin_count>`_`<diamension>`_`<pitch>`_`<option>`.kicad_mod
+
+- **Files inside**`.kicad_mod` names, are flexible: keep
+  them as they are and do not rename them to enforce a pattern.
+- `<Package>` : QFN, LQFP, SOT-23, LED
+- `<pin_count>` : 3, 5, 6
+- `<diamension>` : [y.y]x[x.x]mm (for example, 2.5x3mm, 3x3mm, 10x10mm)
+- `<pitch>` : P0.5mm, P0.8mm, P51.27mm, P2.54mm, P5.00mm
+- `<option>` : reference, from Part number (for example, STM32G474,), Logo
+
+Follow KLC-F Guideline
