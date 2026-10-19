@@ -25,7 +25,7 @@ The shared library uses the [KiCad Library Convention](https://klc.kicad.org) (K
 - Rules: [library/KLC/](library/KLC/README.md), one file per KLC rule (general, symbols, footprints, 3D models).
 - Checklist for new items: [library/KLC_CHECKLIST.md](library/KLC_CHECKLIST.md), with rules ranked by priority, script versus human checks, and step-by-step naming.
 - 3D model file: footprint name plus an extra descriptor when one exists, for example `LED_0603_1608Metric_LiteOn_LTST-C190KFKT.step`.
-- The library was renamed to these rules on 2026-10-18. Projects that still use old names can list old and current names with `python -I .claude/skills/hw-link-audit/scripts/rename_map.py .`.
+- The library was renamed to these rules on 2026-10-18. Projects that still use old names can list old and current names with `python -I ~/.claude/skills/kicad-link-audit/scripts/rename_map.py .`.
 
 ## Workflow
 
@@ -37,12 +37,12 @@ The shared library uses the [KiCad Library Convention](https://klc.kicad.org) (K
 
 ## Claude Code skills
 
-Project skills live in .claude/skills/; rules for Claude are in [CLAUDE.md](CLAUDE.md). Global skills run from `~/.claude/skills/` in every project; their sources are in [skills-src/](skills-src/README.md).
+The KiCad skills run globally from `~/.claude/skills/`, in every project; their sources are in [skills-src/](skills-src/README.md), with install steps. Rules for Claude are in [CLAUDE.md](CLAUDE.md).
 
-- kicad-naming (global): proposes and checks KLC names.
-- kicad-lib-organize (global): imports libraries from libDump/ with KLC names, publishes new parts made in a project straight into library/ (without copying them here first), or renames library items to KLC. How to use it: [MANUAL.md](skills-src/kicad-lib-organize/MANUAL.md).
-- hw-link-audit: read-only check of symbol, footprint, 3D and library-table links.
-- hw-footprint-sync, hw-symbol-sync: fix footprint and symbol links and library tables in a project, only when asked.
+- kicad-naming: proposes and checks KLC names.
+- kicad-lib-organize: imports libraries from libDump/ with KLC names, publishes new parts made in a project straight into library/ (without copying them here first), or renames library items to KLC. How to use it: [MANUAL.md](skills-src/kicad-lib-organize/MANUAL.md).
+- kicad-link-audit: read-only check of symbol, footprint, 3D and library-table links.
+- kicad-footprint-sync, kicad-symbol-sync: fix footprint and symbol links and library tables in a project, only when asked.
 
 ## Authority and scope
 

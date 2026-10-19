@@ -1,5 +1,5 @@
 ---
-name: hw-link-audit
+name: kicad-link-audit
 description: >-
   Read-only audit of KiCad library links: symbol Footprint properties and
   ki_fp_filters, footprint 3D model paths, fp-lib-table and sym-lib-table
@@ -25,8 +25,8 @@ datasheet-level check of one part's symbol or footprint (pinout, land pattern)
 is separate work (`component-check`, if installed).
 
 This skill never edits files. Fixes need the engineer's explicit
-authorization; if installed, `hw-footprint-sync` (3D paths, `fp-lib-table`,
-schematic footprint nicknames) and `hw-symbol-sync` (symbol links, filters,
+authorization; if installed, `kicad-footprint-sync` (3D paths, `fp-lib-table`,
+schematic footprint nicknames) and `kicad-symbol-sync` (symbol links, filters,
 `sym-lib-table`) apply them.
 
 ## Run
