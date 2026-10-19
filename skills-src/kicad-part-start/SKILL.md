@@ -30,7 +30,7 @@ A **starting point** is a part's symbol, footprint and 3D model in the project l
    Copy the fitting one (`stock_copy.py fp`). With no fit, propose the KLC name and leave the footprint out.
    Done when one footprint is copied with its fit shown, or reported as not in stock.
 
-4. **3D model.** The stock model path must resolve: check the file under `<KiCad>/share/kicad/3dmodels/`. If it is missing, ask the user for a STEP and its source, save it as `library/3D/<Family>/<footprint name>.step` (`kicad-naming` 3D rule), and point the footprint's model path at `${KIPRJMOD}/library/3D/...`.
+4. **3D model.** The stock model path must resolve: check the file under `<KiCad>/share/kicad/3dmodels/`. If it is missing, ask the user for a STEP and its source, save it as `library/3D/<Family>/<footprint name>.step` (`kicad-naming` 3D rule), and point the footprint's model path at `${KIPRJMOD}/library/3D/...`. A footprint carries one model: when the part needs a different model than another part on the same footprint, copy the footprint under the part maker's name (`Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder3x2y`), change only its name, Value, descr, tags and model path, and link the symbol to the copy.
    Done when the model file resolves, or the missing model is reported.
 
 5. **Symbol.** A stock symbol (`find` lists it) is used when its pins match the datasheet table number by number: `stock_copy.py sym`, after the footprint, so its `Footprint` points at the local copy. List any pin type that differs from the datasheet for the user. Without a stock symbol, write a pin spec JSON (format in the `scripts/make_symbol.py` docstring) and run:
