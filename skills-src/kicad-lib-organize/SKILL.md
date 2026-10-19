@@ -67,7 +67,7 @@ Collisions, checked case-insensitively against the destination:
 6. **Report**:
    - counts moved, renamed, copied and consolidated, plus final library counts;
    - what stays in the staging folder and why (Publish: the DIFFERS, OTHER NAME and PACKED items);
-   - Publish: an `old -> new` list (`nickname:name` and model files) for every item the archive named differently from the project, so `hw-footprint-sync` / `hw-symbol-sync` can update the project when the user asks;
+   - Publish: an `old -> new` list (`nickname:name` and model files) for every item the archive named differently from the project, so `kicad-footprint-sync` / `kicad-symbol-sync` can update the project when the user asks;
    - conflicts, and names built on unconfirmed facts;
    - checks run, with `NOT_VERIFIED` for KiCad GUI loading and 3D rendering;
    - pre-existing Git changes, preserved.
@@ -76,4 +76,4 @@ Collisions, checked case-insensitively against the destination:
 
 ## Never changed
 
-Pins, units, graphics, hidden fields and other symbol properties; footprint pads, geometry and `ki_fp_filters`; model file contents and model transforms (offset, scale, rotate); projects, schematics, PCB files, and fp-lib-table / sym-lib-table (use hw-footprint-sync or hw-symbol-sync for those, when asked).
+Pins, units, graphics, hidden fields and other symbol properties; footprint pads, geometry and `ki_fp_filters`; model file contents and model transforms (offset, scale, rotate); projects, schematics, PCB files, and fp-lib-table / sym-lib-table (use kicad-footprint-sync or kicad-symbol-sync for those, when asked).

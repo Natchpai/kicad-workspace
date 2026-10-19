@@ -75,7 +75,7 @@ Use this when you design parts inside a project, for example `AeroOptix-Horizon/
    | PACKED | A multi-symbol `.kicad_sym` library | Split it first |
 
 3. NEW items are copied into the archive with KLC names. The project is not written; Claude checks this with a hash list before and after.
-4. The report has an `old -> new` list for every part the archive named differently. To make the project use the archive names, ask for `hw-footprint-sync` / `hw-symbol-sync` in the project.
+4. The report has an `old -> new` list for every part the archive named differently. To make the project use the archive names, ask for `kicad-footprint-sync` / `kicad-symbol-sync` in the project.
 
 **Tip:** name parts with `kicad-naming` while you design them in the project ("what should I name this footprint?"). Then most parts publish with no rename.
 
@@ -90,7 +90,7 @@ Claude renames files and internal names, and fixes every symbol `Footprint` prop
 - **Symbols:** pins, units, graphics, and properties other than name, Value and Footprint.
 - **Footprints:** pads, geometry and `ki_fp_filters`.
 - **3D models:** file contents and transforms (offset, scale, rotate).
-- **Projects:** schematics, PCB files, `fp-lib-table` and `sym-lib-table`. Use `hw-footprint-sync` / `hw-symbol-sync` for these.
+- **Projects:** schematics, PCB files, `fp-lib-table` and `sym-lib-table`. Use `kicad-footprint-sync` / `kicad-symbol-sync` for these.
 
 The script checks each edited file: only name, Value, Footprint and model lines may change. Any other change stops it with `UNEXPECTED EDIT`.
 

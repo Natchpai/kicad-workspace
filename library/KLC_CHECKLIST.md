@@ -115,7 +115,7 @@ Use this list when you create a new library item. Work top to bottom.
 | [S3.5](KLC/symbol/S3.5.md) | Pin connection end outside the body outline | - |
 | [S4.6](KLC/symbol/S4.6.md) | List hidden pins; flag hidden pins that are not Not Connected | Decide if a hidden NC pin should be shown |
 | [S4.3](KLC/symbol/S4.3.md) | Pins on the same spot (old workaround); NC pins in a stack | Which pins should be stacked |
-| [S5.1](KLC/symbol/S5.1.md) | Footprint link resolves (`klc_verify.py`, `hw-link-audit`) | - |
+| [S5.1](KLC/symbol/S5.1.md) | Footprint link resolves (`klc_verify.py`, `kicad-link-audit`) | - |
 | [F4.3](KLC/footprint/F4.3.md) | Overlapping copper with different pad numbers | - |
 | [F4.4](KLC/footprint/F4.4.md) | Vias share the EP number; hole 0.2 to 0.3 mm; no paste on vias ≥ 0.3 mm; B.Cu pad present | Via count and pattern from the datasheet |
 | [F6.3](KLC/footprint/F6.3.md) | Pad layers; EP paste 50 to 80%; EP-to-pad clearance ≥ 0.2 mm; heatsink property | Stencil pattern from the datasheet |
@@ -241,4 +241,4 @@ Check the name against the pads: pin count, EP/MP/SH count, pitch and pin layout
 - Rename through the `kicad-lib-organize` map, not by hand.
 - Update every symbol `Footprint` property and 3D path that points to the old name.
 - Refresh the indexes: `SYMBOLS_DIRECTORY.md`, `FOOTPRINTS_DIRECTORY.md`, `3D_DIRECTORY.md` and the README member lists.
-- Projects keep the old name until you sync them (`hw-footprint-sync`, `hw-symbol-sync`).
+- Projects keep the old name until you sync them (`kicad-footprint-sync`, `kicad-symbol-sync`).

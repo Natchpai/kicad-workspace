@@ -1,5 +1,5 @@
 ---
-name: hw-footprint-sync
+name: kicad-footprint-sync
 description: >-
   Align footprint libraries, local 3D model folders and paths, fp-lib-table,
   and schematic footprint nicknames (edits only with approval).
@@ -10,13 +10,13 @@ argument-hint: "[3d | fp-lib-table | schematic-nicknames | all]"
 # Footprint Sync
 
 Footprint scope only. Symbol libraries and `sym-lib-table` are out of scope
-(`hw-symbol-sync` covers them, if installed). Edit only 3D folder names, local model path strings,
+(`kicad-symbol-sync` covers them, if installed). Edit only 3D folder names, local model path strings,
 `fp-lib-table`, and nickname text in schematic Footprint properties; leave
 connectivity, values, net names and geometry unchanged.
 
 Keep the footprint libraries, the local 3D model folders, `fp-lib-table`, and
 schematic Footprint references consistent. List the mismatches first, and
-again after the edits to confirm them: with `hw-link-audit` if installed;
+again after the edits to confirm them: with `kicad-link-audit` if installed;
 otherwise read the `(model ...)` paths, `fp-lib-table` entries and schematic
 Footprint nicknames you will change and compare them with the folders on disk.
 
@@ -104,7 +104,7 @@ are treated as correct.
    the Footprint property, and only when the human asks. Do not alter any other
    field.
 7. **Migrate upstream renames** (only when the reference renamed items). Build
-   the old-to-current map with `hw-link-audit`'s `scripts/rename_map.py` on the
+   the old-to-current map with `kicad-link-audit`'s `scripts/rename_map.py` on the
    reference repo; without that script or Git history, report the mismatches and
    ask. For each old name in use:
    - project library copy: propose refreshing the affected `.pretty` folders and

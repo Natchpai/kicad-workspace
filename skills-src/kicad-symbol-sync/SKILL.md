@@ -1,5 +1,5 @@
 ---
-name: hw-symbol-sync
+name: kicad-symbol-sync
 description: >-
   Split .kicad_sym into .kicad_symdir, align sym-lib-table, and fix symbol
   footprint links and filters (edits only with approval).
@@ -10,7 +10,7 @@ argument-hint: "[split <lib> | sym-lib-table | footprint-links]"
 # Symbol Sync
 
 Symbol scope only. Footprint libraries, 3D models, and `fp-lib-table` are out
-of scope (`hw-footprint-sync` covers them, if installed). Edit only library folders, `sym-lib-table`, and the
+of scope (`kicad-footprint-sync` covers them, if installed). Edit only library folders, `sym-lib-table`, and the
 `Footprint` and `ki_fp_filters` properties; leave pins, graphics and other
 symbol content unchanged.
 
@@ -66,7 +66,7 @@ are treated as correct.
   KLC library name (`0_` + function, sub-function, qualifier, manufacturer,
   series). Wait for the human to choose.
 - **Renamed upstream:** when the reference renamed a symbol or footprint, build
-  the old-to-current map with `hw-link-audit`'s `scripts/rename_map.py` on the
+  the old-to-current map with `kicad-link-audit`'s `scripts/rename_map.py` on the
   reference repo (`LINK old new` lines). Without that script or Git history,
   report the mismatches and ask.
 - If the project's folder name differs from the reference for the same family
@@ -104,7 +104,7 @@ folder (no extra, no missing), with `name` and `uri` matching the folder name
 exactly. Keep empty libraries unless the human says to remove them.
 
 ## Audit symbol footprint links and ki_fp_filters
-Read-only first. If `hw-link-audit` is installed, run it to classify every
+Read-only first. If `kicad-link-audit` is installed, run it to classify every
 symbol's `Footprint` link and `ki_fp_filters` (its tables define the
 categories). If it is not installed or cannot run, read
 the `Footprint` and `ki_fp_filters` properties of every
