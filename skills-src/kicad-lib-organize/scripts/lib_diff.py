@@ -10,11 +10,12 @@ Each item is one of:
   IDENTICAL        same name in the archive, same content (line endings ignored): nothing to do
   DIFFERS          same name in the archive, different content: report, never overwrite
   OTHER NAME       not found by name, but the archive has the same content under another name
-                   (name, Value, Footprint and model lines ignored; model bytes for models):
+                   (name, Value, Footprint and model lines ignored; whole file for models):
                    usually the archive renamed it
   NEW              not in the archive: a map candidate
   PACKED           multi-symbol .kicad_sym library: split it into a .kicad_symdir first
-Names are matched case-insensitively and across families. For NEW items the Footprint link (symbols)
+Names are matched case-insensitively and across families. Line endings are ignored everywhere, models
+included: STEP and WRL are text, and Git with eol=lf stores them with LF while project copies may be CRLF. For NEW items the Footprint link (symbols)
 and model paths (footprints) are printed, to build the map from.
 """
 import hashlib, os, re, sys
@@ -57,8 +58,8 @@ def text(p):
 
 
 def body_hash(p, kind):
-    if kind == 'model':
-        return hashlib.sha256(raw(p)).hexdigest()
+    if kind == 'model':  # STEP and WRL are text; Git may store them with LF, so ignore line endings
+        return hashlib.sha256(text(p)).hexdigest()
     return hashlib.sha256(b'\n'.join(l for l in text(p).split(b'\n') if not NAME_LINE.match(l))).hexdigest()
 
 
@@ -86,7 +87,7 @@ for kind in ('sym', 'fp', 'model'):
         rel = os.path.relpath(p, SRC)
         hits = by_name.get(name.lower(), [])
         if hits:
-            same = [h for h in hits if (raw(h[1]) if kind == 'model' else text(h[1])) == (raw(p) if kind == 'model' else text(p))]
+            same = [h for h in hits if text(h[1]) == text(p)]
             if same:
                 note = '' if any(h[0] == fam for h in same) else f'archive family {same[0][0]}'
                 rows['IDENTICAL'].append((kind, rel, note))
