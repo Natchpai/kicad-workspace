@@ -1,6 +1,6 @@
 ---
 name: kicad-lib-organize
-description: Import KiCad symbols, footprints and 3D models from a staging folder (libDump/) into a local library tree's families with KLC names, publish a project's new parts into the archive library, or rename existing library items to KLC. Use when the user asks to categorize, organize or import a library from another project, to publish or archive new parts made in a project, or to KLC-rename library files. Keeps Footprint links and 3D paths working; never overwrites differing items.
+description: Import KiCad symbols, footprints and 3D models from a staging folder (libDump/) into a local library tree's families with KLC names, publish a project's new parts into the archive library, rename existing library items to KLC, or copy a stock KiCad symbol or footprint into a local 0_ library. Use when the user asks to categorize, organize or import a library from another project, to publish or archive new parts made in a project, to KLC-rename library files, or to add a part the stock KiCad library already has. Keeps Footprint links and 3D paths working; never overwrites differing items.
 ---
 
 # KiCad Library Organize
@@ -13,7 +13,9 @@ Three branches share one procedure:
 - **Publish**: the source is a project's own library folder; the destination is the archive library repo. Only parts the archive does not have yet go over, as KLC-named **copies** (`--copy`); nothing in the project is written. Ask for the archive path (and the project library path, when not running in that project); never write either path into a file. Pass the archive as `--root` to both scripts. It works from either session, the project's or the archive's.
 - **Rename**: the source is the library folder itself, when the user asks to rename existing items to KLC.
 
-A direct request to import, publish, categorize or rename authorizes the moves, copies and renames below. Finish the run without pausing for approval of routine items; leave conflicts and uncertain items as described and report them.
+A fourth branch, **Stock copy**, takes parts from KiCad's own library with their stock names and content. It has its own steps in [STOCK.md](STOCK.md); the map and steps below do not apply to it.
+
+A direct request to import, publish, categorize, rename or copy from stock authorizes the moves, copies and renames below. Finish the run without pausing for approval of routine items; leave conflicts and uncertain items as described and report them.
 
 ## Authority
 
@@ -40,7 +42,7 @@ Collisions, checked case-insensitively against the destination:
 
 ## Steps
 
-1. **Inspect.** Check `git status` (for Publish, in the archive repo). For an import, inventory the staging folder by type and source library, and skip project files. For Publish, run the read-only `python -I <skill dir>/scripts/lib_diff.py <project library> --root <archive>`: it sorts every item into IDENTICAL, DIFFERS, OTHER NAME (the archive holds the same content under another name, usually a rename), NEW and PACKED. Only NEW items go on; the others are reported. Split packed multi-symbol `.kicad_sym` libraries into `.kicad_symdir` first (`kicad-cli sym upgrade --force -o <name>.kicad_symdir <lib>.kicad_sym`). Read each symbol's `Footprint` property and each footprint's `(model ...)` paths.
+1. **Inspect.** Check `git status` (for Publish, in the archive repo). For an import, inventory the staging folder by type and source library, and skip project files. For Publish, run the read-only `python -I <skill dir>/scripts/lib_diff.py <project library> --root <archive>`: it sorts every item into IDENTICAL, DIFFERS, OTHER NAME (the archive holds the same content under another name, usually a rename), NEW and PACKED. Only NEW items go on; the others are reported. Split packed multi-symbol `.kicad_sym` libraries into `.kicad_symdir` first (create the empty `<name>.kicad_symdir` folder, then `kicad-cli sym upgrade --force -o <name>.kicad_symdir <lib>.kicad_sym`; without the folder, kicad-cli writes one packed file under that name). Read each symbol's `Footprint` property and each footprint's `(model ...)` paths.
    Done when every source file is listed as symbol, footprint, model or other, and every footprint-to-model and symbol-to-footprint reference is known.
 
 2. **Build the map**, using the rules above.
@@ -76,4 +78,4 @@ Collisions, checked case-insensitively against the destination:
 
 ## Never changed
 
-Pins, units, graphics, hidden fields and other symbol properties; footprint pads, geometry and `ki_fp_filters`; model file contents and model transforms (offset, scale, rotate); projects, schematics, PCB files, and fp-lib-table / sym-lib-table (use kicad-footprint-sync or kicad-symbol-sync for those, when asked).
+Pins, units, graphics, hidden fields and other symbol properties; footprint pads, geometry and `ki_fp_filters`; model file contents and model transforms (offset, scale, rotate); projects, schematics, PCB files, and fp-lib-table / sym-lib-table (use kicad-footprint-sync or kicad-symbol-sync for those, when asked). The one table edit is Stock copy's new-family line (STOCK.md step 4).

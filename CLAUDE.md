@@ -101,10 +101,11 @@ Vendor model and library redistribution terms may be unchecked. Before publishin
 
 ## Skills
 
-All five KiCad skills run globally from `~/.claude/skills/`; their Git sources are in skills-src/, which Claude does not load. This repo and the projects keep no local copies. Edit a skill in skills-src/, then copy it over the global folder (skills-src/README.md).
+All six KiCad skills run globally from `~/.claude/skills/`; their Git sources are in skills-src/, which Claude does not load. This repo and the projects keep no local copies. Edit a skill in skills-src/, then copy it over the global folder (skills-src/README.md).
 
 - kicad-naming: proposes and checks KLC names; the naming authority for every other skill.
-- kicad-lib-organize: imports from libDump/ into library families with KLC names, publishes a project's new parts into this library (copies only; the project is not written), or KLC-renames existing items. Map-driven, with bundled diff, apply and verify scripts. User manual: skills-src/kicad-lib-organize/MANUAL.md.
+- kicad-lib-organize: imports from libDump/ into library families with KLC names, publishes a project's new parts into this library (copies only; the project is not written), KLC-renames existing items, or copies stock KiCad symbols and footprints unchanged (stock_copy.py). Map-driven, with bundled diff, apply and verify scripts. User manual: skills-src/kicad-lib-organize/MANUAL.md.
+- kicad-part-start: makes a new part's starting point in a project library: stock symbol, footprint and 3D model when they fit the datasheet, else a first-cut symbol from a pin spec (make_symbol.py), plus lib-table lines. Datasheet tables come through NotebookLM.
 - kicad-link-audit: read-only audit of symbol Footprint properties, 3D paths, library tables, and schematic nicknames.
 - kicad-footprint-sync and kicad-symbol-sync: user-invoked only (`disable-model-invocation`). They handle separately requested 3D/footprint and symbol/footprint synchronization.
 
