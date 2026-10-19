@@ -64,7 +64,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "SMB DO-214AA"
+		(property "ki_fp_filters" "D*SMB*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
