@@ -1,6 +1,6 @@
 ---
 name: kicad-part-start
-description: Make the starting point for a new part (MPN) in a KiCad project library: stock KiCad symbol, footprint and 3D model copied in when they fit the datasheet, else a first-cut symbol drawn from the datasheet pin table in NotebookLM. Use when the user asks for a part's starting point, or to add a new part, symbol or footprint to a project library.
+description: Make the starting point for a new part (MPN) in a KiCad project library, stock KiCad symbol, footprint and 3D model copied in when they fit the datasheet, else a first-cut symbol drawn from the datasheet pin table in NotebookLM. Use when the user asks for a part's starting point, or to add a new part, symbol or footprint to a project library.
 ---
 
 # KiCad part starting point
@@ -49,7 +49,7 @@ A **starting point** is a part's symbol, footprint and 3D model in the project l
 7. **Verify.**
    - `python -I <kicad-lib-organize dir>/scripts/klc_verify.py` prints `all checks passed`.
    - kicad-cli parses the symbol (`sym export svg`) and footprint (`fp export svg --fp <name>`), output in the scratchpad.
-   - `python -I <kicad-link-audit dir>/scripts/audit_links.py .` shows no new issue. It prints only problems and does not check stock model paths (step 4 does).
+   - `python -I <kicad-link-audit dir>/scripts/audit_links.py .` shows no new issue. It prints only problems and does not check stock model paths (step 4 does). Report issues that were there before; the user can run `/kicad-footprint-sync` or `/kicad-symbol-sync` to fix them.
    Done when every check passes, or each failure is reported with its path.
 
 8. **Report**: the written files; the footprint fit; each datasheet value with its label; the human checks (pin 1 and mirroring against the datasheet figure, lifecycle status, land-pattern notes, symbol style); that KiCad needs the project reopened, or the lib tables reloaded, to see a new family; `NOT_VERIFIED` for KiCad GUI loading and 3D rendering.
