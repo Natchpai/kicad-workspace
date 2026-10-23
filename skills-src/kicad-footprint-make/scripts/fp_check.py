@@ -533,7 +533,7 @@ def checks(fp, stencil, crt_req):
             f'{" +%d paste apertures" % sq.count("paste") if "paste" in sq else ""}'
             ' (use roundrect, ratio 0.1 to 0.25)')
     else:
-        say('PASS', 'no square pad corners')
+        say('PASS', 'no square pad corners (exposed and B.Cu pads may stay square)')
     say('PASS' if fp.value_hidden else 'WARN',
         'Value property hidden' if fp.value_hidden else 'Value property visible (set hide yes)')
 
@@ -713,29 +713,51 @@ def compare(a, b, tol):
         return tuple(sorted(round(v, 3) for v in k[2:]))
 
     def pair(la, lb, what, fmt, keyf, name=''):
-        """Match by nearest position; note differences; return matched pairs."""
+        """Match closest pairs first (over both lists, so one extra item does not shift the
+        rest). Vias, holes and paste more than 1 mm from any partner are reported as only in
+        one footprint; pads with the same number are paired at any distance."""
         la = sorted(la, key=keyf)
         lb = sorted(lb, key=keyf)
-        used, pairs = set(), []
-        for x in la:
-            best = None
-            for j, y in enumerate(lb):
-                if j in used:
-                    continue
-                d = math.hypot(*(u - v for u, v in zip(keyf(x)[:2], keyf(y)[:2])))
-                if best is None or d < best[0]:
-                    best = (d, j)
-            if best is None:
-                note(what, name, ('only', a.label, shape(keyf(x))), f'{fmt(x)} only in {a.label}')
+        grid = {}
+        for j, y in enumerate(lb):
+            grid.setdefault((math.floor(keyf(y)[0]), math.floor(keyf(y)[1])), []).append(j)
+        cand = []
+        for i, x in enumerate(la):
+            kx = keyf(x)
+            cx, cy = math.floor(kx[0]), math.floor(kx[1])
+            for gx in (cx - 1, cx, cx + 1):
+                for gy in (cy - 1, cy, cy + 1):
+                    for j in grid.get((gx, gy), ()):
+                        ky = keyf(lb[j])
+                        d = math.hypot(kx[0] - ky[0], kx[1] - ky[1])
+                        if d <= 1.0:
+                            size = sum(abs(u - v) for u, v in zip(kx[2:], ky[2:]))
+                            cand.append((round(d, 6), size, i, j))
+        cand.sort()
+        if name:   # same pad number: leftovers are the same pad, however far it moved
+            far = []
+            for i, x in enumerate(la):
+                for j, y in enumerate(lb):
+                    d = math.hypot(keyf(x)[0] - keyf(y)[0], keyf(x)[1] - keyf(y)[1])
+                    if d > 1.0:
+                        far.append((round(d, 6), 0, i, j))
+            cand += sorted(far)
+        ua, ub, pairs = set(), set(), []
+        for d, _, i, j in cand:
+            if i in ua or j in ub:
                 continue
-            y = lb[best[1]]
-            used.add(best[1])
+            ua.add(i)
+            ub.add(j)
+            x, y = la[i], lb[j]
             pairs.append((x, y))
             if not all(same(u, v) for u, v in zip(keyf(x), keyf(y))):
-                note(what, name, (shape(keyf(x)), shape(keyf(y)), round(best[0], 3)),
+                note(what, name, (shape(keyf(x)), shape(keyf(y)), round(d, 3)),
                      f'{a.label} {fmt(x)} / {b.label} {fmt(y)}')
+        for i, x in enumerate(la):
+            if i not in ua:
+                note(what, name, ('only', a.label, shape(keyf(x))), f'{fmt(x)} only in {a.label}')
         for j, y in enumerate(lb):
-            if j not in used:
+            if j not in ub:
                 note(what, name, ('only', b.label, shape(keyf(y))), f'{fmt(y)} only in {b.label}')
         return pairs
 
