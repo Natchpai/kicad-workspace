@@ -608,7 +608,7 @@
 		(uuid "efeda22a-3209-4d03-986c-19b221dce838")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Package_SON/Texas_VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_UCC27282DRCR.step"
+	(model "${KIPRJMOD}/library/3D/Package_SON/Texas_VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias.step"
 		(offset
 			(xyz 0 0 0)
 		)

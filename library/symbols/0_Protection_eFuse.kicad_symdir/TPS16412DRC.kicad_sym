@@ -30,7 +30,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "0_Package_SON:Texas_DRC0010J_ThermalVias"
+		(property "Footprint" "0_Package_SON:Texas_VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias"
 			(at 0 -17.78 0)
 			(show_name no)
 			(do_not_autoplace no)

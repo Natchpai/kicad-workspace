@@ -1,6 +1,6 @@
 # Footprint Libraries
 
-The shared footprint libraries use family-based `0_*.pretty` names. There are 31 libraries containing 130 footprints.
+The shared footprint libraries use family-based `0_*.pretty` names. There are 31 libraries containing 129 footprints.
 
 ```text
 library/

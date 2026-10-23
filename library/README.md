@@ -5,7 +5,7 @@ Reusable KiCad libraries collected from earlier projects, merged into one layout
 | Directory | Contents | Count |
 |---|---|---|
 | `symbols/` | `0_<Family>.kicad_symdir/`, one `.kicad_sym` per symbol | 38 libraries, 96 symbols |
-| `footprints/` | `0_<Family>.pretty/` | 31 libraries, 130 footprints |
+| `footprints/` | `0_<Family>.pretty/` | 31 libraries, 129 footprints |
 | `3D/` | `<Name>/` with `.step` models | 24 folders, 81 models |
 | `_extras/` | Files that are not libraries (zip, csv pin maps) | 5 files |
 
