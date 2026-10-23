@@ -2,7 +2,7 @@
 
 3D models are stored in 3D/. Folder names match the associated footprint family without the 0_ prefix. A model file is named after its footprint, plus an extra descriptor when one exists (vendor MPN, color, cable, state), with a `.step` extension. Models not used by any footprint keep their part-number names.
 
-Inventory: 24 folders, 81 models.
+Inventory: 24 folders, 80 models.
 
 - **Capacitor_SMD** (4) — CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm_35SVPK47M.step, CP_Elec_Wuerth_WCAP-ASLI_5x5mm_H5.5mm_86508xx4200x.step, CP_Elec_Wuerth_WCAP-ASLI_6.3x6.3mm_H5.5mm_865080543009.step, GRM155R71H104KE14D.step
 - **Conn_AMASS** (2) — AMASS_XT60PW-F_1x02_P7.20mm_Horizontal.step, AMASS_XT60PW-M_1x02_P7.20mm_Horizontal.step
@@ -24,7 +24,7 @@ Inventory: 24 folders, 81 models.
 - **Package_LGA** (1) — Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder3x2y.step
 - **Package_QFP** (1) — LQFP-100_14x14mm_P0.5mm_ST-Logo.step
 - **Package_SO** (1) — Allegro_LZ_SOIC-6_3.9x4.9mm_P1.27mm_ACS37030LLZATR-040B3.step
-- **Package_SON** (7) — infineon-PG-TSON-8-5-package.step, Infineon_PG-TSDSON-8-26_3.3x3.3mm_PG-TSDSON-8-32.step, Infineon_PG-TSON-8-4_3.3x3.3mm_PG-TSDSON-8-32.step, Texas_VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias.step, UCC27282-DRC0010J_Ti.step, VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias.step, VSON-8-1EP_3x3mm_P0.65mm_EP1.5x1.75mm_ThermalVias_DRV8601DRBT.step
+- **Package_SON** (6) — infineon-PG-TSON-8-5-package.step, Infineon_PG-TSDSON-8-26_3.3x3.3mm_PG-TSDSON-8-32.step, Infineon_PG-TSON-8-4_3.3x3.3mm_PG-TSDSON-8-32.step, Texas_VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias.step, UCC27282-DRC0010J_Ti.step, VSON-8-1EP_3x3mm_P0.65mm_EP1.5x1.75mm_ThermalVias_DRV8601DRBT.step
 - **Package_TO_SOT_SMD** (3) — DCK0006A.step, LM66100DCKR.step, SOT-523.step
 - **Resistor_SMD** (4) — R_1206_3216Metric_Yageo_AC1206FR-7W1KL.step, R_Shunt_Stackpole_CSNL2010_5025Metric_R002.step, R_Shunt_Yageo_PA2010_5025Metric_R001-R003_Stackpole_CSNL2010.step, R_Shunt_Yageo_PA2512_6332Metric_R005-R006_PA2512FKE7W0R005E.step
 - **Switch** (3) — SW_Push_SPST_NO_CK_PTS815_4.2x3.2mm_H2.5mm_PTS815SJM250SMTRLFS.step, SW_Push_SPST_NO_SameSky_TS06-667-34_6x6.7mm_H3.4mm_Red.step, SW_Push_SPST_NO_SameSky_TS09-63-25_6.1x3.7mm_H2.5mm_Red.step
