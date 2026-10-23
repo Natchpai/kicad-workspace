@@ -1,4 +1,4 @@
-(footprint "VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm"
+(footprint "Texas_VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias"
 	(version 20260206)
 	(generator "pcbnew")
 	(generator_version "10.0")
@@ -313,14 +313,14 @@
 		(uuid "6ca7af67-9d2a-43c1-b64d-a9bdfa736d1c")
 	)
 	(fp_line
-		(start -2.42 -1.95)
+		(start -1.95 -1.95)
 		(end 1.95 -1.95)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "005cb041-8214-5efe-86a3-bb48c876858e")
+		(uuid "72af6091-2775-58b0-a361-a6197d2e4079")
 	)
 	(fp_line
 		(start 1.95 -1.95)
@@ -330,27 +330,27 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "960b9866-a45c-59cb-999a-fc27d3494f4a")
+		(uuid "9a4759f1-2639-5896-ae98-1740380dbfbe")
 	)
 	(fp_line
 		(start 1.95 1.95)
-		(end -2.42 1.95)
+		(end -1.95 1.95)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "c7362678-246d-57a2-9e04-6ca5b825fa5a")
+		(uuid "47e9cb32-d845-5dd6-8eb5-a84211ce89a8")
 	)
 	(fp_line
-		(start -2.42 1.95)
-		(end -2.42 -1.95)
+		(start -1.95 1.95)
+		(end -1.95 -1.95)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "226158d4-d79a-5c94-bddb-edceda5c3a0b")
+		(uuid "672317cb-9ae6-528d-97da-247734b39a30")
 	)
 	(fp_line
 		(start -1.5 -1.5)
@@ -486,7 +486,7 @@
 	)
 	(pad "11" thru_hole circle
 		(at -0.55 0 180)
-		(size 0.4 0.4)
+		(size 0.5 0.5)
 		(drill 0.3)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -579,7 +579,7 @@
 	)
 	(pad "11" thru_hole circle
 		(at 0 -0.875 180)
-		(size 0.4 0.4)
+		(size 0.5 0.5)
 		(drill 0.3)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -589,7 +589,7 @@
 	)
 	(pad "11" thru_hole circle
 		(at 0 0.875 180)
-		(size 0.4 0.4)
+		(size 0.5 0.5)
 		(drill 0.3)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -599,7 +599,7 @@
 	)
 	(pad "11" thru_hole circle
 		(at 0.55 0 180)
-		(size 0.4 0.4)
+		(size 0.5 0.5)
 		(drill 0.3)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -608,7 +608,7 @@
 		(uuid "efeda22a-3209-4d03-986c-19b221dce838")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/library/3D/Package_SON/VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_Via0.4mm_UCC27282DRCR.step"
+	(model "${KIPRJMOD}/library/3D/Package_SON/Texas_VSON-10-1EP_3x3mm_P0.5mm_EP1.65x2.4mm_ThermalVias_UCC27282DRCR.step"
 		(offset
 			(xyz 0 0 0)
 		)
