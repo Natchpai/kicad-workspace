@@ -19,6 +19,7 @@
 	(property "Value" "SW_Push_SPST_NO_Alps_SKRK"
 		(at 0 2.5 0)
 		(layer "F.Fab")
+		(hide yes)
 		(uuid "4fba72cf-c7df-4283-9917-4850a5b888d8")
 		(effects
 			(font

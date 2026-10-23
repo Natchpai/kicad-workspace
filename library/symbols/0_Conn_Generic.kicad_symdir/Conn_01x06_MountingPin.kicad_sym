@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Value" "Conn_01x06_Shield_Mounting"
+		(property "Value" "Conn_01x06_MountingPin"
 			(at 16.51 -2.54 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -87,24 +87,10 @@
 				)
 			)
 		)
-		(symbol "Conn_01x06_MountingPin_0_1"
-			(polyline
-				(pts
-					(xy -1.27 -10.16) (xy 3.81 -10.16)
-				)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-		)
 		(symbol "Conn_01x06_MountingPin_1_1"
 			(rectangle
-				(start -1.27 6.35)
-				(end 3.81 -8.89)
+				(start -2.54 6.35)
+				(end 2.54 -10.16)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -114,8 +100,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 5.08)
-				(end 0 4.826)
+				(start -2.54 5.08)
+				(end -1.27 4.826)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -125,8 +111,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 2.667)
-				(end 0 2.413)
+				(start -2.54 2.667)
+				(end -1.27 2.413)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -136,8 +122,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 0.127)
-				(end 0 -0.127)
+				(start -2.54 0.127)
+				(end -1.27 -0.127)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -147,8 +133,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 -2.413)
-				(end 0 -2.667)
+				(start -2.54 -2.413)
+				(end -1.27 -2.667)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -158,8 +144,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 -4.953)
-				(end 0 -5.207)
+				(start -2.54 -4.953)
+				(end -1.27 -5.207)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -169,8 +155,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 -7.493)
-				(end 0 -7.747)
+				(start -2.54 -7.493)
+				(end -1.27 -7.747)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -181,7 +167,7 @@
 			)
 			(pin passive line
 				(at -5.08 5.08 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_1"
 					(effects
 						(font
@@ -199,7 +185,7 @@
 			)
 			(pin passive line
 				(at -5.08 2.54 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_2"
 					(effects
 						(font
@@ -217,7 +203,7 @@
 			)
 			(pin passive line
 				(at -5.08 0 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_3"
 					(effects
 						(font
@@ -235,7 +221,7 @@
 			)
 			(pin passive line
 				(at -5.08 -2.54 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_4"
 					(effects
 						(font
@@ -253,7 +239,7 @@
 			)
 			(pin passive line
 				(at -5.08 -5.08 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_5"
 					(effects
 						(font
@@ -271,7 +257,7 @@
 			)
 			(pin passive line
 				(at -5.08 -7.62 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_6"
 					(effects
 						(font
@@ -288,8 +274,8 @@
 				)
 			)
 			(pin passive line
-				(at 1.27 -13.97 90)
-				(length 3.81)
+				(at 0 -12.7 90)
+				(length 2.54)
 				(name "MountPin"
 					(effects
 						(font

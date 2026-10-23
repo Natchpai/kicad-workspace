@@ -103,8 +103,8 @@
 		)
 		(symbol "Conn_01x02_MountingPin_1_1"
 			(rectangle
-				(start -1.27 1.27)
-				(end 3.81 -3.81)
+				(start -2.54 1.27)
+				(end 2.54 -5.08)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -114,8 +114,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 0.127)
-				(end 0 -0.127)
+				(start -2.54 0.127)
+				(end -1.27 -0.127)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -125,8 +125,8 @@
 				)
 			)
 			(rectangle
-				(start -1.27 -2.413)
-				(end 0 -2.667)
+				(start -2.54 -2.413)
+				(end -1.27 -2.667)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -137,7 +137,7 @@
 			)
 			(pin passive line
 				(at -5.08 0 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_1"
 					(effects
 						(font
@@ -155,7 +155,7 @@
 			)
 			(pin passive line
 				(at -5.08 -2.54 0)
-				(length 3.81)
+				(length 2.54)
 				(name "Pin_2"
 					(effects
 						(font
@@ -172,8 +172,8 @@
 				)
 			)
 			(pin passive line
-				(at 1.27 -8.89 90)
-				(length 3.81)
+				(at 0 -7.62 90)
+				(length 2.54)
 				(name "MP"
 					(effects
 						(font
