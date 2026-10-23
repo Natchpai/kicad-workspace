@@ -52,6 +52,7 @@ The KiCad skills run globally from `~/.claude/skills/`, in every project; their 
 
 - kicad-naming: proposes and checks KLC names.
 - kicad-lib-organize: imports libraries from libDump/ with KLC names, publishes new parts made in a project straight into library/ (without copying them here first), or renames library items to KLC. How to use it: [MANUAL.md](skills-src/kicad-lib-organize/MANUAL.md).
+- kicad-footprint-make: draws a footprint from datasheet land-pattern and stencil values, and checks footprints against them.
 - kicad-link-audit: read-only check of symbol, footprint, 3D and library-table links.
 - kicad-footprint-sync, kicad-symbol-sync: fix footprint and symbol links and library tables in a project, only when asked.
 
