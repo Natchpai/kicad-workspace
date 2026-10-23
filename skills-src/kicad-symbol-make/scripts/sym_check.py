@@ -391,10 +391,6 @@ def checks(sym):
             b = sym.unit_box(p['unit'])
             if b and not (b[0] - EPS <= p['x'] <= b[1] + EPS and b[2] - EPS <= p['y'] <= b[3] + EPS):
                 add('INFO', 'S4.6', f'hidden NC pin {p["number"]}: end outside the body outline')
-    shown_nc = [p['number'] for p in vis if p['type'] == 'no_connect']
-    if shown_nc:
-        add('INFO', 'S4.6', f'visible no_connect pins {compress(shown_nc)}: KLC hides them unless the datasheet '
-                            'expects a connection')
     # S4.7 active low
     marks = [p['name'] for p in pins if any(re.match(pat, p['name']) for pat in ACTIVE_LOW)]
     if marks:
@@ -503,12 +499,23 @@ def dump(sym, path):
         pos = -p['y'] if s in ('left', 'right') else p['x']
         return (p['unit'], order[s], pos)
 
+    # make_symbol.py needs units from 1 and hides only no_connect pins (KLC S4.6). Shared unit-0 pins
+    # of a multi-unit symbol go to a new last unit; other hidden pins (the old stacking workaround) are
+    # written with an empty side, so auto grouping places them.
+    last = max(sym.units) + 1
+    unit0 = multi and any(p['unit'] == 0 for p in sym.pins)
+    unhidden = []
     with open(path, 'w', encoding='utf-8', newline='') as fh:
         w = csv.writer(fh, lineterminator='\n')
         w.writerow(['number', 'name', 'type', 'unit', 'side', 'alt', 'shape'])
         for p in sorted(sym.pins, key=key):
             num = p['nums'][0] if len(p['nums']) == 1 else '[' + ','.join(p['nums']) + ']'
-            w.writerow([num, p['name'], p['type'], p['unit'] if multi else '', sym.side(p),
+            side = sym.side(p)
+            if side == 'hidden' and p['type'] != 'no_connect':
+                side = ''
+                unhidden.append(num)
+            unit = (last if p['unit'] == 0 else p['unit']) if multi else ''
+            w.writerow([num, p['name'], p['type'], unit, side,
                         '|'.join(f'{n}:{t}' for n, t in p['alts']), '' if p['shape'] == 'line' else p['shape']])
     lens = sorted({p['length'] for p in sym.pins if not p['hide']})
     pr = {k: v['value'] for k, v in sym.props.items()}
@@ -521,8 +528,10 @@ def dump(sym, path):
         lay['fp_filters'] = pr['ki_fp_filters'].split()
     if lens and 2.54 - EPS <= lens[-1] <= 7.62 + EPS and abs(lens[-1] / 1.27 - round(lens[-1] / 1.27)) < EPS:
         lay['pin_length'] = lens[-1]
-    if sym.unit_names:
+    if sym.unit_names or unit0:
         lay['units'] = {str(k): v for k, v in sym.unit_names.items()}
+        if unit0:
+            lay['units'].setdefault(str(last), 'PWR')
     if multi and 'ki_locked' not in sym.props:
         lay['interchangeable'] = True
     stem = os.path.splitext(path)[0]
@@ -530,6 +539,11 @@ def dump(sym, path):
         json.dump(lay, fh, indent=1, ensure_ascii=False)
         fh.write('\n')
     print(f'dumped {path} and {stem}.layout.json')
+    if unhidden:
+        print(f'NOTE hidden pins that are not no_connect written with an empty side: {compress(unhidden)}; '
+              'set "stack": true in the layout to stack same-name power pins (S4.3)')
+    if unit0:
+        print(f'NOTE pins shared by all units (unit 0) moved to unit {last}')
 
 
 def scan(path, ref_path):

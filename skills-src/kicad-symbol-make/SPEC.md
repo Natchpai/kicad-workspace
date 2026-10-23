@@ -12,7 +12,7 @@ Header row required. Columns `number`, `name` and `type` are required; `unit`, `
 | `name` | Datasheet name. `nRESET`, `RESET#` and `/RESET` become `~{RESET}` (KLC S4.7; the script prints each rename). Write `~{CS}` for an overbar, `IO_{1}` for a subscript. Empty for an unnamed pin (op-amp output). |
 | `type` | KiCad pin type: `input`, `output`, `bidirectional`, `tri_state`, `passive`, `free`, `unspecified`, `power_in`, `power_out`, `open_collector`, `open_emitter`, `no_connect`. |
 | `unit` | Unit number, 1 to N with no gap. Empty = 1. |
-| `side` | `left`, `right`, `top`, `bottom` or `hidden`. Empty = auto grouping (below). `hidden` is only for `no_connect` pins (KLC S4.6). |
+| `side` | `left`, `right`, `top`, `bottom` or `hidden`. Empty = auto grouping (below). `hidden` is only for `no_connect` pins (KLC S4.6); the body grows until each hidden pin has a grid node inside it. |
 | `alt` | Alternate functions (KLC S4.1): a pin name carries at most two functions in slash form (`SDO/AD0`); more go here, with the primary or strapping function in the name. Names that are one function in several bus modes (`SDA/SDIO/SDI`) may keep the datasheet form; `sym_check` reports them as INFO. Format: `NAME:type` separated by `|` (`USART1_TX:bidirectional|TIM1_CH2:output`). The type defaults to the pin type. |
 | `shape` | KiCad pin shape (`line` default, `inverted`, `clock`, ...). An inverted shape with an overbar name is refused (double inversion, S4.4). |
 
@@ -37,20 +37,20 @@ Supply and ground `power_in`; regulator output and switch node `power_out`; chip
 
 ### Stacks (KLC S4.3)
 
-With `stack` on (default), pins on one unit with the same name and a power type (`power_in`, `power_out`) become one native stack: `GND` on pins 4, 9 and 17 is written once as `[4,9,17]`. Write a stack yourself as `"[2,5,8]"` for other pins the datasheet joins inside the part. Refused: a `no_connect` stack, and a number that is in a stack and also alone.
+With `stack` on (default), pins on one unit with the same name and a power type (`power_in`, `power_out`) become one native stack: `GND` on pins 4, 9 and 17 is written once as `[4,9,17]`. Write a stack yourself as `"[2,5,8]"` for other pins the datasheet joins inside the part. Refused: a `no_connect` stack, and a number that is in a stack and also alone. Same-name power pins whose CSV sides differ stay apart (a NOTE says so); a stack takes the side and the alternates of all its pins.
 
 ### Auto grouping (KLC S4.2)
 
 For pins with an empty `side`, per unit:
-- `no_connect`: hidden (S4.6), connection point inside the body.
 - Ground (`GND*`, `AGND`, `PGND`, `VSS*`, `VEE*`, `V-`, `EP`, `PAD`, typed `power_in` or `passive`): bottom.
 - Other `power_in`: top. In a unit with a `power_out` pin (power conversion), input power goes first on the left instead, and `power_out` first on the right.
 - `output`, `open_collector`, `open_emitter`, `tri_state`, `power_out`: right.
+- `no_connect`: shown, last on the right (house rule; write `side=hidden` to hide one, KLC S4.6).
 - Other `passive` pins (set resistors and capacitors, reserved pins): together on the shorter of left and right (left on a tie).
 - Everything else: left, in file order.
 - MCU (16 or more `P<letter><n>` pins in the unit): ports sorted by letter and number, one empty row between ports, the first ports on the right until it holds half of them, the rest on the left below the control pins.
 
-Write `side` for any pin the auto grouping places badly (bus order per the KiCad library wiki, strapping pins, power-good next to enable).
+Write `side` for any pin the auto grouping places badly (bus order per the KiCad library wiki, strapping pins, power-good next to enable). Pins with a `side` keep their CSV order; the sorts above move only auto-placed pins.
 
 ## layout.json
 

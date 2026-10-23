@@ -96,6 +96,13 @@ def pin_order(placed):
     return (len(nums) > 1, natkey(stack_text(nums)))
 
 
+def sort_auto(lst, key):
+    """Stable sort of the auto-placed pins only; pins with a side from the CSV keep their places."""
+    idx = [i for i, p in enumerate(lst) if p is not None and not p['side']]
+    for i, p in zip(idx, sorted((lst[i] for i in idx), key=key)):
+        lst[i] = p
+
+
 def active_low(name):
     """KLC S4.7: datasheet active-low marks become ~{...}."""
     for pat in (r'^n([A-Z][A-Z0-9_]*)$', r'^([A-Z][A-Z0-9_]*)#$', r'^/([A-Z][A-Z0-9_]*)$'):
@@ -131,9 +138,15 @@ def overlap(a, b):
             a[2] < b[3] + MARGIN and b[2] < a[3] + MARGIN)
 
 
-def layout(left, right, top, bottom):
-    """Body with the smallest area (2.54 mm steps) where no pin names overlap, trying wider and taller
-    bodies. Lists hold pin dicts or None."""
+def inner_nodes(hw, ty, by):
+    """Grid nodes strictly inside the body, top row first."""
+    return [(x * GRID, y * GRID) for y in range(int(round(ty / GRID)) - 1, int(round(by / GRID)), -1)
+            for x in range(int(round(-hw / GRID)) + 1, int(round(hw / GRID)))]
+
+
+def layout(left, right, top, bottom, hidden=0):
+    """Body with the smallest area (2.54 mm steps) where no pin names overlap and `hidden` pins find a
+    grid node inside, trying wider and taller bodies. Lists hold pin dicts or None."""
     rows = max(len(left), len(right))
     y0 = math.floor((rows - 1) / 2) * GRID if rows else 0
     ys = [y0 - i * GRID for i in range(rows)]
@@ -145,7 +158,7 @@ def layout(left, right, top, bottom):
         ty, by = ty0 + extra * GRID, by0 - extra * GRID
         if best and 2 * GRID * (ty - by) >= best[0] - 1e-9:
             break
-        hw = fit(left, right, top, bottom, ys, ty, by, tx, bx)
+        hw = fit(left, right, top, bottom, ys, ty, by, tx, bx, hidden)
         if hw and (best is None or 2 * hw * (ty - by) < best[0] - 1e-9):
             best = (2 * hw * (ty - by), hw, ty, by)
     if best is None:
@@ -154,7 +167,7 @@ def layout(left, right, top, bottom):
     return hw, ty, by, ys, tx, bx
 
 
-def fit(left, right, top, bottom, ys, ty, by, tx, bx):
+def fit(left, right, top, bottom, ys, ty, by, tx, bx, hidden=0):
     """Smallest half width for this body height, or None."""
     for hw in [GRID * k for k in range(1, 81)]:
         boxes = []
@@ -172,7 +185,7 @@ def fit(left, right, top, bottom, ys, ty, by, tx, bx):
                     boxes.append((x - HALF_H, x + HALF_H, y1, y2))
         inside = all(b[0] > -hw and b[1] < hw and b[2] > by and b[3] < ty for b in boxes)
         clear = not any(overlap(a, b) for i, a in enumerate(boxes) for b in boxes[i + 1:])
-        if inside and clear and hw > max([abs(x) for x in tx + bx] + [0]):
+        if inside and clear and hw > max([abs(x) for x in tx + bx] + [0]) and                 len(inner_nodes(hw, ty, by)) >= hidden:
             return hw
     return None
 
@@ -238,7 +251,7 @@ def read_pins(path):
 class Symbol:
     def __init__(self, pins, lay, name):
         self.lay, self.name = lay, name
-        self.notes, self.warns = [], []
+        self.notes, self.warns, self.hidden = [], [], []
         self.pins = [p for p in pins if not p.get('gap')]
         self.gaps = [p for p in pins if p.get('gap')]
         if not self.pins:
@@ -267,11 +280,17 @@ class Symbol:
         for p in self.pins:
             key = (p['unit'], p['name'], p['type'])
             if p['type'] in ('power_in', 'power_out') and p['side'] != 'hidden':
-                if key in seen:
-                    first = seen[key]
+                first = seen.get(key)
+                if first and first['side'] and p['side'] and first['side'] != p['side']:
+                    self.notes.append(f'S4.3 not stacked {p["name"]} {stack_text(p["nums"])}: side {p["side"]} '
+                                      f'differs from {stack_text(first["nums"])} ({first["side"]})')
+                elif first:
                     first['nums'] += p['nums']
+                    first['side'] = first['side'] or p['side']
+                    first['alts'] += [a for a in p['alts'] if a not in first['alts']]
                     continue
-                seen[key] = p
+                else:
+                    seen[key] = p
             out.append(p)
         for p in out:
             if len(p['nums']) > 1 and not p['explicit_stack']:
@@ -315,9 +334,7 @@ class Symbol:
                 if mcu and p in ports:
                     auto_ports.append(p)
                     continue
-                if p['type'] == 'no_connect':   # KLC S4.6: NC pins are hidden unless the side says otherwise
-                    s = 'hidden'
-                elif p['type'] in ('power_in', 'passive') and GROUND.match(shown(p['name'])):
+                if p['type'] in ('power_in', 'passive') and GROUND.match(shown(p['name'])):
                     s = 'bottom'
                 elif p['type'] == 'power_in':
                     s = 'left' if conv else 'top'
@@ -333,9 +350,9 @@ class Symbol:
         sides['right' if len(sides['right']) < len(sides['left']) else 'left'] += passives
         if conv:   # power conversion: input power first on the left, output power first on the right
             for s, t in (('left', 'power_in'), ('right', 'power_out')):
-                sides[s].sort(key=lambda p: 0 if p['type'] == t else 1)
-        for s in ('left', 'right'):   # visible NC pins go last
-            sides[s].sort(key=lambda p: 1 if p['type'] == 'no_connect' else 0)
+                sort_auto(sides[s], lambda p: 0 if p['type'] == t else 1)
+        for s in ('left', 'right'):   # NC pins go last
+            sort_auto(sides[s], lambda p: 1 if p['type'] == 'no_connect' else 0)
         if auto_ports:
             groups = {}
             for p in sorted(auto_ports, key=lambda p: (PORT.match(p['name']).group(1), int(PORT.match(p['name']).group(2)))):
@@ -360,20 +377,17 @@ class Symbol:
 
     def draw_unit(self, unit):
         sides = self.classify(unit)
-        hw, ty, by, ys, tx, bx = layout(sides['left'], sides['right'], sides['top'], sides['bottom'])
+        hidden = sides['hidden']
+        hw, ty, by, ys, tx, bx = layout(sides['left'], sides['right'], sides['top'], sides['bottom'], len(hidden))
         L = self.pin_len
         placed = []
         for side, x, rot in (('left', -hw - L, 0), ('right', hw + L, 180)):
             placed += [(p, x, y, rot, False) for y, p in zip(ys, sides[side]) if p]
         for side, xs, y, rot in (('top', tx, ty + L, 270), ('bottom', bx, by - L, 90)):
             placed += [(p, x, y, rot, False) for x, p in zip(xs, sides[side]) if p]
-        # hidden NC pins: connection point on grid nodes inside the body (KLC S4.6)
-        spots = [(x * GRID, y * GRID) for y in range(int(round(ty / GRID)) - 1, int(round(by / GRID)), -1)
-                 for x in range(int(round(-hw / GRID)) + 1, int(round(hw / GRID)))]
-        hidden = sides['hidden']
-        if len(hidden) > len(spots):
-            raise SpecError(f'unit {unit}: {len(hidden)} hidden pins do not fit inside the body')
-        placed += [(p, x, y, 0, True) for p, (x, y) in zip(hidden, spots)]
+        # hidden NC pins (side=hidden): connection point on grid nodes inside the body (KLC S4.6)
+        placed += [(p, x, y, 0, True) for p, (x, y) in zip(hidden, inner_nodes(hw, ty, by))]
+        self.hidden += [stack_text(p['nums']) for p in hidden]
         return hw, ty, by, placed
 
     def build(self):
@@ -465,13 +479,15 @@ class Symbol:
 
     def summary(self):
         stacks = [stack_text(p['nums']) + ' ' + p['name'] for p in self.pins if len(p['nums']) > 1]
-        hidden = [stack_text(p['nums']) for p in self.pins if p['side'] == 'hidden']
+        shown_nc = [stack_text(p['nums']) for p in self.pins if p['type'] == 'no_connect' and p['side'] != 'hidden']
         lines = [f'pins {self.count} ({len(self.pins)} drawn), units {len(self.units)}, pin length {n(self.pin_len)}',
                  'body ' + ', '.join(f'unit {u} {n(w)} x {n(h)}' for u, (w, h) in self.size.items())]
         if stacks:
             lines.append('stacks: ' + '; '.join(stacks))
-        if hidden:
-            lines.append('hidden NC: ' + ', '.join(hidden))
+        if shown_nc:
+            lines.append('NC shown: ' + ', '.join(shown_nc))
+        if self.hidden:
+            lines.append('hidden NC: ' + ', '.join(self.hidden))
         lines += [f'NOTE {x}' for x in self.notes] + [f'WARN {x}' for x in self.warns]
         return '\n'.join(lines)
 
