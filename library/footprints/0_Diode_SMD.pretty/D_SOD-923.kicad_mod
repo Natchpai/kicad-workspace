@@ -6,7 +6,7 @@
 	(descr "https://www.onsemi.com/pub/Collateral/ESD9B-D.PDF#page=4")
 	(tags "Diode SOD923")
 	(property "Reference" "REF**"
-		(at 0 -1.2 0)
+		(at 0 -1.3 0)
 		(layer "F.SilkS")
 		(uuid "0caaf949-47f5-4d9d-a833-fa6c701b9987")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "D_SOD-923"
-		(at 0 1.2 0)
+		(at 0 1.4 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "8306202f-d925-4113-83a1-953bf29f3096")
@@ -68,124 +68,44 @@
 		(uuid "9cf58f71-3af7-4396-90a9-f58e6be9a429")
 	)
 	(fp_line
-		(start -0.75 -0.28)
-		(end -0.75 0.28)
+		(start -0.98 -0.48)
+		(end 0.78 -0.48)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "5ba73f5f-a727-4e0b-8a62-5bd886f1115f")
+		(uuid "b707c51f-15e7-5f2c-8c24-8301e5747285")
 	)
 	(fp_line
-		(start -0.75 0.28)
-		(end -0.55 0.28)
+		(start 0.78 -0.48)
+		(end 0.78 0.48)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "39c040f6-b152-42f4-97eb-10ae32e82e5e")
+		(uuid "dd5931c9-4ebe-5d66-a5c8-8b64455f404b")
 	)
 	(fp_line
-		(start -0.55 -0.45)
-		(end 0.55 -0.45)
+		(start 0.78 0.48)
+		(end -0.98 0.48)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "6bb71255-0c5d-4559-bb68-2da64b6aece4")
+		(uuid "a5d03926-5b0b-51bb-85d1-4c599d8affae")
 	)
 	(fp_line
-		(start -0.55 -0.28)
-		(end -0.75 -0.28)
+		(start -0.98 0.48)
+		(end -0.98 -0.48)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "613eab69-5a5b-465b-aa5b-2a73c88cdbca")
-	)
-	(fp_line
-		(start -0.55 -0.28)
-		(end -0.55 -0.45)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "0bb59a1f-cdb9-4293-a605-a9da5f661468")
-	)
-	(fp_line
-		(start -0.55 0.45)
-		(end -0.55 0.28)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "8d5162f3-d78c-4384-bafa-d940cc4b1bbd")
-	)
-	(fp_line
-		(start 0.55 -0.45)
-		(end 0.55 -0.28)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "ea1c938d-52b4-46d2-8463-b8864d11c823")
-	)
-	(fp_line
-		(start 0.55 -0.28)
-		(end 0.75 -0.28)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "bb2a8850-990c-4325-89ed-a27bfb34b2d3")
-	)
-	(fp_line
-		(start 0.55 0.28)
-		(end 0.55 0.45)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "87816e73-29e7-4911-9c0f-32b69073d750")
-	)
-	(fp_line
-		(start 0.55 0.45)
-		(end -0.55 0.45)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "75b0986a-8b92-4f8c-9951-9f05e4baabe2")
-	)
-	(fp_line
-		(start 0.75 -0.28)
-		(end 0.75 0.28)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "fff32869-ca60-43b2-8462-78939d331a63")
-	)
-	(fp_line
-		(start 0.75 0.28)
-		(end 0.55 0.28)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "fc930030-0288-4448-bede-be0e8cf0459e")
+		(uuid "1548d12c-49a1-5b9a-a91b-40530b71daf3")
 	)
 	(fp_line
 		(start -0.4 -0.3)
@@ -195,17 +115,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "79a0079d-55de-4bfd-af61-a85b03d8f7b7")
-	)
-	(fp_line
-		(start -0.4 0.3)
-		(end -0.4 -0.3)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "a03d9e71-77db-4007-89fd-ca8a08521efd")
+		(uuid "7f04bf2a-7140-51a9-b608-fa7347317087")
 	)
 	(fp_line
 		(start 0.4 -0.3)
@@ -215,7 +125,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "8a55d595-8d22-4f0d-935f-1b3dc3930baf")
+		(uuid "a5ba8045-760f-5430-8844-b25cac0bbf84")
 	)
 	(fp_line
 		(start 0.4 0.3)
@@ -225,28 +135,37 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "c8e709fa-a9a6-4ebf-86b1-1dfe56e14892")
+		(uuid "7662e563-ed46-590d-98f3-7e2e78403308")
 	)
-	(fp_circle
-		(center -0.6 0)
-		(end -0.55 0)
+	(fp_line
+		(start -0.4 0.3)
+		(end -0.4 -0.3)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
+		(layer "F.Fab")
+		(uuid "b41c1e28-c3b9-54f0-be82-e9fa8294e021")
+	)
+	(fp_circle
+		(center -0.2 -0.1)
+		(end -0.1 -0.1)
+		(stroke
+			(width 0)
+			(type solid)
+		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "c9722b31-851a-43d5-ae43-cf9c167735c1")
+		(uuid "f43693cc-f81d-55fe-93f1-1023c0e005b2")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "6a885b62-50cc-438e-8c47-e1efd14eb418")
+		(uuid "c82d6be7-a8af-5a27-a935-629c9d4154a6")
 		(effects
 			(font
-				(size 0.25 0.15)
-				(thickness 0.03)
-				(bold yes)
+				(size 0.13 0.13)
+				(thickness 0.02)
 			)
 		)
 	)

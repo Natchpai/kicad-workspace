@@ -6,7 +6,7 @@
 	(descr "WLCSP 12 1.56x1.56 https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMM150-DS001-01.pdf")
 	(tags "BMM150 WLCSP")
 	(property "Reference" "REF**"
-		(at 0 -2 0)
+		(at 0 -2.265 0)
 		(layer "F.SilkS")
 		(uuid "58fc5d7f-98c7-4f64-845b-bcbe3582a992")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "WLCSP-12_1.56x1.56mm_P0.4mm"
-		(at 0 2 0)
+		(at 0 1.88 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "b94f1fb8-53d1-40f5-bea9-67aac7d182c3")
@@ -121,7 +121,7 @@
 			(xy -0.88 -0.88) (xy -1.38 -0.88) (xy -0.88 -1.38) (xy -0.88 -0.88)
 		)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
@@ -129,44 +129,44 @@
 		(uuid "01cf7b85-1533-4822-b14d-b5a55b50d5c8")
 	)
 	(fp_line
-		(start -1.03 -1.03)
-		(end -1.03 1.03)
+		(start -1.46 -1.46)
+		(end 1.03 -1.46)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "908a0a98-fc67-401f-80f8-f8b7d2842f07")
+		(uuid "263262bf-36a7-5a91-981f-376c80978156")
 	)
 	(fp_line
-		(start -1.03 -1.03)
-		(end 1.03 -1.03)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "47fd748c-8fde-4c8f-8818-43e2424e3820")
-	)
-	(fp_line
-		(start -1.03 1.03)
+		(start 1.03 -1.46)
 		(end 1.03 1.03)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "dcc5b674-e117-4af6-a6a2-480afb298354")
+		(uuid "78341e7c-383a-5cef-9c17-eb30a13d4e75")
 	)
 	(fp_line
-		(start 1.03 -1.03)
-		(end 1.03 1.03)
+		(start 1.03 1.03)
+		(end -1.46 1.03)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "7f117a62-7d51-4d28-a994-9fc7ff7fb673")
+		(uuid "e5de3821-51d8-5e2e-b3e1-3ada93027245")
+	)
+	(fp_line
+		(start -1.46 1.03)
+		(end -1.46 -1.46)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5a19a39c-d1c8-5122-81dc-0fcb376df89f")
 	)
 	(fp_line
 		(start -0.78 -0.78)
@@ -176,7 +176,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "e8f7e073-8420-5fec-a4fe-34f85f386af3")
+		(uuid "cf703af7-29c2-5e90-a763-a79fa6b77244")
 	)
 	(fp_line
 		(start 0.78 -0.78)
@@ -186,7 +186,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "567e2157-32ac-58bf-b99a-a03f12b380c2")
+		(uuid "75f55c87-da9e-53c8-b4d8-d260afec2bde")
 	)
 	(fp_line
 		(start 0.78 0.78)
@@ -196,7 +196,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "3cdbdde5-c635-5657-8cec-d11db8b950e1")
+		(uuid "24b15554-389a-5f31-a9c6-9fda0a74232f")
 	)
 	(fp_line
 		(start -0.78 0.78)
@@ -206,7 +206,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "8b6f20ff-46e7-5742-aab4-dfc1c4e3b67c")
+		(uuid "0a378d90-a358-5d6c-8107-79d84e345d91")
 	)
 	(fp_circle
 		(center -0.58 -0.58)
@@ -217,16 +217,16 @@
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "6284a7ff-72af-5ea3-91b5-fea190835ea3")
+		(uuid "d282aa12-05ad-5ae7-8475-dc23b9d5bc5b")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "4a7f6db7-31ba-435f-868b-0de016f350d4")
+		(uuid "a0b34f5c-645a-5e1e-ac59-8c59136ef898")
 		(effects
 			(font
-				(size 0.3 0.3)
-				(thickness 0.045)
+				(size 0.26 0.26)
+				(thickness 0.04)
 			)
 		)
 	)

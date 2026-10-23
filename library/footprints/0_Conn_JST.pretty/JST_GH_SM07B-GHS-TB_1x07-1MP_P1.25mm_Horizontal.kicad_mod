@@ -6,7 +6,7 @@
 	(descr "JST GH series connector, SM07B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf), generated with kicad-footprint-generator")
 	(tags "connector JST GH top entry")
 	(property "Reference" "REF**"
-		(at 0 -3.9 0)
+		(at 0 -3.95 0)
 		(layer "F.SilkS")
 		(uuid "55908281-219b-44af-8381-bdbc43a1fadd")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "JST_GH_SM07B-GHS-TB_1x07-1MP_P1.25mm_Horizontal"
-		(at 0 3.9 0)
+		(at 0 4.05 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "35ba7d4f-a1b5-4aca-a4d4-6571de76771b")
@@ -67,8 +67,8 @@
 		(uuid "a3f4cd58-6c94-40db-9a0e-22d67245ed57")
 	)
 	(fp_line
-		(start -6.11 -0.26)
-		(end -6.11 -1.71)
+		(start -6.11 -1.71)
+		(end -6.11 -0.26)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -77,8 +77,8 @@
 		(uuid "81df43c5-99cd-4c67-a386-6a91c78d78fe")
 	)
 	(fp_line
-		(start 6.11 -1.71)
-		(end 4.31 -1.71)
+		(start 4.31 -1.71)
+		(end 6.11 -1.71)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -87,8 +87,8 @@
 		(uuid "b5f5e5e4-901b-4d16-b2be-cbeaa5038655")
 	)
 	(fp_line
-		(start 6.11 -0.26)
-		(end 6.11 -1.71)
+		(start 6.11 -1.71)
+		(end 6.11 -0.26)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -100,7 +100,7 @@
 		(center -4.45 -2.525)
 		(end -4.3 -2.525)
 		(stroke
-			(width 0.1)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
@@ -108,94 +108,44 @@
 		(uuid "cc4470e7-4584-4ee6-a68a-79f7fa57de30")
 	)
 	(fp_line
-		(start -6.6 -2.2)
-		(end -6.6 3.2)
+		(start -6.6 -3.2)
+		(end 6.6 -3.2)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "f15cecd5-cbcc-454e-bc45-4352c85bb733")
+		(uuid "df775c41-60dc-505b-941a-8bfd5a5a6ca2")
 	)
 	(fp_line
-		(start -6.6 -2.2)
-		(end -4.4 -2.2)
-		(stroke
-			(width 0.05)
-			(type default)
-		)
-		(layer "F.CrtYd")
-		(uuid "bcfb1643-6eb7-4891-97bb-da0a6916e329")
-	)
-	(fp_line
-		(start -6.6 3.2)
+		(start 6.6 -3.2)
 		(end 6.6 3.2)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "0eb4a827-d9b3-43fa-9c99-e5c30115a4d6")
-	)
-	(fp_line
-		(start -4.4 -2.2)
-		(end -4.4 -3.2)
-		(stroke
-			(width 0.05)
-			(type default)
-		)
-		(layer "F.CrtYd")
-		(uuid "8c15cafe-e157-4de2-950c-bb3c689fc87a")
-	)
-	(fp_line
-		(start 4.4 -3.2)
-		(end -4.4 -3.2)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "3df8bfd2-6a26-47bb-8de0-35f0086e5a87")
-	)
-	(fp_line
-		(start 4.4 -2.2)
-		(end 4.4 -3.2)
-		(stroke
-			(width 0.05)
-			(type default)
-		)
-		(layer "F.CrtYd")
-		(uuid "fda04ce2-4da1-4697-b771-3de848a86a65")
-	)
-	(fp_line
-		(start 6.6 -2.2)
-		(end 4.4 -2.2)
-		(stroke
-			(width 0.05)
-			(type default)
-		)
-		(layer "F.CrtYd")
-		(uuid "59df668b-768b-49e1-8e79-2e2eb894f641")
+		(uuid "c35892e8-4819-50dd-b47b-a51dc24fbaaf")
 	)
 	(fp_line
 		(start 6.6 3.2)
-		(end 6.6 -2.2)
+		(end -6.6 3.2)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "a063badb-1b5f-40f4-8a5e-af802bbfc342")
+		(uuid "90eb67bf-5c6a-5831-9b5e-984072f30094")
 	)
 	(fp_line
-		(start -6 -1.6)
-		(end -6 2.45)
+		(start -6.6 3.2)
+		(end -6.6 -3.2)
 		(stroke
-			(width 0.1)
+			(width 0.05)
 			(type solid)
 		)
-		(layer "F.Fab")
-		(uuid "8751c533-97de-4d1d-8af7-22844694fbe4")
+		(layer "F.CrtYd")
+		(uuid "5148263c-7d7f-566c-88c2-2376b73df67a")
 	)
 	(fp_line
 		(start -6 -1.6)
@@ -205,17 +155,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "f3d3d259-115b-4265-a7fe-2d19b18bea28")
-	)
-	(fp_line
-		(start -6 2.45)
-		(end 6 2.45)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "cd93aab0-7716-461d-8935-5f28437b6d86")
+		(uuid "de7e403b-4ed8-5da1-a3f5-e22fd4d5fe70")
 	)
 	(fp_line
 		(start 6 -1.6)
@@ -225,27 +165,47 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "a5924c2e-d7f1-4da6-9368-7e09a74d4070")
+		(uuid "7ec4ea1d-da7e-5d36-a633-de91f526a29d")
+	)
+	(fp_line
+		(start 6 2.45)
+		(end -6 2.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f21c7d77-51de-528c-ad15-d4bf940e2fda")
+	)
+	(fp_line
+		(start -6 2.45)
+		(end -6 -1.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c8a7a781-5160-5d78-9401-ac488a914c72")
 	)
 	(fp_circle
-		(center -5.35 -1)
-		(end -5.2 -1)
+		(center -5.7 -1.3)
+		(end -5.5 -1.3)
 		(stroke
-			(width 0.2)
+			(width 0)
 			(type solid)
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "0375d2df-417d-46ca-a60b-2a1adf5e19d9")
+		(uuid "4dd71470-f1b4-54e5-81cd-d24859d8d170")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
+		(at 0 0.425 0)
 		(layer "F.Fab")
-		(uuid "79a45307-da32-4e4f-868e-f895db60fbee")
+		(uuid "98c7fd99-98bd-546a-8c05-38c4ae6019e8")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)

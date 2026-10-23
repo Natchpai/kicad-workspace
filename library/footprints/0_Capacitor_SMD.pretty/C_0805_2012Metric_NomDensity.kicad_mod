@@ -6,7 +6,7 @@
 	(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 	(tags "capacitor")
 	(property "Reference" "REF**"
-		(at 0 -1.68 0)
+		(at 0 -1.73 0)
 		(layer "F.SilkS")
 		(uuid "ccb46c67-5713-494e-9a03-822017d14484")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "C_0805_2012Metric_NomDensity"
-		(at 0 1.68 0)
+		(at 0 1.83 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "6a533b40-1ef0-4db6-b05d-3b77671ebc0f")
@@ -158,36 +158,94 @@
 		(layer "F.Paste")
 		(uuid "c3957207-d4c5-4e3e-9300-744c4b60d32e")
 	)
-	(fp_rect
+	(fp_line
 		(start -1.7 -0.98)
+		(end 1.7 -0.98)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f521600b-7b09-5978-af3c-f2b0f37d45a0")
+	)
+	(fp_line
+		(start 1.7 -0.98)
 		(end 1.7 0.98)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "41e8d7d7-99a6-47f7-aea8-94b46c7c7bbd")
+		(uuid "d70be3c5-af59-5dbc-9b9e-b2463beb0127")
 	)
-	(fp_rect
+	(fp_line
+		(start 1.7 0.98)
+		(end -1.7 0.98)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "89278f00-545e-5a34-96f0-b0d1312eef95")
+	)
+	(fp_line
+		(start -1.7 0.98)
+		(end -1.7 -0.98)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "63618656-c128-5fe0-bdad-48bbddbd047e")
+	)
+	(fp_line
 		(start -1 -0.625)
+		(end 1 -0.625)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "54d26dab-f37f-5cf0-89a6-174a4037acf2")
+	)
+	(fp_line
+		(start 1 -0.625)
 		(end 1 0.625)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "ccc36784-bd5f-459d-b134-1d69efbaaeba")
+		(uuid "550d8853-4b22-5ebf-b624-76c046e184d4")
+	)
+	(fp_line
+		(start 1 0.625)
+		(end -1 0.625)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "d2d2377e-6ab3-5ecb-a08b-15e1886a9bc8")
+	)
+	(fp_line
+		(start -1 0.625)
+		(end -1 -0.625)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "9b2f6e0b-53cb-5d71-a828-b787faa8a7a9")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "4c3e1c86-5e33-4fb4-adcf-b819f7b70ba4")
+		(uuid "66817323-34fb-591f-bdb1-6b63448b040d")
 		(effects
 			(font
-				(size 0.4 0.4)
-				(thickness 0.06)
+				(size 0.34 0.34)
+				(thickness 0.05)
 			)
 		)
 	)

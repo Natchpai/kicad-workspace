@@ -6,7 +6,7 @@
 	(descr "Inductor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 80, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "inductor")
 	(property "Reference" "REF**"
-		(at 0 -1.9 0)
+		(at 0 -2 0)
 		(layer "F.SilkS")
 		(uuid "b8f2c7e1-1cda-4126-9e53-f2846865f737")
 		(effects
@@ -17,8 +17,8 @@
 		)
 	)
 	(property "Value" "L_Chilisin_BDCD00201610"
-		(at 0 1.55 0)
-		(layer "User.1")
+		(at 0 2.1 0)
+		(layer "F.Fab")
 		(hide yes)
 		(uuid "5a53e38b-336b-48f9-915a-272a85757967")
 		(effects
@@ -66,8 +66,8 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -0.15 -1.025)
-		(end 0.15 -1.025)
+		(start -0.075 -1.025)
+		(end 0.075 -1.025)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -76,8 +76,8 @@
 		(uuid "17cea4bf-6a02-493a-81eb-016a6800dcdb")
 	)
 	(fp_line
-		(start -0.15 1.025)
-		(end 0.15 1.025)
+		(start -0.075 1.025)
+		(end 0.075 1.025)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -157,35 +157,93 @@
 		(layer "F.Paste")
 		(uuid "a4b53fa1-49f0-4b6a-b804-2b8e8351c8e9")
 	)
-	(fp_rect
-		(start -1.5 -1.2)
-		(end 1.5 1.2)
+	(fp_line
+		(start -1.6 -1.25)
+		(end 1.6 -1.25)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "68bc6c52-92d7-4702-afab-ee8d2bf3ed20")
+		(uuid "9e4f1f6d-24d5-571c-bd62-a5f6d9263ca4")
 	)
-	(fp_rect
-		(start -1.1 0.9)
+	(fp_line
+		(start 1.6 -1.25)
+		(end 1.6 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "c99e37e0-679b-54c4-862b-d5ae566a44ec")
+	)
+	(fp_line
+		(start 1.6 1.25)
+		(end -1.6 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "c69fd78d-70ab-5b41-94e7-8c34442834c9")
+	)
+	(fp_line
+		(start -1.6 1.25)
+		(end -1.6 -1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "7ed2707c-515c-5716-b8fc-bf1e46aafb8b")
+	)
+	(fp_line
+		(start -1.1 -0.9)
 		(end 1.1 -0.9)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "a4bb32b9-de50-4329-9c4c-305dbabbddfe")
+		(uuid "54d04009-c2b3-512f-8d19-f2fef94687e1")
+	)
+	(fp_line
+		(start 1.1 -0.9)
+		(end 1.1 0.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "7286e10f-88bd-5d67-9117-a82395330b8c")
+	)
+	(fp_line
+		(start 1.1 0.9)
+		(end -1.1 0.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "66066952-3ab6-5ec2-a31c-220bff0348dc")
+	)
+	(fp_line
+		(start -1.1 0.9)
+		(end -1.1 -0.9)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c64afb06-b307-56d8-ace9-184afcfa0584")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 180)
+		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "34b79d4a-49da-4d17-89ba-8dbbed3d8ddf")
+		(uuid "61967e52-171c-523e-baeb-59d778cd3d32")
 		(effects
 			(font
-				(size 0.5 0.45)
+				(size 0.37 0.37)
 				(thickness 0.06)
 			)
 		)

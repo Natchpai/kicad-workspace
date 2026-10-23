@@ -6,7 +6,7 @@
 	(descr "SMD 3x-dip-switch SPST KingTek_DSHP03TS, Slide, row spacing 7.62 mm (300 mils), body size  (see http://www.kingtek.net.cn/pic/201601201417455112.pdf)")
 	(tags "SMD DIP Switch SPST Slide 7.62mm 300mil")
 	(property "Reference" "REF**"
-		(at 0 -3.765 0)
+		(at 0 -3.7 0)
 		(layer "F.SilkS")
 		(uuid "72a6b9c6-f272-44d4-af64-fc34131df62d")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "SW_DIP_SPSTx03_Slide_KingTek_DSHP03TS_W7.62mm_P1.27mm"
-		(at 0 3.765 0)
+		(at 0 3.81 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "bfaaa710-4128-4bce-9da0-c861995163e1")
@@ -77,8 +77,8 @@
 		(uuid "dd08d8df-3834-4ce3-a77b-a66d093b79c2")
 	)
 	(fp_line
-		(start -2.8 2.8)
-		(end -2.8 -2.8)
+		(start -2.8 -2.8)
+		(end -2.8 2.8)
 		(stroke
 			(width 0.15)
 			(type default)
@@ -97,8 +97,8 @@
 		(uuid "e916669d-09aa-441e-b4f2-ec8075305d15")
 	)
 	(fp_line
-		(start 2.8 2.8)
-		(end -2.8 2.8)
+		(start -2.8 2.8)
+		(end 2.8 2.8)
 		(stroke
 			(width 0.15)
 			(type default)
@@ -118,16 +118,56 @@
 		(layer "F.SilkS")
 		(uuid "cf05e67d-75b0-4d55-9c8e-c83bcd6f45e1")
 	)
-	(fp_rect
-		(start -4.7 -3.02)
-		(end 4.7 3.02)
+	(fp_text user "NO"
+		(at 1.9 -1.6 90)
+		(layer "F.Fab")
+		(uuid "410ed84e-ed60-4060-a862-3e74cd0af9b6")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_line
+		(start -4.7 -2.95)
+		(end 4.7 -2.95)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "02b94f77-106c-4b50-a6e8-1400de5d852a")
+		(uuid "648ca891-f8ed-5aae-88fe-1db95e8d6dff")
+	)
+	(fp_line
+		(start 4.7 -2.95)
+		(end 4.7 2.96)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a273dfe9-3bea-5689-bcd5-7a36e8b5267d")
+	)
+	(fp_line
+		(start 4.7 2.96)
+		(end -4.7 2.96)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "2c72209f-e10c-5f76-a84d-8ccef993dea1")
+	)
+	(fp_line
+		(start -4.7 2.96)
+		(end -4.7 -2.95)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "2f4ba1c1-8081-5de5-be4a-e8d5481ee067")
 	)
 	(fp_line
 		(start -2.7 -2.7)
@@ -137,7 +177,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "a447f14f-1721-5bfb-aef8-f39c93ff7fd1")
+		(uuid "1ddc61ad-00a7-5e7d-ae2e-37923930dc89")
 	)
 	(fp_line
 		(start 2.7 -2.7)
@@ -147,7 +187,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "28005aa2-5071-531d-8634-50a84b7b8131")
+		(uuid "24ab061a-a702-5a27-aa56-256306d91ad7")
 	)
 	(fp_line
 		(start 2.7 2.705)
@@ -157,7 +197,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "d4bbde64-bef2-5ec2-b001-63bde11528f4")
+		(uuid "5821fa49-76cd-528e-a9a3-8fcd71057834")
 	)
 	(fp_line
 		(start -2.7 2.705)
@@ -167,7 +207,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "188e2f13-ad6e-5962-ab6e-291136987519")
+		(uuid "69475574-97b7-5ec1-9134-c03fc6c15bfc")
 	)
 	(fp_circle
 		(center -2.35 -2.35)
@@ -178,26 +218,16 @@
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "2223da2c-f13e-5c93-83e2-38a97b58c3df")
+		(uuid "e8ec9ee0-d30e-5c83-9379-84288aee9f83")
 	)
 	(fp_text user "${REFERENCE}"
-		(at -1.8 0 90)
+		(at 0 0.0025 90)
 		(layer "F.Fab")
-		(uuid "40da42e8-b2ac-4c05-8e8f-646485b063cc")
+		(uuid "3af89586-0620-5eda-9287-140e9e755434")
 		(effects
 			(font
-				(size 0.8 0.8)
-			)
-		)
-	)
-	(fp_text user "NO"
-		(at 1.9 -1.6 90)
-		(layer "F.Fab")
-		(uuid "410ed84e-ed60-4060-a862-3e74cd0af9b6")
-		(effects
-			(font
-				(size 0.8 0.8)
-				(thickness 0.12)
+				(size 0.91 0.91)
+				(thickness 0.14)
 			)
 		)
 	)

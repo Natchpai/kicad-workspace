@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(descr "SMD2016/4, Crystal, 2.0x1.6mm package, SMD, http://www.q-crystal.com/upload/5/2015552223166229.pdf")
 	(property "Reference" "REF**"
-		(at 0 -2 0)
+		(at 0 -1.88 0)
 		(layer "F.SilkS")
 		(uuid "97eb8291-87a7-4cd2-af55-47370a249324")
 		(effects
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "Crystal_SMD_Abracon_ABM11W-4Pin_2.0x1.6mm"
-		(at 0 2 0)
+		(at 0 2.2 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "5cda5bb1-8c26-4485-86df-66b953493276")
@@ -66,8 +66,8 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -1.4 1.2)
-		(end -1.4 0.6)
+		(start -1.4 0.6)
+		(end -1.4 1.2)
 		(stroke
 			(width 0.15)
 			(type default)
@@ -76,8 +76,8 @@
 		(uuid "8ec55f86-4d4e-4e9a-8bc3-e15df76292f6")
 	)
 	(fp_line
-		(start -0.8 1.2)
-		(end -1.4 1.2)
+		(start -1.4 1.2)
+		(end -0.8 1.2)
 		(stroke
 			(width 0.15)
 			(type default)
@@ -85,47 +85,104 @@
 		(layer "F.SilkS")
 		(uuid "8d699c9b-7ae8-4d73-8093-2176b0de6c80")
 	)
-	(fp_rect
-		(start -1.3 -1.1)
-		(end 1.3 1.1)
+	(fp_line
+		(start -1.48 -1.13)
+		(end 1.33 -1.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "26d150a1-1bf7-4f34-9751-c032774403c3")
+		(uuid "88b54eec-0a8c-52ab-b5dc-91c47b02bd0f")
 	)
-	(fp_circle
-		(center -0.7 0.5)
-		(end -0.55 0.5)
+	(fp_line
+		(start 1.33 -1.13)
+		(end 1.33 1.28)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "ba3622fa-c925-5ddd-b08f-a7a52db0b957")
+	)
+	(fp_line
+		(start 1.33 1.28)
+		(end -1.48 1.28)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4ebcdedd-ac86-5020-bbf1-cee385424869")
+	)
+	(fp_line
+		(start -1.48 1.28)
+		(end -1.48 -1.13)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4f0951fa-48af-5f35-935b-dd769ae30bb6")
+	)
+	(fp_line
+		(start -1 -0.8)
+		(end 1 -0.8)
 		(stroke
 			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "81d8d89e-b55c-5a51-bbbc-94b40e05f4b3")
+	)
+	(fp_line
+		(start 1 -0.8)
+		(end 1 0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "31e6af49-0d0d-5045-a21f-35b23b66f04a")
+	)
+	(fp_line
+		(start 1 0.8)
+		(end -1 0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "de9eb851-b31b-55d7-96c1-219026eceb63")
+	)
+	(fp_line
+		(start -1 0.8)
+		(end -1 -0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f5d54270-e404-5113-9eef-5f32ff8c42bf")
+	)
+	(fp_circle
+		(center -0.8 0.6)
+		(end -0.7 0.6)
+		(stroke
+			(width 0)
 			(type solid)
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "8bea0469-a2db-430a-a9f6-c1f339317fae")
-	)
-	(fp_poly
-		(pts
-			(xy 1 -0.8) (xy 1 0.8) (xy -1 0.8) (xy -1 -0.8)
-		)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(fill no)
-		(layer "F.Fab")
-		(uuid "a1c95a2d-61f6-4f17-9134-913ac906ce73")
+		(uuid "71b2e302-afca-53e7-8500-efe97a3027ba")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "bbe856c6-faf0-42c2-b160-3d927b7ac66a")
+		(uuid "afc0bc59-5d90-52b6-a760-2008210fd035")
 		(effects
 			(font
-				(size 0.4 0.35)
+				(size 0.34 0.34)
 				(thickness 0.05)
 			)
 		)

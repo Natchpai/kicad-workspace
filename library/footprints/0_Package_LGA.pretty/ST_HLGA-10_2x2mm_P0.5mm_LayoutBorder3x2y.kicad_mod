@@ -5,7 +5,7 @@
 	(descr "ST  HLGA, 10 Pin (https://www.st.com/resource/en/datasheet/lps22hh.pdf#page=55)")
 	(tags "ST HLGA NoLead")
 	(property "Reference" "REF**"
-		(at 0 -1.95 0)
+		(at 0 -2.185 0)
 		(layer "F.SilkS")
 		(effects
 			(font
@@ -15,7 +15,7 @@
 		)
 	)
 	(property "Value" "ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y"
-		(at 0 1.95 0)
+		(at 0 2.1 0)
 		(layer "F.Fab")
 		(hide yes)
 		(effects
@@ -39,28 +39,28 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -1.11 -0.685)
-		(end -1.11 -0.87)
+		(start -1.11 -0.87)
+		(end -1.11 -0.685)
 		(stroke
-			(width 0.12)
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -1.11 0.685)
+		(end -1.11 1.11)
+		(stroke
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 	)
 	(fp_line
 		(start -1.11 1.11)
-		(end -1.11 0.685)
+		(end -0.935 1.11)
 		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start -0.935 1.11)
-		(end -1.11 1.11)
-		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -69,7 +69,7 @@
 		(start 0.935 -1.11)
 		(end 1.11 -1.11)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -78,7 +78,7 @@
 		(start 1.11 -1.11)
 		(end 1.11 -0.685)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -87,16 +87,16 @@
 		(start 1.11 0.685)
 		(end 1.11 1.11)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 	)
 	(fp_line
-		(start 1.11 1.11)
-		(end 0.935 1.11)
+		(start 0.935 1.11)
+		(end 1.11 1.11)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -108,21 +108,51 @@
 			(xy -0.97 -1.3)
 		)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
 		(layer "F.SilkS")
 	)
-	(fp_rect
-		(start -1.25 -1.25)
+	(fp_line
+		(start -1.33 -1.38)
+		(end 1.25 -1.38)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "1eb9d520-ec0b-53f2-8f69-b057b62de6c7")
+	)
+	(fp_line
+		(start 1.25 -1.38)
 		(end 1.25 1.25)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
+		(uuid "88e7601a-3613-5dee-a5e7-2f4c55d4f7f1")
+	)
+	(fp_line
+		(start 1.25 1.25)
+		(end -1.33 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5b24d9fe-1559-5bb3-812f-e35b91ce78a1")
+	)
+	(fp_line
+		(start -1.33 1.25)
+		(end -1.33 -1.38)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a11657d9-480b-5340-acd2-8e8c846a4f4f")
 	)
 	(fp_line
 		(start -1 -1)
@@ -132,7 +162,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "229de1a4-52f0-5297-8997-6e86247095cc")
+		(uuid "12127b98-fee6-505c-ad30-190e6c7b4182")
 	)
 	(fp_line
 		(start 1 -1)
@@ -142,7 +172,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "6d61b038-fb1a-51ff-b291-7d714848e1c9")
+		(uuid "0f8d7fe6-233e-59c7-b9e2-83d7b5717d64")
 	)
 	(fp_line
 		(start 1 1)
@@ -152,7 +182,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "fb79b326-d332-568e-a62b-d358732858b7")
+		(uuid "c7737dae-02c2-50a8-9732-81a88306750f")
 	)
 	(fp_line
 		(start -1 1)
@@ -162,7 +192,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "61c45896-d918-5dc9-82d3-94a65ae5565d")
+		(uuid "8fe50481-80d5-5123-a89d-9ff6d037e3bb")
 	)
 	(fp_circle
 		(center -0.8 -0.8)
@@ -173,15 +203,16 @@
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "b6f148c2-2e7f-59e1-982a-b27182466ad4")
+		(uuid "a49e9812-4fa0-53a5-919a-6b0845608779")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
+		(uuid "505ca9e5-e045-5515-aa78-2f8724d6b1cb")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.08)
+				(size 0.34 0.34)
+				(thickness 0.05)
 			)
 		)
 	)

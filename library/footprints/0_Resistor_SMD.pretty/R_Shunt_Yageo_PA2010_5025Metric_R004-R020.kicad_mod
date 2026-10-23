@@ -6,7 +6,7 @@
 	(descr "Resistor SMD 2010 (5025 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor handsolder")
 	(property "Reference" "REF**"
-		(at 0 -2.28 0)
+		(at 0 -2.5 0)
 		(layer "F.SilkS")
 		(uuid "72c44985-f85a-4219-b2c9-9d90fe032554")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "R_Shunt_Yageo_PA2010_5025Metric_R004-R020"
-		(at 0 2.28 0)
+		(at 0 2.6 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "0339b666-a0dd-497b-b06a-cef88194ae7c")
@@ -84,16 +84,45 @@
 		(layer "F.SilkS")
 		(uuid "68fe450a-ea5c-4d3f-bbf1-110397617209")
 	)
-	(fp_rect
-		(start -3.35 -1.7)
-		(end 3.35 1.7)
+	(fp_line
+		(start -3.25 -1.75)
+		(end 3.25 -1.75)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "51295b21-2fe8-4107-9374-8b8b5fa866e7")
+		(uuid "47578c42-aec5-5818-a49a-cc7a02ad3411")
+	)
+	(fp_line
+		(start 3.25 -1.75)
+		(end 3.25 1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e698de89-b927-52f4-a8dc-a53ab1eaeaa7")
+	)
+	(fp_line
+		(start 3.25 1.75)
+		(end -3.25 1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "2a2902d2-c1ec-5afd-bb97-401b385e6f46")
+	)
+	(fp_line
+		(start -3.25 1.75)
+		(end -3.25 -1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "7a792052-2beb-5246-8815-3bea11cab97b")
 	)
 	(fp_line
 		(start -2.5 -1.3)
@@ -103,7 +132,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "79a5d62c-b512-59b5-830c-dfbdc3b6f40e")
+		(uuid "c2bfbd47-70d6-5e90-ba6d-1de3d7964fb6")
 	)
 	(fp_line
 		(start 2.5 -1.3)
@@ -113,7 +142,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "28205539-0a13-559d-a4e2-af653cabb9af")
+		(uuid "a33f31ad-9151-5c53-9c10-6d17aae01e48")
 	)
 	(fp_line
 		(start 2.5 1.3)
@@ -123,7 +152,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "648ffbf1-d97d-57a4-9e82-d4ce7bc1e706")
+		(uuid "2636613d-5178-5723-b18f-e5de8fc28fd1")
 	)
 	(fp_line
 		(start -2.5 1.3)
@@ -133,15 +162,16 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "4217c0e8-77fe-5e57-b9cf-02829b1c9653")
+		(uuid "02c5942b-70da-579b-896b-9b1ab3f28484")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "4da5fb22-8656-45bb-9dfc-a753972730d6")
+		(uuid "058638bc-64f7-54ac-99ba-10763a6c1e74")
 		(effects
 			(font
-				(size 0.8 0.75)
+				(size 0.85 0.85)
+				(thickness 0.13)
 			)
 		)
 	)

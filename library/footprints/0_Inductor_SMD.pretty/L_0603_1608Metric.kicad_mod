@@ -6,7 +6,7 @@
 	(descr "Inductor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)")
 	(tags "inductor")
 	(property "Reference" "REF**"
-		(at 0 -1.43 0)
+		(at 0 -1.48 0)
 		(layer "F.SilkS")
 		(uuid "8b15ff7b-dfd4-4687-9876-92498e90a466")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "L_0603_1608Metric"
-		(at 0 1.43 0)
+		(at 0 1.58 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "6456a992-3c82-48bc-8a3e-c6fe2f2ab011")
@@ -66,54 +66,112 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -0.162779 -0.51)
-		(end 0.162779 -0.51)
+		(start -0.075 -0.51)
+		(end 0.075 -0.51)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "c107011b-6abd-4216-be7d-533ed1f2db81")
 	)
 	(fp_line
-		(start -0.162779 0.51)
-		(end 0.162779 0.51)
+		(start -0.075 0.51)
+		(end 0.075 0.51)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "8365f468-4c29-4cf3-9e9e-19e1c6d8b7ef")
 	)
-	(fp_rect
+	(fp_line
 		(start -1.48 -0.73)
+		(end 1.48 -0.73)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4b69eef9-55cf-5121-aeb5-0a5e82991fa0")
+	)
+	(fp_line
+		(start 1.48 -0.73)
 		(end 1.48 0.73)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "a4e6170d-a71a-4b31-938b-a373274a0ca4")
+		(uuid "7adc948a-de7c-5b6c-bcdc-7ff05d0fc573")
 	)
-	(fp_rect
+	(fp_line
+		(start 1.48 0.73)
+		(end -1.48 0.73)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f2507fc8-00c7-5cbe-9436-21efcd2aacf3")
+	)
+	(fp_line
+		(start -1.48 0.73)
+		(end -1.48 -0.73)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "9b9fdc5a-7594-51e2-8705-beb914752e1f")
+	)
+	(fp_line
 		(start -0.8 -0.4)
+		(end 0.8 -0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "2db714b0-a8f2-5477-a242-190f7a9037b2")
+	)
+	(fp_line
+		(start 0.8 -0.4)
 		(end 0.8 0.4)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "3d5cc609-990c-4d95-b5a8-5aa659c9bee6")
+		(uuid "27e689e4-04ae-56a2-95d4-73e506c7fdb2")
+	)
+	(fp_line
+		(start 0.8 0.4)
+		(end -0.8 0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0ddda419-4b6e-5123-bbe0-6c4bf46999a0")
+	)
+	(fp_line
+		(start -0.8 0.4)
+		(end -0.8 -0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "5330c503-f2ec-5bd6-a1ae-5249f734d4a9")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "a44f5c8d-d54b-4b42-8952-b7706e689670")
+		(uuid "8992c2d1-164d-56e6-9fad-e320cff3cc3d")
 		(effects
 			(font
-				(size 0.35 0.25)
+				(size 0.27 0.27)
 				(thickness 0.04)
 			)
 		)

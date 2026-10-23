@@ -6,7 +6,7 @@
 	(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "capacitor")
 	(property "Reference" "REF**"
-		(at 0 -1.85 0)
+		(at 0 -1.9 0)
 		(layer "F.SilkS")
 		(uuid "f241ed2c-8680-4482-9759-d63a943e4990")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "C_1206_3216Metric_NomDensity"
-		(at 0 1.85 0)
+		(at 0 2 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "5b2f6890-8354-4689-8cf5-5bef60592de2")
@@ -157,35 +157,93 @@
 		(layer "F.Paste")
 		(uuid "cae4668e-61c7-48a2-9a5b-903499035e07")
 	)
-	(fp_rect
+	(fp_line
 		(start -2.3 -1.15)
+		(end 2.3 -1.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "ed6bbe41-c09a-5122-bd54-3fe2d5c5f2de")
+	)
+	(fp_line
+		(start 2.3 -1.15)
 		(end 2.3 1.15)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "a80e61bc-7f9b-4802-ba05-4d64424d24bd")
+		(uuid "aaacc587-da50-5370-bc46-689809b8626b")
 	)
-	(fp_rect
+	(fp_line
+		(start 2.3 1.15)
+		(end -2.3 1.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "61226cbb-6641-5b56-841e-31e8e25213e4")
+	)
+	(fp_line
+		(start -2.3 1.15)
+		(end -2.3 -1.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "55c1988a-b095-5963-9466-d735af9fe45d")
+	)
+	(fp_line
 		(start -1.6 -0.8)
+		(end 1.6 -0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "ad7ff608-b678-56f1-a258-c654d91199c0")
+	)
+	(fp_line
+		(start 1.6 -0.8)
 		(end 1.6 0.8)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "922d5d1a-dcba-47ff-9099-d30fda5c95fe")
+		(uuid "56c56059-bf3e-5a06-8c46-8d531d54670b")
+	)
+	(fp_line
+		(start 1.6 0.8)
+		(end -1.6 0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "e3b66760-26c6-5be5-869d-962a2287875a")
+	)
+	(fp_line
+		(start -1.6 0.8)
+		(end -1.6 -0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "39ad4f09-4fdb-5ab8-b481-349d5eab905d")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "2459c7b3-4052-4d42-b292-b0a90576b16a")
+		(uuid "54e76297-f430-5e7a-91c7-98064ba6071f")
 		(effects
 			(font
-				(size 0.6 0.6)
+				(size 0.54 0.54)
 				(thickness 0.08)
 			)
 		)

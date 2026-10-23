@@ -5,7 +5,7 @@
 	(descr "Bosch LGA, 10 Pin, metal lid, 2x2x0.75mm, pads 0.325x0.3mm from BST-BMP581-DS004-13 land pattern (Fig. 32) (https://www.bosch-sensortec.com/products/environmental-sensors/pressure-sensors/bmp581/)")
 	(tags "Bosch LGA NoLead BMP581 BMP390")
 	(property "Reference" "REF**"
-		(at 0 -1.95 0)
+		(at 0 -2.185 0)
 		(layer "F.SilkS")
 		(effects
 			(font
@@ -15,7 +15,7 @@
 		)
 	)
 	(property "Value" "Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder3x2y"
-		(at 0 1.95 0)
+		(at 0 2.1 0)
 		(layer "F.Fab")
 		(hide yes)
 		(effects
@@ -39,28 +39,28 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -1.11 -0.685)
-		(end -1.11 -0.87)
+		(start -1.11 -0.87)
+		(end -1.11 -0.685)
 		(stroke
-			(width 0.12)
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+	)
+	(fp_line
+		(start -1.11 0.685)
+		(end -1.11 1.11)
+		(stroke
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 	)
 	(fp_line
 		(start -1.11 1.11)
-		(end -1.11 0.685)
+		(end -0.935 1.11)
 		(stroke
-			(width 0.12)
-			(type solid)
-		)
-		(layer "F.SilkS")
-	)
-	(fp_line
-		(start -0.935 1.11)
-		(end -1.11 1.11)
-		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -69,7 +69,7 @@
 		(start 0.935 -1.11)
 		(end 1.11 -1.11)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -78,7 +78,7 @@
 		(start 1.11 -1.11)
 		(end 1.11 -0.685)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -87,16 +87,16 @@
 		(start 1.11 0.685)
 		(end 1.11 1.11)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 	)
 	(fp_line
-		(start 1.11 1.11)
-		(end 0.935 1.11)
+		(start 0.935 1.11)
+		(end 1.11 1.11)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -108,21 +108,51 @@
 			(xy -0.97 -1.3)
 		)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
 		(layer "F.SilkS")
 	)
-	(fp_rect
-		(start -1.25 -1.25)
+	(fp_line
+		(start -1.33 -1.38)
+		(end 1.25 -1.38)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "23d49d74-25ea-5b5a-b393-75f5db8304e3")
+	)
+	(fp_line
+		(start 1.25 -1.38)
 		(end 1.25 1.25)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
+		(uuid "9fe298e0-bf58-535e-9670-01853d1ad463")
+	)
+	(fp_line
+		(start 1.25 1.25)
+		(end -1.33 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "34282012-48e4-592d-9a29-7515ae86f6db")
+	)
+	(fp_line
+		(start -1.33 1.25)
+		(end -1.33 -1.38)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "21adc619-d791-51dd-bf62-8b0e36b9526a")
 	)
 	(fp_line
 		(start -1 -1)
@@ -132,7 +162,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "89d3c9ba-915f-5fcd-8b45-166895f832ee")
+		(uuid "31ff113a-c671-58cd-807c-1ae94db9fbbf")
 	)
 	(fp_line
 		(start 1 -1)
@@ -142,7 +172,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "b9d3102e-2b1a-53e8-ae10-7ad060be9390")
+		(uuid "ffcbd39e-10c1-595f-84f5-d898da9a71f1")
 	)
 	(fp_line
 		(start 1 1)
@@ -152,7 +182,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "bf1c0e6f-da05-561e-bb12-e21076ef770a")
+		(uuid "289cf991-f752-5344-b957-bca6f141c4ca")
 	)
 	(fp_line
 		(start -1 1)
@@ -162,7 +192,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "a10a0574-c5bc-5234-8032-5d799b48a2d3")
+		(uuid "849b1ae5-9f7d-5f82-a16d-0ada9cd27b2a")
 	)
 	(fp_circle
 		(center -0.8 -0.8)
@@ -173,15 +203,16 @@
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "345c20ae-d43d-50ce-91b2-8ad16104d243")
+		(uuid "700e09e8-d981-5f05-bba9-1779f282c61c")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
+		(uuid "b1bd3e7d-588b-56ee-b244-74214f385143")
 		(effects
 			(font
-				(size 0.5 0.5)
-				(thickness 0.08)
+				(size 0.34 0.34)
+				(thickness 0.05)
 			)
 		)
 	)

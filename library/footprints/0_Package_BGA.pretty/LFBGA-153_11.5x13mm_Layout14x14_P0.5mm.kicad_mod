@@ -6,7 +6,7 @@
 	(descr "JEDEC eMMC AN BGA-153, 11.5x13.0mm, 153 Ball, 14x14 Layout, 0.5mm Pitch, https://www.jedec.org/sites/default/files/docs/MO-276F.pdf")
 	(tags "BGA 153 0.5")
 	(property "Reference" "REF**"
-		(at 0 -7.5 0)
+		(at 0 -8.25 0)
 		(layer "F.SilkS")
 		(uuid "f10e3bb6-9bd5-4864-882b-1c75bfaf9bee")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "LFBGA-153_11.5x13mm_Layout14x14_P0.5mm"
-		(at 0 7.5 0)
+		(at 0 8.35 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "ee522502-82cd-40ac-b8f9-b6c573a58435")
@@ -81,7 +81,7 @@
 			(xy -6.2 -5) (xy -6.7 -4.7) (xy -6.7 -5.3)
 		)
 		(stroke
-			(width 0.1)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
@@ -100,43 +100,101 @@
 		(layer "F.SilkS")
 		(uuid "8ca9ec05-af20-4f17-b48c-e5d14c6f4f56")
 	)
-	(fp_rect
-		(start -6.75 -7.5)
+	(fp_line
+		(start -6.78 -7.5)
+		(end 6.75 -7.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "2ea04ef3-0a70-5eb7-9f3b-3fef7967dc4d")
+	)
+	(fp_line
+		(start 6.75 -7.5)
 		(end 6.75 7.5)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "e53b82be-d31e-41f5-91dd-9ae8894b53b2")
+		(uuid "b5142e3d-7ee4-51a5-a4f2-ccdedef18ec9")
 	)
-	(fp_rect
+	(fp_line
+		(start 6.75 7.5)
+		(end -6.78 7.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "d1a4419d-4bbe-5cb2-8c2c-76a048752603")
+	)
+	(fp_line
+		(start -6.78 7.5)
+		(end -6.78 -7.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "6442def1-5f85-52b3-aad9-75c2c12e2823")
+	)
+	(fp_line
 		(start -5.75 -6.5)
+		(end 5.75 -6.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b9e37d27-2457-5715-b88e-b07d5076676a")
+	)
+	(fp_line
+		(start 5.75 -6.5)
 		(end 5.75 6.5)
 		(stroke
 			(width 0.1)
-			(type default)
+			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "e931f9b2-acf3-461a-992f-3b2dcd7abd7c")
+		(uuid "4e22b6aa-45bc-5bd0-9b37-5a3aa13b00ab")
 	)
-	(fp_circle
-		(center -4.25 -5)
-		(end -3.85 -5)
+	(fp_line
+		(start 5.75 6.5)
+		(end -5.75 6.5)
 		(stroke
 			(width 0.1)
-			(type default)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "44f2e320-11e5-55b2-a8f7-d17bd47c0b96")
+	)
+	(fp_line
+		(start -5.75 6.5)
+		(end -5.75 -6.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "8e62e7b3-50a4-56cc-85ec-af8573b6e6ef")
+	)
+	(fp_circle
+		(center -5.4 -6.15)
+		(end -5.15 -6.15)
+		(stroke
+			(width 0)
+			(type solid)
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "bc02fff0-9d6f-4b4e-8e7a-cad5e079d678")
+		(uuid "8bc5e87f-43fb-52c0-aee2-1c5ea94a6753")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
+		(at 0 0 90)
 		(layer "F.Fab")
-		(uuid "3e054816-a420-44ad-a57b-317ed4dcca06")
+		(uuid "f4db9610-b641-5176-83bf-689c5daf4ef8")
 		(effects
 			(font
 				(size 1 1)

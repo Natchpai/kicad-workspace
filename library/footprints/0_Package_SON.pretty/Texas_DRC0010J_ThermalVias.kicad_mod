@@ -6,7 +6,7 @@
 	(descr "Texas DRC0010J, VSON10 3x3mm Body, 0.5mm Pitch,  http://www.ti.com/lit/ds/symlink/tps63000.pdf")
 	(tags "Texas VSON10 3x3mm")
 	(property "Reference" "REF**"
-		(at 0.02032 -2.7 0)
+		(at 0 -2.775 0)
 		(layer "F.SilkS")
 		(uuid "c2abf3ab-b588-4631-9db1-2a417fe38d03")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "Texas_DRC0010J_ThermalVias"
-		(at 0.02032 2.8 0)
+		(at 0 2.8 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "67316d9e-b23b-4d6c-a643-d1653af8a862")
@@ -60,7 +60,7 @@
 		(start -1.61 1.38)
 		(end -1.61 1.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -70,7 +70,7 @@
 		(start -1.61 1.61)
 		(end -0.635 1.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -80,7 +80,7 @@
 		(start -1.32 -1.61)
 		(end -0.635 -1.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -90,7 +90,7 @@
 		(start 0.635 -1.61)
 		(end 1.61 -1.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -100,7 +100,7 @@
 		(start 0.635 1.61)
 		(end 1.61 1.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -110,7 +110,7 @@
 		(start 1.61 -1.61)
 		(end 1.61 -1.38)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -120,7 +120,7 @@
 		(start 1.61 1.38)
 		(end 1.61 1.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -131,7 +131,7 @@
 			(xy -1.64 -1.61) (xy -1.92 -1.61) (xy -1.64 -1.89) (xy -1.64 -1.61)
 		)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
@@ -139,44 +139,44 @@
 		(uuid "ad41bdb4-a3f4-4030-88e4-bd7339e07376")
 	)
 	(fp_line
-		(start -1.95 -1.95)
-		(end -1.95 1.95)
+		(start -2 -1.97)
+		(end 1.95 -1.97)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "d42710a2-f24e-4278-ab2d-f5b10e05c3f7")
+		(uuid "2c50f46e-aa21-5d2d-bd65-30a32cf0447c")
 	)
 	(fp_line
-		(start -1.95 -1.95)
-		(end 1.95 -1.95)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "c8d64636-5272-4f35-8495-83d3b6a13c0c")
-	)
-	(fp_line
-		(start -1.95 1.95)
+		(start 1.95 -1.97)
 		(end 1.95 1.95)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "130a2a38-f00d-4aa2-ae35-66d4a990b557")
+		(uuid "d8a4473c-4398-52cc-ae60-fe3327864637")
 	)
 	(fp_line
-		(start 1.95 -1.95)
-		(end 1.95 1.95)
+		(start 1.95 1.95)
+		(end -2 1.95)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "6f1d5d1c-0000-4643-8b07-a3a5e477367e")
+		(uuid "f7f2b24d-d0fa-5614-a795-ddce3d598fc4")
+	)
+	(fp_line
+		(start -2 1.95)
+		(end -2 -1.97)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "478d7eca-2106-58b6-9213-f21368e395ba")
 	)
 	(fp_line
 		(start -1.5 -1.5)
@@ -186,7 +186,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "f85017f9-3cef-593e-8465-0cf5ac95c5d0")
+		(uuid "c0ad0fa0-50dc-5e92-afc8-69634c4fdae5")
 	)
 	(fp_line
 		(start 1.5 -1.5)
@@ -196,7 +196,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "0c59eed2-3f95-55ef-ad21-929c145060ef")
+		(uuid "2f7c85d7-a02e-5506-96e4-c5d72dc90585")
 	)
 	(fp_line
 		(start 1.5 1.5)
@@ -206,7 +206,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "5d5d3977-d8f7-5a44-b9c7-8ce9934e2027")
+		(uuid "59b97a91-6a2b-5a52-a99f-d218d887630c")
 	)
 	(fp_line
 		(start -1.5 1.5)
@@ -216,7 +216,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "5e6620d8-eae7-5745-b373-e81daf89edbf")
+		(uuid "e36a576a-ab80-5c3b-8827-0b9a14b54e2a")
 	)
 	(fp_circle
 		(center -1.25 -1.25)
@@ -227,16 +227,16 @@
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "89fc4c19-3929-5ddb-bbe0-f393b23fb733")
+		(uuid "59ac5772-d0f0-57f5-8628-b2ffb3bc3dcf")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "4f44767a-e9a1-4611-903d-469ae9f337b9")
+		(uuid "58ebe940-0708-547f-a1cc-68e06ef43c9d")
 		(effects
 			(font
-				(size 0.7 0.7)
-				(thickness 0.1)
+				(size 0.51 0.51)
+				(thickness 0.08)
 			)
 		)
 	)

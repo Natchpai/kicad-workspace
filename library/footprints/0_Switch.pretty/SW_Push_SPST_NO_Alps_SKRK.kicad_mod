@@ -6,7 +6,7 @@
 	(descr "http://www.alps.com/prod/info/E/HTML/Tact/SurfaceMount/SKRK/SKRKAHE020.html")
 	(tags "SMD SMT button")
 	(property "Reference" "REF**"
-		(at 0 -2.25 0)
+		(at 0 -2.47 0)
 		(layer "F.SilkS")
 		(uuid "03fd7df9-d816-4013-bc60-af089fc777e2")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "SW_Push_SPST_NO_Alps_SKRK"
-		(at 0 2.5 0)
+		(at 0 2.57 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "4fba72cf-c7df-4283-9917-4850a5b888d8")
@@ -68,8 +68,8 @@
 		(uuid "665a03c3-821b-43b8-a790-21aa5a4abde1")
 	)
 	(fp_line
-		(start -2.07 -1.27)
-		(end -2.07 -1.57)
+		(start -2.07 -1.57)
+		(end -2.07 -1.27)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -78,8 +78,8 @@
 		(uuid "194f0869-7de3-4eb5-abf9-c40c041143dc")
 	)
 	(fp_line
-		(start -2.07 1.57)
-		(end -2.07 1.27)
+		(start -2.07 1.27)
+		(end -2.07 1.57)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -108,8 +108,8 @@
 		(uuid "e4fe9216-4d57-4b8d-8a8d-092d7ac8f4e1")
 	)
 	(fp_line
-		(start 2.07 1.57)
-		(end -2.07 1.57)
+		(start -2.07 1.57)
+		(end 2.07 1.57)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -125,17 +125,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "a707b712-f2a9-4ab5-8b0c-6f0ecb4488b1")
-	)
-	(fp_line
-		(start -2.75 1.7)
-		(end -2.75 -1.7)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "73ff9c58-99a7-46dd-b5fb-93f948cec7c6")
+		(uuid "8da77486-49c1-53be-81e9-a9238bc4d0af")
 	)
 	(fp_line
 		(start 2.75 -1.7)
@@ -145,7 +135,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "6ce284aa-aa8b-44f3-98f1-f723c2397ceb")
+		(uuid "37dfeb22-3c6f-5ee9-9567-fec3a81ec5fa")
 	)
 	(fp_line
 		(start 2.75 1.7)
@@ -155,7 +145,17 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "50690c92-de13-4094-81e0-635c8b8a588f")
+		(uuid "695e2a66-94ca-5f54-bb24-7e3f8299f849")
+	)
+	(fp_line
+		(start -2.75 1.7)
+		(end -2.75 -1.7)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "10a31fc9-ca0c-5161-b9db-8241dc884d94")
 	)
 	(fp_line
 		(start -1.95 -1.45)
@@ -165,17 +165,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "2c686868-795a-429e-b91e-54ff09d017ba")
-	)
-	(fp_line
-		(start -1.95 1.45)
-		(end -1.95 -1.45)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "c014820e-2f59-4ccf-ba9f-bbc9938f6bf1")
+		(uuid "86a5f29f-0afb-5182-99d6-d955d0986b44")
 	)
 	(fp_line
 		(start 1.95 -1.45)
@@ -185,7 +175,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "43031cf3-c1bb-4347-8c14-d9cb71667e36")
+		(uuid "8e8f8f5c-bf78-534c-b5be-90a28994bfa3")
 	)
 	(fp_line
 		(start 1.95 1.45)
@@ -195,26 +185,37 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "7fe324a3-503b-4aaf-a3c3-292a64389f97")
+		(uuid "3024fd21-cdaa-5508-bdfc-1ba77d60a570")
 	)
-	(fp_circle
-		(center 0 0)
-		(end 1.2 0)
+	(fp_line
+		(start -1.95 1.45)
+		(end -1.95 -1.45)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "91f87b0d-ca7a-4d3d-80ac-5fae84411f63")
+		(uuid "89b29667-7bd8-574b-a522-df3988d5f712")
+	)
+	(fp_circle
+		(center -1.725 -1.225)
+		(end -1.6 -1.225)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "ac734bdf-b090-571d-aaf7-8d6dc3f95bca")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "eb5390d3-f4a4-4109-8118-41f88ce270ae")
+		(uuid "047272e8-7c08-5119-b32d-43bbec056b3f")
 		(effects
 			(font
-				(size 0.6 0.5)
+				(size 0.66 0.66)
+				(thickness 0.1)
 			)
 		)
 	)
