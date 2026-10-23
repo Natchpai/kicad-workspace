@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -7.62 13.97 0)
+			(at -11.43 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "TPS62142"
-			(at 10.16 13.97 0)
+			(at 11.43 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -334,7 +334,7 @@
 				)
 			)
 			(pin input line
-				(at 15.24 0 180)
+				(at 13.97 0 180)
 				(length 2.54)
 				(name "VOS"
 					(effects

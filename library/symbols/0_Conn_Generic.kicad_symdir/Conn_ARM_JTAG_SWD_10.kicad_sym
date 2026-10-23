@@ -9,25 +9,23 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "CN"
-			(at -7.62 19.05 0)
+			(at 0 20.32 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Value" "Conn_ARM_JTAG_SWD_10"
-			(at 7.62 19.05 0)
+			(at 0 17.78 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
 			)
 		)
 		(property "Footprint" ""
@@ -100,7 +98,7 @@
 		)
 		(symbol "Conn_ARM_JTAG_SWD_10_1_1"
 			(pin passive line
-				(at 0 17.78 270)
+				(at 10.16 12.7 180)
 				(length 2.54)
 				(name "VTRef"
 					(effects
@@ -118,7 +116,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 7.62 180)
+				(at 10.16 6.35 180)
 				(length 2.54)
 				(name "SWDIO/TMS"
 					(effects
@@ -154,7 +152,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 5.08 180)
+				(at 10.16 3.81 180)
 				(length 2.54)
 				(name "SWDCLK/TCK"
 					(effects
@@ -190,7 +188,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 2.54 180)
+				(at 10.16 1.27 180)
 				(length 2.54)
 				(name "SWO/TDO"
 					(effects
@@ -208,7 +206,7 @@
 				)
 			)
 			(pin no_connect line
-				(at 10.16 -7.62 180)
+				(at 10.16 -8.89 180)
 				(length 2.54)
 				(name "NC"
 					(effects
@@ -226,7 +224,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 0 180)
+				(at 10.16 -1.27 180)
 				(length 2.54)
 				(name "TDI"
 					(effects
@@ -262,7 +260,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 -5.08 180)
+				(at 10.16 -6.35 180)
 				(length 2.54)
 				(name "~{RESET}"
 					(effects
