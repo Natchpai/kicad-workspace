@@ -26,6 +26,7 @@ Put these on the row group, the `grid` object or the single pad they apply to.
 
 - `shape`: `roundrect` (SMD default), `rect` (only when the datasheet asks for square corners), `oval`, `circle` (grid default when the pad is round; needs w = h, since KiCad draws a circle from the x size only; an unequal grid pad defaults to `oval`).
 - `ratio`: roundrect ratio. House style 0.1 to 0.25; the script accepts 0 to 0.5.
+- `radius`: corner radius in mm, as the datasheet gives it (`(R0.05) ALL PAD CORNERS`); turned into the ratio radius / shorter pad side. Overrides `ratio`.
 - `paste`: `true` (1:1, default), `false` (no paste layer), or `{"margin": -0.05}` / `{"ratio": -0.1}` for a pad paste margin.
 - `mask_margin`: pad solder mask margin. Leave it out unless the datasheet asks for one (KLC F4.6).
 - `fab_property` (`grid` and `pads`): KLC F6.3 fab property, `bga`, `heatsink` or `mechanical`. `grid` defaults to `bga` (set `null` for an LGA); use `mechanical` for THT shield and mounting pads. `zone_connect` (`pads`) sets the zone connection (2 = solid, the default for `heatsink`).
@@ -40,7 +41,7 @@ List of row groups. Pin 1 at the top left, counterclockwise.
 | `pins` | Dual: total pins (even). |
 | `pins_x`, `pins_y` | Quad: pins on the top/bottom sides and on the left/right sides. |
 | `pitch` | Pad pitch. |
-| `span` / `span_x`, `span_y` | Center-to-center distance between opposite pad rows. |
+| `span` / `span_x`, `span_y` | Center-to-center distance between opposite pad rows. Dual takes `span`; quad takes `span` for both axes or `span_x` (left to right rows) and `span_y` (top to bottom rows). |
 | `pad` | `[L, W]`: length along the lead, width across it. Top and bottom pads are turned 90°. |
 | `numbers` | Optional explicit number list in place order; `null` skips a place (depopulated pin). |
 | `start` | First number when `numbers` is absent (default 1). |
@@ -100,7 +101,7 @@ A list (one object is also accepted).
 | `number` | Pad number. Vias get the same number (KLC F4.3). |
 | `size`, `at` | Main pad size and center. |
 | `tabs` | `[[cx, cy, w, h], ...]`: extra copper joined to the pad. The pad becomes one custom pad with rectangle primitives. |
-| `ratio` | Corner ratio (default `ep_ratio`, 0 = square). |
+| `ratio` / `radius` | Corner ratio (default `ep_ratio`, 0 = square), or corner radius in mm. |
 | `vias` | `{"at": [[x, y], ...]}` or `{"grid": [nx, ny], "pitch": [px, py]}`, plus `drill` and `dia`. Datasheets often give only the drill; label the `dia` you choose `ASSUMED`. KLC F4.4.6: drill 0.2 to 0.3 mm. |
 | `bottom` | B.Cu pad under the thermal vias, no B.Mask (KLC F4.4.2). Default `true` (exposed-pad size) when `vias` is given; `[w, h]` for another size; `false` when the datasheet says not to, or to match a stock footprint without one. |
 | `mask_margin` | Solder mask margin of the exposed pad. |
@@ -113,7 +114,7 @@ The exposed pad, its B.Cu pad and its vias get the `heatsink` fab property and s
 - `grid`: `"n": [nx, ny], "coverage": 0.5` splits the main pad (not the tabs) into nx × ny cells and scales each window by √coverage. The result is `ESTIMATED`; the windows can land on vias, so read the via-under-paste warnings and switch to `explicit` to avoid them. KLC F6.3 wants 50 to 80% (65% recommended) unless the datasheet says otherwise; the summary prints the coverage of pad + tabs and of the main pad alone.
 - `pad`: paste on the whole pad (1:1).
 - `none`: no paste.
-- `ratio`: aperture corner ratio (default `paste_ratio`).
+- `ratio`: aperture corner ratio (default `paste_ratio`), or `radius` in mm (`(R0.05) TYP` on a stencil drawing). Coverage is computed from the aperture rectangles; corner rounding is not subtracted (under 1% at ratio 0.1).
 
 Apertures are written as paste-only pads with an empty number (stock KiCad style).
 

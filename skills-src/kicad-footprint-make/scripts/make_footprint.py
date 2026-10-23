@@ -185,6 +185,13 @@ class Builder:
         self.pads.append(p)
         return p
 
+    @staticmethod
+    def ratio_of(src, w, h):
+        """Corner ratio from "radius" (mm, as the datasheet gives it) or "ratio"."""
+        if src.get('radius') is not None:
+            return round(number(src['radius'], 'radius', False) / min(w, h), 4)
+        return src.get('ratio')
+
     def copper_boxes(self, p):
         if p['shape'] == 'custom':
             return [rect_box(p['x'] + r[0], p['y'] + r[1], r[2], r[3]) for r in p['prims']]
@@ -198,7 +205,7 @@ class Builder:
         pitch = r['pitch']
         L, W = r['pad']
         shape = r.get('shape', 'roundrect')
-        ratio = r.get('ratio')
+        ratio = self.ratio_of(r, L, W)
         ox, oy = r.get('at', [0, 0])
         paste = r.get('paste', True)
         places = []
@@ -212,7 +219,9 @@ class Builder:
             places += [(s / 2, y, L, W) for y in reversed(ys)]
         elif layout == 'quad':
             kx, ky = r['pins_x'], r['pins_y']
-            sx, sy = r['span_x'], r['span_y']
+            sx, sy = r.get('span_x', r.get('span')), r.get('span_y', r.get('span'))
+            if sx is None or sy is None:
+                raise SpecError('quad rows need "span" or "span_x" and "span_y"')
             ys = [(-(ky - 1) / 2 + i) * pitch for i in range(ky)]
             xs = [(-(kx - 1) / 2 + i) * pitch for i in range(kx)]
             places += [(-sx / 2, y, L, W) for y in ys]
@@ -254,7 +263,7 @@ class Builder:
                 c, r = (i, j) if on_cols else (j, i)
                 x = ox + fx * (-(cols - 1) / 2 + c) * px
                 y = oy + fy * (-(rows - 1) / 2 + r) * py
-                self.pad(name, 'smd', shape, x, y, size[0], size[1], ratio=g.get('ratio'),
+                self.pad(name, 'smd', shape, x, y, size[0], size[1], ratio=self.ratio_of(g, *size),
                          paste=g.get('paste', True), mask_margin=g.get('mask_margin'), prop=prop)
 
     def add_free(self, q):
@@ -269,7 +278,7 @@ class Builder:
         num = '' if kind == 'np_thru_hole' else q.get('number', '')
         prop = q.get('fab_property')
         self.pad(num, kind, shape, x, y, w, h, rot=rot, drill=q.get('drill'),
-                 layers=q.get('layers'), ratio=q.get('ratio'), paste=q.get('paste', True),
+                 layers=q.get('layers'), ratio=self.ratio_of(q, w, h), paste=q.get('paste', True),
                  mask_margin=q.get('mask_margin'), prop=prop,
                  zone=q.get('zone_connect', 2 if prop == 'heatsink' else None))
 
@@ -287,7 +296,8 @@ class Builder:
         if paste is None:
             raise SpecError(f'exposed pad {num}: give "paste" (explicit, grid, pad or none)')
         mode = paste.get('mode')
-        er = number(e.get('ratio', self.o['ep_ratio']), f'exposed pad {num} ratio', False)
+        er = number(self.ratio_of(e, w, h) if e.get('radius') is not None
+                    else e.get('ratio', self.o['ep_ratio']), f'exposed pad {num} ratio', False)
         main = rect_box(cx, cy, w, h)
         copper = [main] + [rect_box(*t) for t in tabs]
         hs = dict(prop='heatsink', zone=2)
@@ -343,8 +353,9 @@ class Builder:
         else:
             raise SpecError(f'exposed pad {num}: unknown paste mode {mode!r}')
         for ax, ay, aw, ah in apertures:
-            self.pad('', 'smd', 'roundrect', ax, ay, aw, ah, layers=['F.Paste'],
-                     ratio=rratio(aw, ah, pr, self.o['max_radius']))
+            ar = (self.ratio_of(paste, aw, ah) if paste.get('radius') is not None
+                  else rratio(aw, ah, pr, self.o['max_radius']))
+            self.pad('', 'smd', 'roundrect', ax, ay, aw, ah, layers=['F.Paste'], ratio=ar)
         if mode == 'pad':
             pbox = copper
         else:
@@ -605,8 +616,9 @@ class Builder:
         nums = sorted({p['num'] for p in self.pads if p['num']},
                       key=lambda n: [int(t) if t.isdigit() else t
                                      for t in re.split(r'(\d+)', n)])
-        lines.append(f'pads: {len([p for p in self.pads if p["num"] and not p["via"]])} '
-                     f'numbered, {len(nums)} unique numbers, '
+        top = [p for p in self.pads if p['num'] and not p['via'] and 'B.Cu' not in p['layers']]
+        bot = [p for p in self.pads if p['num'] and not p['via'] and 'B.Cu' in p['layers']]
+        lines.append(f'pads: {len(top)} top, {len(bot)} B.Cu, {len(nums)} unique numbers, '
                      f'{len([p for p in self.pads if p["via"]])} thermal vias, '
                      f'{len([p for p in self.pads if not p["num"]])} paste-only apertures')
         for num, copper, main, pbox, via_pts, vias in self.ep_info:
