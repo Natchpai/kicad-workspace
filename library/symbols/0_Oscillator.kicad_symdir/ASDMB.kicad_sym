@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at 0 3.81 0)
+			(at 0 8.89 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19,7 +19,7 @@
 			)
 		)
 		(property "Value" "ASDMB"
-			(at 0 1.27 0)
+			(at 0 6.35 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -29,7 +29,7 @@
 			)
 		)
 		(property "Footprint" "0_Oscillator:Oscillator_SMD_Abracon_ASDMB-4Pin_2.5x2.0mm"
-			(at 0 6.35 0)
+			(at 0 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -40,7 +40,7 @@
 			)
 		)
 		(property "Datasheet" "https://abracon.com/Oscillators/ASDMB.pdf"
-			(at 0 10.16 0)
+			(at 0 15.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -51,7 +51,7 @@
 			)
 		)
 		(property "Description" "Clock Oscillator"
-			(at 0 6.35 0)
+			(at 0 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -61,7 +61,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "ASDMB"
+		(property "ki_fp_filters" "Oscillator*Abracon*ASDMB*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -73,8 +73,8 @@
 			)
 		)
 		(symbol "ASDMB_0_0"
-			(pin passive line
-				(at 7.62 -8.89 180)
+			(pin power_in line
+				(at 7.62 -5.08 180)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -92,7 +92,7 @@
 				)
 			)
 			(pin passive line
-				(at 7.62 -2.54 180)
+				(at 7.62 2.54 180)
 				(length 2.54)
 				(name "OUT"
 					(effects
@@ -109,8 +109,8 @@
 					)
 				)
 			)
-			(pin passive line
-				(at -7.62 -2.54 0)
+			(pin power_in line
+				(at -7.62 2.54 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -131,8 +131,8 @@
 		(symbol "ASDMB_0_1"
 			(polyline
 				(pts
-					(xy -2.54 -6.35) (xy -1.27 -6.35) (xy -1.27 -5.08) (xy 0 -5.08) (xy 0 -6.35) (xy 1.27 -6.35) (xy 1.27 -5.08)
-					(xy 2.54 -5.08)
+					(xy -2.54 -1.9756) (xy -1.27 -1.9756) (xy -1.27 -0.5644) (xy 0 -0.5644) (xy 0 -1.9756) (xy 1.27 -1.9756)
+					(xy 1.27 -0.5644) (xy 2.54 -0.5644)
 				)
 				(stroke
 					(width 0)
@@ -145,7 +145,7 @@
 		)
 		(symbol "ASDMB_1_0"
 			(pin passive line
-				(at -7.62 -8.89 0)
+				(at -7.62 -5.08 0)
 				(length 2.54)
 				(name "EN"
 					(effects
@@ -165,10 +165,10 @@
 		)
 		(symbol "ASDMB_1_1"
 			(rectangle
-				(start -5.08 0)
-				(end 5.08 -11.43)
+				(start -5.08 5.08)
+				(end 5.08 -7.62)
 				(stroke
-					(width 0)
+					(width 0.254)
 					(type solid)
 				)
 				(fill

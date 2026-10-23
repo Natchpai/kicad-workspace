@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at 0 3.81 0)
+			(at -1.27 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19,7 +19,7 @@
 			)
 		)
 		(property "Value" "STEF05PU"
-			(at 0 1.27 0)
+			(at -1.27 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -29,7 +29,7 @@
 			)
 		)
 		(property "Footprint" "0_Package_DFN_QFN:DFN-10-1EP_3x3mm_P0.5mm"
-			(at 0 0 0)
+			(at -1.27 10.16 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -40,7 +40,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.st.com/resource/en/datasheet/stef05.pdf"
-			(at 0 7.62 0)
+			(at -1.27 17.78 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -51,7 +51,7 @@
 			)
 		)
 		(property "Description" "Electronic fuse for 5 V line"
-			(at 0 11.43 0)
+			(at -1.27 21.59 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -72,7 +72,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "DFN?10L 10?VFDFN"
+		(property "ki_fp_filters" "DFN*1EP*3x3mm*P0.5mm*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -85,7 +85,7 @@
 		)
 		(symbol "STEF05PU_0_0"
 			(pin passive line
-				(at 11.43 -2.54 180)
+				(at 10.16 7.62 180)
 				(length 2.54)
 				(name "VOUT"
 					(effects
@@ -103,7 +103,7 @@
 				)
 			)
 			(pin passive line
-				(at 11.43 -5.08 180)
+				(at 10.16 5.08 180)
 				(length 2.54)
 				(name "VOUT"
 					(effects
@@ -121,7 +121,7 @@
 				)
 			)
 			(pin passive line
-				(at 11.43 -7.62 180)
+				(at 10.16 2.54 180)
 				(length 2.54)
 				(name "VOUT"
 					(effects
@@ -139,7 +139,7 @@
 				)
 			)
 			(pin passive line
-				(at 11.43 -10.16 180)
+				(at 10.16 0 180)
 				(length 2.54)
 				(name "VOUT"
 					(effects
@@ -157,7 +157,7 @@
 				)
 			)
 			(pin passive line
-				(at 11.43 -12.7 180)
+				(at 10.16 -2.54 180)
 				(length 2.54)
 				(name "VOUT"
 					(effects
@@ -175,7 +175,7 @@
 				)
 			)
 			(pin passive line
-				(at -2.54 -24.13 90)
+				(at -2.54 -15.24 90)
 				(length 2.54)
 				(name "NC"
 					(effects
@@ -193,7 +193,7 @@
 				)
 			)
 			(pin passive line
-				(at 11.43 -17.78 180)
+				(at 10.16 -7.62 180)
 				(length 2.54)
 				(name "I-LIMIT"
 					(effects
@@ -211,7 +211,7 @@
 				)
 			)
 			(pin passive line
-				(at -11.43 -10.16 0)
+				(at -12.7 0 0)
 				(length 2.54)
 				(name "EN/FLT"
 					(effects
@@ -229,7 +229,7 @@
 				)
 			)
 			(pin passive line
-				(at -11.43 -17.78 0)
+				(at -12.7 -7.62 0)
 				(length 2.54)
 				(name "dv/dt"
 					(effects
@@ -246,8 +246,8 @@
 					)
 				)
 			)
-			(pin passive line
-				(at 0 -24.13 90)
+			(pin power_in line
+				(at 0 -15.24 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -264,8 +264,8 @@
 					)
 				)
 			)
-			(pin passive line
-				(at -11.43 -2.54 0)
+			(pin power_in line
+				(at -12.7 7.62 0)
 				(length 2.54)
 				(name "VCC"
 					(effects
@@ -285,10 +285,10 @@
 		)
 		(symbol "STEF05PU_1_1"
 			(rectangle
-				(start -8.89 0)
-				(end 8.89 -21.59)
+				(start -10.16 10.16)
+				(end 7.62 -12.7)
 				(stroke
-					(width 0)
+					(width 0.254)
 					(type solid)
 				)
 				(fill

@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -10.16 1.27 0)
+			(at -11.43 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19,7 +19,7 @@
 			)
 		)
 		(property "Value" "W25Q128JVP"
-			(at 7.62 1.27 0)
+			(at 6.35 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -29,7 +29,7 @@
 			)
 		)
 		(property "Footprint" "0_Package_SON:WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm"
-			(at 0 8.89 0)
+			(at -1.27 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -40,7 +40,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.winbond.com/resource-files/w25q128jv%20revf%2003272018%20plus.pdf"
-			(at 0 8.89 0)
+			(at -1.27 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -51,7 +51,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 0 0 0)
+			(at -1.27 10.16 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -74,7 +74,7 @@
 		)
 		(symbol "W25Q128JVP_0_0"
 			(pin passive line
-				(at -13.97 -2.54 0)
+				(at -15.24 7.62 0)
 				(length 2.54)
 				(name "~{CS}"
 					(effects
@@ -92,7 +92,7 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -10.16 0)
+				(at -15.24 0 0)
 				(length 2.54)
 				(name "DO_IO1"
 					(effects
@@ -110,7 +110,7 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -12.7 0)
+				(at -15.24 -2.54 0)
 				(length 2.54)
 				(name "~{WP}_IO2"
 					(effects
@@ -127,8 +127,8 @@
 					)
 				)
 			)
-			(pin passive line
-				(at 0 -25.4 90)
+			(pin power_in line
+				(at 0 -15.24 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -146,7 +146,7 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -7.62 0)
+				(at -15.24 2.54 0)
 				(length 2.54)
 				(name "DI_DO0"
 					(effects
@@ -164,7 +164,7 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -20.32 0)
+				(at -15.24 -10.16 0)
 				(length 2.54)
 				(name "CLK"
 					(effects
@@ -182,7 +182,7 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -15.24 0)
+				(at -15.24 -5.08 0)
 				(length 2.54)
 				(name "~{HOLD}/~{RST}_IO3"
 					(effects
@@ -199,8 +199,8 @@
 					)
 				)
 			)
-			(pin passive line
-				(at 0 2.54 270)
+			(pin power_in line
+				(at 0 12.7 270)
 				(length 2.54)
 				(name "VCC"
 					(effects
@@ -218,7 +218,7 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 -25.4 90)
+				(at 5.08 -15.24 90)
 				(length 2.54)
 				(name "EP"
 					(effects
@@ -238,10 +238,10 @@
 		)
 		(symbol "W25Q128JVP_1_1"
 			(rectangle
-				(start -11.43 0)
-				(end 11.43 -22.86)
+				(start -12.7 10.16)
+				(end 10.16 -12.7)
 				(stroke
-					(width 0)
+					(width 0.254)
 					(type solid)
 				)
 				(fill
