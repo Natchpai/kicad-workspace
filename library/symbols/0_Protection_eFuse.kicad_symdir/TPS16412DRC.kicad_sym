@@ -74,7 +74,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "Texas*DRC0010J*"
+		(property "ki_fp_filters" "*VSON?10?1EP?3x3mm?P0.5mm*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
