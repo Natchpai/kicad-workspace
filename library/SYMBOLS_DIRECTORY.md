@@ -2,7 +2,7 @@
 
 Custom KiCad 10 symbols are stored in symbols/ as unpacked .kicad_symdir libraries. Each file contains one symbol.
 
-Inventory: 38 libraries, 96 symbols.
+Inventory: 38 libraries, 97 symbols.
 
 - **0_Amplifier_Operational.kicad_symdir** (1) — TLV9061xDBV
 - **0_Conn_Ethernet.kicad_symdir** (2) — JXD0-0019NL, MGB005-1CF1B002H
@@ -35,7 +35,7 @@ Inventory: 38 libraries, 96 symbols.
 - **0_Regulator_Linear.kicad_symdir** (3) — LDLN025M33, SPX3819M5-L-3-3, TPS73533DRB
 - **0_Regulator_Switching.kicad_symdir** (3) — LMR54410DBV, TPS62142, TPS62A0xPDDC
 - **0_Sensor_Current.kicad_symdir** (3) — ACS37030LLZA-040B3, INA180Ax, INA187Ax
-- **0_Sensor_Magnetic.kicad_symdir** (1) — BMM150
+- **0_Sensor_Magnetic.kicad_symdir** (2) — BMM150, IST8310
 - **0_Sensor_Motion.kicad_symdir** (1) — ICM-45686
 - **0_Sensor_Pressure.kicad_symdir** (3) — BMP390, BMP581, ICP-20100
 - **0_Sensor_Temperature.kicad_symdir** (1) — TMP235A4DCK

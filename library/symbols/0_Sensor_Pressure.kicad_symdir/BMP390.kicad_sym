@@ -87,7 +87,7 @@
 		)
 		(symbol "BMP390_0_1"
 			(rectangle
-				(start -12.7 5.08)
+				(start -12.7 7.62)
 				(end 12.7 -7.62)
 				(stroke
 					(width 0.254)
@@ -100,7 +100,7 @@
 		)
 		(symbol "BMP390_1_1"
 			(pin power_in line
-				(at -2.54 7.62 270)
+				(at -2.54 10.16 270)
 				(length 2.54)
 				(name "VDDIO"
 					(effects
@@ -262,7 +262,7 @@
 				)
 			)
 			(pin power_in line
-				(at 2.54 7.62 270)
+				(at 2.54 10.16 270)
 				(length 2.54)
 				(name "VDD"
 					(effects

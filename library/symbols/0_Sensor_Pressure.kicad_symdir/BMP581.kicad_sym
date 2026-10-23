@@ -87,7 +87,7 @@
 		)
 		(symbol "BMP581_0_1"
 			(rectangle
-				(start -12.7 5.08)
+				(start -12.7 7.62)
 				(end 12.7 -7.62)
 				(stroke
 					(width 0.254)
@@ -100,7 +100,7 @@
 		)
 		(symbol "BMP581_1_1"
 			(pin power_in line
-				(at -2.54 7.62 270)
+				(at -2.54 10.16 270)
 				(length 2.54)
 				(name "VDDIO"
 					(effects
@@ -118,7 +118,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 2.54 0)
+				(at -15.24 3.81 0)
 				(length 2.54)
 				(name "SCK/SCL"
 					(effects
@@ -154,7 +154,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -15.24 0 0)
+				(at -15.24 1.27 0)
 				(length 2.54)
 				(name "SDI/SDA"
 					(effects
@@ -172,7 +172,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -15.24 -2.54 0)
+				(at -15.24 -1.27 0)
 				(length 2.54)
 				(name "SDO/SA0"
 					(effects
@@ -190,7 +190,7 @@
 				)
 			)
 			(pin input line
-				(at -15.24 -5.08 0)
+				(at -15.24 -3.81 0)
 				(length 2.54)
 				(name "CSB"
 					(effects
@@ -208,7 +208,7 @@
 				)
 			)
 			(pin output line
-				(at 15.24 2.54 180)
+				(at 15.24 3.81 180)
 				(length 2.54)
 				(name "INT"
 					(effects
@@ -262,7 +262,7 @@
 				)
 			)
 			(pin power_in line
-				(at 2.54 7.62 270)
+				(at 2.54 10.16 270)
 				(length 2.54)
 				(name "VDD"
 					(effects
