@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -10.16 6.35 0)
+			(at 5.08 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "BMM150"
-			(at 7.62 6.35 0)
+			(at 10.16 -11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -31,7 +31,7 @@
 			)
 		)
 		(property "Footprint" "0_Package_CSP:WLCSP-12_1.56x1.56mm_P0.4mm"
-			(at -11.43 5.08 0)
+			(at -16.51 22.86 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -42,7 +42,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.mouser.com/datasheet/2/783/BST-BMM150-DS001-01-786480.pdf"
-			(at -8.89 7.62 0)
+			(at -13.97 25.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -53,7 +53,7 @@
 			)
 		)
 		(property "Description" "Geomagnetic Sensor, WLCSP-12"
-			(at 0 1.27 0)
+			(at -20.32 26.67 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -154,7 +154,7 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 12.7 270)
+				(at -3.81 12.7 270)
 				(length 2.54)
 				(name "VDDIO"
 					(effects
@@ -208,7 +208,7 @@
 				)
 			)
 			(pin power_in line
-				(at -5.08 -12.7 90)
+				(at -7.62 -12.7 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -262,7 +262,7 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 -12.7 90)
+				(at -5.08 -12.7 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -280,7 +280,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -12.7 90)
+				(at -2.54 -12.7 90)
 				(length 2.54)
 				(name "GND"
 					(effects

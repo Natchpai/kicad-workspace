@@ -63,7 +63,7 @@
 		)
 		(symbol "MCP1501-30xCHY_0_0"
 			(pin passive line
-				(at 7.62 5.08 180)
+				(at 8.89 5.08 180)
 				(length 2.54)
 				(name "OUT"
 					(effects
@@ -81,7 +81,7 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 0 180)
+				(at 2.54 -10.16 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -99,7 +99,7 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 -2.54 180)
+				(at 0 -10.16 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -117,7 +117,7 @@
 				)
 			)
 			(pin passive line
-				(at -10.16 0 0)
+				(at -8.89 0 0)
 				(length 2.54)
 				(name "~{SHDN}"
 					(effects
@@ -135,7 +135,7 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 -5.08 180)
+				(at -2.54 -10.16 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -153,7 +153,7 @@
 				)
 			)
 			(pin power_in line
-				(at -10.16 5.08 0)
+				(at -8.89 5.08 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -173,8 +173,8 @@
 		)
 		(symbol "MCP1501-30xCHY_0_1"
 			(rectangle
-				(start -7.62 7.62)
-				(end 5.08 -7.62)
+				(start -6.35 7.62)
+				(end 6.35 -7.62)
 				(stroke
 					(width 0.254)
 					(type default)

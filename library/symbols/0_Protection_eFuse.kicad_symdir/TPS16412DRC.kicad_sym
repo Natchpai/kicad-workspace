@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -7.62 11.43 0)
+			(at -11.43 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "TPS16412DRC"
-			(at 7.62 11.43 0)
+			(at 11.43 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -87,8 +87,8 @@
 		)
 		(symbol "TPS16412DRC_0_1"
 			(rectangle
-				(start -7.62 10.16)
-				(end 7.62 -12.7)
+				(start -11.43 12.7)
+				(end 11.43 -12.7)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -100,7 +100,7 @@
 		)
 		(symbol "TPS16412DRC_1_1"
 			(pin power_in line
-				(at -10.16 5.08 0)
+				(at -13.97 10.16 0)
 				(length 2.54)
 				(name "IN"
 					(effects
@@ -118,7 +118,7 @@
 				)
 			)
 			(pin power_in line
-				(at -10.16 2.54 0)
+				(at -13.97 5.08 0)
 				(length 2.54)
 				(name "VCC"
 					(effects
@@ -136,7 +136,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 0 0)
+				(at -13.97 0 0)
 				(length 2.54)
 				(name "OVP"
 					(effects
@@ -154,7 +154,7 @@
 				)
 			)
 			(pin open_collector line
-				(at 10.16 2.54 180)
+				(at -13.97 -10.16 0)
 				(length 2.54)
 				(name "~{FLT}"
 					(effects
@@ -172,7 +172,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 -2.54 0)
+				(at -13.97 -5.08 0)
 				(length 2.54)
 				(name "EN/~{SHDN}"
 					(effects
@@ -190,7 +190,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 0 180)
+				(at 13.97 0 180)
 				(length 2.54)
 				(name "IDLY"
 					(effects
@@ -208,7 +208,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 -2.54 180)
+				(at 13.97 5.08 180)
 				(length 2.54)
 				(name "dVdT"
 					(effects
@@ -226,7 +226,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 -5.08 180)
+				(at 13.97 -5.08 180)
 				(length 2.54)
 				(name "ILIM"
 					(effects
@@ -244,7 +244,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 -7.62 180)
+				(at 13.97 -10.16 180)
 				(length 2.54)
 				(name "IOCP/IMON"
 					(effects
@@ -262,7 +262,7 @@
 				)
 			)
 			(pin power_out line
-				(at 10.16 5.08 180)
+				(at 13.97 10.16 180)
 				(length 2.54)
 				(name "OUT"
 					(effects

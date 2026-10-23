@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "TPS62142"
-			(at 7.62 13.97 0)
+			(at 10.16 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -87,8 +87,8 @@
 		)
 		(symbol "TPS62142_0_1"
 			(rectangle
-				(start -7.62 12.7)
-				(end 7.62 -12.7)
+				(start -11.43 12.7)
+				(end 11.43 -12.7)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -100,7 +100,7 @@
 		)
 		(symbol "TPS62142_1_1"
 			(pin output line
-				(at 10.16 7.62 180)
+				(at 13.97 10.16 180)
 				(length 2.54)
 				(name "SW"
 					(effects
@@ -118,7 +118,7 @@
 				)
 			)
 			(pin output line
-				(at 10.16 5.08 180)
+				(at 13.97 7.62 180)
 				(length 2.54)
 				(name "SW"
 					(effects
@@ -136,7 +136,7 @@
 				)
 			)
 			(pin output line
-				(at 10.16 2.54 180)
+				(at 13.97 5.08 180)
 				(length 2.54)
 				(name "SW"
 					(effects
@@ -154,7 +154,7 @@
 				)
 			)
 			(pin open_collector line
-				(at 10.16 -5.08 180)
+				(at 13.97 -8.89 180)
 				(length 2.54)
 				(name "PG"
 					(effects
@@ -172,7 +172,7 @@
 				)
 			)
 			(pin input line
-				(at 10.16 -2.54 180)
+				(at 13.97 -5.08 180)
 				(length 2.54)
 				(name "FB"
 					(effects
@@ -208,7 +208,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 -7.62 0)
+				(at -13.97 -8.89 0)
 				(length 2.54)
 				(name "FSW"
 					(effects
@@ -226,7 +226,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 -5.08 0)
+				(at -13.97 -6.35 0)
 				(length 2.54)
 				(name "DEF"
 					(effects
@@ -244,7 +244,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 -2.54 0)
+				(at -13.97 -3.81 0)
 				(length 2.54)
 				(name "SS/TR"
 					(effects
@@ -262,7 +262,7 @@
 				)
 			)
 			(pin power_in line
-				(at -10.16 7.62 0)
+				(at -13.97 10.16 0)
 				(length 2.54)
 				(name "VIN"
 					(effects
@@ -280,7 +280,7 @@
 				)
 			)
 			(pin power_in line
-				(at -10.16 5.08 0)
+				(at -13.97 7.62 0)
 				(length 2.54)
 				(name "VIN"
 					(effects
@@ -298,7 +298,7 @@
 				)
 			)
 			(pin power_in line
-				(at -10.16 2.54 0)
+				(at -13.97 5.08 0)
 				(length 2.54)
 				(name "VIN"
 					(effects
@@ -316,7 +316,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 0 0)
+				(at -13.97 1.27 0)
 				(length 2.54)
 				(name "EN"
 					(effects
@@ -334,7 +334,7 @@
 				)
 			)
 			(pin input line
-				(at 10.16 0 180)
+				(at 15.24 0 180)
 				(length 2.54)
 				(name "VOS"
 					(effects

@@ -274,8 +274,8 @@
 				)
 			)
 			(pin passive line
-				(at 0 -12.7 90)
-				(length 2.54)
+				(at 0 -13.97 90)
+				(length 3.81)
 				(name "MountPin"
 					(effects
 						(font

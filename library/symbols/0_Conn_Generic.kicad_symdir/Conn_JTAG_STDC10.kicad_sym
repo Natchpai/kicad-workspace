@@ -123,7 +123,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -17.78 90)
+				(at 0 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -159,7 +159,7 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 -17.78 90)
+				(at 5.08 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -195,7 +195,7 @@
 				)
 			)
 			(pin no_connect line
-				(at -5.08 -17.78 90)
+				(at -5.08 -19.05 90)
 				(length 2.54)
 				(name "NC"
 					(effects
@@ -231,7 +231,7 @@
 				)
 			)
 			(pin passive line
-				(at 7.62 -17.78 90)
+				(at 7.62 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -270,7 +270,7 @@
 		(symbol "Conn_JTAG_STDC10_0_1"
 			(rectangle
 				(start -10.16 12.7)
-				(end 10.16 -15.24)
+				(end 10.16 -16.51)
 				(stroke
 					(width 0.254)
 					(type default)
