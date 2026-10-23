@@ -10,12 +10,14 @@ pins.csv (header row required; format in SPEC.md):
     "[13,14,17]",GND,power_in,,bottom,
     23,PA9,bidirectional,,,USART1_TX:bidirectional|TIM1_CH2:bidirectional
 
-number is one pin or a KiCad 10 pin stack "[2,5,8]". unit and side may be empty (unit 1, auto side).
+number is one pin. A KiCad 10 pin stack "[2,5,8]" is read too (stock round trips), but the house
+style draws every pin separately. unit and side may be empty (unit 1, auto side).
 side is left, right, top, bottom or hidden (hidden is only for no_connect pins, KLC S4.6).
 A row with no number and no name is an empty row on its side; an empty name is an unnamed pin. Rows starting with # are comments.
 
 layout.json (optional): name, reference, footprint, datasheet, description, keywords, fp_filters
-(list), pin_length, stack (default true: same-name power pins on one unit become one stack),
+(list), pin_length, stack (default false: every pin drawn separately; true stacks same-name power pins
+on one unit, KLC S4.3),
 units ({"1": "A", ...} unit names), interchangeable (multi-unit only; default false writes ki_locked).
 The symbol name is the output file name unless layout.json gives the same name.
 
@@ -257,8 +259,13 @@ class Symbol:
         if not self.pins:
             raise SpecError('no pins')
         self.rename()
-        if lay.get('stack', True):
+        if lay.get('stack', False):
             self.stack()
+        else:
+            for p in self.pins:
+                if p['explicit_stack']:
+                    self.notes.append(f'house style draws pins separately; the table stacks {p["name"]} '
+                                      f'{stack_text(p["nums"])}')
         self.validate()
         self.units = sorted({p['unit'] for p in self.pins})
         if self.units != list(range(1, len(self.units) + 1)):

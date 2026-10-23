@@ -13,7 +13,7 @@ Two stdlib scripts in this skill's `scripts/` folder, run with `python -I`:
 
 **Authority.** Every pin number, name and type comes from the datasheet or the user; the script only places the pins. Names: `kicad-naming`. Datasheet evidence: the project rules when they exist; never open a PDF. Evidence labels go in the report, not in the file.
 
-**House style** (KLC, script defaults): 2.54 mm grid; pins all one length (2.54, 3.81 when a pin number has 3 or more characters); name offset 0.508; text 1.27; body a rectangle, stroke 0.254, filled with background; same-name power pins stacked (S4.3); NC pins shown, last on the right (house rule; KLC S4.6 would hide them, `side=hidden` does that); active-low names as `~{NAME}` (S4.7). MCUs are one unit with alternates, as stock STM32 symbols are; multi-unit with a power unit is for parts drawn apart (op-amps, gates).
+**House style** (KLC, script defaults): 2.54 mm grid; pins all one length (2.54, 3.81 when a pin number has 3 or more characters); name offset 0.508; text 1.27; body a rectangle, stroke 0.254, filled with background; every pin drawn separately, no stacks: same-name power, ground and NC pins each get their own pin (house rule; KLC S4.3 would stack them, `"stack": true` does that); NC pins shown, last on the right (house rule; KLC S4.6 would hide them, `side=hidden` does that); active-low names as `~{NAME}` (S4.7). MCUs are one unit with alternates, as stock STM32 symbols are; multi-unit with a power unit is for parts drawn apart (op-amps, gates).
 
 ## Steps
 
@@ -30,7 +30,7 @@ Two stdlib scripts in this skill's `scripts/` folder, run with `python -I`:
 4. **Layout.** Write `layout.json` with the fields (reference, footprint, filters, datasheet product page, description, keywords). Leave `side` empty in `pins.csv` and let auto grouping place the pins. Set a `side` only for pins it places badly. Pick `unit` only for parts drawn apart.
    Done when the layout covers every field.
 
-5. **Make.** `make_symbol.py pins.csv <family>.kicad_symdir/<MPN>.kicad_sym --layout layout.json --fp <footprint>` (or into the scratchpad for a dry run). Read the printed summary: stacks, NC pins, `S4.7 renamed` lines, filter notes and WARN lines. A `spec error` names the bad line or key; fix it and run again. A `PIN/PAD MISMATCH` writes nothing: settle it with the footprint first.
+5. **Make.** `make_symbol.py pins.csv <family>.kicad_symdir/<MPN>.kicad_sym --layout layout.json --fp <footprint>` (or into the scratchpad for a dry run). Read the printed summary: NC pins, house-style notes, `S4.7 renamed` lines, filter notes and WARN lines. A `spec error` names the bad line or key; fix it and run again. A `PIN/PAD MISMATCH` writes nothing: settle it with the footprint first.
    Done when the file is written.
 
 6. **Check.**
@@ -40,4 +40,4 @@ Two stdlib scripts in this skill's `scripts/` folder, run with `python -I`:
    - `klc_verify.py` from `kicad-lib-organize` when the library is a `0_` tree.
    Done when each check passes or each failure is reported with its line.
 
-7. **Report.** The file path; the pin table with labels; the renames, stacks and NC pins; the WARN lines; and the human checks: pin grouping and bus order, the look in the KiCad symbol editor (text overlap, body size), and the description and keywords.
+7. **Report.** The file path; the pin table with labels; the renames and NC pins; the WARN lines; and the human checks: pin grouping and bus order, the look in the KiCad symbol editor (text overlap, body size), and the description and keywords.

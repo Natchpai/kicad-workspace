@@ -8,7 +8,7 @@ Header row required. Columns `number`, `name` and `type` are required; `unit`, `
 
 | Column | Meaning |
 |---|---|
-| `number` | Pin number as on the footprint (`5`, `A3`, `EP` number given by the footprint). A KiCad 10 pin stack is `"[2,5,8]"` (quote it, the commas are inside). |
+| `number` | Pin number as on the footprint (`5`, `A3`, `EP` number given by the footprint). A KiCad 10 pin stack `"[2,5,8]"` (quoted, the commas are inside) is read too, for stock round trips; the house style writes one row per pin. |
 | `name` | Datasheet name. `nRESET`, `RESET#` and `/RESET` become `~{RESET}` (KLC S4.7; the script prints each rename). Write `~{CS}` for an overbar, `IO_{1}` for a subscript. Empty for an unnamed pin (op-amp output). |
 | `type` | KiCad pin type: `input`, `output`, `bidirectional`, `tri_state`, `passive`, `free`, `unspecified`, `power_in`, `power_out`, `open_collector`, `open_emitter`, `no_connect`. |
 | `unit` | Unit number, 1 to N with no gap. Empty = 1. |
@@ -35,9 +35,9 @@ number,name,type,unit,side,alt
 
 Supply and ground `power_in`; regulator output and switch node `power_out`; chip select, clock, enable, feedback and sense `input`; data and address `bidirectional`; MCU I/O `bidirectional` (S4.4); push-pull interrupt `output`; open-drain interrupt, flag or power-good `open_collector` (the datasheet's pin description or interrupt section says which); reserved "connect to ground" `passive`; NC `no_connect`. An exposed pad gets its own pin with the footprint's pad number, typed like the net it joins.
 
-### Stacks (KLC S4.3)
+### Separate pins (house rule) and stacks (KLC S4.3)
 
-With `stack` on (default), pins on one unit with the same name and a power type (`power_in`, `power_out`) become one native stack: `GND` on pins 4, 9 and 17 is written once as `[4,9,17]`. Write a stack yourself as `"[2,5,8]"` for other pins the datasheet joins inside the part. Refused: a `no_connect` stack, and a number that is in a stack and also alone. Same-name power pins whose CSV sides differ stay apart (a NOTE says so); a stack takes the side and the alternates of all its pins.
+The house style draws every pin on its own: `GND` on pins 4, 9 and 17 is three pins side by side, like the `VDD` pins and the NC pins. The default `stack` off keeps it so, and a `"[2,5,8]"` row prints a note that the house style draws pins separately. With `"stack": true` (KLC S4.3), pins on one unit with the same name and a power type (`power_in`, `power_out`) become one native stack (`[4,9,17]`). Refused: a `no_connect` stack, and a number that is in a stack and also alone. Same-name power pins whose CSV sides differ stay apart (a NOTE says so); a stack takes the side and the alternates of all its pins.
 
 ### Auto grouping (KLC S4.2)
 
@@ -68,7 +68,7 @@ Write `side` for any pin the auto grouping places badly (bus order per the KiCad
 | `fp_filters` | List. Each filter gets `-` and `_` written as `?` and a trailing `*` (S5.2). A WARN when a filter holds the pin count. |
 | `datasheet`, `description`, `keywords` | Fields. Description: comma-separated, ends with the simplified package name (S6.2). Keywords: no word already in the description, phrases joined with `-`. |
 | `pin_length` | 2.54 to 7.62 in 1.27 steps. Default 2.54, or 3.81 when a pin number has 3 or more characters (S4.1). 5.08 for a large MCU, as stock does. |
-| `stack` | `false` turns off the same-name power stacking. |
+| `stack` | Default `false`: every pin drawn separately (house rule). `true` stacks same-name power pins (KLC S4.3). |
 | `units` | Unit names, `{"1": "A", "2": "B", "3": "PWR"}`. |
 | `interchangeable` | Multi-unit only. Default `false` writes `ki_locked` (units not interchangeable), as stock op-amps with a power unit do. |
 

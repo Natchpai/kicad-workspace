@@ -364,15 +364,12 @@ def checks(sym):
         spots.setdefault((p['unit'], round(p['x'], 3), round(p['y'], 3)), []).append(p)
     same = [ps for ps in spots.values() if len(ps) > 1]
     if same:
-        add('WARN', 'S4.3', f'{len(same)} places hold several pins (old stacking workaround; use a native stack): '
+        add('WARN', 'S4.3', f'{len(same)} places hold several pins (old stacking workaround; draw each pin separately): '
                             + '; '.join('/'.join(p['number'] for p in ps) for ps in same[:4]))
-    groups = {}
-    for p in vis:
-        if p['type'] in ('power_in', 'power_out'):
-            groups.setdefault((p['unit'], p['name'], p['type']), []).append(p)
-    loose = [k[1] for k, ps in groups.items() if len(ps) > 1]
-    if loose:
-        add('INFO', 'S4.3', f'power pins with one name not stacked: {", ".join(sorted(set(loose)))}')
+    stacks = [p for p in pins if len(p['nums']) > 1]
+    if stacks:
+        add('INFO', 'house', 'pin stacks (house style draws each pin separately): '
+                             + '; '.join(f'{p["number"]} {p["name"]}' for p in stacks[:6]))
     # S4.4 types
     if ref == 'U':
         wrong = [p for p in pins if POWER_NAME.match(shown(p['name'])) and p['type'] not in ('power_in', 'power_out')
@@ -519,7 +516,7 @@ def dump(sym, path):
                         '|'.join(f'{n}:{t}' for n, t in p['alts']), '' if p['shape'] == 'line' else p['shape']])
     lens = sorted({p['length'] for p in sym.pins if not p['hide']})
     pr = {k: v['value'] for k, v in sym.props.items()}
-    lay = {'name': sym.name, 'reference': pr.get('Reference', 'U'), 'stack': False}
+    lay = {'name': sym.name, 'reference': pr.get('Reference', 'U')}
     for k, f in (('footprint', 'Footprint'), ('datasheet', 'Datasheet'), ('description', 'Description'),
                  ('keywords', 'ki_keywords')):
         if pr.get(f):
@@ -540,8 +537,8 @@ def dump(sym, path):
         fh.write('\n')
     print(f'dumped {path} and {stem}.layout.json')
     if unhidden:
-        print(f'NOTE hidden pins that are not no_connect written with an empty side: {compress(unhidden)}; '
-              'set "stack": true in the layout to stack same-name power pins (S4.3)')
+        print(f'NOTE hidden pins that are not no_connect written as separate pins with an empty side: '
+              f'{compress(unhidden)}')
     if unit0:
         print(f'NOTE pins shared by all units (unit 0) moved to unit {last}')
 
