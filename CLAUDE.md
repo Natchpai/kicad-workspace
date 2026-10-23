@@ -101,7 +101,7 @@ Vendor model and library redistribution terms may be unchecked. Before publishin
 
 ## Skills
 
-All seven KiCad skills run globally from `~/.claude/skills/`; their Git sources are in skills-src/, which Claude does not load. This repo and the projects keep no local copies. Edit a skill in skills-src/, then copy it over the global folder (skills-src/README.md).
+All eight KiCad skills run globally from `~/.claude/skills/`; their Git sources are in skills-src/, which Claude does not load. This repo and the projects keep no local copies. Edit a skill in skills-src/, then copy it over the global folder (skills-src/README.md).
 
 - kicad-naming: proposes and checks KLC names; the naming authority for every other skill.
 - kicad-lib-organize: imports from libDump/ into library families with KLC names, publishes a project's new parts into this library (copies only; the project is not written), KLC-renames existing items, or copies stock KiCad symbols and footprints unchanged (stock_copy.py). Map-driven, with bundled diff, apply and verify scripts. User manual: skills-src/kicad-lib-organize/MANUAL.md.
