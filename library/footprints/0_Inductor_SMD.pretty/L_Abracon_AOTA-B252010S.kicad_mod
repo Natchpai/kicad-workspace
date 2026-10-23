@@ -4,7 +4,7 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
-		(at 0 -2.35 0)
+		(at 0 -2.15 0)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "67c65926-ca4a-410e-a8ff-583879d1ee95")
@@ -16,7 +16,7 @@
 		)
 	)
 	(property "Value" "L_AOTA-B252010S"
-		(at 0 1 0)
+		(at 0 2.25 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
@@ -148,37 +148,94 @@
 		(layer "F.Paste")
 		(uuid "d6540bcf-9ca5-481c-82cf-012699376bac")
 	)
-	(fp_rect
-		(start -1.6 -1.5)
-		(end 1.6 1.5)
+	(fp_line
+		(start -1.65 -1.25)
+		(end 1.65 -1.25)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "4b05a079-bf54-4d21-b3ad-bec54f1ae8aa")
+		(uuid "16b5dde6-ca9e-5d1e-8faa-fe005c08002f")
 	)
-	(fp_rect
+	(fp_line
+		(start 1.65 -1.25)
+		(end 1.65 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a4840f41-8441-5055-973e-44aa8ea8daa0")
+	)
+	(fp_line
+		(start 1.65 1.25)
+		(end -1.65 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "31aded98-a6be-5fc1-8bbf-21dc2c9273a7")
+	)
+	(fp_line
+		(start -1.65 1.25)
+		(end -1.65 -1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "00c3834d-fa0f-5f76-8b95-6309faea76a0")
+	)
+	(fp_line
 		(start -1.25 -1)
+		(end 1.25 -1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "fa68ec85-db1d-56a4-bf1e-94d3f8f98762")
+	)
+	(fp_line
+		(start 1.25 -1)
 		(end 1.25 1)
 		(stroke
 			(width 0.1)
-			(type default)
+			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "abad85d3-c615-4aaa-8ba6-d011b0a08373")
+		(uuid "59136481-5174-520c-b4de-4067b58c7625")
+	)
+	(fp_line
+		(start 1.25 1)
+		(end -1.25 1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "e5adc5a7-f581-5d04-bd42-5c491f68657f")
+	)
+	(fp_line
+		(start -1.25 1)
+		(end -1.25 -1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "da708c0b-188d-546f-b008-3d348cb496ec")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
-		(unlocked yes)
 		(layer "F.Fab")
-		(uuid "98513729-5a94-4a72-833a-c9aa1de444a1")
+		(uuid "a3226d7f-7366-5acd-9f99-2fbc38de20cc")
 		(effects
 			(font
-				(size 1 0.5)
-				(thickness 0.1)
+				(size 0.42 0.42)
+				(thickness 0.06)
 			)
 		)
 	)

@@ -4,9 +4,9 @@ Reusable KiCad libraries collected from earlier projects, merged into one layout
 
 | Directory | Contents | Count |
 |---|---|---|
-| `symbols/` | `0_<Family>.kicad_symdir/`, one `.kicad_sym` per symbol | 34 libraries, 88 symbols |
-| `footprints/` | `0_<Family>.pretty/` | 29 libraries, 125 footprints |
-| `3D/` | `<Name>/` with `.step` models | 23 folders, 80 models |
+| `symbols/` | `0_<Family>.kicad_symdir/`, one `.kicad_sym` per symbol | 38 libraries, 96 symbols |
+| `footprints/` | `0_<Family>.pretty/` | 31 libraries, 128 footprints |
+| `3D/` | `<Name>/` with `.step` models | 24 folders, 80 models |
 | `_extras/` | Files that are not libraries (zip, csv pin maps) | 5 files |
 
 ## Naming
@@ -27,9 +27,9 @@ Reusable KiCad libraries collected from earlier projects, merged into one layout
 
 ## Categories
 
-**Symbols:** Amplifier_Operational, Conn_Ethernet, Conn_Generic, Conn_Mezzanine, Conn_USB, Crystal, Diode, Driver_FET, Inductor, Interface_Ethernet, Interface_USB, Jumper, Logic_74x, MCU_ST_STM32G4, MCU_ST_STM32H7, Memory_DDR3, Memory_EEPROM, Memory_eMMC, Memory_Flash, Misc, Oscillator, Power_Management, Power_Switch, Protection_ESD, Protection_eFuse, Reference_Voltage, Regulator_DDR_VTT, Regulator_Linear, Regulator_Switching, Sensor_Current, Sensor_Temperature, SoC_AMD_Zynq, Switch, Transistor_FET.
+**Symbols:** Amplifier_Operational, Conn_Ethernet, Conn_Generic, Conn_Mezzanine, Conn_USB, Crystal, Diode, Driver_FET, Inductor, Interface_Ethernet, Interface_USB, Jumper, Logic_74x, MCU_ST_STM32F1, MCU_ST_STM32G4, MCU_ST_STM32H7, Memory_DDR3, Memory_EEPROM, Memory_eMMC, Memory_Flash, Misc, Oscillator, Power_Management, Power_Switch, Protection_ESD, Protection_eFuse, Reference_Voltage, Regulator_DDR_VTT, Regulator_Linear, Regulator_Switching, Sensor_Current, Sensor_Magnetic, Sensor_Motion, Sensor_Pressure, Sensor_Temperature, SoC_AMD_Zynq, Switch, Transistor_FET.
 
-**Footprints:** Capacitor_SMD, Conn_AMASS, Conn_Barrel, Conn_Ethernet, Conn_FFC, Conn_JST, Conn_Mezzanine, Conn_Molex, Conn_PinHeader, Conn_RF, Conn_USB, Crystal, Diode_SMD, Graphics, Inductor_SMD, LED_SMD, MountingHole, NetTie, Oscillator, Package_BGA, Package_DFN_QFN, Package_QFP, Package_SO, Package_SON, Package_TO_SOT_SMD, Resistor_SMD, SolderJumper, Switch, TestPoint.
+**Footprints:** Capacitor_SMD, Conn_AMASS, Conn_Barrel, Conn_Ethernet, Conn_FFC, Conn_JST, Conn_Mezzanine, Conn_Molex, Conn_PinHeader, Conn_RF, Conn_USB, Crystal, Diode_SMD, Graphics, Inductor_SMD, LED_SMD, MountingHole, NetTie, Oscillator, Package_BGA, Package_CSP, Package_DFN_QFN, Package_LGA, Package_QFP, Package_SO, Package_SON, Package_TO_SOT_SMD, Resistor_SMD, SolderJumper, Switch, TestPoint.
 
 ## Known state
 

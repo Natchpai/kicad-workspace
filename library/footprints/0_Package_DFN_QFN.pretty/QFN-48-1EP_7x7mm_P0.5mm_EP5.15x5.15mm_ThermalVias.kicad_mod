@@ -6,7 +6,7 @@
 	(descr "QFN, 48 Pin (http://www.analog.com/media/en/package-pcb-resources/package/pkg_pdf/ltc-legacy-qfn/QFN_48_05-08-1704.pdf)")
 	(tags "QFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 -4.83 0)
+		(at 0 -4.88 0)
 		(layer "F.SilkS")
 		(uuid "9a7837b3-60a4-49f9-92fc-da10b7dc6852")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias"
-		(at 0 4.83 0)
+		(at 0 4.98 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "8d3e5448-705e-4d2b-a233-f1f02aee60c0")
@@ -70,37 +70,37 @@
 		(start -3.61 -3.61)
 		(end -3.135 -3.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "91a964f0-3700-4461-85b0-b6f9579c671f")
 	)
 	(fp_line
-		(start -3.61 -3.135)
-		(end -3.61 -3.61)
+		(start -3.61 -3.61)
+		(end -3.61 -3.135)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "13e8c4a1-3aaa-4772-85db-662b0ad442ee")
 	)
 	(fp_line
-		(start -3.61 3.61)
-		(end -3.61 3.135)
+		(start -3.61 3.135)
+		(end -3.61 3.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "e116ff6c-15e4-492c-b8bc-dc3013b520ac")
 	)
 	(fp_line
-		(start -3.135 3.61)
-		(end -3.61 3.61)
+		(start -3.61 3.61)
+		(end -3.135 3.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -110,7 +110,7 @@
 		(start 3.135 -3.61)
 		(end 3.61 -3.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -120,7 +120,7 @@
 		(start 3.61 -3.61)
 		(end 3.61 -3.135)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -130,17 +130,17 @@
 		(start 3.61 3.135)
 		(end 3.61 3.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "d90970bd-2e9d-4ca6-9985-7aee9ec3d048")
 	)
 	(fp_line
-		(start 3.61 3.61)
-		(end 3.135 3.61)
+		(start 3.135 3.61)
+		(end 3.61 3.61)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -151,7 +151,7 @@
 			(xy -4.14 -2.75) (xy -4.47 -2.51) (xy -4.47 -2.99)
 		)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
@@ -159,235 +159,104 @@
 		(uuid "ec63c6a0-8162-4874-abee-5fbfc1672aa6")
 	)
 	(fp_line
-		(start -4.13 -3.13)
-		(end -3.75 -3.13)
+		(start -4.13 -4.13)
+		(end 4.13 -4.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "5d58660b-831e-4817-91b7-1984547762a4")
+		(uuid "99c48eec-d4ca-54a7-a96c-4730c03cc470")
 	)
 	(fp_line
-		(start -4.13 3.13)
-		(end -4.13 -3.13)
+		(start 4.13 -4.13)
+		(end 4.13 4.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "655c0f2c-ca9a-457b-8dbf-9f03799006cb")
+		(uuid "c9ad7ee7-f397-5dfa-aec1-1aeb3bb3a1ea")
 	)
 	(fp_line
-		(start -3.75 -3.75)
-		(end -3.13 -3.75)
+		(start 4.13 4.13)
+		(end -4.13 4.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "bfe89dd4-e729-4435-93dd-e46ee7400f3e")
+		(uuid "681d72a7-855a-58c2-8f54-c87d496212f2")
 	)
 	(fp_line
-		(start -3.75 -3.13)
-		(end -3.75 -3.75)
+		(start -4.13 4.13)
+		(end -4.13 -4.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "0ab65195-2910-4cf4-9c07-5c461e2a3c0d")
+		(uuid "f01e7e2a-5b3d-5b77-b4fc-4dc54ad6f089")
 	)
 	(fp_line
-		(start -3.75 3.13)
-		(end -4.13 3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "68717173-ae43-4fe3-b3ef-e4ecfa5036d2")
-	)
-	(fp_line
-		(start -3.75 3.75)
-		(end -3.75 3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "bb81b335-14e8-4e75-8886-90dfb7ef86eb")
-	)
-	(fp_line
-		(start -3.13 -4.13)
-		(end 3.13 -4.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "64f5e8fa-4e2a-4c95-aaa1-cd9a75642a6b")
-	)
-	(fp_line
-		(start -3.13 -3.75)
-		(end -3.13 -4.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "149c28b0-fbb6-4f1e-9d92-7124f6da94cd")
-	)
-	(fp_line
-		(start -3.13 3.75)
-		(end -3.75 3.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "9dc2a53a-688d-4580-861b-7ea740cedef5")
-	)
-	(fp_line
-		(start -3.13 4.13)
-		(end -3.13 3.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "80ddd0ad-50fa-464f-894c-2aff0786a001")
-	)
-	(fp_line
-		(start 3.13 -4.13)
-		(end 3.13 -3.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "5cda5e7e-dc7c-43a8-a2bc-18007eb5092e")
-	)
-	(fp_line
-		(start 3.13 -3.75)
-		(end 3.75 -3.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "8709b717-026a-4684-b80e-4be224fc39cd")
-	)
-	(fp_line
-		(start 3.13 3.75)
-		(end 3.13 4.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "cd4db96d-1be6-467c-82f6-9d20930f0fa5")
-	)
-	(fp_line
-		(start 3.13 4.13)
-		(end -3.13 4.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "6f05a2f5-b98b-43ed-b1e0-c94edbf3eaad")
-	)
-	(fp_line
-		(start 3.75 -3.75)
-		(end 3.75 -3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "53b044cb-5304-4928-936d-25c1a723606c")
-	)
-	(fp_line
-		(start 3.75 -3.13)
-		(end 4.13 -3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "1b7ef371-f368-4ed0-ab34-872ba231c9bd")
-	)
-	(fp_line
-		(start 3.75 3.13)
-		(end 3.75 3.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "12e622f8-ab2f-4b91-a798-60f908284900")
-	)
-	(fp_line
-		(start 3.75 3.75)
-		(end 3.13 3.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "40ecb2b6-6fa1-487f-a0d1-a36ad1ab96ab")
-	)
-	(fp_line
-		(start 4.13 -3.13)
-		(end 4.13 3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "aab18737-6bd2-4130-a403-285fb9651d55")
-	)
-	(fp_line
-		(start 4.13 3.13)
-		(end 3.75 3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "b97b6959-ae91-409c-8840-b3d90e3cfe53")
-	)
-	(fp_rect
 		(start -3.5 -3.5)
+		(end 3.5 -3.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c1b82e96-0a29-5ec8-a162-b0d80af15d98")
+	)
+	(fp_line
+		(start 3.5 -3.5)
 		(end 3.5 3.5)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "4ec20fc7-ea8b-4d81-8121-7590fefbe8b8")
+		(uuid "d69ad6f0-13c7-58a6-8832-ffb448f9bfc8")
+	)
+	(fp_line
+		(start 3.5 3.5)
+		(end -3.5 3.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "5d6aa0e2-2cf2-55e1-b3a1-6959646fdeb6")
+	)
+	(fp_line
+		(start -3.5 3.5)
+		(end -3.5 -3.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "d485a86d-7a94-578a-b149-72c65d27ef83")
 	)
 	(fp_circle
-		(center -2.75 -2.75)
-		(end -2.65 -2.75)
+		(center -3.15 -3.15)
+		(end -2.9 -3.15)
 		(stroke
-			(width 0.3)
-			(type default)
+			(width 0)
+			(type solid)
 		)
-		(fill hatch)
+		(fill yes)
 		(layer "F.Fab")
-		(uuid "71167a41-a303-400b-9afa-87ebfe88061d")
+		(uuid "932f8a0c-e4af-52e3-9bac-e8735393c293")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "f470dc65-83d6-47f1-bbf5-decbfaf0a05f")
+		(uuid "122270da-92ee-5d9b-943d-a0863efbca4f")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -842,7 +711,7 @@
 	(pad "49" thru_hole circle
 		(at -2.325 -2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -852,7 +721,7 @@
 	(pad "49" thru_hole circle
 		(at -2.325 -1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -862,7 +731,7 @@
 	(pad "49" thru_hole circle
 		(at -2.325 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -872,7 +741,7 @@
 	(pad "49" thru_hole circle
 		(at -2.325 1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -882,7 +751,7 @@
 	(pad "49" thru_hole circle
 		(at -2.325 2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -892,7 +761,7 @@
 	(pad "49" thru_hole circle
 		(at -1.1625 -2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -902,7 +771,7 @@
 	(pad "49" thru_hole circle
 		(at -1.1625 -1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -912,7 +781,7 @@
 	(pad "49" thru_hole circle
 		(at -1.1625 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -922,7 +791,7 @@
 	(pad "49" thru_hole circle
 		(at -1.1625 1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -932,7 +801,7 @@
 	(pad "49" thru_hole circle
 		(at -1.1625 2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -942,7 +811,7 @@
 	(pad "49" thru_hole circle
 		(at 0 -2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -952,7 +821,7 @@
 	(pad "49" thru_hole circle
 		(at 0 -1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -962,7 +831,7 @@
 	(pad "49" thru_hole circle
 		(at 0 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -988,7 +857,7 @@
 	(pad "49" thru_hole circle
 		(at 0 1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -998,7 +867,7 @@
 	(pad "49" thru_hole circle
 		(at 0 2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1008,7 +877,7 @@
 	(pad "49" thru_hole circle
 		(at 1.1625 -2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1018,7 +887,7 @@
 	(pad "49" thru_hole circle
 		(at 1.1625 -1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1028,7 +897,7 @@
 	(pad "49" thru_hole circle
 		(at 1.1625 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1038,7 +907,7 @@
 	(pad "49" thru_hole circle
 		(at 1.1625 1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1048,7 +917,7 @@
 	(pad "49" thru_hole circle
 		(at 1.1625 2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1058,7 +927,7 @@
 	(pad "49" thru_hole circle
 		(at 2.325 -2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1068,7 +937,7 @@
 	(pad "49" thru_hole circle
 		(at 2.325 -1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1078,7 +947,7 @@
 	(pad "49" thru_hole circle
 		(at 2.325 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1088,7 +957,7 @@
 	(pad "49" thru_hole circle
 		(at 2.325 1.1625)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -1098,7 +967,7 @@
 	(pad "49" thru_hole circle
 		(at 2.325 2.325)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)

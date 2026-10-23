@@ -298,74 +298,14 @@
 		(uuid "026cde0e-955b-4f9e-ae92-a9d690aff406")
 	)
 	(fp_line
-		(start -2.65 -1.65)
-		(end -2.65 1.65)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "a96e9113-f3e9-48a2-a35a-805199e5715c")
-	)
-	(fp_line
-		(start -2.65 -1.65)
-		(end -1.65 -2.65)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "c13d474c-ca62-4b68-b7ee-6ebf6e328793")
-	)
-	(fp_line
-		(start -2.65 1.65)
-		(end -1.65 2.65)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "c6020fb6-c140-40f8-bcf6-da62b9f7cb13")
-	)
-	(fp_line
-		(start -2.033956 -1.2)
-		(end -1.533956 -1.2)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "22ac65ee-cce6-4d58-9f3f-15c6d853e24f")
-	)
-	(fp_line
-		(start -1.783956 -1.45)
-		(end -1.783956 -0.95)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "b0125456-a0b7-4999-aa40-ed8573dd6a3f")
-	)
-	(fp_line
-		(start -1.65 -2.65)
+		(start -2.65 -2.65)
 		(end 2.65 -2.65)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "66ee4d79-6151-483c-b90d-044029036d44")
-	)
-	(fp_line
-		(start -1.65 2.65)
-		(end 2.65 2.65)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "bf63d9d7-9832-4bfe-bf11-2ab47888a9d5")
+		(uuid "6e35be26-cf04-55a9-9853-d2eb0cff0879")
 	)
 	(fp_line
 		(start 2.65 -2.65)
@@ -375,18 +315,38 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "5a883e7a-da19-4b4e-8425-035e75906a5d")
+		(uuid "2440a168-8319-569c-b0bb-74584d2bf04b")
 	)
-	(fp_circle
-		(center 0 0)
-		(end 2.5 0)
+	(fp_line
+		(start 2.65 2.65)
+		(end -2.65 2.65)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "3b5e9ef7-a3f3-4040-a2e7-bd930ff8c6ff")
+		(uuid "2e512db0-250c-5609-b32f-89b5e5cf55fe")
+	)
+	(fp_line
+		(start -2.65 2.65)
+		(end -2.65 -2.65)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "31faac80-5372-5c78-a0e3-3e8f76a4a4ba")
+	)
+	(fp_circle
+		(center -2.3 -2.3)
+		(end -2.05 -2.3)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "f3506816-43bc-5668-ada5-20236afbfd59")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)

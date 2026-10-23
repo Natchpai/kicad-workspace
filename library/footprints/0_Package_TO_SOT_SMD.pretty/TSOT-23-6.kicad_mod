@@ -5,7 +5,7 @@
 	(descr "TSOT, 6 Pin (https://www.jedec.org/sites/default/files/docs/MO-193D.pdf variant AA)")
 	(tags "TSOT TO_SOT_SMD")
 	(property "Reference" "REF**"
-		(at 0 -2.4 0)
+		(at 0 -2.725 0)
 		(layer "F.SilkS")
 		(effects
 			(font
@@ -15,8 +15,9 @@
 		)
 	)
 	(property "Value" "TSOT-23-6"
-		(at 0 2.4 0)
+		(at 0 2.55 0)
 		(layer "F.Fab")
+		(hide yes)
 		(effects
 			(font
 				(size 1 1)
@@ -41,25 +42,25 @@
 		(start -0.91 -1.56)
 		(end 0.91 -1.56)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 	)
 	(fp_line
-		(start -0.91 -1.51)
-		(end -0.91 -1.56)
+		(start -0.91 -1.56)
+		(end -0.91 -1.51)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 	)
 	(fp_line
-		(start -0.91 1.56)
-		(end -0.91 1.51)
+		(start -0.91 1.51)
+		(end -0.91 1.56)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -68,7 +69,7 @@
 		(start 0.91 -1.56)
 		(end 0.91 -1.51)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -77,16 +78,16 @@
 		(start 0.91 1.51)
 		(end 0.91 1.56)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 	)
 	(fp_line
-		(start 0.91 1.56)
-		(end -0.91 1.56)
+		(start -0.91 1.56)
+		(end 0.91 1.56)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
@@ -98,142 +99,111 @@
 			(xy -1.21 -1.84)
 		)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
 		(layer "F.SilkS")
 	)
 	(fp_line
-		(start -2.05 -1.5)
-		(end -1.05 -1.5)
+		(start -2.05 -1.7)
+		(end 2.05 -1.7)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
+		(uuid "b709f5e7-1fa9-529b-95ed-659cebe51dd8")
 	)
 	(fp_line
-		(start -2.05 1.5)
-		(end -2.05 -1.5)
+		(start 2.05 -1.7)
+		(end 2.05 1.7)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
+		(uuid "c2d14bee-91fe-59a7-aa82-c2848db5f661")
 	)
 	(fp_line
-		(start -1.05 -1.7)
-		(end 1.05 -1.7)
+		(start 2.05 1.7)
+		(end -2.05 1.7)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
+		(uuid "75a809e1-0244-565f-97cd-0d4bcc0b4bcf")
 	)
 	(fp_line
-		(start -1.05 -1.5)
-		(end -1.05 -1.7)
+		(start -2.05 1.7)
+		(end -2.05 -1.7)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
+		(uuid "593ad43e-f226-5372-af02-57eb2927fced")
 	)
 	(fp_line
-		(start -1.05 1.5)
-		(end -2.05 1.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_line
-		(start -1.05 1.7)
-		(end -1.05 1.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_line
-		(start 1.05 -1.7)
-		(end 1.05 -1.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_line
-		(start 1.05 -1.5)
-		(end 2.05 -1.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_line
-		(start 1.05 1.5)
-		(end 1.05 1.7)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_line
-		(start 1.05 1.7)
-		(end -1.05 1.7)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_line
-		(start 2.05 -1.5)
-		(end 2.05 1.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_line
-		(start 2.05 1.5)
-		(end 1.05 1.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-	)
-	(fp_poly
-		(pts
-			(xy -0.4 -1.45)
-			(xy 0.8 -1.45)
-			(xy 0.8 1.45)
-			(xy -0.8 1.45)
-			(xy -0.8 -1.05)
-		)
+		(start -0.8 -1.45)
+		(end 0.8 -1.45)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
+		(uuid "5969fdf7-b058-5aad-b34b-5f2e35a3c6a2")
+	)
+	(fp_line
+		(start 0.8 -1.45)
+		(end 0.8 1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "5cebc383-7c99-589a-8274-b6544912295f")
+	)
+	(fp_line
+		(start 0.8 1.45)
+		(end -0.8 1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0ad17cd9-598d-59f3-8455-e3ce4acaa790")
+	)
+	(fp_line
+		(start -0.8 1.45)
+		(end -0.8 -1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "dcadaa96-9452-5b0e-9c58-3b1b3bd60150")
+	)
+	(fp_circle
+		(center -0.6 -1.25)
+		(end -0.5 -1.25)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "8d9d4f6a-591b-53ca-9600-3ed728037a8d")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 90)
 		(layer "F.Fab")
+		(uuid "145a05df-af9c-534e-95e1-b7de7714d03c")
 		(effects
 			(font
-				(size 0.72 0.72)
-				(thickness 0.11)
+				(size 0.49 0.49)
+				(thickness 0.07)
 			)
 		)
 	)

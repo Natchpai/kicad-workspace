@@ -1,1 +1,10 @@
 libDump/
+
+# Local KiCad test project at the repo root (not part of the library)
+/kicad-workspace.kicad_*
+/kicad-workspace-backups/
+/~*.lck
+/fp-lib-table
+/fp-lib-table.bak
+/sym-lib-table
+*.bak

@@ -6,7 +6,7 @@
 	(descr "Tactile switch, SPST, 6.0x3.5 mm, H2.5 mm, straight, NO, gull wing leads: https://www.ckswitches.com/media/2779/pts636.pdf")
 	(tags "switch tactile SPST 1P1T straight NO SMTR C&K")
 	(property "Reference" "REF**"
-		(at 0 -3 0)
+		(at 0 -2.9 0)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "9a507c10-7564-4f0e-965e-df7fb0743211")
@@ -90,8 +90,8 @@
 		(uuid "8a1e03e5-b667-4ae9-9435-a0c4884c3f82")
 	)
 	(fp_line
-		(start 3.2 -2)
-		(end -3.2 -2)
+		(start -3.2 -2)
+		(end 3.2 -2)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -100,8 +100,8 @@
 		(uuid "83740d23-b56f-4951-a522-93a38b74a0c2")
 	)
 	(fp_line
-		(start 3.2 -0.8)
-		(end 3.2 -2)
+		(start 3.2 -2)
+		(end 3.2 -0.8)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -110,8 +110,8 @@
 		(uuid "63ad68a5-b1a5-4899-bff6-1d7065f53027")
 	)
 	(fp_line
-		(start 3.2 2)
-		(end 3.2 0.8)
+		(start 3.2 0.8)
+		(end 3.2 2)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -120,145 +120,104 @@
 		(uuid "5219e153-f919-41b4-9e63-3461f78df75c")
 	)
 	(fp_line
-		(start -4.75 -0.75)
-		(end -3.3 -0.75)
+		(start -4.75 -2.1)
+		(end 4.75 -2.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "f2e56ad7-3b70-4e0b-8f41-2272ec2e3068")
+		(uuid "35a42ec7-16c4-5ce4-9a32-554448549c7a")
 	)
 	(fp_line
-		(start -4.75 0.75)
-		(end -4.75 -0.75)
+		(start 4.75 -2.1)
+		(end 4.75 2.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "c6fad3cb-69c4-4bef-aa35-daa316390860")
+		(uuid "c2fc4274-64f0-52cc-a64c-2808082735e2")
 	)
 	(fp_line
-		(start -3.3 -2.1)
-		(end 3.3 -2.1)
+		(start 4.75 2.1)
+		(end -4.75 2.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "d40dfd9c-1644-4ce0-a1d8-d2580aa6db84")
+		(uuid "376b1032-a073-559c-86ed-b215e34861f1")
 	)
 	(fp_line
-		(start -3.3 -0.75)
-		(end -3.3 -2.1)
+		(start -4.75 2.1)
+		(end -4.75 -2.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "8e7670d1-d3b9-4307-98c5-ad2deef6605b")
+		(uuid "f37f1622-db57-53cb-bbc7-3b35e6ac07b4")
 	)
 	(fp_line
-		(start -3.3 0.75)
-		(end -4.75 0.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "f7867537-dfcf-4ca0-90d0-161e7a11af15")
-	)
-	(fp_line
-		(start -3.3 2.1)
-		(end -3.3 0.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "78782b3b-b43d-4dc7-bf1f-9a25e756df0b")
-	)
-	(fp_line
-		(start 3.3 -2.1)
-		(end 3.3 -0.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "731d3add-86b6-48ab-8912-58b91f979e29")
-	)
-	(fp_line
-		(start 3.3 -0.75)
-		(end 4.75 -0.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "58f29df9-25a7-407f-b397-2d149152dd18")
-	)
-	(fp_line
-		(start 3.3 0.75)
-		(end 3.3 2.1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "d20f06bd-ae2e-4855-9ec3-7d775ee0c64f")
-	)
-	(fp_line
-		(start 3.3 2.1)
-		(end -3.3 2.1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "7a82d648-a48b-4530-85d4-5f365b70941e")
-	)
-	(fp_line
-		(start 4.75 -0.75)
-		(end 4.75 0.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "111d52f3-9193-440b-824b-5aab58a6b07a")
-	)
-	(fp_line
-		(start 4.75 0.75)
-		(end 3.3 0.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "07a86bb8-a740-403e-87d6-2d081caa4e10")
-	)
-	(fp_rect
 		(start -3.05 -1.85)
+		(end 3.05 -1.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "cd40beef-079e-5c95-8e0a-2b3fcc20e662")
+	)
+	(fp_line
+		(start 3.05 -1.85)
 		(end 3.05 1.85)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "d8267e4d-c4a0-41e4-9974-b4e16a3c8f72")
+		(uuid "c55401f8-2b74-5dd1-9cc0-72b3d2bfb5e8")
+	)
+	(fp_line
+		(start 3.05 1.85)
+		(end -3.05 1.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "50ba5837-9739-5942-912a-915eb3c67f64")
+	)
+	(fp_line
+		(start -3.05 1.85)
+		(end -3.05 -1.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "fa7e7a9b-e0eb-5b4f-bf7d-048a36891253")
+	)
+	(fp_circle
+		(center -2.775 -1.575)
+		(end -2.6 -1.575)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "985b8152-252c-5674-8a2c-8f99386edf26")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
-		(unlocked yes)
 		(layer "F.Fab")
-		(uuid "e32cd19c-4253-4961-9e1b-508de95b5751")
+		(uuid "fc656339-65d4-570c-85f6-39e42f9c99d7")
 		(effects
 			(font
-				(size 0.7 0.7)
-				(thickness 0.0875)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)

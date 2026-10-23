@@ -6,7 +6,7 @@
 	(descr "Resistor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
 	(property "Reference" "REF**"
-		(at 0 -1.83 0)
+		(at 0 -1.9 0)
 		(layer "F.SilkS")
 		(uuid "3f504d2b-051c-4c1e-8dc8-fec1fa3d8257")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "R_1206_3216Metric_Yageo"
-		(at 0 1.83 0)
+		(at 0 2 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "9498e110-5ac4-4115-b723-8546237f1541")
@@ -65,55 +65,113 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -0.85 -0.91)
-		(end 0.85 -0.91)
+		(start -0.725 -0.91)
+		(end 0.725 -0.91)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "40e7b458-1e4a-410b-b95a-cf2829a9b065")
 	)
 	(fp_line
-		(start -0.85 0.91)
-		(end 0.85 0.91)
+		(start -0.725 0.91)
+		(end 0.725 0.91)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(layer "F.SilkS")
 		(uuid "a6b89839-a122-4f29-a5b6-a55a4b9a4301")
 	)
-	(fp_rect
-		(start -2.55 -1.13)
-		(end 2.55 1.13)
+	(fp_line
+		(start -2.45 -1.15)
+		(end 2.45 -1.15)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "7ab5f235-8491-4153-9306-395f76d27794")
+		(uuid "1f41aa08-4ba3-53c2-9bb0-b0b760337317")
 	)
-	(fp_rect
+	(fp_line
+		(start 2.45 -1.15)
+		(end 2.45 1.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "61bc57ad-e3b5-5cfa-a437-9e3ea0665d1a")
+	)
+	(fp_line
+		(start 2.45 1.15)
+		(end -2.45 1.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5025714c-8e43-51fb-b2c3-216a4d613f4e")
+	)
+	(fp_line
+		(start -2.45 1.15)
+		(end -2.45 -1.15)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8af1c13f-8e8b-5d45-a33c-4f85c6c44082")
+	)
+	(fp_line
 		(start -1.6 -0.8)
+		(end 1.6 -0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "ad93bc06-285e-5c9d-9250-ed740b40c66d")
+	)
+	(fp_line
+		(start 1.6 -0.8)
 		(end 1.6 0.8)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "12f0e987-4c89-4dd2-8ec8-07d90dad2861")
+		(uuid "60e99b6b-6d75-57c6-acd0-6755d2693545")
+	)
+	(fp_line
+		(start 1.6 0.8)
+		(end -1.6 0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c4dfc003-270c-5a28-8f2f-2de84f4eff98")
+	)
+	(fp_line
+		(start -1.6 0.8)
+		(end -1.6 -0.8)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b8517230-1916-5021-bb18-691bc33579b3")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "01e4a193-9c27-4810-8e3a-2d14c3592745")
+		(uuid "c67f452c-2dc8-5d28-9cf5-6b5c97b74a1e")
 		(effects
 			(font
-				(size 0.6 0.6)
-				(thickness 0.09)
+				(size 0.54 0.54)
+				(thickness 0.08)
 			)
 		)
 	)

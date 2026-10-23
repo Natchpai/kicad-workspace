@@ -6,7 +6,7 @@
 	(descr "Capacitor SMD 0201 (0603 Metric), square (rectangular), Murata Recommmanded")
 	(tags "capacitor")
 	(property "Reference" "REF**"
-		(at 0 -1.05 0)
+		(at 0 -1.15 0)
 		(layer "F.SilkS")
 		(hide yes)
 		(uuid "7d476e38-4b01-439f-8748-c324aa82336c")
@@ -18,7 +18,7 @@
 		)
 	)
 	(property "Value" "C_0201_0603Metric_Murata"
-		(at 0 1.05 0)
+		(at 0 1.25 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "467539ed-7eb1-4727-baf2-47be64c8fb07")
@@ -54,36 +54,94 @@
 	(solder_mask_margin 0.03)
 	(attr smd allow_soldermask_bridges)
 	(duplicate_pad_numbers_are_jumpers no)
-	(fp_rect
-		(start -0.7 -0.325)
-		(end 0.7 0.325)
+	(fp_line
+		(start -0.68 -0.4)
+		(end 0.68 -0.4)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "3e214869-af0a-48c6-a5ac-3d11f6994389")
+		(uuid "5676d5bf-663d-509e-96dd-708cb5c66f1f")
 	)
-	(fp_rect
+	(fp_line
+		(start 0.68 -0.4)
+		(end 0.68 0.4)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "76cf9b70-42aa-5cb2-8ce8-b04d67e2158e")
+	)
+	(fp_line
+		(start 0.68 0.4)
+		(end -0.68 0.4)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8cdbc3c9-2df3-53f8-8175-fa3fe1112810")
+	)
+	(fp_line
+		(start -0.68 0.4)
+		(end -0.68 -0.4)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "aa10dac1-6015-5303-94f5-4904960cfc13")
+	)
+	(fp_line
 		(start -0.525 -0.25)
+		(end 0.525 -0.25)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "3ccd23bb-56e6-5ffe-9acc-53a3d31e0a80")
+	)
+	(fp_line
+		(start 0.525 -0.25)
 		(end 0.525 0.25)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "4f68edb0-6753-419e-83ce-403e72a6bec8")
+		(uuid "d098203f-0d72-5df2-9df7-cd778e8ca795")
+	)
+	(fp_line
+		(start 0.525 0.25)
+		(end -0.525 0.25)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "bf566068-b9b2-57e4-8214-b719ec9b442d")
+	)
+	(fp_line
+		(start -0.525 0.25)
+		(end -0.525 -0.25)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "42c0cc67-2a9e-5511-8955-e1d3107d0a3a")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "8aa10b61-4de0-4c29-a4c4-115bf496c940")
+		(uuid "dc5f6db3-b6dd-558c-a35f-66413103f191")
 		(effects
 			(font
-				(size 0.25 0.2)
-				(thickness 0.04)
+				(size 0.17 0.17)
+				(thickness 0.03)
 			)
 		)
 	)

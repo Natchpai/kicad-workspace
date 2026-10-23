@@ -6,7 +6,7 @@
 	(descr "96-Ball FBGA – x16 (TW)")
 	(tags "Integrated Circuit")
 	(property "Reference" "REF**"
-		(at 0 -8.7 0)
+		(at 0 -8.75 0)
 		(layer "F.SilkS")
 		(uuid "8b9ecd85-1daf-445c-b364-f201f124d3f5")
 		(effects
@@ -17,14 +17,14 @@
 		)
 	)
 	(property "Value" "BGA-96_8x14mm_Layout9x16_P0.8mm"
-		(at 0 0 0)
-		(layer "F.SilkS")
+		(at 0 8.85 0)
+		(layer "F.Fab")
 		(hide yes)
 		(uuid "a1710cb4-f0c7-4b17-9e64-9a3f890c834e")
 		(effects
 			(font
-				(size 1.27 1.27)
-				(thickness 0.254)
+				(size 1 1)
+				(thickness 0.15)
 			)
 		)
 	)
@@ -69,7 +69,7 @@
 			(xy -4.4 -6) (xy -4.9 -5.7) (xy -4.9 -6.3)
 		)
 		(stroke
-			(width 0.1)
+			(width 0.15)
 			(type solid)
 		)
 		(fill yes)
@@ -77,75 +77,104 @@
 		(uuid "8c40b5a1-c747-40f7-b772-4b9e53c44961")
 	)
 	(fp_line
-		(start -5.05 -8.05)
-		(end 5.05 -8.05)
+		(start -5 -8)
+		(end 5 -8)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "12492780-b8bd-47fc-9051-237cdd1cfd4b")
+		(uuid "69c550ad-28f3-546b-95b4-cb89ee236347")
 	)
 	(fp_line
-		(start -5.05 8.05)
-		(end -5.05 -8.05)
+		(start 5 -8)
+		(end 5 8)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "f2a8b2fb-2d8f-48dd-b915-e12aaf87c423")
+		(uuid "248747fc-d957-5212-869b-c2bf776d03a0")
 	)
 	(fp_line
-		(start 5.05 -8.05)
-		(end 5.05 8.05)
+		(start 5 8)
+		(end -5 8)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "b3c7fb6d-88c7-44f2-aec8-bcf959229d2b")
+		(uuid "a5aecace-fcff-54b5-bf06-c67482b93419")
 	)
 	(fp_line
-		(start 5.05 8.05)
-		(end -5.05 8.05)
+		(start -5 8)
+		(end -5 -8)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "42773e43-4ffe-44ee-a7d0-73c9e1f2ef98")
+		(uuid "258edbca-230e-516f-82ca-9ee5137b0d69")
 	)
-	(fp_rect
+	(fp_line
 		(start -4 -7)
+		(end 4 -7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "af0cd2fd-c0ea-5b33-867a-ec8acf62c208")
+	)
+	(fp_line
+		(start 4 -7)
 		(end 4 7)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "2e7164d6-fe94-414d-b5c6-f34f72a0b282")
+		(uuid "f2dc7915-3c6a-5e57-9a81-3dd0a81cd193")
 	)
-	(fp_circle
-		(center -3 -6)
-		(end -2.7 -6)
+	(fp_line
+		(start 4 7)
+		(end -4 7)
 		(stroke
 			(width 0.1)
-			(type default)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0e82ed5e-4b8f-5bd5-a358-02a99eb266fa")
+	)
+	(fp_line
+		(start -4 7)
+		(end -4 -7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "491c975b-0be5-536d-8fdb-ad19ee94e788")
+	)
+	(fp_circle
+		(center -3.65 -6.65)
+		(end -3.4 -6.65)
+		(stroke
+			(width 0)
+			(type solid)
 		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "b789af31-3049-4c3e-8099-341e0810670f")
+		(uuid "f6bb4c4f-4d49-5b58-87ef-6bd3b5509246")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 0)
+		(at 0 0 90)
 		(layer "F.Fab")
-		(uuid "a049ea99-1430-41bc-a11c-4cd70ed94779")
+		(uuid "26b45e91-2851-5817-9ac8-383c22cdb61c")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.1)
+				(thickness 0.15)
 			)
 		)
 	)

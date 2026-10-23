@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "CN"
-			(at -7.62 16.51 0)
+			(at -7.62 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "Conn_JTAG_STDC10"
-			(at 17.78 16.51 0)
+			(at 17.78 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -31,7 +31,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 0 0 0)
+			(at 0 -2.54 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -42,7 +42,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.olimex.com/Products/ARM/JTAG/ARM-JTAG-20-10/resources/ARM-JTAG-20-10_latest-schematic.pdf"
-			(at -13.97 17.78 90)
+			(at -13.97 15.24 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -53,7 +53,7 @@
 			)
 		)
 		(property "Description" "ARM Cortex-M SWD and JTAG interface 10 Pin"
-			(at -16.51 1.27 90)
+			(at -16.51 -1.27 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -87,7 +87,7 @@
 		)
 		(symbol "Conn_JTAG_STDC10_0_0"
 			(pin passive line
-				(at 12.7 12.7 180)
+				(at 12.7 10.16 180)
 				(length 2.54)
 				(name "VTRef"
 					(effects
@@ -105,7 +105,7 @@
 				)
 			)
 			(pin passive line
-				(at 12.7 8.89 180)
+				(at 12.7 5.08 180)
 				(length 2.54)
 				(name "SWDIO/TMS"
 					(effects
@@ -123,7 +123,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -15.24 90)
+				(at 0 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -141,7 +141,7 @@
 				)
 			)
 			(pin passive line
-				(at 12.7 5.08 180)
+				(at 12.7 2.54 180)
 				(length 2.54)
 				(name "SWDCLK/TCK"
 					(effects
@@ -159,7 +159,7 @@
 				)
 			)
 			(pin passive line
-				(at 3.81 -15.24 90)
+				(at 5.08 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -177,7 +177,7 @@
 				)
 			)
 			(pin passive line
-				(at 12.7 1.27 180)
+				(at 12.7 -2.54 180)
 				(length 2.54)
 				(name "SWO/TDO"
 					(effects
@@ -195,7 +195,7 @@
 				)
 			)
 			(pin no_connect line
-				(at -6.35 -15.24 90)
+				(at -5.08 -19.05 90)
 				(length 2.54)
 				(name "NC"
 					(effects
@@ -213,7 +213,7 @@
 				)
 			)
 			(pin passive line
-				(at 12.7 -2.54 180)
+				(at 12.7 -5.08 180)
 				(length 2.54)
 				(name "TDI"
 					(effects
@@ -231,7 +231,7 @@
 				)
 			)
 			(pin passive line
-				(at 7.62 -15.24 90)
+				(at 7.62 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -249,7 +249,7 @@
 				)
 			)
 			(pin passive line
-				(at 12.7 -6.35 180)
+				(at 12.7 -10.16 180)
 				(length 2.54)
 				(name "NRESET"
 					(effects
@@ -269,8 +269,8 @@
 		)
 		(symbol "Conn_JTAG_STDC10_0_1"
 			(rectangle
-				(start -10.16 15.24)
-				(end 10.16 -12.7)
+				(start -10.16 12.7)
+				(end 10.16 -16.51)
 				(stroke
 					(width 0.254)
 					(type default)

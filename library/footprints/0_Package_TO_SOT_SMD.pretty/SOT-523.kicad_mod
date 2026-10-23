@@ -6,7 +6,7 @@
 	(descr "SOT523, https://www.diodes.com/assets/Package-Files/SOT523.pdf")
 	(tags "SOT-523")
 	(property "Reference" "REF**"
-		(at 0 -2.4 0)
+		(at 0 -1.9 0)
 		(layer "F.SilkS")
 		(uuid "a97e30d3-503e-4c2e-928d-7da55b66812f")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "SOT-523"
-		(at 0 1.75 0)
+		(at 0 2 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "22c28a44-a266-4e3e-8d68-a9bf9a3beb17")
@@ -59,8 +59,8 @@
 	(attr smd)
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start 0.55 -1)
-		(end -0.65 -1)
+		(start -0.65 -1)
+		(end 0.55 -1)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -89,8 +89,8 @@
 		(uuid "6c10d266-fdf7-41db-8ac0-f15606b0a41e")
 	)
 	(fp_line
-		(start 0.55 1)
-		(end -0.65 1)
+		(start -0.65 1)
+		(end 0.55 1)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -110,75 +110,104 @@
 		(uuid "780b3574-d814-4b0a-9c1e-b8e86f481ccc")
 	)
 	(fp_line
-		(start -1.15 -1.05)
-		(end -1.15 1.05)
+		(start -1.2 -1.1)
+		(end 1.2 -1.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "b9be6c9c-2798-4caf-9b7b-b4f946a727c2")
+		(uuid "462b90c8-8b31-59fc-8da4-439bac86c6d4")
 	)
 	(fp_line
-		(start -1.15 -1.05)
-		(end 1.15 -1.05)
+		(start 1.2 -1.1)
+		(end 1.2 1.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "355023b4-0bb9-4b56-bcbc-3f21852a591f")
+		(uuid "3cea0b4b-5508-53f7-91b3-a195c03d7b5c")
 	)
 	(fp_line
-		(start 1.15 1.05)
-		(end -1.15 1.05)
+		(start 1.2 1.1)
+		(end -1.2 1.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "43192ef7-b277-4c51-af08-512917394c93")
+		(uuid "12a65f25-3c0d-52cf-a670-55bdf0763ba8")
 	)
 	(fp_line
-		(start 1.15 1.05)
-		(end 1.15 -1.05)
+		(start -1.2 1.1)
+		(end -1.2 -1.1)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "4abcff88-ac8e-4167-8302-521801c761c1")
+		(uuid "ea33fc14-a5a0-54bf-a229-7db126bc2bd0")
 	)
-	(fp_rect
+	(fp_line
 		(start -0.5 -0.85)
+		(end 0.5 -0.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "291f4d9c-8117-54c6-906c-7d863004c278")
+	)
+	(fp_line
+		(start 0.5 -0.85)
 		(end 0.5 0.85)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "3cc2e110-ae18-4575-a420-109964e6e122")
+		(uuid "f0fe0c2f-0ad4-5f92-a8ca-99ae221df0f7")
 	)
-	(fp_circle
-		(center -0.8 -0.5)
-		(end -0.7 -0.5)
+	(fp_line
+		(start 0.5 0.85)
+		(end -0.5 0.85)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
+		(layer "F.Fab")
+		(uuid "bd0ae9e5-44c4-544f-a592-301c6b9b7d04")
+	)
+	(fp_line
+		(start -0.5 0.85)
+		(end -0.5 -0.85)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "187f8d59-16e2-5103-89be-51cb86db6e0a")
+	)
+	(fp_circle
+		(center -0.3 -0.65)
+		(end -0.2 -0.65)
+		(stroke
+			(width 0)
+			(type solid)
+		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "2d0c3ff5-9973-4991-88ca-4ed0ec79d48b")
+		(uuid "119a5308-b4df-5ed8-9327-24f15e3acd13")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 0 270)
+		(at 0 0 90)
 		(layer "F.Fab")
-		(uuid "3b84aa71-aa50-4827-aa28-631343cb6961")
+		(uuid "70d41b4e-9b70-56de-862f-c7d5d2e6f25e")
 		(effects
 			(font
-				(size 0.35 0.3)
-				(thickness 0.05)
+				(size 0.28 0.28)
+				(thickness 0.04)
 			)
 		)
 	)

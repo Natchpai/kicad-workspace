@@ -122,8 +122,8 @@
 				)
 			)
 			(pin passive line
-				(at -6.35 0 0)
-				(length 3.81)
+				(at -5.08 0 0)
+				(length 2.54)
 				(name "Pin_1"
 					(effects
 						(font
@@ -140,8 +140,8 @@
 				)
 			)
 			(pin passive line
-				(at -6.35 -2.54 0)
-				(length 3.81)
+				(at -5.08 -2.54 0)
+				(length 2.54)
 				(name "Pin_2"
 					(effects
 						(font

@@ -61,7 +61,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "PG-TSON-8-4"
+		(property "ki_fp_filters" "Infineon*TSON?8?4*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

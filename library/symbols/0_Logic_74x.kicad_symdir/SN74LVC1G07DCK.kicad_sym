@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at 0 3.81 0)
+			(at 0 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19,7 +19,7 @@
 			)
 		)
 		(property "Value" "SN74LVC1G07DCK"
-			(at 0 1.27 0)
+			(at 0 8.89 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -29,7 +29,7 @@
 			)
 		)
 		(property "Footprint" "0_Package_TO_SOT_SMD:Texas_DCK0005A_SC-70-5_2x1.25mm_P0.65mm"
-			(at 1.27 7.62 0)
+			(at 1.27 15.24 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -40,7 +40,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 0 0 0)
+			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -51,7 +51,7 @@
 			)
 		)
 		(property "Description" "Single Buffer/Driver With Open-Drain Output 1.65-5.5V"
-			(at -1.27 11.43 0)
+			(at -1.27 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -63,7 +63,7 @@
 		)
 		(symbol "SN74LVC1G07DCK_0_0"
 			(pin passive line
-				(at -10.16 -12.7 0)
+				(at -10.16 -5.08 0)
 				(length 2.54)
 				(name "NC"
 					(effects
@@ -81,7 +81,7 @@
 				)
 			)
 			(pin passive line
-				(at -10.16 -7.62 0)
+				(at -10.16 0 0)
 				(length 2.54)
 				(name "IN"
 					(effects
@@ -98,8 +98,8 @@
 					)
 				)
 			)
-			(pin passive line
-				(at 10.16 -12.7 180)
+			(pin power_in line
+				(at 10.16 -5.08 180)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -117,7 +117,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 -7.62 180)
+				(at 10.16 0 180)
 				(length 2.54)
 				(name "OUT"
 					(effects
@@ -134,8 +134,8 @@
 					)
 				)
 			)
-			(pin passive line
-				(at -10.16 -2.54 0)
+			(pin power_in line
+				(at -10.16 5.08 0)
 				(length 2.54)
 				(name "VCC"
 					(effects
@@ -156,7 +156,7 @@
 		(symbol "SN74LVC1G07DCK_0_1"
 			(polyline
 				(pts
-					(xy -1.27 -5.08) (xy -1.27 -10.16) (xy 2.54 -7.62) (xy -1.27 -5.08)
+					(xy -1.27 2.54) (xy -1.27 -2.54) (xy 2.54 0) (xy -1.27 2.54)
 				)
 				(stroke
 					(width 0)
@@ -168,7 +168,7 @@
 			)
 			(polyline
 				(pts
-					(xy -1.27 -7.62) (xy -5.08 -7.62)
+					(xy -1.27 0) (xy -5.08 0)
 				)
 				(stroke
 					(width 0)
@@ -181,10 +181,10 @@
 		)
 		(symbol "SN74LVC1G07DCK_1_1"
 			(rectangle
-				(start -7.62 0)
-				(end 7.62 -15.24)
+				(start -7.62 7.62)
+				(end 7.62 -7.62)
 				(stroke
-					(width 0)
+					(width 0.254)
 					(type solid)
 				)
 				(fill

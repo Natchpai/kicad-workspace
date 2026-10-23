@@ -6,7 +6,7 @@
 	(descr "QFN, 32 Pin (http://ww1.microchip.com/downloads/en/DeviceDoc/00002164B.pdf#page=68)")
 	(tags "QFN NoLead")
 	(property "Reference" "REF**"
-		(at 0 -3.83 0)
+		(at 0 -3.88 0)
 		(layer "F.SilkS")
 		(uuid "e57b938c-3ddb-4d8e-8850-7c214828f1b2")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias"
-		(at 0 3.83 0)
+		(at 0 3.98 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "957aa911-4d91-4647-b981-fbf184e90dc0")
@@ -77,8 +77,8 @@
 		(uuid "d06d9dda-4660-4b3d-8206-e42c53364740")
 	)
 	(fp_line
-		(start -2.61 -2.135)
-		(end -2.61 -2.61)
+		(start -2.61 -2.61)
+		(end -2.61 -2.135)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -87,8 +87,8 @@
 		(uuid "129392b1-34d1-4b01-9f7b-f29e24b2837b")
 	)
 	(fp_line
-		(start -2.61 2.61)
-		(end -2.61 2.135)
+		(start -2.61 2.135)
+		(end -2.61 2.61)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -97,8 +97,8 @@
 		(uuid "555d227d-cd42-41db-bc39-0cca0a187dee")
 	)
 	(fp_line
-		(start -2.135 2.61)
-		(end -2.61 2.61)
+		(start -2.61 2.61)
+		(end -2.135 2.61)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -137,8 +137,8 @@
 		(uuid "97e0f7db-18aa-401b-9120-a6d9ef1f97b3")
 	)
 	(fp_line
-		(start 2.61 2.61)
-		(end 2.135 2.61)
+		(start 2.135 2.61)
+		(end 2.61 2.61)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -159,235 +159,104 @@
 		(uuid "2eee77a2-ba37-4afa-939d-a94daac2db12")
 	)
 	(fp_line
-		(start -3.13 -2.13)
-		(end -2.75 -2.13)
+		(start -3.13 -3.13)
+		(end 3.13 -3.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "5a965292-291c-4403-b059-22ead87945a5")
+		(uuid "757e0a91-38a4-511f-95b8-eeb04e2a2133")
 	)
 	(fp_line
-		(start -3.13 2.13)
-		(end -3.13 -2.13)
+		(start 3.13 -3.13)
+		(end 3.13 3.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "3d287f71-7146-462f-a125-df66dd8b2786")
+		(uuid "0330ff76-aa35-5adc-b3f3-0c3c8871e2a0")
 	)
 	(fp_line
-		(start -2.75 -2.75)
-		(end -2.13 -2.75)
+		(start 3.13 3.13)
+		(end -3.13 3.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "13a4469d-8518-4e03-84b3-f783668e3787")
+		(uuid "3abb6831-67f1-5b2a-bb98-fdc6604c6ba3")
 	)
 	(fp_line
-		(start -2.75 -2.13)
-		(end -2.75 -2.75)
+		(start -3.13 3.13)
+		(end -3.13 -3.13)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "6fb20d99-c394-4345-af1c-9b1a18fc3c07")
+		(uuid "c0b26afc-9294-5365-a22c-c4b2b2c5bb4f")
 	)
 	(fp_line
-		(start -2.75 2.13)
-		(end -3.13 2.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "5e6067e4-040d-4f7b-a23f-2d1698875712")
-	)
-	(fp_line
-		(start -2.75 2.75)
-		(end -2.75 2.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "6470d116-2605-4c04-888c-fd406f8b0683")
-	)
-	(fp_line
-		(start -2.13 -3.13)
-		(end 2.13 -3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "549bacc9-c8f2-4384-be84-d4f010f6d6ef")
-	)
-	(fp_line
-		(start -2.13 -2.75)
-		(end -2.13 -3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "305eb232-f7b8-4c81-af00-1e2c334bddd9")
-	)
-	(fp_line
-		(start -2.13 2.75)
-		(end -2.75 2.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "7ec5452e-82b3-4b55-9c9b-36cd2b9c1aaa")
-	)
-	(fp_line
-		(start -2.13 3.13)
-		(end -2.13 2.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "2f942e45-2113-4a07-92e8-e026dad792fb")
-	)
-	(fp_line
-		(start 2.13 -3.13)
-		(end 2.13 -2.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "0dddd834-f9aa-4a23-b564-4e0b644e695d")
-	)
-	(fp_line
-		(start 2.13 -2.75)
-		(end 2.75 -2.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "55f4395b-b11e-4c35-befc-37e81bda1d9c")
-	)
-	(fp_line
-		(start 2.13 2.75)
-		(end 2.13 3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "511654b8-4772-4189-9e46-129386a8eed7")
-	)
-	(fp_line
-		(start 2.13 3.13)
-		(end -2.13 3.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "8afdb846-ecdc-4986-91ae-3b0265fc0440")
-	)
-	(fp_line
-		(start 2.75 -2.75)
-		(end 2.75 -2.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "dcffdc48-190d-4b5d-a211-f1175388ceab")
-	)
-	(fp_line
-		(start 2.75 -2.13)
-		(end 3.13 -2.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "363f9ac7-8cd7-4256-b6b2-2a25cd36ff08")
-	)
-	(fp_line
-		(start 2.75 2.13)
-		(end 2.75 2.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "4c77791a-8a13-4a10-9a93-8f5c19de9e45")
-	)
-	(fp_line
-		(start 2.75 2.75)
-		(end 2.13 2.75)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "21383889-68b0-4b0b-a53b-87c70371fa7f")
-	)
-	(fp_line
-		(start 3.13 -2.13)
-		(end 3.13 2.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "bcc194a6-e3e6-415f-9969-0035c30617e3")
-	)
-	(fp_line
-		(start 3.13 2.13)
-		(end 2.75 2.13)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "0f7db62a-8269-40aa-aa3d-dc655d2f6777")
-	)
-	(fp_rect
 		(start -2.5 -2.5)
+		(end 2.5 -2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "16c341ce-f902-58fd-96e1-138a8bfdd238")
+	)
+	(fp_line
+		(start 2.5 -2.5)
 		(end 2.5 2.5)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "cdcdff3c-6839-42f3-bfa4-2b6f9068f07e")
+		(uuid "65eaf4f4-6c5a-5657-889a-e00e4aa65c53")
+	)
+	(fp_line
+		(start 2.5 2.5)
+		(end -2.5 2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "4d30a36d-6758-5a12-9d24-a4ae24fbd8b6")
+	)
+	(fp_line
+		(start -2.5 2.5)
+		(end -2.5 -2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b4435e66-8edf-5318-9f11-aaa94dcd7f11")
 	)
 	(fp_circle
-		(center -1.9 -1.9)
-		(end -1.8 -1.9)
+		(center -2.15 -2.15)
+		(end -1.9 -2.15)
 		(stroke
-			(width 0.25)
-			(type default)
+			(width 0)
+			(type solid)
 		)
-		(fill no)
+		(fill yes)
 		(layer "F.Fab")
-		(uuid "64704c6b-690c-4c57-b04d-7dda93ac3e49")
+		(uuid "77209099-fa97-5594-8fc0-d95f78f5674f")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "8eca5bb8-a611-4a61-89a7-2831349e140c")
+		(uuid "3c1de08b-bc50-5357-9dc3-0ccd5051d8bc")
 		(effects
 			(font
-				(size 0.7 0.65)
-				(thickness 0.1)
+				(size 0.85 0.85)
+				(thickness 0.13)
 			)
 		)
 	)
@@ -681,7 +550,7 @@
 	(pad "33" thru_hole circle
 		(at -1 -1)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -691,7 +560,7 @@
 	(pad "33" thru_hole circle
 		(at -1 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -701,7 +570,7 @@
 	(pad "33" thru_hole circle
 		(at -1 1)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -711,7 +580,7 @@
 	(pad "33" thru_hole circle
 		(at 0 -1)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -721,7 +590,7 @@
 	(pad "33" thru_hole circle
 		(at 0 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -747,7 +616,7 @@
 	(pad "33" thru_hole circle
 		(at 0 1)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -757,7 +626,7 @@
 	(pad "33" thru_hole circle
 		(at 1 -1)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -767,7 +636,7 @@
 	(pad "33" thru_hole circle
 		(at 1 0)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)
@@ -777,7 +646,7 @@
 	(pad "33" thru_hole circle
 		(at 1 1)
 		(size 0.5 0.5)
-		(drill 0.2)
+		(drill 0.3)
 		(property pad_prop_heatsink)
 		(layers "*.Cu")
 		(remove_unused_layers no)

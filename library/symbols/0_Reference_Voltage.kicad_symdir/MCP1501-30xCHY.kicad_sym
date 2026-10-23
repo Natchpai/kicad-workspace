@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at 0 5.08 0)
+			(at -1.27 12.7 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -19,7 +19,7 @@
 			)
 		)
 		(property "Value" "MCP1501T-30E"
-			(at 0 2.54 0)
+			(at -1.27 10.16 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -29,7 +29,7 @@
 			)
 		)
 		(property "Footprint" "0_Package_TO_SOT_SMD:SOT-23-6"
-			(at 0 10.16 0)
+			(at -1.27 17.78 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -40,7 +40,7 @@
 			)
 		)
 		(property "Datasheet" "https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/MCP1501-Data-Sheet-DS20005474F.pdf"
-			(at 1.27 11.43 0)
+			(at 0 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -51,7 +51,7 @@
 			)
 		)
 		(property "Description" "High-Precision Buffered Voltage Reference"
-			(at 1.27 11.43 0)
+			(at 0 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -63,7 +63,7 @@
 		)
 		(symbol "MCP1501-30xCHY_0_0"
 			(pin passive line
-				(at 8.89 -2.54 180)
+				(at 8.89 5.08 180)
 				(length 2.54)
 				(name "OUT"
 					(effects
@@ -81,7 +81,7 @@
 				)
 			)
 			(pin power_in line
-				(at 8.89 -7.62 180)
+				(at 2.54 -10.16 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -99,9 +99,8 @@
 				)
 			)
 			(pin power_in line
-				(at 8.89 -7.62 180)
+				(at 0 -10.16 90)
 				(length 2.54)
-				(hide yes)
 				(name "GND"
 					(effects
 						(font
@@ -118,7 +117,7 @@
 				)
 			)
 			(pin passive line
-				(at -8.89 -7.62 0)
+				(at -8.89 0 0)
 				(length 2.54)
 				(name "~{SHDN}"
 					(effects
@@ -136,9 +135,8 @@
 				)
 			)
 			(pin power_in line
-				(at 8.89 -7.62 180)
+				(at -2.54 -10.16 90)
 				(length 2.54)
-				(hide yes)
 				(name "GND"
 					(effects
 						(font
@@ -155,7 +153,7 @@
 				)
 			)
 			(pin power_in line
-				(at -8.89 -2.54 0)
+				(at -8.89 5.08 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -175,15 +173,14 @@
 		)
 		(symbol "MCP1501-30xCHY_0_1"
 			(rectangle
-				(start -6.35 0)
-				(end 6.35 -10.16)
+				(start -6.35 7.62)
+				(end 6.35 -7.62)
 				(stroke
-					(width 0)
+					(width 0.254)
 					(type default)
 				)
 				(fill
-					(type color)
-					(color 255 255 194 1)
+					(type background)
 				)
 			)
 		)

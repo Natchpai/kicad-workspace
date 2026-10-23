@@ -6,7 +6,7 @@
 	(descr "LED SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)")
 	(tags "LED")
 	(property "Reference" "REF**"
-		(at 0 -1.43 0)
+		(at 0 -1.625 0)
 		(layer "F.SilkS")
 		(uuid "8521efd3-b199-4ddb-b922-c16c9b2bd5f1")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "LED_0603_1608Metric"
-		(at 0 1.43 0)
+		(at 0 1.725 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "c1b6505d-1b2e-49d7-970a-5a3a1cb27fac")
@@ -87,8 +87,8 @@
 		(uuid "99b89250-c816-4685-9c1f-fe1986f01ef5")
 	)
 	(fp_line
-		(start 0 -0.725)
-		(end -1.5 -0.725)
+		(start -1.5 -0.725)
+		(end 0 -0.725)
 		(stroke
 			(width 0.15)
 			(type solid)
@@ -96,75 +96,105 @@
 		(layer "F.SilkS")
 		(uuid "dea1e5cc-0f77-4e2d-a5d4-78a3f236a153")
 	)
-	(fp_rect
-		(start -1.6 -0.81)
-		(end 1.48 0.825)
+	(fp_line
+		(start -1.48 -0.73)
+		(end 1.48 -0.73)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "de222b18-4f19-4d01-9351-f13dbfdf58a1")
+		(uuid "b1f425f9-8c03-5386-bc05-8cd701acede4")
+	)
+	(fp_line
+		(start 1.48 -0.73)
+		(end 1.48 0.73)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4cbe2366-484a-59ce-9395-ef886900ec59")
+	)
+	(fp_line
+		(start 1.48 0.73)
+		(end -1.48 0.73)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f7c6ae6d-cf3c-53b4-bdb1-c609f6d815af")
+	)
+	(fp_line
+		(start -1.48 0.73)
+		(end -1.48 -0.73)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e5d6cecc-c5c1-50eb-a40e-0633d3c7d5cd")
 	)
 	(fp_line
 		(start -0.8 -0.4)
-		(end -0.8 0.4)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "ea934b97-d1ed-441e-ade8-c67ef66798fc")
-	)
-	(fp_line
-		(start -0.8 0.4)
-		(end 0.8 0.4)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "04c21adb-0012-44b6-a1ca-3800e2fdd14e")
-	)
-	(fp_line
-		(start 0.8 -0.4)
-		(end -0.8 -0.4)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "a83b9bb9-fc74-4cee-9915-87c7b5b7e895")
-	)
-	(fp_line
-		(start 0.8 0.4)
 		(end 0.8 -0.4)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "2dd27fc0-b30b-4337-9daa-7e518c7d2e47")
+		(uuid "e344f509-14ba-5aeb-85a7-b5a083baa7f9")
 	)
-	(fp_circle
-		(center -1.15 0)
-		(end -1 0)
+	(fp_line
+		(start 0.8 -0.4)
+		(end 0.8 0.4)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
+		(layer "F.Fab")
+		(uuid "13cf1e2f-a404-50dd-aa4a-2fe19540b623")
+	)
+	(fp_line
+		(start 0.8 0.4)
+		(end -0.8 0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "cce4b2ad-97be-560e-b03c-36205f28f9ab")
+	)
+	(fp_line
+		(start -0.8 0.4)
+		(end -0.8 -0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "a8cd1b28-c557-5f33-97de-c717518fc966")
+	)
+	(fp_circle
+		(center -0.6 -0.2)
+		(end -0.5 -0.2)
+		(stroke
+			(width 0)
+			(type solid)
+		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "9e4d8e0b-f432-41aa-8631-cf297cd6ee24")
+		(uuid "30468db9-48b1-5f5b-8037-6265164ed6d5")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "cf3470b3-42a8-42cb-a029-e8a7db4c8dd1")
+		(uuid "2482f349-a0c2-5107-9dfc-b26282232cba")
 		(effects
 			(font
-				(size 0.3 0.3)
+				(size 0.27 0.27)
+				(thickness 0.04)
 			)
 		)
 	)

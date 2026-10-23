@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -15.24 1.27 0)
+			(at -15.24 24.13 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "STM32G474R_B-C-E_Tx"
-			(at 2.54 1.27 0)
+			(at 2.54 24.13 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -31,7 +31,7 @@
 			)
 		)
 		(property "Footprint" "0_Package_QFP:LQFP-64_10x10mm_P0.5mm"
-			(at 22.86 16.51 0)
+			(at 22.86 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -43,7 +43,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.st.com/resource/en/datasheet/stm32g474rb.pdf"
-			(at 2.54 13.97 0)
+			(at 2.54 36.83 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -54,7 +54,7 @@
 			)
 		)
 		(property "Description" "STMicroelectronics Arm Cortex-M4 MCU, 128-512KB flash, 128KB RAM, 170 MHz, 1.71-3.6V, 52 GPIO, LQFP64"
-			(at -6.35 11.43 0)
+			(at -6.35 34.29 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -99,19 +99,18 @@
 		(symbol "STM32G474R_B-C-E_Tx_1_1"
 			(unit_name "Power")
 			(rectangle
-				(start -15.24 0)
-				(end 15.24 -46.99)
+				(start -15.24 22.86)
+				(end 15.24 -25.4)
 				(stroke
-					(width 0)
+					(width 0.254)
 					(type solid)
 				)
 				(fill
-					(type color)
-					(color 255 255 194 1)
+					(type background)
 				)
 			)
 			(pin power_in line
-				(at -17.78 -2.54 0)
+				(at -17.78 20.32 0)
 				(length 2.54)
 				(name "VBAT"
 					(effects
@@ -129,7 +128,7 @@
 				)
 			)
 			(pin power_in line
-				(at 17.78 -31.75 180)
+				(at 17.78 -10.16 180)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -147,7 +146,7 @@
 				)
 			)
 			(pin power_in line
-				(at -17.78 -5.08 0)
+				(at -17.78 17.78 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -165,7 +164,7 @@
 				)
 			)
 			(pin power_in line
-				(at 17.78 -43.18 180)
+				(at 17.78 -20.32 180)
 				(length 2.54)
 				(name "VSSA"
 					(effects
@@ -183,7 +182,7 @@
 				)
 			)
 			(pin input line
-				(at -17.78 -43.18 0)
+				(at -17.78 -20.32 0)
 				(length 2.54)
 				(name "VREF+"
 					(effects
@@ -202,7 +201,7 @@
 				(alternate "VREFBUF_OUT" bidirectional line)
 			)
 			(pin power_in line
-				(at -17.78 -21.59 0)
+				(at -17.78 0 0)
 				(length 2.54)
 				(name "VDDA"
 					(effects
@@ -220,7 +219,7 @@
 				)
 			)
 			(pin power_in line
-				(at 17.78 -36.83 180)
+				(at 17.78 -15.24 180)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -238,7 +237,7 @@
 				)
 			)
 			(pin power_in line
-				(at -17.78 -7.62 0)
+				(at -17.78 15.24 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -256,7 +255,7 @@
 				)
 			)
 			(pin power_in line
-				(at 17.78 -39.37 180)
+				(at 17.78 -17.78 180)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -274,7 +273,7 @@
 				)
 			)
 			(pin power_in line
-				(at -17.78 -10.16 0)
+				(at -17.78 12.7 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -292,7 +291,7 @@
 				)
 			)
 			(pin power_in line
-				(at 17.78 -34.29 180)
+				(at 17.78 -12.7 180)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -310,7 +309,7 @@
 				)
 			)
 			(pin power_in line
-				(at -17.78 -12.7 0)
+				(at -17.78 10.16 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -331,19 +330,18 @@
 		(symbol "STM32G474R_B-C-E_Tx_2_1"
 			(unit_name "GPIO")
 			(rectangle
-				(start -15.24 0)
-				(end 15.24 -86.36)
+				(start -15.24 43.18)
+				(end 15.24 -43.18)
 				(stroke
-					(width 0)
+					(width 0.254)
 					(type default)
 				)
 				(fill
-					(type color)
-					(color 255 255 194 1)
+					(type background)
 				)
 			)
 			(pin bidirectional line
-				(at -17.78 -57.15 0)
+				(at -17.78 -15.24 0)
 				(length 2.54)
 				(name "PC13"
 					(effects
@@ -368,7 +366,7 @@
 				(alternate "TIM8_CH4N" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -59.69 0)
+				(at -17.78 -17.78 0)
 				(length 2.54)
 				(name "PC14"
 					(effects
@@ -387,7 +385,7 @@
 				(alternate "RCC_OSC32_IN" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -62.23 0)
+				(at -17.78 -20.32 0)
 				(length 2.54)
 				(name "PC15"
 					(effects
@@ -408,7 +406,7 @@
 				(alternate "RCC_OSC32_OUT" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -7.62 0)
+				(at -17.78 35.56 0)
 				(length 2.54)
 				(name "PF0"
 					(effects
@@ -432,7 +430,7 @@
 				(alternate "TIM1_CH3N" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -11.43 0)
+				(at -17.78 30.48 0)
 				(length 2.54)
 				(name "PF1"
 					(effects
@@ -455,7 +453,7 @@
 				(alternate "SPI2_SCK" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -2.54 0)
+				(at -17.78 40.64 0)
 				(length 2.54)
 				(name "PG10"
 					(effects
@@ -478,7 +476,7 @@
 				(alternate "RCC_MCO" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -24.13 0)
+				(at -17.78 17.78 0)
 				(length 2.54)
 				(name "PC0"
 					(effects
@@ -502,7 +500,7 @@
 				(alternate "TIM1_CH1" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -26.67 0)
+				(at -17.78 15.24 0)
 				(length 2.54)
 				(name "PC1"
 					(effects
@@ -528,7 +526,7 @@
 				(alternate "TIM1_CH2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -29.21 0)
+				(at -17.78 12.7 0)
 				(length 2.54)
 				(name "PC2"
 					(effects
@@ -556,7 +554,7 @@
 				(alternate "TIM20_CH2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -31.75 0)
+				(at -17.78 10.16 0)
 				(length 2.54)
 				(name "PC3"
 					(effects
@@ -587,7 +585,7 @@
 				(alternate "TIM1_CH4" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -2.54 180)
+				(at 17.78 40.64 180)
 				(length 2.54)
 				(name "PA0"
 					(effects
@@ -619,7 +617,7 @@
 				(alternate "USART2_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -5.08 180)
+				(at 17.78 38.1 180)
 				(length 2.54)
 				(name "PA1"
 					(effects
@@ -653,7 +651,7 @@
 				(alternate "USART2_RTS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -7.62 180)
+				(at 17.78 35.56 180)
 				(length 2.54)
 				(name "PA2"
 					(effects
@@ -688,7 +686,7 @@
 				(alternate "USART2_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -10.16 180)
+				(at 17.78 33.02 180)
 				(length 2.54)
 				(name "PA3"
 					(effects
@@ -727,7 +725,7 @@
 				(alternate "USART2_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -12.7 180)
+				(at 17.78 30.48 180)
 				(length 2.54)
 				(name "PA4"
 					(effects
@@ -754,7 +752,7 @@
 				(alternate "USART2_CK" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -15.24 180)
+				(at 17.78 27.94 180)
 				(length 2.54)
 				(name "PA5"
 					(effects
@@ -783,7 +781,7 @@
 				(alternate "UCPD1_FRSTX2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -17.78 180)
+				(at 17.78 25.4 180)
 				(length 2.54)
 				(name "PA6"
 					(effects
@@ -812,7 +810,7 @@
 				(alternate "TIM8_BKIN" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -20.32 180)
+				(at 17.78 22.86 180)
 				(length 2.54)
 				(name "PA7"
 					(effects
@@ -845,7 +843,7 @@
 				(alternate "UCPD1_FRSTX2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -34.29 0)
+				(at -17.78 7.62 0)
 				(length 2.54)
 				(name "PC4"
 					(effects
@@ -868,7 +866,7 @@
 				(alternate "USART1_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -36.83 0)
+				(at -17.78 5.08 0)
 				(length 2.54)
 				(name "PC5"
 					(effects
@@ -899,7 +897,7 @@
 				(alternate "USART1_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -45.72 180)
+				(at 17.78 -2.54 180)
 				(length 2.54)
 				(name "PB0"
 					(effects
@@ -931,7 +929,7 @@
 				(alternate "UCPD1_FRSTX2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -48.26 180)
+				(at 17.78 -5.08 180)
 				(length 2.54)
 				(name "PB1"
 					(effects
@@ -964,7 +962,7 @@
 				(alternate "TIM8_CH3N" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -50.8 180)
+				(at 17.78 -7.62 180)
 				(length 2.54)
 				(name "PB2"
 					(effects
@@ -997,7 +995,7 @@
 				(alternate "TIM5_CH1" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -71.12 180)
+				(at 17.78 -27.94 180)
 				(length 2.54)
 				(name "PB10"
 					(effects
@@ -1033,7 +1031,7 @@
 				(alternate "USART3_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -73.66 180)
+				(at 17.78 -30.48 180)
 				(length 2.54)
 				(name "PB11"
 					(effects
@@ -1064,7 +1062,7 @@
 				(alternate "USART3_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -76.2 180)
+				(at 17.78 -33.02 180)
 				(length 2.54)
 				(name "PB12"
 					(effects
@@ -1098,7 +1096,7 @@
 				(alternate "USART3_CK" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -78.74 180)
+				(at 17.78 -35.56 180)
 				(length 2.54)
 				(name "PB13"
 					(effects
@@ -1132,7 +1130,7 @@
 				(alternate "USART3_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -81.28 180)
+				(at 17.78 -38.1 180)
 				(length 2.54)
 				(name "PB14"
 					(effects
@@ -1164,7 +1162,7 @@
 				(alternate "USART3_RTS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -83.82 180)
+				(at 17.78 -40.64 180)
 				(length 2.54)
 				(name "PB15"
 					(effects
@@ -1198,7 +1196,7 @@
 				(alternate "TIM1_CH3N" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -39.37 0)
+				(at -17.78 2.54 0)
 				(length 2.54)
 				(name "PC6"
 					(effects
@@ -1223,7 +1221,7 @@
 				(alternate "TIM8_CH1" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -41.91 0)
+				(at -17.78 0 0)
 				(length 2.54)
 				(name "PC7"
 					(effects
@@ -1248,7 +1246,7 @@
 				(alternate "TIM8_CH2" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -44.45 0)
+				(at -17.78 -2.54 0)
 				(length 2.54)
 				(name "PC8"
 					(effects
@@ -1272,7 +1270,7 @@
 				(alternate "TIM8_CH3" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -46.99 0)
+				(at -17.78 -5.08 0)
 				(length 2.54)
 				(name "PC9"
 					(effects
@@ -1300,7 +1298,7 @@
 				(alternate "TIM8_CH4" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -22.86 180)
+				(at 17.78 20.32 180)
 				(length 2.54)
 				(name "PA8"
 					(effects
@@ -1332,7 +1330,7 @@
 				(alternate "USART1_CK" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -25.4 180)
+				(at 17.78 17.78 180)
 				(length 2.54)
 				(name "PA9"
 					(effects
@@ -1366,7 +1364,7 @@
 				(alternate "USART1_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -27.94 180)
+				(at 17.78 15.24 180)
 				(length 2.54)
 				(name "PA10"
 					(effects
@@ -1401,7 +1399,7 @@
 				(alternate "USART1_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -30.48 180)
+				(at 17.78 12.7 180)
 				(length 2.54)
 				(name "PA11"
 					(effects
@@ -1433,7 +1431,7 @@
 				(alternate "USB_DM" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -33.02 180)
+				(at 17.78 10.16 180)
 				(length 2.54)
 				(name "PA12"
 					(effects
@@ -1462,7 +1460,7 @@
 				(alternate "USB_DP" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -35.56 180)
+				(at 17.78 7.62 180)
 				(length 2.54)
 				(name "PA13"
 					(effects
@@ -1489,7 +1487,7 @@
 				(alternate "USART3_NSS" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -38.1 180)
+				(at 17.78 5.08 180)
 				(length 2.54)
 				(name "PA14"
 					(effects
@@ -1515,7 +1513,7 @@
 				(alternate "USART2_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -40.64 180)
+				(at 17.78 2.54 180)
 				(length 2.54)
 				(name "PA15"
 					(effects
@@ -1549,7 +1547,7 @@
 				(alternate "USART2_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -49.53 0)
+				(at -17.78 -7.62 0)
 				(length 2.54)
 				(name "PC10"
 					(effects
@@ -1577,7 +1575,7 @@
 				(alternate "USART3_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -52.07 0)
+				(at -17.78 -10.16 0)
 				(length 2.54)
 				(name "PC11"
 					(effects
@@ -1603,7 +1601,7 @@
 				(alternate "USART3_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -54.61 0)
+				(at -17.78 -12.7 0)
 				(length 2.54)
 				(name "PC12"
 					(effects
@@ -1630,7 +1628,7 @@
 				(alternate "USART3_CK" bidirectional line)
 			)
 			(pin bidirectional line
-				(at -17.78 -16.51 0)
+				(at -17.78 25.4 0)
 				(length 2.54)
 				(name "PD2"
 					(effects
@@ -1654,7 +1652,7 @@
 				(alternate "UART5_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -53.34 180)
+				(at 17.78 -10.16 180)
 				(length 2.54)
 				(name "PB3"
 					(effects
@@ -1689,7 +1687,7 @@
 				(alternate "USART2_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -55.88 180)
+				(at 17.78 -12.7 180)
 				(length 2.54)
 				(name "PB4"
 					(effects
@@ -1721,7 +1719,7 @@
 				(alternate "USART2_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -58.42 180)
+				(at 17.78 -15.24 180)
 				(length 2.54)
 				(name "PB5"
 					(effects
@@ -1754,7 +1752,7 @@
 				(alternate "USART2_CK" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -60.96 180)
+				(at 17.78 -17.78 180)
 				(length 2.54)
 				(name "PB6"
 					(effects
@@ -1785,7 +1783,7 @@
 				(alternate "USART1_TX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -63.5 180)
+				(at 17.78 -20.32 180)
 				(length 2.54)
 				(name "PB7"
 					(effects
@@ -1815,7 +1813,7 @@
 				(alternate "USART1_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -66.04 180)
+				(at 17.78 -22.86 180)
 				(length 2.54)
 				(name "PB8"
 					(effects
@@ -1844,7 +1842,7 @@
 				(alternate "USART3_RX" bidirectional line)
 			)
 			(pin bidirectional line
-				(at 17.78 -68.58 180)
+				(at 17.78 -25.4 180)
 				(length 2.54)
 				(name "PB9"
 					(effects

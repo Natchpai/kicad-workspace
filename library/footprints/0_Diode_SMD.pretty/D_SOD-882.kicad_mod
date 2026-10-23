@@ -6,7 +6,7 @@
 	(descr "SOD-882, DFN1006-2, body 1.0 x 0.6 x 0.48mm, pitch 0.65mm, https://assets.nexperia.com/documents/package-information/SOD882.pdf")
 	(tags "Diode SOD882 DFN1006-2")
 	(property "Reference" "REF**"
-		(at 0 -1.35 0)
+		(at 0 -1.3 0)
 		(layer "F.SilkS")
 		(uuid "96bbb599-2ba7-4236-9cd3-590bd44ceedd")
 		(effects
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "D_SOD-882"
-		(at 0 1.35 0)
+		(at 0 1.4 0)
 		(layer "F.Fab")
 		(hide yes)
 		(uuid "404de902-e5f2-4104-9977-b90684d99cda")
@@ -68,44 +68,44 @@
 		(uuid "4e23be00-3a3c-419d-84f7-e99910f2b4f2")
 	)
 	(fp_line
-		(start -1 -0.6)
-		(end -1 0.6)
+		(start -0.83 -0.45)
+		(end 0.83 -0.45)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "b555e9af-b330-4398-ad89-ba6e6353c712")
+		(uuid "4e7322c6-acb3-5dbb-aea8-a1e657b12a6f")
 	)
 	(fp_line
-		(start -1 -0.6)
-		(end 0.9 -0.6)
+		(start 0.83 -0.45)
+		(end 0.83 0.45)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "776a03e2-1ecd-4d90-be42-16dd33dea2e8")
+		(uuid "e9d1e0f4-aeaf-557f-b032-cdc8f21aa3b2")
 	)
 	(fp_line
-		(start 0.9 -0.6)
-		(end 0.9 0.6)
+		(start 0.83 0.45)
+		(end -0.83 0.45)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "0f7df63b-0c2f-4196-8124-aa27db19c7b8")
+		(uuid "2973adae-3745-57f4-be65-818fe319e21d")
 	)
 	(fp_line
-		(start 0.9 0.6)
-		(end -1 0.6)
+		(start -0.83 0.45)
+		(end -0.83 -0.45)
 		(stroke
 			(width 0.05)
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "71c2e0a1-6075-4495-b647-283819eaaa81")
+		(uuid "21e7b5c3-42eb-5446-9b49-1ba4cabae645")
 	)
 	(fp_line
 		(start -0.5 -0.3)
@@ -115,17 +115,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "1aa08bb1-e537-4ea0-b93b-b5d5fba4a91a")
-	)
-	(fp_line
-		(start -0.5 0.3)
-		(end -0.5 -0.3)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "14b085c3-baf1-4f76-a9b8-5e8716a2660f")
+		(uuid "53fdcdbc-e480-5ce8-934c-4de813c2159a")
 	)
 	(fp_line
 		(start 0.5 -0.3)
@@ -135,7 +125,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "e7f2ac01-77be-40fc-b9f0-ed1074aace28")
+		(uuid "2b76d593-6e5d-5e32-b261-56ad389ad036")
 	)
 	(fp_line
 		(start 0.5 0.3)
@@ -145,27 +135,37 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "9b47bbc6-8f36-4292-bd97-e88f871fce90")
+		(uuid "29feb5f7-5b74-5c32-99bb-27ebe5f71e96")
 	)
-	(fp_circle
-		(center -0.7 0)
-		(end -0.65 0)
+	(fp_line
+		(start -0.5 0.3)
+		(end -0.5 -0.3)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
+		(layer "F.Fab")
+		(uuid "c07e196c-82a1-525e-b7fa-c9bf57484dd8")
+	)
+	(fp_circle
+		(center -0.3 -0.1)
+		(end -0.2 -0.1)
+		(stroke
+			(width 0)
+			(type solid)
+		)
 		(fill yes)
 		(layer "F.Fab")
-		(uuid "1b6c0f3f-12f8-4c42-933b-ce4b51489cfb")
+		(uuid "d9aa1801-8a86-55fe-ab57-fcf58648b8f1")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "e7a56128-e039-42d8-b5f6-0279b9bba350")
+		(uuid "c28be482-c0e9-5dcc-959b-7e767502ab12")
 		(effects
 			(font
-				(size 0.3 0.2)
-				(thickness 0.04)
+				(size 0.17 0.17)
+				(thickness 0.03)
 			)
 		)
 	)

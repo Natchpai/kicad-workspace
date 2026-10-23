@@ -61,7 +61,7 @@
 				)
 			)
 		)
-		(property "ki_fp_filters" "TSDSON-8FL"
+		(property "ki_fp_filters" "Infineon*TSDSON?8*"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -5,7 +5,7 @@
 	(layer "F.Cu")
 	(descr "inductor")
 	(property "Reference" "REF**"
-		(at 0 -1.8 0)
+		(at 0 -1.75 0)
 		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "ef888253-d836-4178-be7c-45dc15f1e0b1")
@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "Untitled"
-		(at 0 1 0)
+		(at 0 1.85 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
@@ -79,36 +79,93 @@
 		(layer "F.SilkS")
 		(uuid "10cb6216-e620-4154-b5e0-c9f7cdc09ec7")
 	)
-	(fp_rect
-		(start -1.75 -0.95)
-		(end 1.75 0.95)
+	(fp_line
+		(start -1.75 -1)
+		(end 1.75 -1)
 		(stroke
 			(width 0.05)
-			(type default)
+			(type solid)
 		)
-		(fill no)
 		(layer "F.CrtYd")
-		(uuid "c21e71ab-e859-40c1-9198-195d2d34964f")
+		(uuid "c7b272a3-6c56-5899-b65d-d3e4ad6ba0c7")
 	)
-	(fp_rect
-		(start -1.1 0.7)
+	(fp_line
+		(start 1.75 -1)
+		(end 1.75 1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f31090bf-7075-5b6f-a307-9a76dc801c2d")
+	)
+	(fp_line
+		(start 1.75 1)
+		(end -1.75 1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e760681e-dfa8-5b9f-b494-24bad6006e3c")
+	)
+	(fp_line
+		(start -1.75 1)
+		(end -1.75 -1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "25deda2b-210e-5297-8659-7f44d64a2c32")
+	)
+	(fp_line
+		(start -1.1 -0.7)
 		(end 1.1 -0.7)
 		(stroke
 			(width 0.1)
 			(type solid)
 		)
-		(fill no)
 		(layer "F.Fab")
-		(uuid "4ef650f8-9623-4f28-a0d3-0f74f3a13eb3")
+		(uuid "4f7be403-66f9-52ac-a6aa-9410d2c832cd")
+	)
+	(fp_line
+		(start 1.1 -0.7)
+		(end 1.1 0.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c578ccd3-51b0-59ce-ac05-a646945804a0")
+	)
+	(fp_line
+		(start 1.1 0.7)
+		(end -1.1 0.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "c098c5e4-da61-527f-bc59-ef6d830019f3")
+	)
+	(fp_line
+		(start -1.1 0.7)
+		(end -1.1 -0.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "93bb3948-e53a-5ef7-bca3-fed06e5dffa3")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
-		(unlocked yes)
 		(layer "F.Fab")
-		(uuid "bd2c4155-dbc7-4a0c-8df1-a9622e9cda67")
+		(uuid "23af676e-cde1-5911-8868-865d2282d84d")
 		(effects
 			(font
-				(size 0.5 0.45)
+				(size 0.37 0.37)
 				(thickness 0.06)
 			)
 		)
