@@ -27,8 +27,8 @@ A **starting point** is a part's symbol, footprint and 3D model in the project l
    - lead span from center `body/2 - inset - length` to `body/2 - inset` against pad span `center ± pad length/2` (or pad diameter and grid against the land pattern for a ball grid);
    - pad width against lead width, pitch, pads per side;
    - pin 1 and numbering. KiCad footprints are top view; a bottom-view drawing is mirrored.
-   Copy the fitting one (`stock_copy.py fp`). With no fit, propose the KLC name and leave the footprint out.
-   Done when one footprint is copied with its fit shown, or reported as not in stock.
+   Copy the fitting one (`stock_copy.py fp`). With no fit, draw it with `kicad-footprint-make`. Its `fp_check.py --vs` or `--ref` shows a candidate's fit pad by pad.
+   Done when one footprint is copied or drawn with its fit shown.
 
 4. **3D model.** The stock model path must resolve: check the file under `<KiCad>/share/kicad/3dmodels/`. If it is missing, ask the user for a STEP and its source, save it as `library/3D/<Family>/<footprint name>.step` (`kicad-naming` 3D rule), and point the footprint's model path at `${KIPRJMOD}/library/3D/...`. A footprint carries one model: when the part needs a different model than another part on the same footprint, copy the footprint under the part maker's name (`Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder3x2y`), change only its name, Value, descr, tags and model path, and link the symbol to the copy.
    Done when the model file resolves, or the missing model is reported.
