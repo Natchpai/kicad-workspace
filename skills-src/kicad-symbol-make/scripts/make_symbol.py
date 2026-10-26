@@ -12,17 +12,19 @@ pins.csv (header row required; format in SPEC.md):
 
 number is one pin. A KiCad 10 pin stack "[2,5,8]" is read too (stock round trips), but the house
 style draws every pin separately. unit and side may be empty (unit 1, auto side).
-side is left, right, top, bottom or hidden (hidden is only for no_connect pins, KLC S4.6).
+side is left, right, top, bottom or hidden (hidden is only for no_connect pins, KLC S4.6). An empty
+side means auto grouping; no_connect pins are then hidden inside the body, and a side shows one.
 A row with no number and no name is an empty row on its side; an empty name is an unnamed pin. Rows starting with # are comments.
 
 layout.json (optional): name, reference, footprint, datasheet, description, keywords, fp_filters
-(list), pin_length, stack (default false: every pin drawn separately; true stacks same-name power pins
-on one unit, KLC S4.3),
+(list), pin_length, pin_pitch (left and right pins: 2.54 or 5.08; default 5.08, 2.54 for an MCU),
+stack (default false: every pin drawn separately; true stacks same-name power pins on one unit, KLC S4.3),
 units ({"1": "A", ...} unit names), interchangeable (multi-unit only; default false writes ki_locked).
 The symbol name is the output file name unless layout.json gives the same name.
 
 Drawing follows KLC: 2.54 mm grid, pins all one length (2.54, 3.81 when a pin number has 3 or more
 characters, or pin_length), name offset 0.508, text 1.27, body stroke 0.254 filled with background.
+Left and right rows are centered on y = 0; Reference and Value sit at the body's top corners.
 nRESET, RESET# and /RESET are written as ~{RESET} (S4.7); each rename is printed.
 
 --fp compares pin numbers (stacks expanded) with the footprint's pad numbers and writes nothing on
@@ -42,6 +44,7 @@ OFFSET = 0.508   # pin name offset, KLC S3.6; KiCad's default, so the file has n
 CHAR_W = 1.1     # estimated advance of one 1.27 mm character
 HALF_H = 0.7     # half the estimated text height
 MARGIN = 0.25
+NUM_W = 1.524    # pin number text beside a vertical pin, on its left: offset plus text height
 TYPES = {'input', 'output', 'bidirectional', 'tri_state', 'passive', 'free', 'unspecified',
          'power_in', 'power_out', 'open_collector', 'open_emitter', 'no_connect'}
 SHAPES = {'line', 'inverted', 'clock', 'inverted_clock', 'input_low', 'clock_low', 'output_low',
@@ -51,7 +54,14 @@ REFS = {'A', 'AE', 'BT', 'C', 'D', 'DS', 'F', 'FB', 'FD', 'FL', 'H', 'J', 'JP', 
         'MK', 'P', 'Q', 'R', 'RN', 'RT', 'RV', 'SW', 'T', 'TC', 'TJ', 'TP', 'U', 'Y', 'Z'}
 GROUND = re.compile(r'^([ADPS]?GND|V(SS|EE)|V-|EP|PAD|EPAD)\w*$', re.I)
 PORT = re.compile(r'^P([A-Z])(\d+)')
-RIGHT_TYPES = {'output', 'open_collector', 'open_emitter', 'tri_state', 'power_out', 'no_connect'}
+RIGHT_TYPES = {'output', 'open_collector', 'open_emitter', 'tri_state', 'power_out'}
+RESERVED = re.compile(r'^(RESV?|RSV|RESERVED|DNC)\d*$', re.I)
+BUS = re.compile(r'^(\w*?_)?(SCL|SCK|SCLK|SPC|SDA|SDI|SDIO|MOSI|SDO|MISO|CS|CSB|CSN|NCS|SS)$', re.I)
+BUS_RANK = {'SCL': 0, 'SCK': 0, 'SCLK': 0, 'SPC': 0, 'SDA': 1, 'SDI': 1, 'SDIO': 1, 'MOSI': 1,
+            'SDO': 2, 'MISO': 2, 'CS': 3, 'CSB': 3, 'CSN': 3, 'NCS': 3, 'SS': 3}
+IRQ = re.compile(r'^(\w*?_)?(INT\d*|DRDY|IRQ|ALERT|RDY)$', re.I)
+RESET = re.compile(r'^(N?RST|RESET)\w*$', re.I)
+PITCHES = (2.54, 5.08)
 
 
 class SpecError(Exception):
@@ -119,6 +129,25 @@ def shown(name):
     return re.sub(r'[~_^]\{([^}]*)\}', r'\1', name)
 
 
+def first(name):
+    """First function of a slash name, as drawn: AP_SDA/AP_SDIO -> AP_SDA."""
+    return shown(name).split('/')[0].strip()
+
+
+def host_role(name):
+    """(bus group, rank) of a host-side signal: bus clock 0, data 1, data out 2, select 3,
+    interrupt 4, reset 5. The group is the bus prefix (AP_, AUX1_, ''), None for interrupt and reset."""
+    f = first(name)
+    m = BUS.match(f)
+    if m:
+        return (m.group(1) or '').upper(), BUS_RANK[m.group(2).upper()]
+    if IRQ.match(f):
+        return None, 4
+    if RESET.match(f):
+        return None, 5
+    return None
+
+
 def snap_up(v):
     return math.ceil(round(v / GRID, 6)) * GRID
 
@@ -129,6 +158,14 @@ def side_x(count):
         return [(i - (count - 1) / 2) * GRID for i in range(count)]
     half = count // 2
     return [k * GRID for k in range(-half, 0)] + [k * GRID for k in range(1, half + 1)]
+
+
+def bottom_x(count, reserved):
+    """x positions for bottom pins: centered, reserved pins to their right after one empty grid step."""
+    if not count:
+        return side_x(reserved)
+    xs = side_x(count)
+    return xs + [xs[-1] + (k + 2) * GRID for k in range(reserved)]
 
 
 def text_len(name):
@@ -146,32 +183,42 @@ def inner_nodes(hw, ty, by):
             for x in range(int(round(-hw / GRID)) + 1, int(round(hw / GRID)))]
 
 
-def layout(left, right, top, bottom, hidden=0):
+def layout(left, right, top, bottom, hidden=0, pitch=GRID, reserved=(), corner=None):
     """Body with the smallest area (2.54 mm steps) where no pin names overlap and `hidden` pins find a
-    grid node inside, trying wider and taller bodies. Lists hold pin dicts or None."""
+    grid node inside, trying wider and taller bodies; at a pitch above 2.54 the lowest body that fits,
+    then the narrowest. Left and right rows are `pitch` apart, centered
+    on y = 0; `reserved` pins follow the bottom pins. `corner` is the (Reference, Value) text width
+    above the body's top corners, kept clear of the top pins. Lists hold pin dicts or None."""
     rows = max(len(left), len(right))
-    y0 = math.floor((rows - 1) / 2) * GRID if rows else 0
-    ys = [y0 - i * GRID for i in range(rows)]
+    y0 = math.floor(round((rows - 1) * pitch / 2 / GRID, 6)) * GRID if rows else 0
+    ys = [y0 - i * pitch for i in range(rows)]
     ty0 = (y0 + GRID) if rows else GRID
     by0 = (ys[-1] - GRID) if rows else -GRID
-    tx, bx = side_x(len(top)), side_x(len(bottom))
+    tx, bx = side_x(len(top)), bottom_x(len(bottom), len(reserved))
+    bottom = list(bottom) + list(reserved)
     best = None
     for extra in range(0, 41):
         ty, by = ty0 + extra * GRID, by0 - extra * GRID
         if best and 2 * GRID * (ty - by) >= best[0] - 1e-9:
             break
-        hw = fit(left, right, top, bottom, ys, ty, by, tx, bx, hidden)
+        hw = fit(left, right, top, bottom, ys, ty, by, tx, bx, hidden, corner)
         if hw and (best is None or 2 * hw * (ty - by) < best[0] - 1e-9):
             best = (2 * hw * (ty - by), hw, ty, by)
+        if best and pitch > GRID:   # wide pitch: lowest body, then narrowest
+            break
     if best is None:
         raise SpecError('pin names do not fit in any body up to 203 mm')
     _, hw, ty, by = best
     return hw, ty, by, ys, tx, bx
 
 
-def fit(left, right, top, bottom, ys, ty, by, tx, bx, hidden=0):
+def fit(left, right, top, bottom, ys, ty, by, tx, bx, hidden=0, corner=None):
     """Smallest half width for this body height, or None."""
     for hw in [GRID * k for k in range(1, 81)]:
+        if corner and any(a < x + MARGIN and x - NUM_W - MARGIN < b
+                          for x, p in zip(tx, top) if p
+                          for a, b in ((-hw, -hw + corner[0]), (hw - corner[1], hw))):
+            continue
         boxes = []
         for side, sign in ((left, -1), (right, 1)):
             for y, p in zip(ys, side):
@@ -253,7 +300,7 @@ def read_pins(path):
 class Symbol:
     def __init__(self, pins, lay, name):
         self.lay, self.name = lay, name
-        self.notes, self.warns, self.hidden = [], [], []
+        self.notes, self.warns, self.hidden, self.pitches = [], [], [], set()
         self.pins = [p for p in pins if not p.get('gap')]
         self.gaps = [p for p in pins if p.get('gap')]
         if not self.pins:
@@ -328,23 +375,39 @@ class Symbol:
         return 3.81 if chars >= 3 else 2.54
 
     def classify(self, unit):
-        """Pins of one unit sorted to sides (KLC S4.2). Returns dict side -> list of pin dict or None."""
+        """Pins of one unit sorted to sides (KLC S4.2). Returns (dict side -> list of pin dict or None,
+        MCU flag); side 'bottom_r' holds the reserved pins, drawn right of the bottom pins."""
         pins = [p for p in self.pins if p['unit'] == unit]
         conv = any(p['type'] == 'power_out' for p in pins)
         ports = [p for p in pins if not p['side'] and PORT.match(p['name'])]
         mcu = len(ports) >= 16
-        sides = {s: [] for s in SIDES}
+        sides = {s: [] for s in SIDES | {'bottom_r'}}
+        # serial bus parts: the first bus group (host) with interrupt and reset pins goes left,
+        # the other bus groups and the remaining signal pins go right
+        roles = {} if mcu else {id(p): host_role(p['name']) for p in pins if not p['side']}
+        groups = []
+        for r in roles.values():
+            if r and r[0] is not None and r[0] not in groups:
+                groups.append(r[0])
+        bus = sum(1 for r in roles.values() if r and r[0] is not None) >= 2
         auto_ports, passives = [], []
         for p in pins:
             s = p['side']
             if not s:
+                role = roles.get(id(p))
                 if mcu and p in ports:
                     auto_ports.append(p)
                     continue
                 if p['type'] in ('power_in', 'passive') and GROUND.match(shown(p['name'])):
                     s = 'bottom'
+                elif p['type'] == 'no_connect':
+                    s = 'hidden'
+                elif RESERVED.match(first(p['name'])):
+                    s = 'bottom_r'
                 elif p['type'] == 'power_in':
                     s = 'left' if conv else 'top'
+                elif bus and p['type'] != 'power_out':
+                    s = 'left' if role and role[0] in (None, groups[0]) else 'right'
                 elif p['type'] in RIGHT_TYPES:
                     s = 'right'
                 elif p['type'] == 'passive':
@@ -353,8 +416,24 @@ class Symbol:
                 else:
                     s = 'left'
             sides[s].append(p)
-        # passive pins (set resistors and capacitors, reserved pins) go together on the shorter side
+        # passive pins (set resistors and capacitors) go together on the shorter side
         sides['right' if len(sides['right']) < len(sides['left']) else 'left'] += passives
+        if bus:
+            # interrupt and reset pins move right when the right side has pins and that saves rows
+            irq = [p for p in sides['left'] if p and not p['side'] and roles.get(id(p)) and roles[id(p)][0] is None]
+            L, R, k = len(sides['left']), len(sides['right']), len(irq)
+            if R and max(L - k, R + k) < max(L, R):
+                sides['left'] = [p for p in sides['left'] if p not in irq]
+                sides['right'] += irq
+
+            # bus order: clock, data, data out, select, then interrupt and reset
+            def key(p):
+                r = roles.get(id(p))
+                if not r or r[0] is None:
+                    return (len(groups), r[1] if r else 9)
+                return (groups.index(r[0]), r[1])
+            sort_auto(sides['left'], key)
+            sort_auto(sides['right'], key)
         if conv:   # power conversion: input power first on the left, output power first on the right
             for s, t in (('left', 'power_in'), ('right', 'power_out')):
                 sort_auto(sides[s], lambda p: 0 if p['type'] == t else 1)
@@ -380,18 +459,32 @@ class Symbol:
                 lst = sides[g['side']]
                 idx = lst.index(anchor[-1]) + 1 if anchor and anchor[-1] in lst else 0
                 lst.insert(idx, None)
-        return sides
+        return sides, mcu
+
+    def pitch(self, mcu):
+        """Left and right pin pitch: pin_pitch, else 2.54 for an MCU and 5.08 for other parts."""
+        want = self.lay.get('pin_pitch')
+        if want is None:
+            return GRID if mcu else 2 * GRID
+        if isinstance(want, bool) or not isinstance(want, (int, float)) or \
+                not any(abs(want - v) < 1e-6 for v in PITCHES):
+            raise SpecError(f'pin_pitch {want!r}: 2.54 or 5.08')
+        return float(want)
 
     def draw_unit(self, unit):
-        sides = self.classify(unit)
+        sides, mcu = self.classify(unit)
         hidden = sides['hidden']
-        hw, ty, by, ys, tx, bx = layout(sides['left'], sides['right'], sides['top'], sides['bottom'], len(hidden))
+        pitch = self.pitch(mcu)
+        self.pitches.add(pitch)
+        corner = ((len(self.lay.get('reference', 'U')) + 2) * CHAR_W, len(shown(self.name)) * CHAR_W)
+        hw, ty, by, ys, tx, bx = layout(sides['left'], sides['right'], sides['top'], sides['bottom'], len(hidden),
+                                        pitch, sides['bottom_r'], corner)
         L = self.pin_len
         placed = []
         for side, x, rot in (('left', -hw - L, 0), ('right', hw + L, 180)):
             placed += [(p, x, y, rot, False) for y, p in zip(ys, sides[side]) if p]
-        for side, xs, y, rot in (('top', tx, ty + L, 270), ('bottom', bx, by - L, 90)):
-            placed += [(p, x, y, rot, False) for x, p in zip(xs, sides[side]) if p]
+        for pl, xs, y, rot in ((sides['top'], tx, ty + L, 270), (sides['bottom'] + sides['bottom_r'], bx, by - L, 90)):
+            placed += [(p, x, y, rot, False) for x, p in zip(xs, pl) if p]
         # hidden NC pins (side=hidden): connection point on grid nodes inside the body (KLC S4.6)
         placed += [(p, x, y, 0, True) for p, (x, y) in zip(hidden, inner_nodes(hw, ty, by))]
         self.hidden += [stack_text(p['nums']) for p in hidden]
@@ -406,8 +499,7 @@ class Symbol:
         hw = max(d[0] for d in drawn.values())
         ty = max(d[1] for d in drawn.values())
         by = min(d[2] for d in drawn.values())
-        has_top = any(rot == 270 for d in drawn.values() for _, _, _, rot, _ in d[3])
-        ref_y = ty + (self.pin_len + 1.27 if has_top else 1.27)
+        ref_y = ty + 1.27   # Reference and Value at the body's top corners; layout() keeps them clear of the top pins
         fp = lay.get('footprint', '')
         if fp and not re.match(r'^[^:\s]+:[^:\s]+$', fp):
             raise SpecError(f'footprint {fp!r} is not lib:name (KLC S5.1)')
@@ -486,8 +578,10 @@ class Symbol:
 
     def summary(self):
         stacks = [stack_text(p['nums']) + ' ' + p['name'] for p in self.pins if len(p['nums']) > 1]
-        shown_nc = [stack_text(p['nums']) for p in self.pins if p['type'] == 'no_connect' and p['side'] != 'hidden']
-        lines = [f'pins {self.count} ({len(self.pins)} drawn), units {len(self.units)}, pin length {n(self.pin_len)}',
+        shown_nc = [stack_text(p['nums']) for p in self.pins if p['type'] == 'no_connect'
+                    and stack_text(p['nums']) not in self.hidden]
+        lines = [f'pins {self.count} ({len(self.pins)} drawn), units {len(self.units)}, pin length {n(self.pin_len)}, '
+                 f'side pitch {" / ".join(n(v) for v in sorted(self.pitches))}',
                  'body ' + ', '.join(f'unit {u} {n(w)} x {n(h)}' for u, (w, h) in self.size.items())]
         if stacks:
             lines.append('stacks: ' + '; '.join(stacks))

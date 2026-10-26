@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -10.16 10.16 0)
+			(at -12.7 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20,18 +20,18 @@
 			)
 		)
 		(property "Value" "ICP-20100"
-			(at 10.16 -11.43 0)
+			(at -12.7 -13.97 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify right)
+				(justify left)
 			)
 		)
 		(property "Footprint" "0_Package_LGA:ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y"
-			(at 0 -22.86 0)
+			(at 0 -39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -42,7 +42,7 @@
 			)
 		)
 		(property "Datasheet" "https://invensense.tdk.com/products/smartpressure/icp-20100/"
-			(at 0 -25.4 0)
+			(at 0 -41.91 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -53,7 +53,7 @@
 			)
 		)
 		(property "Description" "Barometric pressure and temperature sensor, I3C/I2C/SPI, LGA-10 2x2mm"
-			(at 0 -27.94 0)
+			(at 0 -44.45 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -87,8 +87,8 @@
 		)
 		(symbol "ICP-20100_0_1"
 			(rectangle
-				(start -10.16 8.89)
-				(end 10.16 -10.16)
+				(start -12.7 12.7)
+				(end 12.7 -12.7)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -100,7 +100,7 @@
 		)
 		(symbol "ICP-20100_1_1"
 			(pin input line
-				(at -12.7 2.54 0)
+				(at -15.24 -5.08 0)
 				(length 2.54)
 				(name "CSB"
 					(effects
@@ -118,7 +118,7 @@
 				)
 			)
 			(pin input line
-				(at -12.7 0 0)
+				(at -15.24 10.16 0)
 				(length 2.54)
 				(name "SCL"
 					(effects
@@ -136,7 +136,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -12.7 90)
+				(at 0 -15.24 90)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -154,7 +154,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -12.7 -2.54 0)
+				(at -15.24 5.08 0)
 				(length 2.54)
 				(name "SDA/SDIO/SDI"
 					(effects
@@ -172,7 +172,7 @@
 				)
 			)
 			(pin power_in line
-				(at 2.54 11.43 270)
+				(at 2.54 15.24 270)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -190,7 +190,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -12.7 -5.08 0)
+				(at -15.24 0 0)
 				(length 2.54)
 				(name "SDO/AD0"
 					(effects
@@ -208,7 +208,7 @@
 				)
 			)
 			(pin output line
-				(at 12.7 2.54 180)
+				(at -15.24 -10.16 0)
 				(length 2.54)
 				(name "INT"
 					(effects
@@ -226,7 +226,7 @@
 				)
 			)
 			(pin passive line
-				(at 12.7 0 180)
+				(at 8.89 -15.24 90)
 				(length 2.54)
 				(name "RESV"
 					(effects
@@ -244,7 +244,7 @@
 				)
 			)
 			(pin passive line
-				(at 12.7 -2.54 180)
+				(at 6.35 -15.24 90)
 				(length 2.54)
 				(name "RESV"
 					(effects
@@ -262,7 +262,7 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 11.43 270)
+				(at -2.54 15.24 270)
 				(length 2.54)
 				(name "VDDIO"
 					(effects
