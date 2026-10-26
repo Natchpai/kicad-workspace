@@ -18,16 +18,20 @@ exposed pad to other pads >= 0.2 mm (F6.3); paste over a via drill >= 0.3 mm (F4
 number differs from its exposed pad (F4.3); B.Cu pad under thermal vias (F4.4.2); heatsink fab
 property and solid zone connection on exposed pads and vias (F6.3); copper graphics outside a
 pad; courtyard clearance (0.25 mm; 0.15 mm when the body is under 1.5 mm both ways) and 0.01 mm
-grid (F5.3); silkscreen to copper (at least the line width and mask margin, 0.2 mm recommended,
-F5.1); pin 1 (or A1) at the top left (F4.2); annular ring >= 0.15 mm (F7.5); THT pin 1 shape
+grid (F5.3); silkscreen to copper (at least 0.15 mm DFM, the line width and the mask margin, 0.2 mm
+recommended, F5.1); DFM silkscreen: lines >= 0.15 mm (a filled pin 1 mark over 0.15 mm across:
+>= 0.1 mm), visible text >= 1 x 1 mm and 0.15 mm thick, text >= 0.15 mm from copper (estimated box),
+no filled dot on silkscreen, filled pin 1 mark inside the courtyard (F5.1);
+F.Fab ${REFERENCE} 1 x 1 mm, 0.1 mm thick, smaller only to fit a small body (house rule); F.SilkS
+and F.Fab points and text positions on the 0.05 mm grid (house rule, INFO); pin 1 (or A1) at the top left (F4.2); annular ring >= 0.15 mm (F7.5); THT pin 1 shape
 (F7.3, INFO); stencil area ratio < 0.66 or aspect ratio < 1.5 (IPC-7525) at --stencil thickness.
 
 Copper is measured as polygons: rect, roundrect, circle (KiCad uses the x size) and oval
 outlines, custom pad primitives (poly, rect, circle, line and arc, with stroke width), shape
 offset and rotation. Paste openings are bounding boxes with their corner radius. Footprint-level
 paste and mask margins apply when a pad has none; board-level margins are taken as zero.
-Silkscreen text is not checked. Output lines start with PASS, WARN, DIFF or INFO. Exit code 1
-when any DIFF is found.
+Text outlines are estimated (0.9 x size per character, centered). Output lines start with PASS, WARN, DIFF or INFO. Exit code 1
+when any DIFF is found, 2 on a read or spec error.
 """
 import argparse
 import importlib.util
@@ -38,6 +42,22 @@ import re
 import sys
 
 EPS = 1e-6
+
+
+def load_maker():
+    """make_footprint.py from this folder: the DFM limits, fab_text() and the spec builder."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    spec_mod = importlib.util.spec_from_file_location('make_footprint',
+                                                      os.path.join(here, 'make_footprint.py'))
+    sys.dont_write_bytecode = True  # keep the skill folder clean
+    mod = importlib.util.module_from_spec(spec_mod)
+    spec_mod.loader.exec_module(mod)
+    return mod
+
+
+MF = load_maker()
+SILK_MIN_WIDTH, SILK_MIN_TEXT, SILK_MIN_CLEARANCE = MF.SILK_MIN_WIDTH, MF.SILK_MIN_TEXT, MF.SILK_MIN_CLEARANCE
+MARK_MIN_WIDTH, MARK_MIN_SIZE = MF.MARK_MIN_WIDTH, MF.MARK_MIN_SIZE
 
 
 # ---- s-expression ---------------------------------------------------------------------------
@@ -282,6 +302,7 @@ class Footprint:
                           for k in ('solder_mask_margin', 'solder_paste_margin', 'solder_paste_ratio')}
         self.pads = []
         self.graphics = []
+        self.texts = []
         for c in root:
             if not isinstance(c, list):
                 continue
@@ -289,13 +310,13 @@ class Footprint:
                 self.pads.append(self.read_pad(c))
             elif c[0] in ('fp_line', 'fp_rect', 'fp_poly', 'fp_circle', 'fp_arc'):
                 self.graphics.append(self.read_graphic(c))
+            elif c[0] in ('property', 'fp_text') and kid(c, 'layer'):
+                self.texts.append(self.read_text(c))
         m = kid(root, 'model')
         self.model = m[1] if m else None
         a = kid(root, 'attr')
         self.attr = a[1] if a and len(a) > 1 else None
-        v = [c for c in kids(root, 'property') if c[1] == 'Value']
-        self.value_hidden = bool(v) and (any(h[1:] == ['yes'] for h in kids(v[0], 'hide'))
-                                         or 'hide' in (kid(v[0], 'effects') or []))
+        self.value_hidden = any(t['hidden'] for t in self.texts if t['name'] == 'Value')
         self.derive()
 
     def read_pad(self, c):
@@ -386,6 +407,22 @@ class Footprint:
         p['paste'] = 'F.Paste' in p['layers']
         return p
 
+    @staticmethod
+    def read_text(c):
+        """Property or fp_text: text, layer, hidden, font size (h, w), thickness, at (x, y, rot)."""
+        eff = kid(c, 'effects') or []
+        font = kid(eff, 'font') or []
+        size = xy(font, 'size') or (1.27, 1.27)
+        th = kid(font, 'thickness')
+        at = kid(c, 'at')
+        hidden = (any(h[1:] == ['yes'] for h in kids(c, 'hide') + kids(eff, 'hide'))
+                  or 'hide' in c or 'hide' in eff)
+        return {'name': c[1] if c[0] == 'property' else None, 'text': c[2], 'layer': kid(c, 'layer')[1], 'hidden': hidden, 'size': size,
+                'thick': num(th[1]) if th else min(size) / 8,   # KiCad's default pen
+                'auto': not th,
+                'at': (num(at[1]), num(at[2]),   # older files write (at x y unlocked)
+                       num(at[3]) if len(at) > 3 and re.match(r'-?[\d.]+$', at[3]) else 0.0)}
+
     def read_graphic(self, c):
         gr = {'type': c[0], 'layer': kid(c, 'layer')[1]}
         st = kid(c, 'stroke')
@@ -413,6 +450,8 @@ class Footprint:
             segs = [(pts[i], pts[i + 1]) for i in range(len(pts) - 1)]
         gr['pts'] = pts
         gr['segs'] = segs
+        # points as written (an arc's mid point is off the grid by nature)
+        gr['raw'] = pts if c[0] == 'fp_poly' else [xy(c, k) for k in ('start', 'end', 'center') if kid(c, k)]
         gr['box'] = box_of(pts, gr['width'] / 2)
         return gr
 
@@ -468,7 +507,14 @@ class Footprint:
         self.crtyd = box_of([pt for gr in crt for pt in gr['pts']]) if crt else None
         self.crtyd_pts = [pt for gr in crt for pt in gr['pts']
                           if gr['type'] in ('fp_line', 'fp_rect', 'fp_poly')]
-        fab = [gr for gr in self.graphics if gr['layer'] == 'F.Fab' and gr['type'] != 'fp_circle']
+        # fab outline: the body, without the pin 1 marks (filled shapes, circles, lines with a free end)
+        fab = [gr for gr in self.graphics if gr['layer'] == 'F.Fab' and gr['type'] != 'fp_circle'
+               and not gr['filled']]
+        # an outline end meets another line end within 0.05 mm (hand-drawn outlines leave small gaps)
+        ends = [pt for gr in fab if gr['type'] == 'fp_line' for pt in gr['pts']]
+        joined = lambda pt: sum(math.hypot(pt[0] - q[0], pt[1] - q[1]) <= 0.05 for q in ends) > 1
+        body = [gr for gr in fab if gr['type'] != 'fp_line' or all(joined(pt) for pt in gr['pts'])]
+        fab = body or fab
         self.fab = box_of([pt for gr in fab for pt in gr['pts']]) if fab else None
         self.silk = [gr for gr in self.graphics if gr['layer'] == 'F.SilkS']
 
@@ -518,6 +564,105 @@ def table(fp):
     if fp.fab:
         print(f'  fab outline {g(dims(fp.fab)[0])}x{g(dims(fp.fab)[1])}')
     print(f'  model {fp.model}')
+
+
+def text_box(t):
+    """Estimated outline of a centered text: CHAR_ADV x width per character, plus the pen."""
+    h, w = t['size']
+    hw = len(t['text']) * MF.CHAR_ADV * w / 2 + t['thick'] / 2
+    hh = h / 2 + t['thick'] / 2
+    if round(t['at'][2]) % 180 == 90:
+        hw, hh = hh, hw
+    x, y = t['at'][:2]
+    return (x - hw, y - hh, x + hw, y + hh)
+
+
+def silk_dfm(fp):
+    """DFM house rules: silkscreen lines >= 0.15 mm (a filled pin 1 mark over 0.15 mm across may
+    use 0.1 mm), visible silkscreen text >= 1 x 1 mm and 0.15 mm thick, text >= 0.15 mm from copper."""
+    out = []
+    bad = {}
+    for gr in fp.silk:
+        mark = gr['filled'] and gr['type'] in ('fp_poly', 'fp_circle')
+        need = MARK_MIN_WIDTH if mark and max(dims(gr['box'])) > MARK_MIN_SIZE + EPS else SILK_MIN_WIDTH
+        if gr['width'] < need - 0.001:
+            k = f'{"filled pin 1 mark" if mark else gr["type"]} {g(gr["width"])} mm (needs {g(need)})'
+            bad[k] = bad.get(k, 0) + 1
+    if bad:
+        out.append('WARN  silkscreen line width under the DFM minimum: '
+                   + '; '.join(f'{n}x {k}' for k, n in bad.items()))
+    elif fp.silk:
+        out.append(f'PASS  silkscreen lines >= {g(SILK_MIN_WIDTH)} mm (pin 1 mark >= {g(MARK_MIN_WIDTH)})')
+    if any(gr['type'] == 'fp_circle' and gr['filled'] for gr in fp.silk):
+        out.append('WARN  filled dot on silkscreen; the house pin 1 mark is an arrow (+ for polarized SMD capacitors)')
+    c = fp.crtyd
+    if c and any(gr['filled'] and not (c[0] - 0.001 <= gr['box'][0] and gr['box'][2] <= c[2] + 0.001
+                                       and c[1] - 0.001 <= gr['box'][1] and gr['box'][3] <= c[3] + 0.001)
+                 for gr in fp.silk):
+        out.append('WARN  pin 1 silk mark outside the courtyard (KLC F5.1)')
+    for t in fp.texts:
+        if not t['layer'].endswith('.SilkS') or t['hidden']:
+            continue
+        h, w = t['size']
+        name = f'silkscreen text "{t["text"]}" {g(h)}x{g(w)} mm, {g(t["thick"])} thick'
+        if min(h, w) < SILK_MIN_TEXT - 0.001 or t['thick'] < SILK_MIN_WIDTH - 0.001:
+            out.append(f'WARN  {name}: DFM needs >= {g(SILK_MIN_TEXT)}x{g(SILK_MIN_TEXT)} mm, '
+                       f'>= {g(SILK_MIN_WIDTH)} thick')
+        else:
+            out.append(f'PASS  {name}')
+        tb = text_box(t)
+        gap = min((0.0 if overlap(tb, cb) else poly_poly_dist(rect_poly(tb), c)
+                   for c, cb in zip(fp.copper, fp.copper_boxes) if near(cb, tb, 1.0)), default=None)
+        if gap is not None and gap < SILK_MIN_CLEARANCE - 0.001:
+            out.append(f'WARN  silkscreen text "{t["text"]}" about {g(gap)} mm from copper (estimated text box; '
+                       f'DFM {g(SILK_MIN_CLEARANCE)} mm)')
+    return out
+
+
+def graphic_grid(fp):
+    """House rule: F.SilkS and F.Fab points and text positions on the 0.05 mm grid (INFO)."""
+    G = MF.GRAPHIC_GRID
+    off = lambda v: abs(v / G - round(v / G)) > 1e-4
+    bad = {}
+    for gr in fp.graphics:
+        if gr['layer'] in ('F.SilkS', 'F.Fab') and any(off(x) or off(y) for x, y in gr['raw']):
+            bad[gr['layer']] = bad.get(gr['layer'], 0) + 1
+    for t in fp.texts:
+        if t['layer'] in ('F.SilkS', 'F.Fab') and not t['hidden'] and (off(t['at'][0]) or off(t['at'][1])):
+            bad[t['layer']] = bad.get(t['layer'], 0) + 1
+    if bad:
+        return [f'INFO  off the {g(G)} mm grid (house rule): '
+                + ', '.join(f'{n} {k} item(s)' for k, n in sorted(bad.items()))]
+    return [f'PASS  silkscreen and fab on the {g(G)} mm grid']
+
+
+def fab_reference(fp):
+    """House rule: ${REFERENCE} on F.Fab 1 x 1 mm and 0.1 mm thick; smaller only when the body has
+    no room for 5 characters, then no bigger than fab_text() of the fab outline."""
+    refs = [t for t in fp.texts if t['layer'] == 'F.Fab' and t['text'] == '${REFERENCE}']
+    if not refs:
+        return ['WARN  no ${REFERENCE} text on F.Fab (KLC F5.2)']
+    t = refs[0]
+    h, w = t['size']
+    fit, _ = MF.fab_text(*dims(fp.fab)) if fp.fab else (MF.FAB_TEXT, MF.FAB_TEXT_WIDTH)
+    name = f'F.Fab ${{REFERENCE}} {g(h)}x{g(w)} mm, {g(t["thick"])} thick'
+    if round(t['at'][2]) % 180 == 90:   # turned along a tall body (SOT-23): any size that fits
+        fit = MF.fab_text(*reversed(dims(fp.fab)))[0] if fp.fab else MF.FAB_TEXT
+        ok = max(h, w) <= fit + 0.001 and t['thick'] <= MF.FAB_TEXT_WIDTH + 0.001
+        return [f'{"PASS" if ok else "WARN"}  {name}, turned 90 deg (at most {g(fit)} mm to fit, <= '
+                f'{g(MF.FAB_TEXT_WIDTH)} thick)']
+    if abs(h - w) > 0.001 and max(h, w) <= max(fit, MF.FAB_TEXT) + 0.001:
+        # height and width set apart on purpose, to tell the footprint apart at a glance
+        return [f'INFO  {name} (height and width differ: hand-set style, not checked)']
+    if fit >= MF.FAB_TEXT:
+        ok = (abs(h - MF.FAB_TEXT) < 0.001 and abs(w - MF.FAB_TEXT) < 0.001
+              and abs(t['thick'] - MF.FAB_TEXT_WIDTH) < 0.001)
+        need = f'house rule {g(MF.FAB_TEXT)}x{g(MF.FAB_TEXT)} mm, {g(MF.FAB_TEXT_WIDTH)} thick'
+    else:
+        # 0.05 mm over the fit is fine on tiny parts (stock 0402 text is 0.17 for a 0.15 fit)
+        ok = max(h, w) <= fit + 0.05 + 0.001 and t['thick'] <= MF.FAB_TEXT_WIDTH + 0.001
+        need = f'small body: at most {g(fit)} mm (+0.05) to fit, <= {g(MF.FAB_TEXT_WIDTH)} thick'
+    return [f'{"PASS" if ok else "WARN"}  {name} ({need})']
 
 
 def checks(fp, stencil, crt_req):
@@ -639,16 +784,22 @@ def checks(fp, stencil, crt_req):
                 for c in fp.copper:
                     if any(poly_contains(x, y, gr['pts']) for x, y in c[:1]):
                         worst, need = min(worst, -gr['width'] / 2), max(gr['width'], mm)
+        need = max(need, SILK_MIN_CLEARANCE)
         if worst >= 1e8:
             say('PASS', 'silkscreen to copper > 1 mm')
         elif worst < need - 0.001:
-            say('WARN', f'silkscreen to copper {g(worst)} mm, KLC needs at least {g(need)} mm (F5.1)')
+            say('WARN', f'silkscreen to copper {g(worst)} mm, needs at least {g(need)} mm '
+                f'(DFM {g(SILK_MIN_CLEARANCE)} mm; KLC F5.1 line width and mask margin)')
         elif worst < 0.2 - 0.001:
             say('INFO', f'silkscreen to copper {g(worst)} mm, KLC recommends 0.2 mm')
         else:
             say('PASS', f'silkscreen to copper {g(worst)} mm')
     else:
         say('WARN', 'no silkscreen')
+    out += silk_dfm(fp) + fab_reference(fp) + graphic_grid(fp)
+    auto = [t['text'] for t in fp.texts if t['auto']]
+    if auto:   # house rule: every text states its thickness
+        say('WARN', f'{len(auto)} text(s) with auto thickness: {", ".join(sorted(set(auto))[:5])}')
 
     p1 = next((p for p in fp.main_pads if p['num'] in ('1', 'A1')), None)
     if p1 is None:
@@ -831,14 +982,8 @@ def compare(a, b, tol):
 
 
 def load_spec_text(path):
-    here = os.path.dirname(os.path.abspath(__file__))
-    spec_mod = importlib.util.spec_from_file_location('make_footprint',
-                                                      os.path.join(here, 'make_footprint.py'))
-    sys.dont_write_bytecode = True  # keep the skill folder clean
-    mod = importlib.util.module_from_spec(spec_mod)
-    spec_mod.loader.exec_module(mod)
     with open(path, encoding='utf-8') as fh:
-        return mod.build_text(json.load(fh))[0]
+        return MF.build_text(json.load(fh))[0]
 
 
 def main():
@@ -852,20 +997,27 @@ def main():
     ap.add_argument('--courtyard', type=float, help='required courtyard clearance, mm')
     ap.add_argument('--quiet', action='store_true', help='skip the measurement table')
     a = ap.parse_args()
-    with open(a.fp, encoding='utf-8') as fh:
-        fp = Footprint(fh.read(), os.path.basename(a.fp))
+    other = None
+    try:
+        with open(a.fp, encoding='utf-8') as fh:
+            fp = Footprint(fh.read(), os.path.basename(a.fp))
+        if a.ref:
+            other = Footprint(load_spec_text(a.ref), 'spec')
+        elif a.vs:
+            with open(a.vs, encoding='utf-8') as fh:
+                other = Footprint(fh.read(), os.path.basename(a.vs))
+            if other.label == fp.label:
+                other.label = 'other'
+    except MF.SpecError as e:
+        print(f'spec error: {e}')
+        sys.exit(2)
+    except (OSError, ValueError, IndexError, TypeError, KeyError, AttributeError) as e:
+        print(f'read error: {type(e).__name__}: {e}')
+        sys.exit(2)
     if not a.quiet:
         table(fp)
     for line in checks(fp, a.stencil, a.courtyard):
         print(line)
-    other = None
-    if a.ref:
-        other = Footprint(load_spec_text(a.ref), 'spec')
-    elif a.vs:
-        with open(a.vs, encoding='utf-8') as fh:
-            other = Footprint(fh.read(), os.path.basename(a.vs))
-        if other.label == fp.label:
-            other.label = 'other'
     rc = 0
     if other:
         if a.vs and not a.quiet:

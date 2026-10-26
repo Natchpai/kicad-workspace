@@ -28,7 +28,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "0_Conn_PinHeader:PinHeader_2x05_P1.27mm_Vertical_SMD"
 			(at 0 -20.32 0)
 			(show_name no)
 			(do_not_autoplace no)

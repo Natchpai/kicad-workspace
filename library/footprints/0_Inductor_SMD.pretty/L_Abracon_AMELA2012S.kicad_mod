@@ -7,7 +7,7 @@
 		(at 0 -2 0)
 		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "4ab4c039-adb4-4a0c-8681-61f13a050faf")
+		(uuid "fd636e6f-06a4-417c-aeea-52a6053d3bbb")
 		(effects
 			(font
 				(size 1 1)
@@ -20,7 +20,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "f08d0437-bcb3-41f9-bba1-733c704c4b08")
+		(uuid "9dc84ca0-6ab9-409b-adc4-7c858cd9dd12")
 		(effects
 			(font
 				(size 1 1)
@@ -33,7 +33,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "a45fcc48-84fc-48cc-86ba-fa633e79cacc")
+		(uuid "cfd9a489-1ccf-4ea0-a9f1-9de9ea2fc465")
 		(effects
 			(font
 				(size 1 1)
@@ -46,7 +46,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "2105c51e-1a62-419f-aa2f-f6ce24cd670e")
+		(uuid "6cab5bd5-5e93-4c09-81cb-ed683d955059")
 		(effects
 			(font
 				(size 1 1)
@@ -65,7 +65,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "51babf67-68eb-41d6-99d3-9713f46fefa4")
+		(uuid "cf66f9b0-3f18-4ede-9e28-b09c61e5f312")
 	)
 	(fp_line
 		(start -0.3 1.1)
@@ -75,7 +75,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "d8ae8f62-efc5-49d0-8cac-23e8ffd5e67b")
+		(uuid "7f182fd6-03a0-4a98-bfc0-e661118d7388")
 	)
 	(fp_line
 		(start -1.85 -1.25)
@@ -85,27 +85,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "78645e1e-f423-5448-8cb7-c43108cc355d")
-	)
-	(fp_line
-		(start 1.85 -1.25)
-		(end 1.85 1.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "7114cd5a-74f1-5cd0-a4a5-f6c6c0de80f4")
-	)
-	(fp_line
-		(start 1.85 1.25)
-		(end -1.85 1.25)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "5f272b90-ffef-554b-ac39-bbfe2e75faaa")
+		(uuid "d6c9f4ef-2a2e-4d96-9707-9e8464f08e16")
 	)
 	(fp_line
 		(start -1.85 1.25)
@@ -115,7 +95,27 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "dd41ecfb-5e40-5061-8d7c-d64aff329517")
+		(uuid "772a21bd-b5d5-4d61-9347-13c752a44d96")
+	)
+	(fp_line
+		(start 1.85 -1.25)
+		(end 1.85 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8f3321de-62ae-46de-b119-96477b5aefe5")
+	)
+	(fp_line
+		(start 1.85 1.25)
+		(end -1.85 1.25)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "138187b3-9630-4b2c-8ec2-5f921a6d491f")
 	)
 	(fp_line
 		(start -1.25 -1)
@@ -125,27 +125,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "29f77ffc-e4b7-569e-b3b4-51f72ca7945b")
-	)
-	(fp_line
-		(start 1.25 -1)
-		(end 1.25 1)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "f00186e6-8606-5f51-b6d8-1354d00adb76")
-	)
-	(fp_line
-		(start 1.25 1)
-		(end -1.25 1)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "b7e9118f-5796-5597-8224-97b517886b6a")
+		(uuid "11ebaf7d-51a0-476d-8465-1beb87c0c017")
 	)
 	(fp_line
 		(start -1.25 1)
@@ -155,15 +135,35 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "bb48ff37-f351-59a0-aeef-56fa4f1abe4a")
+		(uuid "afa38799-8bc1-45d0-a6cd-22e49f54a897")
+	)
+	(fp_line
+		(start 1.25 -1)
+		(end 1.25 1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "6c9af03a-bbef-44df-bde0-001836fa4b9d")
+	)
+	(fp_line
+		(start 1.25 1)
+		(end -1.25 1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "59b63a10-5fcc-4373-a1b6-39adfa3f94e6")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "7d1c4655-2e88-580a-a5da-a72ab194c81d")
+		(uuid "5c9bbae4-3a70-4aab-a215-2f652e38e0ed")
 		(effects
 			(font
-				(size 0.42 0.42)
+				(size 0.5 0.5)
 				(thickness 0.06)
 			)
 		)
@@ -173,14 +173,14 @@
 		(size 1 2)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.15)
-		(uuid "46ba5745-d1a0-46c7-913c-b59197d4b0e3")
+		(uuid "7d773448-4333-467d-a38d-cda47c0f4c35")
 	)
 	(pad "2" smd roundrect
 		(at 1.1 0 180)
 		(size 1 2)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.15)
-		(uuid "78e0b972-4932-4aa4-a2b2-3162765f4b2a")
+		(uuid "a54d5c45-f38d-4754-b95d-6df40c7510f7")
 	)
 	(embedded_fonts no)
 	(model "${KIPRJMOD}/library/3D/Inductor_SMD/L_Abracon_AMELA2012S.step"

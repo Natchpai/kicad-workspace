@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "LM66100DCK"
-			(at 0.254 -6.35 0)
+			(at 2.54 6.35 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -31,7 +31,7 @@
 			)
 		)
 		(property "Footprint" "0_Package_TO_SOT_SMD:Texas_DCK0006A_SC-70-6_2x1.25mm_P0.65mm"
-			(at 0 1.27 0)
+			(at 0 -22.86 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -42,7 +42,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/lm66100.pdf"
-			(at 0 -1.016 0)
+			(at 0 -25.146 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)

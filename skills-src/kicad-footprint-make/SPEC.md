@@ -12,13 +12,18 @@ Every `at`, tab, via `at` and aperture position is an absolute footprint coordin
 | `descr`, `tags` | Optional. Footprint description and keywords. Put the datasheet document and land-pattern drawing number in `descr`. |
 | `datasheet` | Optional. Datasheet property URL. |
 | `attr` | `smd` or `through_hole`. Default: `through_hole` when any non-via THT pad exists, else `smd`. |
-| `body` | `{"x", "y", "h", "at"}`. Required. Package body size in the top view: `x` across the page, `y` down it. Dual rows sit left and right, so for SOIC and SOT-23 `x` is the lead-to-lead side. `at` = body center when it is not the origin (connectors with pin 1 at the origin). `h` is for the record only. Drives fab, silk and courtyard. |
+| `body` | `{"x", "y", "h", "at"}`. Required. Package body size in the top view: `x` across the page, `y` down it. Dual rows sit left and right, so for SOIC and SOT-23 `x` is the lead-to-lead side. `at` = body center when it is not the origin (connectors with pin 1 at the origin). `h` is for the record only. Drives fab, silk and courtyard. Polarized capacitors: `chamfer` cuts both pin 1 side corners of the fab and silk outline (the base plate shape), `d` draws the can circle on F.Fab. |
 | `model` | 3D model path, written as given (for example `${KICAD10_3DMODEL_DIR}/Package_SON.3dshapes/....step`). |
-| `fab_pin1` | Pin 1 mark on F.Fab: `dot` (default; plain body rectangle with a filled dot inside the pin 1 corner, diameter 10% of the short body side, 0.2 to 0.5 mm), `bevel` (KLC F5.2 corner bevel, for connectors and odd shapes) or `none` (non-polarized R/C/L). |
-| `courtyard` | Courtyard clearance. Default 0.25; 0.15 when the body is under 1.5 mm in both x and y (as the stock KiCad generators read KLC F5.3); 1.0 with `grid`. Use 0.5 for connectors, canned capacitors and crystals (KLC F5.3). |
+| `fab_pin1` | Pin 1 mark on F.Fab, one per footprint: `dot` (default; filled dot, radius by the short body side: under 1.5 mm 0.1, under 3.2 mm 0.15, under 3.9 mm 0.2, under 10 mm 0.25, else 0.3. Placed on the body diagonal 3 radii in from the pin 1 corner; for pin 1 in the middle of a side (diodes, LEDs) level with pin 1 at its pad's outer end, radius + 0.05; for a `grid` body of 5 mm or more on ball A1, radius 0.35), `arrow` (connectors and DIP switches, KLC F5.2: filled arrow with a 0.1 mm line on pad 1's long axis, on the body side, tip 0.2 mm off the pad end, pointing at the pad; 0.3 long x 0.4 wide, or 0.5 x 0.6 when the pad is 1 mm or wider), `plus` (polarized capacitors: a drawn 0.8 mm + at the silk "+"; the default when `silk_pin1` is `plus`) or `none` (non-polarized R/C/L; also turns the silk mark off). |
+| `silk_pin1` | Pin 1 mark on F.SilkS: `arrow` (default; filled arrow 0.3 long x 0.4 wide, 0.1 mm line, beside pin 1 outside the silk outline, level with pin 1, pointing at it), `plus` (polarized SMD capacitors, KLC F5.1: a visible `Polar` property "+" on F.SilkS, 1 x 1 mm, 0.15 mm thick, over the outer end of pad 1 and past the pad edge toward the pin 1 corner; the default when `fab_pin1` is `plus`) or `none` (default when `fab_pin1` is `none`). No dot on silkscreen. The mark sits on the body side pin 1 is nearer to (left or right on a tie) and moves out until it is `silk_clearance` from copper and clear of the silk outline. |
+| `courtyard` | Courtyard clearance. Default 0.25; 0.15 when the body is under 1.5 mm in both x and y (as the stock KiCad generators read KLC F5.3); 1.0 with `grid`. Use 0.5 for connectors, canned capacitors and crystals (KLC F5.3). The courtyard then grows by the same amount on every side until it holds the silk pin 1 mark (KLC F5.1). |
 | `options` | Override the drawing defaults below. |
 
-`options` defaults: `pad_ratio` 0.25, `ep_ratio` 0 (square exposed pads: rounded tab and pad primitives leave notches where they join), `paste_ratio` 0.1, `max_radius` 0.25 (corner radius cap, mm), `silk_width` 0.15, `silk_offset` 0.1 (silk outline at body + this), `silk_clearance` 0.2, `silk_min_len` 0.1, `fab_width` 0.1, `crtyd_width` 0.05, `marker_size` 0.28.
+`options` defaults: `pad_ratio` 0.25, `ep_ratio` 0 (square exposed pads: rounded tab and pad primitives leave notches where they join), `paste_ratio` 0.1, `max_radius` 0.25 (corner radius cap, mm), `silk_width` 0.15, `silk_offset` 0.1 (silk outline at body + this), `silk_clearance` 0.2, `silk_min_len` 0.1, `fab_width` 0.1, `crtyd_width` 0.05, `marker_size` 0.28 (silk pin 1 arrow length, rounded to 0.3; the arrow is 2/3 of that per side, 0.4 mm wide), `marker_width` 0.1 (silk pin 1 arrow line).
+
+DFM house rules (the script stops with `spec error` below them): `silk_width` and `silk_clearance` at least 0.15 mm; `marker_width` at least 0.1 mm, and under 0.15 mm only when `marker_size` is over 0.15 mm. REF** on F.SilkS is 1 x 1 mm, 0.15 mm thick. `${REFERENCE}` on F.Fab is 1 x 1 mm, 0.1 mm thick; when 5 characters do not fit inside the body with 0.1 mm to spare (0.9 × size per character), it takes the largest size that fits, in 0.05 mm steps (C0402: 0.15 mm, 3x3 QFN: 0.6 mm); a smaller hand-set size also passes, with a thickness of 15% of the size. A hand-set text with height and width apart (for example 0.7 x 0.65) is a house style to tell footprints apart; `fp_check.py` reports it as INFO and does not check it.
+
+F.SilkS and F.Fab points and text positions sit on a 0.05 mm grid (house rule, for hand edits). Silk lines and the pin 1 mark round away from the body and copper, so clearances only grow; the mark's center line rounds to the nearest node, so it can be up to 0.025 mm off pin 1. The fab outline rounds to the nearest node, so it can differ from `body` by up to 0.025 mm; the fab pin 1 dot diameter is a multiple of 0.1 mm. The courtyard stays on the 0.01 mm grid (KLC F5.3).
 
 ## Pad keys shared by `rows`, `grid` and `pads`
 
@@ -30,6 +35,14 @@ Put these on the row group, the `grid` object or the single pad they apply to.
 - `paste`: `true` (1:1, default), `false` (no paste layer), or `{"margin": -0.05}` / `{"ratio": -0.1}` for a pad paste margin.
 - `mask_margin`: pad solder mask margin. Leave it out unless the datasheet asks for one (KLC F4.6).
 - `fab_property` (`grid` and `pads`): KLC F6.3 fab property, `bga`, `heatsink` or `mechanical`. `grid` defaults to `bga` (set `null` for an LGA); use `mechanical` for THT shield and mounting pads. `zone_connect` (`pads`) sets the zone connection (2 = solid, the default for `heatsink`).
+
+Polarized SMD capacitor (aluminum or polymer can):
+
+```json
+{"name": "CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm", "silk_pin1": "plus",
+ "body": {"x": 6.6, "y": 6.6, "d": 6.3, "chamfer": 1.1},
+ "pads": [{"number": "1", "at": [-2.8, 0], "size": [3.5, 1.6]}, {"number": "2", "at": [2.8, 0], "size": [3.5, 1.6]}]}
+```
 
 ## `rows`: dual or quad leads
 
@@ -132,4 +145,4 @@ Apertures are written as paste-only pads with an empty number (stock KiCad style
 
 ## Output
 
-KiCad 10 format (`version 20260206`). UUIDs are uuid5 of the name, so the same spec gives the same bytes. `--newline auto` (default) copies the line ending of a `.kicad_mod` already in the output folder; `lf` and `crlf` force one.
+KiCad 10 format (`version 20260206`). UUIDs are uuid5 of the name, so the same spec gives the same bytes. Line endings are LF by default (KLC G1); `--newline auto` copies the line ending of a `.kicad_mod` already in the output folder, `crlf` writes CRLF.

@@ -75,8 +75,8 @@
 		)
 		(symbol "W25Q128JVP_0_0"
 			(pin passive line
-				(at -13.97 8.89 0)
-				(length 2.54)
+				(at -15.24 8.89 0)
+				(length 3.81)
 				(name "~{CS}"
 					(effects
 						(font
@@ -93,8 +93,8 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 1.27 0)
-				(length 2.54)
+				(at -15.24 1.27 0)
+				(length 3.81)
 				(name "DO_IO1"
 					(effects
 						(font
@@ -111,8 +111,8 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -1.27 0)
-				(length 2.54)
+				(at -15.24 -1.27 0)
+				(length 3.81)
 				(name "~{WP}_IO2"
 					(effects
 						(font
@@ -129,8 +129,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -13.97 90)
-				(length 2.54)
+				(at 0 -15.24 90)
+				(length 3.81)
 				(name "GND"
 					(effects
 						(font
@@ -147,8 +147,8 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 3.81 0)
-				(length 2.54)
+				(at -15.24 3.81 0)
+				(length 3.81)
 				(name "DI_DO0"
 					(effects
 						(font
@@ -165,8 +165,8 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -8.89 0)
-				(length 2.54)
+				(at -15.24 -8.89 0)
+				(length 3.81)
 				(name "CLK"
 					(effects
 						(font
@@ -183,8 +183,8 @@
 				)
 			)
 			(pin passive line
-				(at -13.97 -3.81 0)
-				(length 2.54)
+				(at -15.24 -3.81 0)
+				(length 3.81)
 				(name "~{HOLD}/~{RST}_IO3"
 					(effects
 						(font
@@ -201,8 +201,8 @@
 				)
 			)
 			(pin power_in line
-				(at -3.81 13.97 270)
-				(length 2.54)
+				(at -3.81 15.24 270)
+				(length 3.81)
 				(name "VCC"
 					(effects
 						(font
@@ -219,8 +219,8 @@
 				)
 			)
 			(pin passive line
-				(at 2.54 -13.97 90)
-				(length 2.54)
+				(at 2.54 -15.24 90)
+				(length 3.81)
 				(name "EP"
 					(effects
 						(font
