@@ -8,7 +8,7 @@
 		(at 0 -1.75 0)
 		(unlocked yes)
 		(layer "F.SilkS")
-		(uuid "ef888253-d836-4178-be7c-45dc15f1e0b1")
+		(uuid "0f3564bd-430a-449f-946a-75c84d155806")
 		(effects
 			(font
 				(size 1 1)
@@ -21,7 +21,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "d43a17f2-d9d0-4dcf-9bfe-fe8c5315f5f4")
+		(uuid "b6b2e556-f7a5-491e-99f5-242f30b4e307")
 		(effects
 			(font
 				(size 1 1)
@@ -34,7 +34,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "1d4442ae-b074-45ee-b64e-51965c3f5235")
+		(uuid "9fd19852-a70d-4685-bda2-015f9936a422")
 		(effects
 			(font
 				(size 1 1)
@@ -47,7 +47,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "7fe4e5ed-8a15-4def-ba02-44e1b7c0bd25")
+		(uuid "0244eecc-e0e7-43c8-b059-35b1f0ff6591")
 		(effects
 			(font
 				(size 1 1)
@@ -67,7 +67,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "ce375a2e-03db-4389-a303-e0244dd147b2")
+		(uuid "2e5e60b3-1d6d-4543-a004-e58259033800")
 	)
 	(fp_line
 		(start -0.2 0.75)
@@ -77,7 +77,7 @@
 			(type default)
 		)
 		(layer "F.SilkS")
-		(uuid "10cb6216-e620-4154-b5e0-c9f7cdc09ec7")
+		(uuid "6b68e3fd-e286-4a48-9c5b-683a8c905165")
 	)
 	(fp_line
 		(start -1.75 -1)
@@ -87,27 +87,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "c7b272a3-6c56-5899-b65d-d3e4ad6ba0c7")
-	)
-	(fp_line
-		(start 1.75 -1)
-		(end 1.75 1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "f31090bf-7075-5b6f-a307-9a76dc801c2d")
-	)
-	(fp_line
-		(start 1.75 1)
-		(end -1.75 1)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(layer "F.CrtYd")
-		(uuid "e760681e-dfa8-5b9f-b494-24bad6006e3c")
+		(uuid "e45bb287-af5a-41d7-80ff-eb152477002b")
 	)
 	(fp_line
 		(start -1.75 1)
@@ -117,7 +97,27 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "25deda2b-210e-5297-8659-7f44d64a2c32")
+		(uuid "e1414e47-eef2-4532-a9de-d9145e0a5ece")
+	)
+	(fp_line
+		(start 1.75 -1)
+		(end 1.75 1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a20d8dd5-3f1e-46a5-b24f-3cef94f38073")
+	)
+	(fp_line
+		(start 1.75 1)
+		(end -1.75 1)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "09887281-91ef-4745-a963-f4542baf65ad")
 	)
 	(fp_line
 		(start -1.1 -0.7)
@@ -127,27 +127,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "4f7be403-66f9-52ac-a6aa-9410d2c832cd")
-	)
-	(fp_line
-		(start 1.1 -0.7)
-		(end 1.1 0.7)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "c578ccd3-51b0-59ce-ac05-a646945804a0")
-	)
-	(fp_line
-		(start 1.1 0.7)
-		(end -1.1 0.7)
-		(stroke
-			(width 0.1)
-			(type solid)
-		)
-		(layer "F.Fab")
-		(uuid "c098c5e4-da61-527f-bc59-ef6d830019f3")
+		(uuid "bd84001d-55d8-4270-96b6-18a3b8167cee")
 	)
 	(fp_line
 		(start -1.1 0.7)
@@ -157,15 +137,35 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "93bb3948-e53a-5ef7-bca3-fed06e5dffa3")
+		(uuid "9cb8997c-20d3-44fa-837a-26417431ec9f")
+	)
+	(fp_line
+		(start 1.1 -0.7)
+		(end 1.1 0.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f1c97bcd-2e36-4fe8-9443-4da51775055a")
+	)
+	(fp_line
+		(start 1.1 0.7)
+		(end -1.1 0.7)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "9561a224-9980-4bbb-abf5-ed169b5d21c2")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "23af676e-cde1-5911-8868-865d2282d84d")
+		(uuid "e0cd6f67-6356-4aae-830f-56e84bfccbc0")
 		(effects
 			(font
-				(size 0.37 0.37)
+				(size 0.45 0.37)
 				(thickness 0.06)
 			)
 		)
@@ -175,14 +175,14 @@
 		(size 1 1.5)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.2)
-		(uuid "f1e40339-bbb5-483d-b9aa-9cf7c7eec3d1")
+		(uuid "4aa5b274-79f4-41bb-95ac-8e1f22e622d5")
 	)
 	(pad "2" smd roundrect
 		(at 1 0)
 		(size 1 1.5)
 		(layers "F.Cu" "F.Mask" "F.Paste")
 		(roundrect_rratio 0.2)
-		(uuid "651cdb78-cafd-481f-b645-f56e3724cb48")
+		(uuid "bce837b3-baf1-4773-8bd3-7cfa8082f42b")
 	)
 	(embedded_fonts no)
 	(model "${KIPRJMOD}/library/3D/Inductor_SMD/L_Abracon_AOTA-B201208S.step"
