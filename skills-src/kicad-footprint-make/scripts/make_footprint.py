@@ -26,7 +26,8 @@ thermal vias get the heatsink fab property and solid zone connection; grid pads 
 property (set "fab_property": null for LGA).
 
 UUIDs come from uuid5 of the footprint name, so the same spec gives the same bytes.
---newline auto copies the line ending of a .kicad_mod already in the output folder (else LF).
+Line endings are LF (KLC G1); --newline auto copies the line ending of a .kicad_mod already in the
+output folder (else LF), --newline crlf writes CRLF.
 The script never overwrites an existing file. It prints the pad count and the stencil coverage
 of each exposed pad.
 """
@@ -349,23 +350,28 @@ class Builder:
         paste = e.get('paste')
         if paste is None:
             raise SpecError(f'exposed pad {num}: give "paste" (explicit, grid, pad or none)')
+        if not isinstance(paste, dict):
+            raise SpecError(f'exposed pad {num}: "paste" is an object with a "mode"')
         mode = paste.get('mode')
-        er = number(self.ratio_of(e, w, h) if e.get('radius') is not None
-                    else e.get('ratio', self.o['ep_ratio']), f'exposed pad {num} ratio', False)
+        if e.get('radius') is not None:   # the datasheet radius wins on the pad and every tab (KLC F4.1)
+            rad = number(e['radius'], f'exposed pad {num} radius', False)
+            corner = lambda a, b: round(min(0.5, rad / min(a, b)), 4)
+        else:
+            er = number(e.get('ratio', self.o['ep_ratio']), f'exposed pad {num} ratio', False)
+            corner = lambda a, b: rratio(a, b, er, self.o['max_radius'])
         main = rect_box(cx, cy, w, h)
         copper = [main] + [rect_box(*t) for t in tabs]
         hs = dict(prop='heatsink', zone=2)
         if tabs:
-            prims = [(0.0, 0.0, w, h, rratio(w, h, er, self.o['max_radius']))]
-            prims += [(t[0] - cx, t[1] - cy, t[2], t[3],
-                       rratio(t[2], t[3], er, self.o['max_radius'])) for t in tabs]
+            prims = [(0.0, 0.0, w, h, corner(w, h))]
+            prims += [(t[0] - cx, t[1] - cy, t[2], t[3], corner(t[2], t[3])) for t in tabs]
             a = round(min(w, h) / 2, 3)
             layers = ['F.Cu', 'F.Mask'] + (['F.Paste'] if mode == 'pad' else [])
             self.pad(num, 'smd', 'custom', cx, cy, a, a, layers=layers, prims=prims,
                      mask_margin=e.get('mask_margin'), **hs)
         else:
-            self.pad(num, 'smd', 'roundrect' if er > 0 else 'rect', cx, cy, w, h,
-                     paste=(mode == 'pad'), ratio=rratio(w, h, er, self.o['max_radius']),
+            self.pad(num, 'smd', 'roundrect' if corner(w, h) > 0 else 'rect', cx, cy, w, h,
+                     paste=(mode == 'pad'), ratio=corner(w, h),
                      mask_margin=e.get('mask_margin'), **hs)
         vias = e.get('vias')
         via_pts = []
@@ -457,6 +463,8 @@ class Builder:
             raise SpecError('"silk_pin1" must be arrow, plus or none')
         # polarized capacitor base: both pin 1 side corners chamfered; can diameter drawn on F.Fab
         cham = number(s['body'].get('chamfer', 0), 'body chamfer', False)
+        if not 0 <= cham < min(bx, by) / 2:
+            raise SpecError(f'body chamfer {cham}: 0 to under half the short body side ({min(bx, by) / 2})')
         can = s['body'].get('d')
         if can is not None:
             can = number(can, 'body d')
@@ -617,13 +625,11 @@ class Builder:
             v = snap(p1['y'] if ax else p1['x'])
             uv = [(tip, v), (tip + d * al, v - ahw), (tip + d * al, v + ahw)]
             arrow = [(round(u, 4), round(w, 4)) if ax else (round(w, 4), round(u, 4)) for u, w in uv]
-        # Reference above the courtyard and the pin 1 mark, Value below
-        top = min([cb[1]] + [y - mw / 2 for _, y in held])
-        bot = max([cb[3]] + [y + mw / 2 for _, y in held])
+        # Reference above the courtyard (it holds the pin 1 mark), Value below
         self.geo = {'silk': silk, 'mark': (silk_mark, mark_pts, mw), 'crtyd': cb, 'fab': fab,
                     'fab_text': fab_text(bx, by), 'body_at': (snap(bcx), snap(bcy)), 'fab_dot': dot,
                     'fab_arrow': arrow, 'fab_plus': fab_plus, 'fab_circle': circle,
-                    'ref_y': snap(top - 0.75, -1), 'val_y': snap(bot + 0.85, 1)}
+                    'ref_y': snap(cb[1] - 0.75, -1), 'val_y': snap(cb[3] + 0.85, 1)}
         return self
 
     # ---- output -----------------------------------------------------------------------
@@ -678,7 +684,7 @@ class Builder:
               f'\t\t(layer "{layer}")\n\t\t(uuid "{uid()}")\n\t)')
 
         def fill_poly(pts, width, layer):
-            xy = ' '.join(f'(xy {f(x)} {f(y)})' for x, y in pts + [pts[0]])
+            xy = ' '.join(f'(xy {f(x)} {f(y)})' for x, y in pts)   # KiCad closes the polygon
             w(f'\t(fp_poly\n\t\t(pts\n\t\t\t{xy}\n\t\t)\n\t\t(stroke\n\t\t\t(width {f(width)})\n'
               f'\t\t\t(type solid)\n\t\t)\n\t\t(fill yes)\n\t\t(layer "{layer}")\n\t\t(uuid "{uid()}")\n\t)')
 
@@ -817,20 +823,24 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('spec')
     ap.add_argument('out')
-    ap.add_argument('--newline', choices=['auto', 'lf', 'crlf'], default='auto')
+    ap.add_argument('--newline', choices=['auto', 'lf', 'crlf'], default='lf')
     a = ap.parse_args()
     if os.path.exists(a.out):
         sys.exit(f'refusing to overwrite {a.out}')
-    with open(a.spec, encoding='utf-8') as fh:
-        spec = json.load(fh)
     want = os.path.splitext(os.path.basename(a.out))[0]
-    if spec.get('name') != want:
-        sys.exit(f'spec name {spec.get("name")!r} does not match file name {want!r}')
     try:
+        with open(a.spec, encoding='utf-8') as fh:
+            spec = json.load(fh)
+        if not isinstance(spec, dict):
+            raise SpecError('the spec must hold one object')
+        if spec.get('name') != want:
+            sys.exit(f'spec name {spec.get("name")!r} does not match file name {want!r}')
         text, b = build_text(spec)
+    except OSError as e:
+        sys.exit(f'read error: {e}')
     except KeyError as e:
         sys.exit(f'spec error: missing key {e}')
-    except (SpecError, TypeError, ValueError, IndexError) as e:
+    except (SpecError, TypeError, ValueError, IndexError, AttributeError) as e:
         sys.exit(f'spec error: {e}')
     nl = '\n'
     if a.newline == 'crlf':

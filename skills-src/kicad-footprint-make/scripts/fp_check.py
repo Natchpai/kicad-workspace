@@ -31,7 +31,7 @@ outlines, custom pad primitives (poly, rect, circle, line and arc, with stroke w
 offset and rotation. Paste openings are bounding boxes with their corner radius. Footprint-level
 paste and mask margins apply when a pad has none; board-level margins are taken as zero.
 Text outlines are estimated (0.9 x size per character, centered). Output lines start with PASS, WARN, DIFF or INFO. Exit code 1
-when any DIFF is found.
+when any DIFF is found, 2 on a read or spec error.
 """
 import argparse
 import importlib.util
@@ -316,9 +316,7 @@ class Footprint:
         self.model = m[1] if m else None
         a = kid(root, 'attr')
         self.attr = a[1] if a and len(a) > 1 else None
-        v = [c for c in kids(root, 'property') if c[1] == 'Value']
-        self.value_hidden = bool(v) and (any(h[1:] == ['yes'] for h in kids(v[0], 'hide'))
-                                         or 'hide' in (kid(v[0], 'effects') or []))
+        self.value_hidden = any(t['hidden'] for t in self.texts if t['name'] == 'Value')
         self.derive()
 
     def read_pad(self, c):
@@ -419,7 +417,7 @@ class Footprint:
         at = kid(c, 'at')
         hidden = (any(h[1:] == ['yes'] for h in kids(c, 'hide') + kids(eff, 'hide'))
                   or 'hide' in c or 'hide' in eff)
-        return {'text': c[2], 'layer': kid(c, 'layer')[1], 'hidden': hidden, 'size': size,
+        return {'name': c[1] if c[0] == 'property' else None, 'text': c[2], 'layer': kid(c, 'layer')[1], 'hidden': hidden, 'size': size,
                 'thick': num(th[1]) if th else min(size) / 8,   # KiCad's default pen
                 'auto': not th,
                 'at': (num(at[1]), num(at[2]),   # older files write (at x y unlocked)
@@ -999,20 +997,27 @@ def main():
     ap.add_argument('--courtyard', type=float, help='required courtyard clearance, mm')
     ap.add_argument('--quiet', action='store_true', help='skip the measurement table')
     a = ap.parse_args()
-    with open(a.fp, encoding='utf-8') as fh:
-        fp = Footprint(fh.read(), os.path.basename(a.fp))
+    other = None
+    try:
+        with open(a.fp, encoding='utf-8') as fh:
+            fp = Footprint(fh.read(), os.path.basename(a.fp))
+        if a.ref:
+            other = Footprint(load_spec_text(a.ref), 'spec')
+        elif a.vs:
+            with open(a.vs, encoding='utf-8') as fh:
+                other = Footprint(fh.read(), os.path.basename(a.vs))
+            if other.label == fp.label:
+                other.label = 'other'
+    except MF.SpecError as e:
+        print(f'spec error: {e}')
+        sys.exit(2)
+    except (OSError, ValueError, IndexError, TypeError, KeyError, AttributeError) as e:
+        print(f'read error: {type(e).__name__}: {e}')
+        sys.exit(2)
     if not a.quiet:
         table(fp)
     for line in checks(fp, a.stencil, a.courtyard):
         print(line)
-    other = None
-    if a.ref:
-        other = Footprint(load_spec_text(a.ref), 'spec')
-    elif a.vs:
-        with open(a.vs, encoding='utf-8') as fh:
-            other = Footprint(fh.read(), os.path.basename(a.vs))
-        if other.label == fp.label:
-            other.label = 'other'
     rc = 0
     if other:
         if a.vs and not a.quiet:

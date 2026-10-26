@@ -145,4 +145,4 @@ Apertures are written as paste-only pads with an empty number (stock KiCad style
 
 ## Output
 
-KiCad 10 format (`version 20260206`). UUIDs are uuid5 of the name, so the same spec gives the same bytes. `--newline auto` (default) copies the line ending of a `.kicad_mod` already in the output folder; `lf` and `crlf` force one.
+KiCad 10 format (`version 20260206`). UUIDs are uuid5 of the name, so the same spec gives the same bytes. Line endings are LF by default (KLC G1); `--newline auto` copies the line ending of a `.kicad_mod` already in the output folder, `crlf` writes CRLF.
