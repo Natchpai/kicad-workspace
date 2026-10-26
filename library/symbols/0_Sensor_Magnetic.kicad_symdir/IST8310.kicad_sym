@@ -9,23 +9,25 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at -7.62 11.43 0)
+			(at -12.7 12.7 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "IST8310"
-			(at 10.16 11.43 0)
+			(at 12.7 12.7 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify right)
 			)
 		)
 		(property "Footprint" "0_Package_LGA:LGA-16_3x3mm_P0.5mm"
@@ -51,7 +53,7 @@
 			)
 		)
 		(property "Description" "3D Magnetometer, I2C Interface, LGA-16"
-			(at 36.83 17.78 0)
+			(at 0 29.21 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -62,7 +64,7 @@
 			)
 		)
 		(property "MFR" "iSentek"
-			(at 33.02 20.32 0)
+			(at -1.27 31.75 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -84,7 +86,7 @@
 			)
 		)
 		(property "LCSC" "C2683055"
-			(at 34.29 13.97 0)
+			(at 0 24.13 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -118,8 +120,8 @@
 		)
 		(symbol "IST8310_0_1"
 			(rectangle
-				(start -7.62 10.16)
-				(end 7.62 -10.16)
+				(start -12.7 11.43)
+				(end 12.7 -11.43)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -131,7 +133,7 @@
 		)
 		(symbol "IST8310_1_1"
 			(pin input line
-				(at -10.16 0 0)
+				(at -15.24 2.54 0)
 				(length 2.54)
 				(name "SCL"
 					(effects
@@ -149,7 +151,7 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 12.7 270)
+				(at 2.54 13.97 270)
 				(length 2.54)
 				(name "AVDD"
 					(effects
@@ -167,7 +169,7 @@
 				)
 			)
 			(pin no_connect line
-				(at -7.62 7.62 0)
+				(at 5.08 -13.97 90)
 				(length 2.54)
 				(hide yes)
 				(name "NC"
@@ -186,7 +188,7 @@
 				)
 			)
 			(pin no_connect line
-				(at -7.62 5.08 0)
+				(at 6.35 -13.97 90)
 				(length 2.54)
 				(hide yes)
 				(name "NC"
@@ -205,7 +207,7 @@
 				)
 			)
 			(pin input line
-				(at 10.16 -5.08 180)
+				(at 15.24 7.62 180)
 				(length 2.54)
 				(name "CAD0"
 					(effects
@@ -223,7 +225,7 @@
 				)
 			)
 			(pin input line
-				(at 10.16 -7.62 180)
+				(at 15.24 2.54 180)
 				(length 2.54)
 				(name "CAD1"
 					(effects
@@ -241,7 +243,7 @@
 				)
 			)
 			(pin passive line
-				(at 2.54 12.7 270)
+				(at 15.24 -2.54 180)
 				(length 2.54)
 				(name "VPP"
 					(effects
@@ -259,7 +261,7 @@
 				)
 			)
 			(pin no_connect line
-				(at 7.62 5.08 180)
+				(at 7.62 -13.97 90)
 				(length 2.54)
 				(hide yes)
 				(name "NC"
@@ -278,7 +280,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -12.7 90)
+				(at 2.54 -13.97 90)
 				(length 2.54)
 				(name "VSS"
 					(effects
@@ -296,7 +298,7 @@
 				)
 			)
 			(pin passive line
-				(at 10.16 2.54 180)
+				(at 15.24 -7.62 180)
 				(length 2.54)
 				(name "C1"
 					(effects
@@ -313,10 +315,9 @@
 					)
 				)
 			)
-			(pin passive line
-				(at 0 -12.7 90)
+			(pin power_in line
+				(at -2.54 -13.97 90)
 				(length 2.54)
-				(hide yes)
 				(name "VSS"
 					(effects
 						(font
@@ -333,7 +334,7 @@
 				)
 			)
 			(pin no_connect line
-				(at 7.62 7.62 180)
+				(at 8.89 -13.97 90)
 				(length 2.54)
 				(hide yes)
 				(name "NC"
@@ -352,7 +353,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 12.7 270)
+				(at -2.54 13.97 270)
 				(length 2.54)
 				(name "DVDD"
 					(effects
@@ -370,7 +371,7 @@
 				)
 			)
 			(pin input line
-				(at -10.16 -7.62 0)
+				(at -15.24 -7.62 0)
 				(length 2.54)
 				(name "~{RST}"
 					(effects
@@ -388,7 +389,7 @@
 				)
 			)
 			(pin output line
-				(at -10.16 -2.54 0)
+				(at -15.24 -2.54 0)
 				(length 2.54)
 				(name "DRDY"
 					(effects
@@ -406,7 +407,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -10.16 2.54 0)
+				(at -15.24 7.62 0)
 				(length 2.54)
 				(name "SDA"
 					(effects

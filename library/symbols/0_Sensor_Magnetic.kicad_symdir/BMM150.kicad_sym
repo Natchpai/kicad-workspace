@@ -9,7 +9,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "U"
-			(at 5.08 11.43 0)
+			(at -10.16 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -20,7 +20,7 @@
 			)
 		)
 		(property "Value" "BMM150"
-			(at 10.16 -11.43 0)
+			(at 11.43 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -100,7 +100,7 @@
 		)
 		(symbol "BMM150_1_1"
 			(pin input line
-				(at 12.7 -3.81 180)
+				(at 12.7 -7.62 180)
 				(length 2.54)
 				(name "PS"
 					(effects
@@ -118,7 +118,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -12.7 -1.27 0)
+				(at -12.7 7.62 0)
 				(length 2.54)
 				(name "SCK"
 					(effects
@@ -136,7 +136,7 @@
 				)
 			)
 			(pin input line
-				(at -12.7 -3.81 0)
+				(at -12.7 -7.62 0)
 				(length 2.54)
 				(name "CSB"
 					(effects
@@ -154,7 +154,7 @@
 				)
 			)
 			(pin power_in line
-				(at -3.81 12.7 270)
+				(at -2.54 12.7 270)
 				(length 2.54)
 				(name "VDDIO"
 					(effects
@@ -172,7 +172,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -12.7 3.81 0)
+				(at -12.7 2.54 0)
 				(length 2.54)
 				(name "SDI"
 					(effects
@@ -190,7 +190,7 @@
 				)
 			)
 			(pin bidirectional line
-				(at -12.7 1.27 0)
+				(at -12.7 -2.54 0)
 				(length 2.54)
 				(name "SDO"
 					(effects
@@ -208,7 +208,7 @@
 				)
 			)
 			(pin power_in line
-				(at -7.62 -12.7 90)
+				(at -2.54 -12.7 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -226,7 +226,7 @@
 				)
 			)
 			(pin output line
-				(at 12.7 1.27 180)
+				(at 12.7 -2.54 180)
 				(length 2.54)
 				(name "INT"
 					(effects
@@ -244,7 +244,7 @@
 				)
 			)
 			(pin output line
-				(at 12.7 3.81 180)
+				(at 12.7 2.54 180)
 				(length 2.54)
 				(name "DRDY"
 					(effects
@@ -262,7 +262,7 @@
 				)
 			)
 			(pin power_in line
-				(at -5.08 -12.7 90)
+				(at 0 -12.7 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -280,7 +280,7 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 -12.7 90)
+				(at 2.54 -12.7 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -298,7 +298,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 12.7 270)
+				(at 2.54 12.7 270)
 				(length 2.54)
 				(name "VDD"
 					(effects
