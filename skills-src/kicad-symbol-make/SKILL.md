@@ -13,7 +13,7 @@ Two stdlib scripts in this skill's `scripts/` folder, run with `python -I`:
 
 **Authority.** Every pin number, name and type comes from the datasheet or the user; the script only places the pins. Names: `kicad-naming`. Datasheet evidence: the project rules when they exist; never open a PDF. Evidence labels go in the report, not in the file.
 
-**House style** (KLC, script defaults): 2.54 mm grid; pins all one length (2.54, 3.81 when a pin number has 3 or more characters); name offset 0.508; text 1.27; body a rectangle, stroke 0.254, filled with background; every pin drawn separately, no stacks: same-name power, ground and NC pins each get their own pin (house rule; KLC S4.3 would stack them, `"stack": true` does that); NC pins shown, last on the right (house rule; KLC S4.6 would hide them, `side=hidden` does that); active-low names as `~{NAME}` (S4.7). MCUs are one unit with alternates, as stock STM32 symbols are; multi-unit with a power unit is for parts drawn apart (op-amps, gates).
+**House style** (KLC, script defaults): 2.54 mm grid; left and right pins 5.08 mm (200 mil) apart and centered on the origin, 2.54 mm for an MCU (house rule; `pin_pitch` overrides); top and bottom pins 2.54 mm apart; pins all one length (2.54, 3.81 when a pin number has 3 or more characters); name offset 0.508; text 1.27; body a rectangle, stroke 0.254, filled with background; Reference and Value just above the body's top-left and top-right corners; serial bus parts: host bus on the left in the order clock, data, data out, select, then interrupt and reset, other bus groups and strap pins on the right; reserved pins (`RESV`, `DNC`) at the bottom, right of ground; every pin drawn separately, no stacks: same-name power, ground and NC pins each get their own pin (house rule; KLC S4.3 would stack them, `"stack": true` does that); NC pins hidden inside the body (KLC S4.6; a `side` in the table shows one); active-low names as `~{NAME}` (S4.7). MCUs are one unit with alternates, as stock STM32 symbols are; multi-unit with a power unit is for parts drawn apart (op-amps, gates).
 
 ## Steps
 
@@ -30,7 +30,7 @@ Two stdlib scripts in this skill's `scripts/` folder, run with `python -I`:
 4. **Layout.** Write `layout.json` with the fields (reference, footprint, filters, datasheet product page, description, keywords). Leave `side` empty in `pins.csv` and let auto grouping place the pins. Set a `side` only for pins it places badly. Pick `unit` only for parts drawn apart.
    Done when the layout covers every field.
 
-5. **Make.** `make_symbol.py pins.csv <family>.kicad_symdir/<MPN>.kicad_sym --layout layout.json --fp <footprint>` (or into the scratchpad for a dry run). Read the printed summary: NC pins, house-style notes, `S4.7 renamed` lines, filter notes and WARN lines. A `spec error` names the bad line or key; fix it and run again. A `PIN/PAD MISMATCH` writes nothing: settle it with the footprint first.
+5. **Make.** `make_symbol.py pins.csv <family>.kicad_symdir/<MPN>.kicad_sym --layout layout.json --fp <footprint>` (or into the scratchpad for a dry run). Read the printed summary: side pitch, body size, NC pins, house-style notes, `S4.7 renamed` lines, filter notes and WARN lines. A `spec error` names the bad line or key; fix it and run again. A `PIN/PAD MISMATCH` writes nothing: settle it with the footprint first.
    Done when the file is written.
 
 6. **Check.**

@@ -525,6 +525,15 @@ def dump(sym, path):
         lay['fp_filters'] = pr['ki_fp_filters'].split()
     if lens and 2.54 - EPS <= lens[-1] <= 7.62 + EPS and abs(lens[-1] / 1.27 - round(lens[-1] / 1.27)) < EPS:
         lay['pin_length'] = lens[-1]
+    # left and right pin pitch: the smallest step between visible pins on one side of one unit
+    steps = []
+    for u in sym.units:
+        for rot in (0, 180):
+            ys = sorted({round(p['y'], 4) for p in sym.pins
+                         if p['unit'] == u and not p['hide'] and p['rot'] % 360 == rot})
+            steps += [b - a for a, b in zip(ys, ys[1:])]
+    if steps and any(abs(min(steps) - v) < EPS for v in (2.54, 5.08)):
+        lay['pin_pitch'] = round(min(steps), 2)
     if sym.unit_names or unit0:
         lay['units'] = {str(k): v for k, v in sym.unit_names.items()}
         if unit0:
