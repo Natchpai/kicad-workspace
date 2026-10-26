@@ -20,7 +20,8 @@ property and solid zone connection on exposed pads and vias (F6.3); copper graph
 pad; courtyard clearance (0.25 mm; 0.15 mm when the body is under 1.5 mm both ways) and 0.01 mm
 grid (F5.3); silkscreen to copper (at least 0.15 mm DFM, the line width and the mask margin, 0.2 mm
 recommended, F5.1); DFM silkscreen: lines >= 0.15 mm (a filled pin 1 mark over 0.15 mm across:
->= 0.1 mm), visible text >= 1 x 1 mm and 0.15 mm thick, text >= 0.15 mm from copper (estimated box);
+>= 0.1 mm), visible text >= 1 x 1 mm and 0.15 mm thick, text >= 0.15 mm from copper (estimated box),
+no filled dot on silkscreen, filled pin 1 mark inside the courtyard (F5.1);
 F.Fab ${REFERENCE} 1 x 1 mm, 0.1 mm thick, smaller only to fit a small body (house rule); F.SilkS
 and F.Fab points and text positions on the 0.05 mm grid (house rule, INFO); pin 1 (or A1) at the top left (F4.2); annular ring >= 0.15 mm (F7.5); THT pin 1 shape
 (F7.3, INFO); stencil area ratio < 0.66 or aspect ratio < 1.5 (IPC-7525) at --stencil thickness.
@@ -420,7 +421,9 @@ class Footprint:
                   or 'hide' in c or 'hide' in eff)
         return {'text': c[2], 'layer': kid(c, 'layer')[1], 'hidden': hidden, 'size': size,
                 'thick': num(th[1]) if th else min(size) / 8,   # KiCad's default pen
-                'at': (num(at[1]), num(at[2]), num(at[3]) if len(at) > 3 else 0.0)}
+                'auto': not th,
+                'at': (num(at[1]), num(at[2]),   # older files write (at x y unlocked)
+                       num(at[3]) if len(at) > 3 and re.match(r'-?[\d.]+$', at[3]) else 0.0)}
 
     def read_graphic(self, c):
         gr = {'type': c[0], 'layer': kid(c, 'layer')[1]}
@@ -506,7 +509,14 @@ class Footprint:
         self.crtyd = box_of([pt for gr in crt for pt in gr['pts']]) if crt else None
         self.crtyd_pts = [pt for gr in crt for pt in gr['pts']
                           if gr['type'] in ('fp_line', 'fp_rect', 'fp_poly')]
-        fab = [gr for gr in self.graphics if gr['layer'] == 'F.Fab' and gr['type'] != 'fp_circle']
+        # fab outline: the body, without the pin 1 marks (filled shapes, circles, lines with a free end)
+        fab = [gr for gr in self.graphics if gr['layer'] == 'F.Fab' and gr['type'] != 'fp_circle'
+               and not gr['filled']]
+        # an outline end meets another line end within 0.05 mm (hand-drawn outlines leave small gaps)
+        ends = [pt for gr in fab if gr['type'] == 'fp_line' for pt in gr['pts']]
+        joined = lambda pt: sum(math.hypot(pt[0] - q[0], pt[1] - q[1]) <= 0.05 for q in ends) > 1
+        body = [gr for gr in fab if gr['type'] != 'fp_line' or all(joined(pt) for pt in gr['pts'])]
+        fab = body or fab
         self.fab = box_of([pt for gr in fab for pt in gr['pts']]) if fab else None
         self.silk = [gr for gr in self.graphics if gr['layer'] == 'F.SilkS']
 
@@ -585,6 +595,13 @@ def silk_dfm(fp):
                    + '; '.join(f'{n}x {k}' for k, n in bad.items()))
     elif fp.silk:
         out.append(f'PASS  silkscreen lines >= {g(SILK_MIN_WIDTH)} mm (pin 1 mark >= {g(MARK_MIN_WIDTH)})')
+    if any(gr['type'] == 'fp_circle' and gr['filled'] for gr in fp.silk):
+        out.append('WARN  filled dot on silkscreen; the house pin 1 mark is an arrow (+ for polarized SMD capacitors)')
+    c = fp.crtyd
+    if c and any(gr['filled'] and not (c[0] - 0.001 <= gr['box'][0] and gr['box'][2] <= c[2] + 0.001
+                                       and c[1] - 0.001 <= gr['box'][1] and gr['box'][3] <= c[3] + 0.001)
+                 for gr in fp.silk):
+        out.append('WARN  pin 1 silk mark outside the courtyard (KLC F5.1)')
     for t in fp.texts:
         if not t['layer'].endswith('.SilkS') or t['hidden']:
             continue
@@ -623,7 +640,7 @@ def graphic_grid(fp):
 
 def fab_reference(fp):
     """House rule: ${REFERENCE} on F.Fab 1 x 1 mm and 0.1 mm thick; smaller only when the body has
-    no room for 3 characters, then no bigger than fab_text() of the fab outline."""
+    no room for 5 characters, then no bigger than fab_text() of the fab outline."""
     refs = [t for t in fp.texts if t['layer'] == 'F.Fab' and t['text'] == '${REFERENCE}']
     if not refs:
         return ['WARN  no ${REFERENCE} text on F.Fab (KLC F5.2)']
@@ -631,13 +648,22 @@ def fab_reference(fp):
     h, w = t['size']
     fit, _ = MF.fab_text(*dims(fp.fab)) if fp.fab else (MF.FAB_TEXT, MF.FAB_TEXT_WIDTH)
     name = f'F.Fab ${{REFERENCE}} {g(h)}x{g(w)} mm, {g(t["thick"])} thick'
+    if round(t['at'][2]) % 180 == 90:   # turned along a tall body (SOT-23): any size that fits
+        fit = MF.fab_text(*reversed(dims(fp.fab)))[0] if fp.fab else MF.FAB_TEXT
+        ok = max(h, w) <= fit + 0.001 and t['thick'] <= MF.FAB_TEXT_WIDTH + 0.001
+        return [f'{"PASS" if ok else "WARN"}  {name}, turned 90 deg (at most {g(fit)} mm to fit, <= '
+                f'{g(MF.FAB_TEXT_WIDTH)} thick)']
+    if abs(h - w) > 0.001 and max(h, w) <= max(fit, MF.FAB_TEXT) + 0.001:
+        # height and width set apart on purpose, to tell the footprint apart at a glance
+        return [f'INFO  {name} (height and width differ: hand-set style, not checked)']
     if fit >= MF.FAB_TEXT:
         ok = (abs(h - MF.FAB_TEXT) < 0.001 and abs(w - MF.FAB_TEXT) < 0.001
               and abs(t['thick'] - MF.FAB_TEXT_WIDTH) < 0.001)
         need = f'house rule {g(MF.FAB_TEXT)}x{g(MF.FAB_TEXT)} mm, {g(MF.FAB_TEXT_WIDTH)} thick'
     else:
-        ok = max(h, w) <= fit + 0.001 and t['thick'] <= MF.FAB_TEXT_WIDTH + 0.001
-        need = f'small body: at most {g(fit)} mm to fit, <= {g(MF.FAB_TEXT_WIDTH)} thick'
+        # 0.05 mm over the fit is fine on tiny parts (stock 0402 text is 0.17 for a 0.15 fit)
+        ok = max(h, w) <= fit + 0.05 + 0.001 and t['thick'] <= MF.FAB_TEXT_WIDTH + 0.001
+        need = f'small body: at most {g(fit)} mm (+0.05) to fit, <= {g(MF.FAB_TEXT_WIDTH)} thick'
     return [f'{"PASS" if ok else "WARN"}  {name} ({need})']
 
 
@@ -773,6 +799,9 @@ def checks(fp, stencil, crt_req):
     else:
         say('WARN', 'no silkscreen')
     out += silk_dfm(fp) + fab_reference(fp) + graphic_grid(fp)
+    auto = [t['text'] for t in fp.texts if t['auto']]
+    if auto:   # house rule: every text states its thickness
+        say('WARN', f'{len(auto)} text(s) with auto thickness: {", ".join(sorted(set(auto))[:5])}')
 
     p1 = next((p for p in fp.main_pads if p['num'] in ('1', 'A1')), None)
     if p1 is None:

@@ -8,14 +8,17 @@ The spec format is in SPEC.md next to this folder. In short: "rows" (dual or qua
 and stencil apertures) can be combined. Every dimension is in mm and comes from the datasheet;
 the script computes only layout (positions from pitch and span) and the generated layers.
 
-Generated: F.Fab body rectangle with a filled pin 1 dot (or a pin 1 bevel, or none) and ${REFERENCE}
-(1 x 1 mm, 0.1 mm thick; smaller only when 3 characters do not fit inside the body),
+Generated: F.Fab body rectangle with one pin 1 mark (a filled dot level with pin 1, a filled arrow
+for connectors, or none) and ${REFERENCE} (1 x 1 mm, 0.1 mm thick; smaller only
+when 5 characters do not fit inside the body),
 F.SilkS outline at body + silk offset (default 0.1 mm), 0.15 mm wide, cut back 0.2 mm from copper, a
-filled pin 1 triangle, REF** 1 x 1 mm, 0.15 mm thick (DFM minimums: silk lines and text 0.15 mm, text
+pin 1 mark beside pin 1 (a filled arrow pointing at it, a + for polarized SMD capacitors, none for
+non-polarized parts), REF** 1 x 1 mm, 0.15 mm thick (DFM minimums: silk lines and text 0.15 mm, text
 1 x 1 mm, 0.15 mm from copper, pin 1 mark line 0.1 mm when the mark is over 0.15 mm); F.SilkS and
 F.Fab points and text positions on a 0.05 mm grid, silk rounded away from body and copper, the fab
 outline to the nearest node, F.CrtYd rectangle around body and copper (0.25 mm; 0.15 mm when both body sides
-are under 1.5 mm; 1.0 mm with "grid") on a 0.01 mm grid, properties (Value hidden) and model.
+are under 1.5 mm; 1.0 mm with "grid"), grown the same on every side to hold the silk pin 1 mark, on a
+0.01 mm grid, properties (Value hidden) and model.
 Pads and stencil apertures have rounded corners by default (roundrect, ratio 0.25 for pads,
 0.1 for apertures, radius at most 0.25 mm). Exposed pads stay square: rounded tab and pad
 primitives leave notches where they join. KLC F6.3 / F4.4: exposed pads, their B.Cu pad and
@@ -48,8 +51,22 @@ SILK_MIN_WIDTH, SILK_MIN_TEXT, SILK_MIN_CLEARANCE = 0.15, 1.0, 0.15
 MARK_MIN_WIDTH, MARK_MIN_SIZE = 0.1, 0.15
 # F.Fab ${REFERENCE}: 1 x 1 mm, 0.1 mm thick, smaller only when FAB_CHARS characters do not fit
 # inside the body (estimated stroke font advance CHAR_ADV x size)
-FAB_TEXT, FAB_TEXT_WIDTH, FAB_CHARS, CHAR_ADV = 1.0, 0.1, 3, 0.9
+FAB_TEXT, FAB_TEXT_WIDTH, FAB_CHARS, CHAR_ADV = 1.0, 0.1, 5, 0.9
 GRAPHIC_GRID = 0.05   # house rule: F.SilkS and F.Fab points and text positions, easy to edit by hand
+PLUS_ARM = 0.4        # pin 1 + of polarized capacitors: 0.8 mm across
+
+
+def center_of(pts):
+    xs, ys = [p[0] for p in pts], [p[1] for p in pts]
+    return round((min(xs) + max(xs)) / 2, 4), round((min(ys) + max(ys)) / 2, 4)
+
+
+def dot_radius(short):
+    """F.Fab pin 1 dot radius from the short body side (house sizes)."""
+    for limit, r in ((1.5, 0.1), (3.2, 0.15), (3.9, 0.2), (10, 0.25)):
+        if short < limit - EPS:
+            return r
+    return 0.3
 
 
 def snap(v, how=0):
@@ -160,7 +177,7 @@ class Builder:
         self.o = dict(DEFAULTS)
         self.o.update(spec.get('options', {}))
         o = self.o
-        o.setdefault('marker_width', o['silk_width'])
+        o.setdefault('marker_width', MARK_MIN_WIDTH)
         for key, low in (('silk_width', SILK_MIN_WIDTH), ('silk_clearance', SILK_MIN_CLEARANCE),
                          ('marker_width', MARK_MIN_WIDTH)):
             if number(o[key], f'options {key}') < low - EPS:
@@ -423,10 +440,40 @@ class Builder:
                  if p['kind'] == 'np_thru_hole']
         keep = cu + holes
 
-        # pin 1 corner
+        # pin 1 corner, and the body side the pin 1 marks use: the one pin 1 is nearer to (x on a tie)
         p1 = next((p for p in self.pads if p['num'] in ('1', 'A1')), self.pads[0])
         sxn = -1 if p1['x'] - bcx <= EPS else 1
         syn = -1 if p1['y'] - bcy <= EPS else 1
+        on_x = (-sxn * (p1['x'] - (body[0] if sxn < 0 else body[2]))
+                <= -syn * (p1['y'] - (body[1] if syn < 0 else body[3])) + EPS)
+        out = sxn if on_x else syn   # outward along the marks' axis
+        silk_mark = s.get('silk_pin1')
+        fab_mark = s.get('fab_pin1', 'plus' if silk_mark == 'plus' else 'dot')
+        if fab_mark not in ('dot', 'arrow', 'plus', 'none'):
+            raise SpecError('"fab_pin1" must be dot, arrow, plus or none')
+        if silk_mark is None:
+            silk_mark = fab_mark if fab_mark in ('plus', 'none') else 'arrow'
+        if silk_mark not in ('arrow', 'plus', 'none'):
+            raise SpecError('"silk_pin1" must be arrow, plus or none')
+        # polarized capacitor base: both pin 1 side corners chamfered; can diameter drawn on F.Fab
+        cham = number(s['body'].get('chamfer', 0), 'body chamfer', False)
+        can = s['body'].get('d')
+        if can is not None:
+            can = number(can, 'body d')
+
+        def outline(x0, y0, x1, y1, c):
+            """Rectangle corners clockwise from the top left, the two pin 1 side corners cut by c."""
+            corners = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+            pts = []
+            for i, (px, py) in enumerate(corners):
+                side = (-1 if px == x0 else 1) == sxn if on_x else (-1 if py == y0 else 1) == syn
+                if c > EPS and side:
+                    for qx, qy in (corners[i - 1], corners[(i + 1) % 4]):
+                        d = math.hypot(qx - px, qy - py)
+                        pts.append((round(px + (qx - px) * c / d, 4), round(py + (qy - py) * c / d, 4)))
+                else:
+                    pts.append((px, py))
+            return [(pts[i], pts[(i + 1) % len(pts)]) for i in range(len(pts))]
 
         # silkscreen outline, cut back from copper; on the graphic grid, rounded away from the body
         o = self.o
@@ -434,9 +481,16 @@ class Builder:
         k = sc + sw / 2
         L, R = snap(bcx - bx / 2 - so, -1), snap(bcx + bx / 2 + so, 1)
         T, B = snap(bcy - by / 2 - so, -1), snap(bcy + by / 2 + so, 1)
-        edges = [((L, T), (R, T)), ((R, T), (R, B)), ((R, B), (L, B)), ((L, B), (L, T))]
+        edges = outline(L, T, R, B, snap(cham + so * (2 - math.sqrt(2)), 1) if cham > EPS else 0)
         silk = []
         for (x0, y0), (x1, y1) in edges:
+            if abs(x0 - x1) > EPS and abs(y0 - y1) > EPS:   # chamfer: whole, or left out near copper
+                eb = (min(x0, x1) - k, min(y0, y1) - k, max(x0, x1) + k, max(y0, y1) + k)
+                if any(eb[0] < c[2] and c[0] < eb[2] and eb[1] < c[3] and c[1] < eb[3] for c in keep):
+                    self.warns.append('a silk chamfer line runs near copper and was left out')
+                else:
+                    silk.append(((x0, y0), (x1, y1)))
+                continue
             horiz = abs(y0 - y1) < EPS
             a, b = (min(x0, x1), max(x0, x1)) if horiz else (min(y0, y1), max(y0, y1))
             fixed = y0 if horiz else x0
@@ -462,64 +516,114 @@ class Builder:
                 if s1 - s0 >= o['silk_min_len'] - EPS:
                     silk.append(((s0, fixed), (s1, fixed)) if horiz else ((fixed, s0), (fixed, s1)))
 
-        # pin 1 triangle at the silk corner, moved out until it clears copper
+        # pin 1 mark on F.SilkS (KLC F5.1), (u, v) = (outward axis, along the pin 1 side):
+        # arrow: beside pin 1 outside the silk outline, level with pin 1, pointing at it;
+        # plus (polarized capacitors): over pad 1's outer end, past the pad edge on the pin 1 corner
+        # side. Each moves out until it clears copper and the silk outline.
         m = max(GRAPHIC_GRID, snap(o['marker_size']))
-        k = sc + o['marker_width'] / 2
-        cxs = snap((L if sxn < 0 else R) + sxn * sw / 4, sxn)
-        cys = T if syn < 0 else B
-        shift = 0.0
-        for _ in range(60):
-            tri = [(cxs, cys + syn * shift), (cxs + sxn * m, cys + syn * shift),
-                   (cxs, cys + syn * (shift + m))]
-            tri = [(round(x, 4), round(y, 4)) for x, y in tri]
-            tb = (min(t[0] for t in tri) - k, min(t[1] for t in tri) - k,
-                  max(t[0] for t in tri) + k, max(t[1] for t in tri) + k)
-            if not any(tb[0] < c[2] and c[0] < tb[2] and tb[1] < c[3] and c[1] < tb[3]
-                       for c in keep):
-                break
-            shift += 0.05
-        else:
-            self.warns.append('pin 1 silk triangle overlaps copper; move it by hand')
+        mw = o['marker_width'] if silk_mark == 'arrow' else sw
+        k = sc + mw / 2
+        along = snap(p1['y'] if on_x else p1['x'])
+        to_xy = lambda uv: [(round(u, 4), round(v, 4)) if on_x else (round(v, 4), round(u, 4)) for u, v in uv]
+        lines = [bbox_union([(a[0], a[1], a[0], a[1]), (b[0], b[1], b[0], b[1])]) for a, b in silk]
+        gap = sw / 2 + mw / 2 + GRAPHIC_GRID
 
-        # courtyard around body and copper only (KLC F5.3: BGA 1.0; 0.15 when the part is
-        # under 1.5 mm in both directions, as the stock KiCad generators read the rule)
+        def hits(pts):
+            mb = bbox_union([(x, y, x, y) for x, y in pts])
+            near = lambda c, d: (mb[0] - d < c[2] - 1e-6 and c[0] < mb[2] + d - 1e-6
+                                 and mb[1] - d < c[3] - 1e-6 and c[1] < mb[3] + d - 1e-6)
+            return any(near(c, k) for c in keep) or any(near(c, gap) for c in lines)
+
+        def shape_at(kind, t):
+            if kind == 'arrow':
+                hw = snap(m * 2 / 3)
+                return to_xy([(t, along), (t + out * m, along - hw), (t + out * m, along + hw)])
+            u, v = t   # the box of the 1 x 1 mm "+" text
+            h = SILK_MIN_TEXT / 2
+            return to_xy([(u - h, v), (u + h, v), (u, v - h), (u, v + h)])
+
+        def place(kind):
+            if kind == 'arrow':
+                edge = (L if sxn < 0 else R) if on_x else (T if syn < 0 else B)
+                t = snap(edge + out * (sw / 2 + mw / 2 + GRAPHIC_GRID), out)
+            else:
+                pb = bbox_union(self.copper_boxes(p1))
+                vdir = syn if on_x else sxn
+                uo = (pb[0] if out < 0 else pb[2]) if on_x else (pb[1] if out < 0 else pb[3])
+                ve = (pb[1] if vdir < 0 else pb[3]) if on_x else (pb[0] if vdir < 0 else pb[2])
+                t = (snap(uo - out * SILK_MIN_TEXT / 2, out), snap(ve + vdir * (k + SILK_MIN_TEXT / 2), vdir))
+            for _ in range(100):
+                pts = shape_at(kind, t)
+                if not hits(pts):
+                    return pts
+                t = round(t + out * GRAPHIC_GRID, 4) if kind == 'arrow' else (round(t[0] + out * GRAPHIC_GRID, 4), t[1])
+            self.warns.append('pin 1 silk mark overlaps copper or silk; move it by hand')
+            return pts
+
+        mark_pts = place(silk_mark) if silk_mark != 'none' else []
+        fab_plus = None
+        if fab_mark == 'plus':   # drawn + (0.8 mm) at the center of the silk "+" text
+            box = mark_pts if silk_mark == 'plus' else place('plus')
+            cx, cy = center_of(box)
+            a = PLUS_ARM
+            fab_plus = [(cx - a, cy), (cx + a, cy), (cx, cy - a), (cx, cy + a)]
+
+        # courtyard around body and copper (KLC F5.3: BGA 1.0; 0.15 when the part is under 1.5 mm
+        # in both directions, as the stock KiCad generators read the rule); grown the same on
+        # every side until it holds the pin 1 silk mark
         clr = s.get('courtyard', 1.0 if s.get('grid') else 0.15 if max(bx, by) < 1.5 else 0.25)
         clr = number(clr, 'courtyard')
         cb = bbox_union([body] + keep)
         cb = (cb[0] - clr, cb[1] - clr, cb[2] + clr, cb[3] + clr)
+        held = mark_pts + (fab_plus or [])
+        if held:
+            mb = bbox_union([(x - mw / 2, y - mw / 2, x + mw / 2, y + mw / 2) for x, y in held])
+            grow = max(0.0, cb[0] - mb[0], cb[1] - mb[1], mb[2] - cb[2], mb[3] - cb[3])
+            cb = (cb[0] - grow, cb[1] - grow, cb[2] + grow, cb[3] + grow)
         cb = (math.floor(cb[0] * 100 + EPS) / 100, math.floor(cb[1] * 100 + EPS) / 100,
               math.ceil(cb[2] * 100 - EPS) / 100, math.ceil(cb[3] * 100 - EPS) / 100)
 
-        # fab outline: plain rectangle with a pin 1 dot (default), or a pin 1 bevel (KLC F5.2)
-        mark = s.get('fab_pin1', 'dot')
-        if mark not in ('dot', 'bevel', 'none'):
-            raise SpecError('"fab_pin1" must be dot, bevel or none')
-        bev = max(GRAPHIC_GRID, snap(min(1.0, 0.25 * min(bx, by)), -1))
-        fb = [snap(v) for v in body]   # fab outline on the graphic grid (the body within 0.025 mm)
-        corners = [(fb[0], fb[1]), (fb[2], fb[1]), (fb[2], fb[3]), (fb[0], fb[3])]
-        ci = {(-1, -1): 0, (1, -1): 1, (1, 1): 2, (-1, 1): 3}[(sxn, syn)]
-        dot = None
-        if mark == 'dot':
-            d = max(0.2, min(0.5, math.floor(0.1 * min(bx, by) * 10 + EPS) / 10))   # radius on the grid
-            ins = snap(d / 2 + 0.1, 1)
-            dot = (round(corners[ci][0] - sxn * ins, 4), round(corners[ci][1] - syn * ins, 4), d / 2)
-        poly = []
-        for i, (px, py) in enumerate(corners):
-            if i == ci and mark == 'bevel':
-                prv, nxt = corners[i - 1], corners[(i + 1) % 4]
-                def toward(q):
-                    d = math.hypot(q[0] - px, q[1] - py)
-                    return (round(px + (q[0] - px) * bev / d, 4), round(py + (q[1] - py) * bev / d, 4))
-                poly += [toward(prv), toward(nxt)]
-            else:
-                poly.append((px, py))
-        fab = [(poly[i], poly[(i + 1) % len(poly)]) for i in range(len(poly))]
-        # Reference above the courtyard and the pin 1 triangle, Value below
-        top = min(cb[1], min(t[1] for t in tri) - o['marker_width'] / 2)
-        bot = max(cb[3], max(t[1] for t in tri) + o['marker_width'] / 2)
-        self.geo = {'silk': silk, 'tri': tri, 'crtyd': cb, 'fab': fab, 'fab_text': fab_text(bx, by),
-                    'body_at': (snap(bcx), snap(bcy)), 'fab_dot': dot, 'ref_y': snap(top - 0.75, -1),
-                    'val_y': snap(bot + 0.85, 1)}
+        # fab outline: rectangle on the graphic grid (the body within 0.025 mm; chamfered for a
+        # polarized capacitor base, with the can circle), with one pin 1 mark: a filled dot level
+        # with pin 1 (default), for connectors a filled arrow from the body edge pointing at pin 1
+        # (KLC F5.2), or for polarized capacitors the + of the silk mark
+        fb = [snap(v) for v in body]
+        fab = outline(*fb, snap(cham) if cham > EPS else 0)
+        circle = (snap(bcx), snap(bcy), snap(can / 2)) if can else None
+        cx0, cy0 = (fb[0] if sxn < 0 else fb[2]), (fb[1] if syn < 0 else fb[3])
+        dot = arrow = None
+        pb = bbox_union(self.copper_boxes(p1))
+        short = min(bx, by)
+        if fab_mark == 'dot':
+            mid = abs((p1['y'] - bcy) if on_x else (p1['x'] - bcx)) < 0.25 * (by if on_x else bx)
+            if s.get('grid') and short >= 5 - EPS:   # BGA: on ball A1
+                dot = (snap(p1['x']), snap(p1['y']), 0.35)
+            elif mid:   # pin 1 in the middle of a side (diodes, LEDs): level with it, at its pad's outer end
+                r = dot_radius(short) + 0.05
+                u = snap((pb[0] if out < 0 else pb[2]) if on_x else (pb[1] if out < 0 else pb[3]))
+                dot = ((u, along) if on_x else (along, u)) + (r,)
+            else:   # on the body diagonal, 3 radii in from the pin 1 corner
+                r = dot_radius(short)
+                ins = snap(min(3 * r, short / 2))
+                dot = (round(cx0 - sxn * ins, 4), round(cy0 - syn * ins, 4), r)
+        elif fab_mark == 'arrow':
+            # on pad 1's long axis, on the body side, tip 0.2 mm off the pad end, pointing at the pad
+            pw, ph = pb[2] - pb[0], pb[3] - pb[1]
+            ax = pw > ph + EPS or (abs(pw - ph) <= EPS and abs(bcx - p1['x']) >= abs(bcy - p1['y']))
+            c, pc = (bcx, p1['x']) if ax else (bcy, p1['y'])
+            d = 1 if c >= pc - EPS else -1
+            al, ahw = (0.3, 0.2) if min(pw, ph) < 1 - EPS else (0.5, 0.3)
+            tip = snap(((pb[2] if d > 0 else pb[0]) if ax else (pb[3] if d > 0 else pb[1])) + d * 0.2)
+            v = snap(p1['y'] if ax else p1['x'])
+            uv = [(tip, v), (tip + d * al, v - ahw), (tip + d * al, v + ahw)]
+            arrow = [(round(u, 4), round(w, 4)) if ax else (round(w, 4), round(u, 4)) for u, w in uv]
+        # Reference above the courtyard and the pin 1 mark, Value below
+        top = min([cb[1]] + [y - mw / 2 for _, y in held])
+        bot = max([cb[3]] + [y + mw / 2 for _, y in held])
+        self.geo = {'silk': silk, 'mark': (silk_mark, mark_pts, mw), 'crtyd': cb, 'fab': fab,
+                    'fab_text': fab_text(bx, by), 'body_at': (snap(bcx), snap(bcy)), 'fab_dot': dot,
+                    'fab_arrow': arrow, 'fab_plus': fab_plus, 'fab_circle': circle,
+                    'ref_y': snap(top - 0.75, -1), 'val_y': snap(bot + 0.85, 1)}
         return self
 
     # ---- output -----------------------------------------------------------------------
@@ -549,6 +653,9 @@ class Builder:
                  ('Value', name, bc[0], g['val_y'], 'F.Fab', True, 1, 0.15),
                  ('Datasheet', s.get('datasheet', ''), 0, 0, 'F.Fab', True, 1.27, 0.15),
                  ('Description', '', 0, 0, 'F.Fab', True, 1.27, 0.15)]
+        kind, pts, mw = g['mark']
+        if kind == 'plus':   # silk + of a polarized capacitor: a 1 x 1 mm text, as hand edits do
+            props.append(('Polar', '+', *center_of(pts), 'F.SilkS', False, SILK_MIN_TEXT, SILK_MIN_WIDTH))
         for key, val, x, y, layer, hide, size, th in props:
             w(f'\t(property "{key}" "{q(val)}"')
             w(f'\t\t(at {f(x)} {f(y)} 0)')
@@ -570,11 +677,15 @@ class Builder:
               f'\t\t(stroke\n\t\t\t(width {f(width)})\n\t\t\t(type solid)\n\t\t)\n'
               f'\t\t(layer "{layer}")\n\t\t(uuid "{uid()}")\n\t)')
 
+        def fill_poly(pts, width, layer):
+            xy = ' '.join(f'(xy {f(x)} {f(y)})' for x, y in pts + [pts[0]])
+            w(f'\t(fp_poly\n\t\t(pts\n\t\t\t{xy}\n\t\t)\n\t\t(stroke\n\t\t\t(width {f(width)})\n'
+              f'\t\t\t(type solid)\n\t\t)\n\t\t(fill yes)\n\t\t(layer "{layer}")\n\t\t(uuid "{uid()}")\n\t)')
+
         for a, b in g['silk']:
             line(a, b, o['silk_width'], 'F.SilkS')
-        pts = ' '.join(f'(xy {f(x)} {f(y)})' for x, y in g['tri'] + [g['tri'][0]])
-        w(f'\t(fp_poly\n\t\t(pts\n\t\t\t{pts}\n\t\t)\n\t\t(stroke\n\t\t\t(width {f(o["marker_width"])})\n'
-          f'\t\t\t(type solid)\n\t\t)\n\t\t(fill yes)\n\t\t(layer "F.SilkS")\n\t\t(uuid "{uid()}")\n\t)')
+        if kind == 'arrow':
+            fill_poly(pts, mw, 'F.SilkS')
         c = [(cb[0], cb[1]), (cb[2], cb[1]), (cb[2], cb[3]), (cb[0], cb[3])]
         for i in range(4):
             line(c[i], c[(i + 1) % 4], o['crtyd_width'], 'F.CrtYd')
@@ -584,6 +695,16 @@ class Builder:
             x, y, r = g['fab_dot']
             w(f'\t(fp_circle\n\t\t(center {f(x)} {f(y)})\n\t\t(end {f(x + r)} {f(y)})\n'
               f'\t\t(stroke\n\t\t\t(width 0)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill yes)\n'
+              f'\t\t(layer "F.Fab")\n\t\t(uuid "{uid()}")\n\t)')
+        if g['fab_arrow']:
+            fill_poly(g['fab_arrow'], o['fab_width'], 'F.Fab')
+        if g['fab_plus']:
+            line(g['fab_plus'][0], g['fab_plus'][1], o['fab_width'], 'F.Fab')
+            line(g['fab_plus'][2], g['fab_plus'][3], o['fab_width'], 'F.Fab')
+        if g['fab_circle']:
+            x, y, r = g['fab_circle']
+            w(f'\t(fp_circle\n\t\t(center {f(x)} {f(y)})\n\t\t(end {f(x + r)} {f(y)})\n'
+              f'\t\t(stroke\n\t\t\t(width {f(o["fab_width"])})\n\t\t\t(type solid)\n\t\t)\n\t\t(fill no)\n'
               f'\t\t(layer "F.Fab")\n\t\t(uuid "{uid()}")\n\t)')
         fs, ft = g['fab_text']
         w(f'\t(fp_text user "${{REFERENCE}}"\n\t\t(at {f(bc[0])} {f(bc[1])} 0)\n\t\t(layer "F.Fab")\n'
