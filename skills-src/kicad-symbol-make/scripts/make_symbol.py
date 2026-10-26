@@ -22,13 +22,16 @@ stack (default false: every pin drawn separately; true stacks same-name power pi
 units ({"1": "A", ...} unit names), interchangeable (multi-unit only; default false writes ki_locked).
 The symbol name is the output file name unless layout.json gives the same name.
 
-Drawing follows KLC: 2.54 mm grid, pins all one length (2.54, 3.81 when a pin number has 3 or more
-characters, or pin_length), name offset 0.508, text 1.27, body stroke 0.254 filled with background.
+Drawing follows KLC: 2.54 mm grid, pins all one length (2.54 when every pin number has 1 character,
+5.08 from 2 characters, 6.35 for 5 and 7.62 from 6 (KLC S4.1), or pin_length; with 3.81 or 6.35 the
+body edge moves 1.27 out so pin ends stay on the grid), name offset 0.508, text 1.27, body stroke
+0.254 filled with background.
 Left and right rows are centered on y = 0; Reference and Value sit at the body's top corners.
 nRESET, RESET# and /RESET are written as ~{RESET} (S4.7); each rename is printed.
 
 --fp compares pin numbers (stacks expanded) with the footprint's pad numbers and writes nothing on
-a mismatch. --newline auto copies the line ending of a .kicad_sym found near the output folder.
+a mismatch. Line endings are LF (KLC G1); --newline auto copies the line ending of a .kicad_sym found
+near the output folder, --newline crlf writes CRLF.
 The script never overwrites an existing file.
 """
 import argparse
@@ -234,7 +237,8 @@ def fit(left, right, top, bottom, ys, ty, by, tx, bx, hidden=0, corner=None):
                     boxes.append((x - HALF_H, x + HALF_H, y1, y2))
         inside = all(b[0] > -hw and b[1] < hw and b[2] > by and b[3] < ty for b in boxes)
         clear = not any(overlap(a, b) for i, a in enumerate(boxes) for b in boxes[i + 1:])
-        if inside and clear and hw > max([abs(x) for x in tx + bx] + [0]) and                 len(inner_nodes(hw, ty, by)) >= hidden:
+        if (inside and clear and hw > max([abs(x) for x in tx + bx] + [0])
+                and len(inner_nodes(hw, ty, by)) >= hidden):
             return hw
     return None
 
@@ -334,14 +338,14 @@ class Symbol:
         for p in self.pins:
             key = (p['unit'], p['name'], p['type'])
             if p['type'] in ('power_in', 'power_out') and p['side'] != 'hidden':
-                first = seen.get(key)
-                if first and first['side'] and p['side'] and first['side'] != p['side']:
+                head = seen.get(key)
+                if head and head['side'] and p['side'] and head['side'] != p['side']:
                     self.notes.append(f'S4.3 not stacked {p["name"]} {stack_text(p["nums"])}: side {p["side"]} '
-                                      f'differs from {stack_text(first["nums"])} ({first["side"]})')
-                elif first:
-                    first['nums'] += p['nums']
-                    first['side'] = first['side'] or p['side']
-                    first['alts'] += [a for a in p['alts'] if a not in first['alts']]
+                                      f'differs from {stack_text(head["nums"])} ({head["side"]})')
+                elif head:
+                    head['nums'] += p['nums']
+                    head['side'] = head['side'] or p['side']
+                    head['alts'] += [a for a in p['alts'] if a not in head['alts']]
                     continue
                 else:
                     seen[key] = p
@@ -371,8 +375,9 @@ class Symbol:
             if want < 2.54 - 1e-6 or want > 7.62 + 1e-6 or abs(want / 1.27 - round(want / 1.27)) > 1e-6:
                 raise SpecError(f'pin_length {want}: 2.54 to 7.62 in 1.27 steps (KLC S4.1)')
             return float(want)
+        # house rule: 5.08 once a pin number has 2 characters, longer when KLC S4.1 asks (5 characters: 6.35)
         chars = max(len(m) for p in self.pins for m in p['nums'])
-        return 3.81 if chars >= 3 else 2.54
+        return 2.54 if chars < 2 else min(7.62, max(5.08, 1.27 * chars))
 
     def classify(self, unit):
         """Pins of one unit sorted to sides (KLC S4.2). Returns (dict side -> list of pin dict or None,
@@ -440,19 +445,19 @@ class Symbol:
         for s in ('left', 'right'):   # NC pins go last
             sort_auto(sides[s], lambda p: 1 if p['type'] == 'no_connect' else 0)
         if auto_ports:
-            groups = {}
+            ports_by = {}   # port letter -> pins
             for p in sorted(auto_ports, key=lambda p: (PORT.match(p['name']).group(1), int(PORT.match(p['name']).group(2)))):
-                groups.setdefault(PORT.match(p['name']).group(1), []).append(p)
+                ports_by.setdefault(PORT.match(p['name']).group(1), []).append(p)
             half = len(auto_ports) / 2
             right = []
-            letters = sorted(groups)
-            while letters and sum(len(groups[l]) for l in right) < half:
+            letters = sorted(ports_by)
+            while letters and sum(len(ports_by[l]) for l in right) < half:
                 right.append(letters.pop(0))
             for side, lets in (('right', right), ('left', letters)):
                 for l in lets:
                     if sides[side]:
                         sides[side].append(None)
-                    sides[side] += groups[l]
+                    sides[side] += ports_by[l]
         for g in self.gaps:   # explicit empty rows from the CSV, in file order
             if g['unit'] == unit and g['side'] in ('left', 'right', 'top', 'bottom'):
                 anchor = [p for p in pins if p['side'] == g['side'] and p['line'] < g['line']]
@@ -480,13 +485,16 @@ class Symbol:
         hw, ty, by, ys, tx, bx = layout(sides['left'], sides['right'], sides['top'], sides['bottom'], len(hidden),
                                         pitch, sides['bottom_r'], corner)
         L = self.pin_len
+        # hidden NC pins (side=hidden): connection point on grid nodes inside the body (KLC S4.6)
+        inner = inner_nodes(hw, ty, by)
+        if round(L / 1.27) % 2:   # 150 or 250 mil pins: body edge 50 mil out keeps pin ends on the grid (S4.1)
+            hw, ty, by = hw + 1.27, ty + 1.27, by - 1.27
         placed = []
         for side, x, rot in (('left', -hw - L, 0), ('right', hw + L, 180)):
             placed += [(p, x, y, rot, False) for y, p in zip(ys, sides[side]) if p]
         for pl, xs, y, rot in ((sides['top'], tx, ty + L, 270), (sides['bottom'] + sides['bottom_r'], bx, by - L, 90)):
             placed += [(p, x, y, rot, False) for x, p in zip(xs, pl) if p]
-        # hidden NC pins (side=hidden): connection point on grid nodes inside the body (KLC S4.6)
-        placed += [(p, x, y, 0, True) for p, (x, y) in zip(hidden, inner_nodes(hw, ty, by))]
+        placed += [(p, x, y, 0, True) for p, (x, y) in zip(hidden, inner)]
         self.hidden += [stack_text(p['nums']) for p in hidden]
         return hw, ty, by, placed
 
@@ -619,7 +627,7 @@ def main():
     ap.add_argument('out')
     ap.add_argument('--layout')
     ap.add_argument('--fp')
-    ap.add_argument('--newline', choices=('auto', 'lf', 'crlf'), default='auto')
+    ap.add_argument('--newline', choices=('auto', 'lf', 'crlf'), default='lf')
     a = ap.parse_args()
 
     if os.path.exists(a.out):
@@ -636,6 +644,8 @@ def main():
             sys.exit(f'layout name {lay["name"]!r} does not match file name {name!r}')
         sym = Symbol(read_pins(a.pins), lay, name)
         text = sym.build()
+    except OSError as e:
+        sys.exit(f'read error: {e}')
     except (SpecError, TypeError, ValueError, KeyError, AttributeError) as e:
         sys.exit(f'spec error: {e}')
 
