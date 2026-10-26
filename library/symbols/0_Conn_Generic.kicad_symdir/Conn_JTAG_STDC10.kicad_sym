@@ -30,8 +30,8 @@
 				(justify right bottom)
 			)
 		)
-		(property "Footprint" ""
-			(at 0 -2.54 0)
+		(property "Footprint" "0_Conn_PinHeader:PinHeader_2x05_P1.27mm_Vertical_SMD"
+			(at 0 21.59 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -42,7 +42,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.olimex.com/Products/ARM/JTAG/ARM-JTAG-20-10/resources/ARM-JTAG-20-10_latest-schematic.pdf"
-			(at -13.97 15.24 90)
+			(at 0 25.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -53,7 +53,7 @@
 			)
 		)
 		(property "Description" "ARM Cortex-M SWD and JTAG interface 10 Pin"
-			(at -16.51 -1.27 90)
+			(at 0 29.21 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -159,7 +159,7 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 -19.05 90)
+				(at 2.54 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -231,7 +231,7 @@
 				)
 			)
 			(pin passive line
-				(at 7.62 -19.05 90)
+				(at 5.08 -19.05 90)
 				(length 2.54)
 				(name "GND"
 					(effects

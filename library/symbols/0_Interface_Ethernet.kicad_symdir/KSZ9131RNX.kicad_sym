@@ -109,8 +109,8 @@
 		)
 		(symbol "KSZ9131RNX_0_1"
 			(pin power_in line
-				(at -30.48 38.1 270)
-				(length 2.54)
+				(at -30.48 40.64 270)
+				(length 5.08)
 				(name "AVDDH"
 					(effects
 						(font
@@ -127,8 +127,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 20.32 0)
-				(length 2.54)
+				(at -43.18 20.32 0)
+				(length 5.08)
 				(name "TXRXP_A"
 					(effects
 						(font
@@ -145,8 +145,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 17.78 0)
-				(length 2.54)
+				(at -43.18 17.78 0)
+				(length 5.08)
 				(name "TXRXM_A"
 					(effects
 						(font
@@ -163,8 +163,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 38.1 270)
-				(length 2.54)
+				(at 0 40.64 270)
+				(length 5.08)
 				(name "AVDDL"
 					(effects
 						(font
@@ -181,8 +181,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 12.7 0)
-				(length 2.54)
+				(at -43.18 12.7 0)
+				(length 5.08)
 				(name "TXRXP_B"
 					(effects
 						(font
@@ -199,8 +199,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 10.16 0)
-				(length 2.54)
+				(at -43.18 10.16 0)
+				(length 5.08)
 				(name "TXRXM_B"
 					(effects
 						(font
@@ -217,8 +217,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 5.08 0)
-				(length 2.54)
+				(at -43.18 5.08 0)
+				(length 5.08)
 				(name "TXRXP_C"
 					(effects
 						(font
@@ -235,8 +235,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 2.54 0)
-				(length 2.54)
+				(at -43.18 2.54 0)
+				(length 5.08)
 				(name "TXRXM_C"
 					(effects
 						(font
@@ -253,8 +253,8 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 38.1 270)
-				(length 2.54)
+				(at -2.54 40.64 270)
+				(length 5.08)
 				(name "AVDDL"
 					(effects
 						(font
@@ -271,8 +271,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 -2.54 0)
-				(length 2.54)
+				(at -43.18 -2.54 0)
+				(length 5.08)
 				(name "TXRXP_D"
 					(effects
 						(font
@@ -289,8 +289,8 @@
 				)
 			)
 			(pin passive line
-				(at -40.64 -5.08 0)
-				(length 2.54)
+				(at -43.18 -5.08 0)
+				(length 5.08)
 				(name "TXRXM_D"
 					(effects
 						(font
@@ -307,8 +307,8 @@
 				)
 			)
 			(pin power_in line
-				(at -33.02 38.1 270)
-				(length 2.54)
+				(at -33.02 40.64 270)
+				(length 5.08)
 				(name "AVDDH"
 					(effects
 						(font
@@ -325,8 +325,8 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 -40.64 90)
-				(length 2.54)
+				(at -5.08 -43.18 90)
+				(length 5.08)
 				(name "NC"
 					(effects
 						(font
@@ -343,8 +343,8 @@
 				)
 			)
 			(pin passive line
-				(at 0 -40.64 90)
-				(length 2.54)
+				(at -10.16 -43.18 90)
+				(length 5.08)
 				(name "NC"
 					(effects
 						(font
@@ -361,8 +361,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -40.64 -27.94 0)
-				(length 2.54)
+				(at -43.18 -27.94 0)
+				(length 5.08)
 				(name "LED2/PHYAD1"
 					(effects
 						(font
@@ -379,8 +379,8 @@
 				)
 			)
 			(pin power_in line
-				(at 33.02 38.1 270)
-				(length 2.54)
+				(at 33.02 40.64 270)
+				(length 5.08)
 				(name "DVDDH"
 					(effects
 						(font
@@ -397,8 +397,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -40.64 -22.86 0)
-				(length 2.54)
+				(at -43.18 -22.86 0)
+				(length 5.08)
 				(name "LED1/PME_N1//PHYAD0"
 					(effects
 						(font
@@ -415,8 +415,8 @@
 				)
 			)
 			(pin power_in line
-				(at 15.24 38.1 270)
-				(length 2.54)
+				(at 15.24 40.64 270)
+				(length 5.08)
 				(name "DVDDL"
 					(effects
 						(font
@@ -433,8 +433,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 7.62 180)
-				(length 2.54)
+				(at 40.64 7.62 180)
+				(length 5.08)
 				(name "TXD0"
 					(effects
 						(font
@@ -451,8 +451,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 5.08 180)
-				(length 2.54)
+				(at 40.64 5.08 180)
+				(length 5.08)
 				(name "TXD1"
 					(effects
 						(font
@@ -469,8 +469,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 2.54 180)
-				(length 2.54)
+				(at 40.64 2.54 180)
+				(length 5.08)
 				(name "TXD2"
 					(effects
 						(font
@@ -487,8 +487,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 0 180)
-				(length 2.54)
+				(at 40.64 0 180)
+				(length 5.08)
 				(name "TXD3"
 					(effects
 						(font
@@ -505,8 +505,8 @@
 				)
 			)
 			(pin power_in line
-				(at 20.32 38.1 270)
-				(length 2.54)
+				(at 20.32 40.64 270)
+				(length 5.08)
 				(name "DVDDL"
 					(effects
 						(font
@@ -523,8 +523,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 -5.08 180)
-				(length 2.54)
+				(at 40.64 -5.08 180)
+				(length 5.08)
 				(name "TXC"
 					(effects
 						(font
@@ -541,8 +541,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 -2.54 180)
-				(length 2.54)
+				(at 40.64 -2.54 180)
+				(length 5.08)
 				(name "TX_CTL"
 					(effects
 						(font
@@ -559,8 +559,8 @@
 				)
 			)
 			(pin power_in line
-				(at 17.78 38.1 270)
-				(length 2.54)
+				(at 17.78 40.64 270)
+				(length 5.08)
 				(name "DVDDL"
 					(effects
 						(font
@@ -577,8 +577,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 17.78 180)
-				(length 2.54)
+				(at 40.64 17.78 180)
+				(length 5.08)
 				(name "RXD3/MODE3"
 					(effects
 						(font
@@ -595,8 +595,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 20.32 180)
-				(length 2.54)
+				(at 40.64 20.32 180)
+				(length 5.08)
 				(name "RXD2/MODE2"
 					(effects
 						(font
@@ -613,8 +613,8 @@
 				)
 			)
 			(pin power_in line
-				(at -5.08 -40.64 90)
-				(length 2.54)
+				(at 0 -43.18 90)
+				(length 5.08)
 				(name "VSS"
 					(effects
 						(font
@@ -631,8 +631,8 @@
 				)
 			)
 			(pin power_in line
-				(at 12.7 38.1 270)
-				(length 2.54)
+				(at 12.7 40.64 270)
+				(length 5.08)
 				(name "DVDDL"
 					(effects
 						(font
@@ -649,8 +649,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 22.86 180)
-				(length 2.54)
+				(at 40.64 22.86 180)
+				(length 5.08)
 				(name "RXD1/MODE1"
 					(effects
 						(font
@@ -667,8 +667,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 25.4 180)
-				(length 2.54)
+				(at 40.64 25.4 180)
+				(length 5.08)
 				(name "RXD0/MODE0"
 					(effects
 						(font
@@ -685,8 +685,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 15.24 180)
-				(length 2.54)
+				(at 40.64 15.24 180)
+				(length 5.08)
 				(name "RX_CTL/CLK125_EN"
 					(effects
 						(font
@@ -703,8 +703,8 @@
 				)
 			)
 			(pin power_in line
-				(at 30.48 38.1 270)
-				(length 2.54)
+				(at 30.48 40.64 270)
+				(length 5.08)
 				(name "DVDDH"
 					(effects
 						(font
@@ -721,8 +721,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 12.7 180)
-				(length 2.54)
+				(at 40.64 12.7 180)
+				(length 5.08)
 				(name "RXC/PHYAD2"
 					(effects
 						(font
@@ -739,8 +739,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 -12.7 180)
-				(length 2.54)
+				(at 40.64 -12.7 180)
+				(length 5.08)
 				(name "MDC"
 					(effects
 						(font
@@ -757,8 +757,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 -10.16 180)
-				(length 2.54)
+				(at 40.64 -10.16 180)
+				(length 5.08)
 				(name "MDIO"
 					(effects
 						(font
@@ -775,8 +775,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 38.1 -27.94 180)
-				(length 2.54)
+				(at 40.64 -27.94 180)
+				(length 5.08)
 				(name "INT_N/PME_N2/ALLPHYAD"
 					(effects
 						(font
@@ -793,8 +793,8 @@
 				)
 			)
 			(pin power_in line
-				(at 10.16 38.1 270)
-				(length 2.54)
+				(at 10.16 40.64 270)
+				(length 5.08)
 				(name "DVDDL"
 					(effects
 						(font
@@ -811,8 +811,8 @@
 				)
 			)
 			(pin power_in line
-				(at 27.94 38.1 270)
-				(length 2.54)
+				(at 27.94 40.64 270)
+				(length 5.08)
 				(name "DVDDH"
 					(effects
 						(font
@@ -829,8 +829,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 -33.02 180)
-				(length 2.54)
+				(at 40.64 -33.02 180)
+				(length 5.08)
 				(name "CLK125_NDO/LED_MODE"
 					(effects
 						(font
@@ -847,8 +847,8 @@
 				)
 			)
 			(pin input line
-				(at 38.1 -15.24 180)
-				(length 2.54)
+				(at 40.64 -15.24 180)
+				(length 5.08)
 				(name "RESET_N"
 					(effects
 						(font
@@ -865,8 +865,8 @@
 				)
 			)
 			(pin output line
-				(at -27.94 38.1 270)
-				(length 2.54)
+				(at -27.94 40.64 270)
+				(length 5.08)
 				(name "LDO_O"
 					(effects
 						(font
@@ -883,8 +883,8 @@
 				)
 			)
 			(pin power_in line
-				(at -20.32 38.1 270)
-				(length 2.54)
+				(at -20.32 40.64 270)
+				(length 5.08)
 				(name "AVDDL_PLL"
 					(effects
 						(font
@@ -901,8 +901,8 @@
 				)
 			)
 			(pin output line
-				(at 20.32 -40.64 90)
-				(length 2.54)
+				(at 20.32 -43.18 90)
+				(length 5.08)
 				(name "XO"
 					(effects
 						(font
@@ -919,8 +919,8 @@
 				)
 			)
 			(pin input line
-				(at 27.94 -40.64 90)
-				(length 2.54)
+				(at 27.94 -43.18 90)
+				(length 5.08)
 				(name "XI"
 					(effects
 						(font
@@ -937,8 +937,8 @@
 				)
 			)
 			(pin passive line
-				(at 2.54 -40.64 90)
-				(length 2.54)
+				(at -7.62 -43.18 90)
+				(length 5.08)
 				(name "NC"
 					(effects
 						(font
@@ -955,8 +955,8 @@
 				)
 			)
 			(pin input line
-				(at -40.64 -35.56 0)
-				(length 2.54)
+				(at -43.18 -35.56 0)
+				(length 5.08)
 				(name "ISET"
 					(effects
 						(font
@@ -989,7 +989,8 @@
 				(at -1.27 1.27 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 2.54 2.54)
+						(thickness 0.3175)
 						(color 0 0 194 1)
 					)
 				)
@@ -998,14 +999,15 @@
 				(at -1.27 -5.08 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 2.54 2.54)
+						(thickness 0.3175)
 						(color 0 0 194 1)
 					)
 				)
 			)
 			(pin power_in line
-				(at -2.54 -40.64 90)
-				(length 2.54)
+				(at 2.54 -43.18 90)
+				(length 5.08)
 				(name "P_VSS"
 					(effects
 						(font

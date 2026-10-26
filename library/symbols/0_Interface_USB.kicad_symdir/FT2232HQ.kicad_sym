@@ -100,8 +100,8 @@
 		)
 		(symbol "FT2232HQ_1_1"
 			(pin power_in line
-				(at -10.16 -55.88 90)
-				(length 3.81)
+				(at -10.16 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -118,8 +118,8 @@
 				)
 			)
 			(pin input line
-				(at -30.48 -30.48 0)
-				(length 3.81)
+				(at -31.75 -30.48 0)
+				(length 5.08)
 				(name "OSCI"
 					(effects
 						(font
@@ -136,8 +136,8 @@
 				)
 			)
 			(pin output line
-				(at -30.48 -40.64 0)
-				(length 3.81)
+				(at -31.75 -40.64 0)
+				(length 5.08)
 				(name "OSCO"
 					(effects
 						(font
@@ -154,8 +154,8 @@
 				)
 			)
 			(pin power_in line
-				(at -12.7 55.88 270)
-				(length 3.81)
+				(at -12.7 57.15 270)
+				(length 5.08)
 				(name "VPHY"
 					(effects
 						(font
@@ -172,8 +172,8 @@
 				)
 			)
 			(pin power_in line
-				(at -7.62 -55.88 90)
-				(length 3.81)
+				(at -7.62 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -190,8 +190,8 @@
 				)
 			)
 			(pin output line
-				(at -30.48 0 0)
-				(length 3.81)
+				(at -31.75 0 0)
+				(length 5.08)
 				(name "REF"
 					(effects
 						(font
@@ -208,8 +208,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -30.48 25.4 0)
-				(length 3.81)
+				(at -31.75 25.4 0)
+				(length 5.08)
 				(name "DM"
 					(effects
 						(font
@@ -226,8 +226,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -30.48 27.94 0)
-				(length 3.81)
+				(at -31.75 27.94 0)
+				(length 5.08)
 				(name "DP"
 					(effects
 						(font
@@ -244,8 +244,8 @@
 				)
 			)
 			(pin input line
-				(at -10.16 55.88 270)
-				(length 3.81)
+				(at -10.16 57.15 270)
+				(length 5.08)
 				(name "VPLL"
 					(effects
 						(font
@@ -262,8 +262,8 @@
 				)
 			)
 			(pin power_in line
-				(at -15.24 -55.88 90)
-				(length 3.81)
+				(at -15.24 -57.15 90)
+				(length 5.08)
 				(name "AGND"
 					(effects
 						(font
@@ -280,8 +280,8 @@
 				)
 			)
 			(pin power_in line
-				(at -5.08 -55.88 90)
-				(length 3.81)
+				(at -5.08 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -298,8 +298,8 @@
 				)
 			)
 			(pin power_in line
-				(at -5.08 55.88 270)
-				(length 3.81)
+				(at -5.08 57.15 270)
+				(length 5.08)
 				(name "VCORE"
 					(effects
 						(font
@@ -316,8 +316,8 @@
 				)
 			)
 			(pin input line
-				(at -30.48 -45.72 0)
-				(length 3.81)
+				(at -31.75 -45.72 0)
+				(length 5.08)
 				(name "TEST"
 					(effects
 						(font
@@ -334,8 +334,8 @@
 				)
 			)
 			(pin input line
-				(at -30.48 10.16 0)
-				(length 3.81)
+				(at -31.75 10.16 0)
+				(length 5.08)
 				(name "~{RESET}"
 					(effects
 						(font
@@ -352,8 +352,8 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 -55.88 90)
-				(length 3.81)
+				(at -2.54 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -370,8 +370,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 48.26 180)
-				(length 3.81)
+				(at 31.75 48.26 180)
+				(length 5.08)
 				(name "ADBUS0"
 					(effects
 						(font
@@ -388,8 +388,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 45.72 180)
-				(length 3.81)
+				(at 31.75 45.72 180)
+				(length 5.08)
 				(name "ADBUS1"
 					(effects
 						(font
@@ -406,8 +406,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 43.18 180)
-				(length 3.81)
+				(at 31.75 43.18 180)
+				(length 5.08)
 				(name "ADBUS2"
 					(effects
 						(font
@@ -424,8 +424,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 40.64 180)
-				(length 3.81)
+				(at 31.75 40.64 180)
+				(length 5.08)
 				(name "ADBUS3"
 					(effects
 						(font
@@ -442,8 +442,8 @@
 				)
 			)
 			(pin power_in line
-				(at 5.08 55.88 270)
-				(length 3.81)
+				(at 5.08 57.15 270)
+				(length 5.08)
 				(name "VCCIO"
 					(effects
 						(font
@@ -460,8 +460,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 38.1 180)
-				(length 3.81)
+				(at 31.75 38.1 180)
+				(length 5.08)
 				(name "ADBUS4"
 					(effects
 						(font
@@ -478,8 +478,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 35.56 180)
-				(length 3.81)
+				(at 31.75 35.56 180)
+				(length 5.08)
 				(name "ADBUS5"
 					(effects
 						(font
@@ -496,8 +496,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 33.02 180)
-				(length 3.81)
+				(at 31.75 33.02 180)
+				(length 5.08)
 				(name "ADBUS6"
 					(effects
 						(font
@@ -514,8 +514,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 30.48 180)
-				(length 3.81)
+				(at 31.75 30.48 180)
+				(length 5.08)
 				(name "ADBUS7"
 					(effects
 						(font
@@ -532,8 +532,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -55.88 90)
-				(length 3.81)
+				(at 0 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -550,8 +550,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 25.4 180)
-				(length 3.81)
+				(at 31.75 25.4 180)
+				(length 5.08)
 				(name "ACBUS0"
 					(effects
 						(font
@@ -568,8 +568,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 22.86 180)
-				(length 3.81)
+				(at 31.75 22.86 180)
+				(length 5.08)
 				(name "ACBUS1"
 					(effects
 						(font
@@ -586,8 +586,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 20.32 180)
-				(length 3.81)
+				(at 31.75 20.32 180)
+				(length 5.08)
 				(name "ACBUS2"
 					(effects
 						(font
@@ -604,8 +604,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 17.78 180)
-				(length 3.81)
+				(at 31.75 17.78 180)
+				(length 5.08)
 				(name "ACBUS3"
 					(effects
 						(font
@@ -622,8 +622,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 15.24 180)
-				(length 3.81)
+				(at 31.75 15.24 180)
+				(length 5.08)
 				(name "ACBUS4"
 					(effects
 						(font
@@ -640,8 +640,8 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 55.88 270)
-				(length 3.81)
+				(at 7.62 57.15 270)
+				(length 5.08)
 				(name "VCCIO"
 					(effects
 						(font
@@ -658,8 +658,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 12.7 180)
-				(length 3.81)
+				(at 31.75 12.7 180)
+				(length 5.08)
 				(name "ACBUS5"
 					(effects
 						(font
@@ -676,8 +676,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 10.16 180)
-				(length 3.81)
+				(at 31.75 10.16 180)
+				(length 5.08)
 				(name "ACBUS6"
 					(effects
 						(font
@@ -694,8 +694,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 7.62 180)
-				(length 3.81)
+				(at 31.75 7.62 180)
+				(length 5.08)
 				(name "ACBUS7"
 					(effects
 						(font
@@ -712,8 +712,8 @@
 				)
 			)
 			(pin power_in line
-				(at 2.54 -55.88 90)
-				(length 3.81)
+				(at 2.54 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -730,8 +730,8 @@
 				)
 			)
 			(pin output line
-				(at 30.48 -45.72 180)
-				(length 3.81)
+				(at 31.75 -45.72 180)
+				(length 5.08)
 				(name "~{SUSPEND}"
 					(effects
 						(font
@@ -748,8 +748,8 @@
 				)
 			)
 			(pin power_in line
-				(at -2.54 55.88 270)
-				(length 3.81)
+				(at -2.54 57.15 270)
+				(length 5.08)
 				(name "VCORE"
 					(effects
 						(font
@@ -766,8 +766,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 2.54 180)
-				(length 3.81)
+				(at 31.75 2.54 180)
+				(length 5.08)
 				(name "BDBUS0"
 					(effects
 						(font
@@ -784,8 +784,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 0 180)
-				(length 3.81)
+				(at 31.75 0 180)
+				(length 5.08)
 				(name "BDBUS1"
 					(effects
 						(font
@@ -802,8 +802,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -2.54 180)
-				(length 3.81)
+				(at 31.75 -2.54 180)
+				(length 5.08)
 				(name "BDBUS2"
 					(effects
 						(font
@@ -820,8 +820,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -5.08 180)
-				(length 3.81)
+				(at 31.75 -5.08 180)
+				(length 5.08)
 				(name "BDBUS3"
 					(effects
 						(font
@@ -838,8 +838,8 @@
 				)
 			)
 			(pin power_in line
-				(at 10.16 55.88 270)
-				(length 3.81)
+				(at 10.16 57.15 270)
+				(length 5.08)
 				(name "VCCIO"
 					(effects
 						(font
@@ -856,8 +856,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -7.62 180)
-				(length 3.81)
+				(at 31.75 -7.62 180)
+				(length 5.08)
 				(name "BDBUS4"
 					(effects
 						(font
@@ -874,8 +874,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -10.16 180)
-				(length 3.81)
+				(at 31.75 -10.16 180)
+				(length 5.08)
 				(name "BDBUS5"
 					(effects
 						(font
@@ -892,8 +892,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -12.7 180)
-				(length 3.81)
+				(at 31.75 -12.7 180)
+				(length 5.08)
 				(name "BDBUS6"
 					(effects
 						(font
@@ -910,8 +910,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -15.24 180)
-				(length 3.81)
+				(at 31.75 -15.24 180)
+				(length 5.08)
 				(name "BDBUS7"
 					(effects
 						(font
@@ -928,8 +928,8 @@
 				)
 			)
 			(pin power_in line
-				(at 5.08 -55.88 90)
-				(length 3.81)
+				(at 5.08 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -946,8 +946,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -20.32 180)
-				(length 3.81)
+				(at 31.75 -20.32 180)
+				(length 5.08)
 				(name "BCBUS0"
 					(effects
 						(font
@@ -964,8 +964,8 @@
 				)
 			)
 			(pin power_out line
-				(at -30.48 43.18 0)
-				(length 3.81)
+				(at -31.75 43.18 0)
+				(length 5.08)
 				(name "VREGOUT"
 					(effects
 						(font
@@ -982,8 +982,8 @@
 				)
 			)
 			(pin power_in line
-				(at -30.48 48.26 0)
-				(length 3.81)
+				(at -31.75 48.26 0)
+				(length 5.08)
 				(name "VREGIN"
 					(effects
 						(font
@@ -1000,8 +1000,8 @@
 				)
 			)
 			(pin power_in line
-				(at 7.62 -55.88 90)
-				(length 3.81)
+				(at 7.62 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
@@ -1018,8 +1018,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -22.86 180)
-				(length 3.81)
+				(at 31.75 -22.86 180)
+				(length 5.08)
 				(name "BCBUS1"
 					(effects
 						(font
@@ -1036,8 +1036,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -25.4 180)
-				(length 3.81)
+				(at 31.75 -25.4 180)
+				(length 5.08)
 				(name "BCBUS2"
 					(effects
 						(font
@@ -1054,8 +1054,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -27.94 180)
-				(length 3.81)
+				(at 31.75 -27.94 180)
+				(length 5.08)
 				(name "BCBUS3"
 					(effects
 						(font
@@ -1072,8 +1072,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -30.48 180)
-				(length 3.81)
+				(at 31.75 -30.48 180)
+				(length 5.08)
 				(name "BCBUS4"
 					(effects
 						(font
@@ -1090,8 +1090,8 @@
 				)
 			)
 			(pin power_in line
-				(at 12.7 55.88 270)
-				(length 3.81)
+				(at 12.7 57.15 270)
+				(length 5.08)
 				(name "VCCIO"
 					(effects
 						(font
@@ -1108,8 +1108,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -33.02 180)
-				(length 3.81)
+				(at 31.75 -33.02 180)
+				(length 5.08)
 				(name "BCBUS5"
 					(effects
 						(font
@@ -1126,8 +1126,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -35.56 180)
-				(length 3.81)
+				(at 31.75 -35.56 180)
+				(length 5.08)
 				(name "BCBUS6"
 					(effects
 						(font
@@ -1144,8 +1144,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at 30.48 -38.1 180)
-				(length 3.81)
+				(at 31.75 -38.1 180)
+				(length 5.08)
 				(name "BCBUS7"
 					(effects
 						(font
@@ -1162,8 +1162,8 @@
 				)
 			)
 			(pin output line
-				(at 30.48 -43.18 180)
-				(length 3.81)
+				(at 31.75 -43.18 180)
+				(length 5.08)
 				(name "~{PWREN}"
 					(effects
 						(font
@@ -1180,8 +1180,8 @@
 				)
 			)
 			(pin bidirectional line
-				(at -30.48 -22.86 0)
-				(length 3.81)
+				(at -31.75 -22.86 0)
+				(length 5.08)
 				(name "EEDATA"
 					(effects
 						(font
@@ -1198,8 +1198,8 @@
 				)
 			)
 			(pin output line
-				(at -30.48 -20.32 0)
-				(length 3.81)
+				(at -31.75 -20.32 0)
+				(length 5.08)
 				(name "EECLK"
 					(effects
 						(font
@@ -1216,8 +1216,8 @@
 				)
 			)
 			(pin output line
-				(at -30.48 -17.78 0)
-				(length 3.81)
+				(at -31.75 -17.78 0)
+				(length 5.08)
 				(name "EECS"
 					(effects
 						(font
@@ -1234,8 +1234,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 55.88 270)
-				(length 3.81)
+				(at 0 57.15 270)
+				(length 5.08)
 				(name "VCORE"
 					(effects
 						(font
@@ -1252,8 +1252,8 @@
 				)
 			)
 			(pin power_in line
-				(at 10.16 -55.88 90)
-				(length 3.81)
+				(at 10.16 -57.15 90)
+				(length 5.08)
 				(name "GND"
 					(effects
 						(font
