@@ -69,7 +69,7 @@ Write `side` for any pin the auto grouping places badly (bus order per the KiCad
 | `footprint` | `lib:name` (S5.1); empty for a generic symbol. |
 | `fp_filters` | List. Each filter gets `-` and `_` written as `?` and a trailing `*` (S5.2). A WARN when a filter holds the pin count. |
 | `datasheet`, `description`, `keywords` | Fields. Description: comma-separated, ends with the simplified package name (S6.2). Keywords: no word already in the description, phrases joined with `-`. |
-| `pin_length` | 2.54 to 7.62 in 1.27 steps. Default 2.54 when every pin number has 1 character, 5.08 (200 mil) when any has 2 or more (house rule; KLC S4.1 asks at least 2.54 for 2 characters, 3.81 for 3). 6.35 from 5 characters, as S4.1 asks. |
+| `pin_length` | 2.54 to 7.62 in 1.27 steps. Default 2.54 when every pin number has 1 character, 5.08 (200 mil) when any has 2 or more (house rule; KLC S4.1 asks at least 2.54 for 2 characters, 3.81 for 3). 6.35 from 5 characters, as S4.1 asks. With 3.81 or 6.35 the body edge moves 1.27 out, so pin ends stay on the 2.54 grid. |
 | `pin_pitch` | Step between left and right pins: `2.54` or `5.08`. Default 5.08 (200 mil, house rule), 2.54 for an MCU (stock style). `sym_check --dump` writes the dumped symbol's pitch. |
 | `stack` | Default `false`: every pin drawn separately (house rule). `true` stacks same-name power pins (KLC S4.3). |
 | `units` | Unit names, `{"1": "A", "2": "B", "3": "PWR"}`. |

@@ -23,7 +23,8 @@ units ({"1": "A", ...} unit names), interchangeable (multi-unit only; default fa
 The symbol name is the output file name unless layout.json gives the same name.
 
 Drawing follows KLC: 2.54 mm grid, pins all one length (2.54 when every pin number has 1 character,
-5.08 from 2 characters, or pin_length), name offset 0.508, text 1.27, body stroke 0.254 filled with background.
+5.08 from 2 characters, or pin_length; with 3.81 or 6.35 the body edge moves 1.27 out so pin ends
+stay on the grid), name offset 0.508, text 1.27, body stroke 0.254 filled with background.
 Left and right rows are centered on y = 0; Reference and Value sit at the body's top corners.
 nRESET, RESET# and /RESET are written as ~{RESET} (S4.7); each rename is printed.
 
@@ -481,13 +482,16 @@ class Symbol:
         hw, ty, by, ys, tx, bx = layout(sides['left'], sides['right'], sides['top'], sides['bottom'], len(hidden),
                                         pitch, sides['bottom_r'], corner)
         L = self.pin_len
+        # hidden NC pins (side=hidden): connection point on grid nodes inside the body (KLC S4.6)
+        inner = inner_nodes(hw, ty, by)
+        if round(L / 1.27) % 2:   # 150 or 250 mil pins: body edge 50 mil out keeps pin ends on the grid (S4.1)
+            hw, ty, by = hw + 1.27, ty + 1.27, by - 1.27
         placed = []
         for side, x, rot in (('left', -hw - L, 0), ('right', hw + L, 180)):
             placed += [(p, x, y, rot, False) for y, p in zip(ys, sides[side]) if p]
         for pl, xs, y, rot in ((sides['top'], tx, ty + L, 270), (sides['bottom'] + sides['bottom_r'], bx, by - L, 90)):
             placed += [(p, x, y, rot, False) for x, p in zip(xs, pl) if p]
-        # hidden NC pins (side=hidden): connection point on grid nodes inside the body (KLC S4.6)
-        placed += [(p, x, y, 0, True) for p, (x, y) in zip(hidden, inner_nodes(hw, ty, by))]
+        placed += [(p, x, y, 0, True) for p, (x, y) in zip(hidden, inner)]
         self.hidden += [stack_text(p['nums']) for p in hidden]
         return hw, ty, by, placed
 
