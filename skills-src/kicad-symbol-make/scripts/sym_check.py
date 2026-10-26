@@ -170,7 +170,7 @@ class Symbol:
         self.names_hidden = False
         if pn is not None:
             off = kid(pn, 'offset')
-            self.name_offset = float(off[1]) if off else None
+            self.name_offset = float(off[1]) if off else 0.508
             self.names_hidden = flag(pn, 'hide')
         self.numbers_hidden = flag(kid(body, 'pin_numbers') or [], 'hide')
         self.pins, self.rects, self.unit_names = [], [], {}
@@ -325,8 +325,7 @@ def checks(sym):
         for u in sym.units:
             up = [p for p in pins if p['unit'] == u]
             pw = [p for p in up if p['type'] in ('power_in', 'power_out')]
-            if pw and len(pw) < len(up) and len([v for v in sym.units if v > 0]) > 1 and \
-                    any(p['type'] not in ('power_in', 'power_out') for p in up):
+            if pw and len(pw) < len(up):
                 add('INFO', 'S3.8', f'unit {u} mixes power pins ({compress([m for p in pw for m in p["nums"]])}) '
                                     'with logic pins; drawn-apart units share power through a separate unit')
                 break
@@ -345,8 +344,9 @@ def checks(sym):
         if L < 2.54 - EPS or L > 7.62 + EPS or abs(L / 1.27 - round(L / 1.27)) > EPS:
             add(lvl, 'S4.1', f'pin length {g(L)}: 2.54 to 7.62 in 1.27 steps')
     chars = max([len(m) for p in pins for m in p['nums']] or [0])
-    if lens and chars >= 3 and max(lens) < 3.81 - EPS:
-        add('INFO', 'S4.1', f'pin numbers have {chars} characters; KLC uses 3.81 mm pins for 3')
+    need = min(7.62, 1.27 * chars)   # KLC S4.1: 3.81 for 3 characters, 1.27 more for each one after
+    if lens and chars >= 3 and max(lens) < need - EPS:
+        add('INFO', 'S4.1', f'pin numbers have {chars} characters; KLC uses {g(need)} mm pins')
     many = [p['name'] for p in vis if shown(p['name']).count('/') >= 2]
     if many:
         add('INFO', 'S4.1', f'names with more than two functions (KLC: at most two, the rest as alternates): '
@@ -462,7 +462,7 @@ def compare_pins(a_pins, b_pins, b_label, stacks_both):
             types.append(f'{m} {a["name"]}: {a["type"]} vs {b["type"]}')
         sa = {(norm(n), t) for n, t in a['alts']}
         sb = {(norm(n), t) for n, t in b['alts']}
-        if sb - sa and (b['alts'] or stacks_both):
+        if sb - sa:
             alts.append(f'{m}: missing {", ".join(sorted(n for n, _ in sb - sa))[:120]}')
         if sa - sb:
             (alts if stacks_both else alt_info).append(
@@ -554,7 +554,8 @@ def dump(sym, path):
 
 def scan(path, ref_path):
     """Rank every symbol in a library against a pin table. Exit 0 when one matches exactly."""
-    lib = parse(open(path, encoding='utf-8').read())
+    with open(path, encoding='utf-8') as fh:
+        lib = parse(fh.read())
     ref = read_table(ref_path)
     R = {m: r for r in ref for m in r['nums']}
     ranked = []
@@ -622,7 +623,7 @@ def main():
             for r in bad:
                 print(f'DIFF {label} line {r["line"]}: type {r["type"]!r} is not a KiCad pin type')
             diffs, infos = compare_pins(sym.pins, ref, label, stacks_both=False)
-            diffs = [f'{d}' for d in diffs] + ([] if not bad else ['bad types in the table'])
+            diffs += ['bad types in the table'] if bad else []
         else:
             label = f'{other.name} ({os.path.basename(other.path)})'
             diffs, infos = compare_pins(sym.pins, other.pins, label, stacks_both=True)
