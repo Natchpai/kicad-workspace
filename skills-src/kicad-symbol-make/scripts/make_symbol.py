@@ -22,8 +22,8 @@ stack (default false: every pin drawn separately; true stacks same-name power pi
 units ({"1": "A", ...} unit names), interchangeable (multi-unit only; default false writes ki_locked).
 The symbol name is the output file name unless layout.json gives the same name.
 
-Drawing follows KLC: 2.54 mm grid, pins all one length (2.54, 3.81 when a pin number has 3 or more
-characters, or pin_length), name offset 0.508, text 1.27, body stroke 0.254 filled with background.
+Drawing follows KLC: 2.54 mm grid, pins all one length (2.54 when every pin number has 1 character,
+5.08 from 2 characters, or pin_length), name offset 0.508, text 1.27, body stroke 0.254 filled with background.
 Left and right rows are centered on y = 0; Reference and Value sit at the body's top corners.
 nRESET, RESET# and /RESET are written as ~{RESET} (S4.7); each rename is printed.
 
@@ -371,8 +371,9 @@ class Symbol:
             if want < 2.54 - 1e-6 or want > 7.62 + 1e-6 or abs(want / 1.27 - round(want / 1.27)) > 1e-6:
                 raise SpecError(f'pin_length {want}: 2.54 to 7.62 in 1.27 steps (KLC S4.1)')
             return float(want)
+        # house rule: 5.08 once a pin number has 2 characters, longer when KLC S4.1 asks (5 characters: 6.35)
         chars = max(len(m) for p in self.pins for m in p['nums'])
-        return 3.81 if chars >= 3 else 2.54
+        return 2.54 if chars < 2 else min(7.62, max(5.08, 1.27 * chars))
 
     def classify(self, unit):
         """Pins of one unit sorted to sides (KLC S4.2). Returns (dict side -> list of pin dict or None,
