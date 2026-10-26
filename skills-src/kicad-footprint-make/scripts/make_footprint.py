@@ -8,9 +8,13 @@ The spec format is in SPEC.md next to this folder. In short: "rows" (dual or qua
 and stencil apertures) can be combined. Every dimension is in mm and comes from the datasheet;
 the script computes only layout (positions from pitch and span) and the generated layers.
 
-Generated: F.Fab body rectangle with a filled pin 1 dot (or a pin 1 bevel, or none) and ${REFERENCE},
+Generated: F.Fab body rectangle with a filled pin 1 dot (or a pin 1 bevel, or none) and ${REFERENCE}
+(1 x 1 mm, 0.1 mm thick; smaller only when 3 characters do not fit inside the body),
 F.SilkS outline at body + silk offset (default 0.1 mm), 0.15 mm wide, cut back 0.2 mm from copper, a
-filled pin 1 triangle, F.CrtYd rectangle around body and copper (0.25 mm; 0.15 mm when both body sides
+filled pin 1 triangle, REF** 1 x 1 mm, 0.15 mm thick (DFM minimums: silk lines and text 0.15 mm, text
+1 x 1 mm, 0.15 mm from copper, pin 1 mark line 0.1 mm when the mark is over 0.15 mm); F.SilkS and
+F.Fab points and text positions on a 0.05 mm grid, silk rounded away from body and copper, the fab
+outline to the nearest node, F.CrtYd rectangle around body and copper (0.25 mm; 0.15 mm when both body sides
 are under 1.5 mm; 1.0 mm with "grid") on a 0.01 mm grid, properties (Value hidden) and model.
 Pads and stencil apertures have rounded corners by default (roundrect, ratio 0.25 for pads,
 0.1 for apertures, radius at most 0.25 mm). Exposed pads stay square: rounded tab and pad
@@ -38,6 +42,21 @@ DEFAULTS = {
 }
 SKIP_LETTERS = 'IOQSXZ'
 EPS = 1e-9
+# DFM house rules: silkscreen lines and text at least 0.15 mm wide, text at least 1 x 1 mm, at least
+# 0.15 mm from copper; a filled pin 1 mark may use 0.1 mm lines when it is over 0.15 mm across
+SILK_MIN_WIDTH, SILK_MIN_TEXT, SILK_MIN_CLEARANCE = 0.15, 1.0, 0.15
+MARK_MIN_WIDTH, MARK_MIN_SIZE = 0.1, 0.15
+# F.Fab ${REFERENCE}: 1 x 1 mm, 0.1 mm thick, smaller only when FAB_CHARS characters do not fit
+# inside the body (estimated stroke font advance CHAR_ADV x size)
+FAB_TEXT, FAB_TEXT_WIDTH, FAB_CHARS, CHAR_ADV = 1.0, 0.1, 3, 0.9
+GRAPHIC_GRID = 0.05   # house rule: F.SilkS and F.Fab points and text positions, easy to edit by hand
+
+
+def snap(v, how=0):
+    """v on the GRAPHIC_GRID: how < 0 rounds down, > 0 up, 0 to the nearest node."""
+    t = v / GRAPHIC_GRID
+    t = math.floor(t + 1e-6) if how < 0 else math.ceil(t - 1e-6) if how > 0 else round(t)
+    return round(t * GRAPHIC_GRID, 4) + 0.0
 
 
 class SpecError(Exception):
@@ -71,6 +90,15 @@ def pair(v, what):
 
 
 PROPS = {'heatsink': 'pad_prop_heatsink', 'bga': 'pad_prop_bga', 'mechanical': 'pad_prop_mechanical'}
+
+
+def fab_text(bx, by):
+    """F.Fab ${REFERENCE} (size, thickness) for a bx x by body: 1 mm and 0.1 mm when FAB_CHARS
+    characters fit with 0.1 mm to spare, else the largest size that fits (0.05 mm steps, at least
+    0.1 mm), thickness 15% of the size."""
+    s = min(FAB_TEXT, (bx - 0.2) / (FAB_CHARS * CHAR_ADV), (by - 0.2) / 1.1)
+    s = max(0.1, math.floor(s * 20 + EPS) / 20)
+    return s, FAB_TEXT_WIDTH if s >= FAB_TEXT else round(min(FAB_TEXT_WIDTH, 0.15 * s), 2)
 
 
 def rot_box(cx, cy, w, h, rot):
@@ -131,6 +159,15 @@ class Builder:
         self.spec = spec
         self.o = dict(DEFAULTS)
         self.o.update(spec.get('options', {}))
+        o = self.o
+        o.setdefault('marker_width', o['silk_width'])
+        for key, low in (('silk_width', SILK_MIN_WIDTH), ('silk_clearance', SILK_MIN_CLEARANCE),
+                         ('marker_width', MARK_MIN_WIDTH)):
+            if number(o[key], f'options {key}') < low - EPS:
+                raise SpecError(f'options {key} {o[key]} is under the {low} mm DFM minimum')
+        if o['marker_width'] < SILK_MIN_WIDTH - EPS and o['marker_size'] <= MARK_MIN_SIZE + EPS:
+            raise SpecError(f'a {o["marker_width"]} mm pin 1 mark line needs marker_size over '
+                            f'{MARK_MIN_SIZE} mm (DFM)')
         self.pads = []      # dicts, see pad()
         self.ep_info = []   # (number, copper boxes, main pad box, paste boxes, vias, via spec)
         self.warns = []
@@ -391,13 +428,13 @@ class Builder:
         sxn = -1 if p1['x'] - bcx <= EPS else 1
         syn = -1 if p1['y'] - bcy <= EPS else 1
 
-        # silkscreen outline, cut back from copper
+        # silkscreen outline, cut back from copper; on the graphic grid, rounded away from the body
         o = self.o
         sw, so, sc = o['silk_width'], o['silk_offset'], o['silk_clearance']
         k = sc + sw / 2
-        X, Y = bx / 2 + so, by / 2 + so
-        edges = [((bcx - X, bcy - Y), (bcx + X, bcy - Y)), ((bcx + X, bcy - Y), (bcx + X, bcy + Y)),
-                 ((bcx + X, bcy + Y), (bcx - X, bcy + Y)), ((bcx - X, bcy + Y), (bcx - X, bcy - Y))]
+        L, R = snap(bcx - bx / 2 - so, -1), snap(bcx + bx / 2 + so, 1)
+        T, B = snap(bcy - by / 2 - so, -1), snap(bcy + by / 2 + so, 1)
+        edges = [((L, T), (R, T)), ((R, T), (R, B)), ((R, B), (L, B)), ((L, B), (L, T))]
         silk = []
         for (x0, y0), (x1, y1) in edges:
             horiz = abs(y0 - y1) < EPS
@@ -421,16 +458,20 @@ class Builder:
                         nxt.append((bl[1], s1))
                 segs = nxt
             for s0, s1 in segs:
-                if s1 - s0 >= o['silk_min_len']:
+                s0, s1 = snap(s0, 1), snap(s1, -1)   # cut ends move away from copper
+                if s1 - s0 >= o['silk_min_len'] - EPS:
                     silk.append(((s0, fixed), (s1, fixed)) if horiz else ((fixed, s0), (fixed, s1)))
 
         # pin 1 triangle at the silk corner, moved out until it clears copper
-        m, g = o['marker_size'], sw / 4
-        cxs, cys = bcx + sxn * X, bcy + syn * Y
+        m = max(GRAPHIC_GRID, snap(o['marker_size']))
+        k = sc + o['marker_width'] / 2
+        cxs = snap((L if sxn < 0 else R) + sxn * sw / 4, sxn)
+        cys = T if syn < 0 else B
         shift = 0.0
         for _ in range(60):
-            tri = [(cxs + sxn * g, cys + syn * shift), (cxs + sxn * (g + m), cys + syn * shift),
-                   (cxs + sxn * g, cys + syn * (shift + m))]
+            tri = [(cxs, cys + syn * shift), (cxs + sxn * m, cys + syn * shift),
+                   (cxs, cys + syn * (shift + m))]
+            tri = [(round(x, 4), round(y, 4)) for x, y in tri]
             tb = (min(t[0] for t in tri) - k, min(t[1] for t in tri) - k,
                   max(t[0] for t in tri) + k, max(t[1] for t in tri) + k)
             if not any(tb[0] < c[2] and c[0] < tb[2] and tb[1] < c[3] and c[1] < tb[3]
@@ -453,32 +494,32 @@ class Builder:
         mark = s.get('fab_pin1', 'dot')
         if mark not in ('dot', 'bevel', 'none'):
             raise SpecError('"fab_pin1" must be dot, bevel or none')
-        bev = min(1.0, 0.25 * min(bx, by))
-        corners = [(body[0], body[1]), (body[2], body[1]), (body[2], body[3]), (body[0], body[3])]
+        bev = max(GRAPHIC_GRID, snap(min(1.0, 0.25 * min(bx, by)), -1))
+        fb = [snap(v) for v in body]   # fab outline on the graphic grid (the body within 0.025 mm)
+        corners = [(fb[0], fb[1]), (fb[2], fb[1]), (fb[2], fb[3]), (fb[0], fb[3])]
         ci = {(-1, -1): 0, (1, -1): 1, (1, 1): 2, (-1, 1): 3}[(sxn, syn)]
         dot = None
         if mark == 'dot':
-            d = max(0.2, min(0.5, math.floor(0.1 * min(bx, by) * 20) / 20))
-            ins = d / 2 + 0.1
-            dot = (corners[ci][0] - sxn * ins, corners[ci][1] - syn * ins, d / 2)
+            d = max(0.2, min(0.5, math.floor(0.1 * min(bx, by) * 10 + EPS) / 10))   # radius on the grid
+            ins = snap(d / 2 + 0.1, 1)
+            dot = (round(corners[ci][0] - sxn * ins, 4), round(corners[ci][1] - syn * ins, 4), d / 2)
         poly = []
         for i, (px, py) in enumerate(corners):
             if i == ci and mark == 'bevel':
                 prv, nxt = corners[i - 1], corners[(i + 1) % 4]
                 def toward(q):
                     d = math.hypot(q[0] - px, q[1] - py)
-                    return (px + (q[0] - px) * bev / d, py + (q[1] - py) * bev / d)
+                    return (round(px + (q[0] - px) * bev / d, 4), round(py + (q[1] - py) * bev / d, 4))
                 poly += [toward(prv), toward(nxt)]
             else:
                 poly.append((px, py))
         fab = [(poly[i], poly[(i + 1) % len(poly)]) for i in range(len(poly))]
-        fs = max(0.5, min(1.0, math.floor(min(bx * 0.22, by * 0.5) * 20) / 20))
         # Reference above the courtyard and the pin 1 triangle, Value below
-        top = min(cb[1], min(t[1] for t in tri) - sw / 2)
-        bot = max(cb[3], max(t[1] for t in tri) + sw / 2)
-        self.geo = {'silk': silk, 'tri': tri, 'crtyd': cb, 'fab': fab, 'fab_text': fs,
-                    'body_at': (bcx, bcy), 'fab_dot': dot, 'ref_y': top - 0.75,
-                    'val_y': bot + 0.85}
+        top = min(cb[1], min(t[1] for t in tri) - o['marker_width'] / 2)
+        bot = max(cb[3], max(t[1] for t in tri) + o['marker_width'] / 2)
+        self.geo = {'silk': silk, 'tri': tri, 'crtyd': cb, 'fab': fab, 'fab_text': fab_text(bx, by),
+                    'body_at': (snap(bcx), snap(bcy)), 'fab_dot': dot, 'ref_y': snap(top - 0.75, -1),
+                    'val_y': snap(bot + 0.85, 1)}
         return self
 
     # ---- output -----------------------------------------------------------------------
@@ -504,7 +545,7 @@ class Builder:
             w(f'\t(tags "{q(s["tags"])}")')
         cb = g['crtyd']
         bc = g['body_at']
-        props = [('Reference', 'REF**', bc[0], g['ref_y'], 'F.SilkS', False, 1, 0.15),
+        props = [('Reference', 'REF**', bc[0], g['ref_y'], 'F.SilkS', False, SILK_MIN_TEXT, SILK_MIN_WIDTH),
                  ('Value', name, bc[0], g['val_y'], 'F.Fab', True, 1, 0.15),
                  ('Datasheet', s.get('datasheet', ''), 0, 0, 'F.Fab', True, 1.27, 0.15),
                  ('Description', '', 0, 0, 'F.Fab', True, 1.27, 0.15)]
@@ -532,7 +573,7 @@ class Builder:
         for a, b in g['silk']:
             line(a, b, o['silk_width'], 'F.SilkS')
         pts = ' '.join(f'(xy {f(x)} {f(y)})' for x, y in g['tri'] + [g['tri'][0]])
-        w(f'\t(fp_poly\n\t\t(pts\n\t\t\t{pts}\n\t\t)\n\t\t(stroke\n\t\t\t(width {f(o["silk_width"])})\n'
+        w(f'\t(fp_poly\n\t\t(pts\n\t\t\t{pts}\n\t\t)\n\t\t(stroke\n\t\t\t(width {f(o["marker_width"])})\n'
           f'\t\t\t(type solid)\n\t\t)\n\t\t(fill yes)\n\t\t(layer "F.SilkS")\n\t\t(uuid "{uid()}")\n\t)')
         c = [(cb[0], cb[1]), (cb[2], cb[1]), (cb[2], cb[3]), (cb[0], cb[3])]
         for i in range(4):
@@ -544,10 +585,10 @@ class Builder:
             w(f'\t(fp_circle\n\t\t(center {f(x)} {f(y)})\n\t\t(end {f(x + r)} {f(y)})\n'
               f'\t\t(stroke\n\t\t\t(width 0)\n\t\t\t(type solid)\n\t\t)\n\t\t(fill yes)\n'
               f'\t\t(layer "F.Fab")\n\t\t(uuid "{uid()}")\n\t)')
-        fs = g['fab_text']
+        fs, ft = g['fab_text']
         w(f'\t(fp_text user "${{REFERENCE}}"\n\t\t(at {f(bc[0])} {f(bc[1])} 0)\n\t\t(layer "F.Fab")\n'
           f'\t\t(uuid "{uid()}")\n\t\t(effects\n\t\t\t(font\n\t\t\t\t(size {f(fs)} {f(fs)})\n'
-          f'\t\t\t\t(thickness {f(round(fs * 0.15, 2))})\n\t\t\t)\n\t\t)\n\t)')
+          f'\t\t\t\t(thickness {f(ft)})\n\t\t\t)\n\t\t)\n\t)')
 
         def arc_rect(cx, cy, pw, ph, r):
             x0, y0, x1, y1 = cx - pw / 2, cy - ph / 2, cx + pw / 2, cy + ph / 2

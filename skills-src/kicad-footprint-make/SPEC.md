@@ -18,7 +18,11 @@ Every `at`, tab, via `at` and aperture position is an absolute footprint coordin
 | `courtyard` | Courtyard clearance. Default 0.25; 0.15 when the body is under 1.5 mm in both x and y (as the stock KiCad generators read KLC F5.3); 1.0 with `grid`. Use 0.5 for connectors, canned capacitors and crystals (KLC F5.3). |
 | `options` | Override the drawing defaults below. |
 
-`options` defaults: `pad_ratio` 0.25, `ep_ratio` 0 (square exposed pads: rounded tab and pad primitives leave notches where they join), `paste_ratio` 0.1, `max_radius` 0.25 (corner radius cap, mm), `silk_width` 0.15, `silk_offset` 0.1 (silk outline at body + this), `silk_clearance` 0.2, `silk_min_len` 0.1, `fab_width` 0.1, `crtyd_width` 0.05, `marker_size` 0.28.
+`options` defaults: `pad_ratio` 0.25, `ep_ratio` 0 (square exposed pads: rounded tab and pad primitives leave notches where they join), `paste_ratio` 0.1, `max_radius` 0.25 (corner radius cap, mm), `silk_width` 0.15, `silk_offset` 0.1 (silk outline at body + this), `silk_clearance` 0.2, `silk_min_len` 0.1, `fab_width` 0.1, `crtyd_width` 0.05, `marker_size` 0.28 (pin 1 triangle leg), `marker_width` (pin 1 triangle line, default `silk_width`).
+
+DFM house rules (the script stops with `spec error` below them): `silk_width` and `silk_clearance` at least 0.15 mm; `marker_width` at least 0.1 mm, and under 0.15 mm only when `marker_size` is over 0.15 mm. REF** on F.SilkS is 1 x 1 mm, 0.15 mm thick. `${REFERENCE}` on F.Fab is 1 x 1 mm, 0.1 mm thick; when 3 characters do not fit inside the body with 0.1 mm to spare (0.9 × size per character), it takes the largest size that fits, in 0.05 mm steps (C0402: 0.25 mm), with a thickness of 15% of the size.
+
+F.SilkS and F.Fab points and text positions sit on a 0.05 mm grid (house rule, for hand edits). Silk lines and the pin 1 triangle round away from the body and copper, so clearances only grow; the triangle leg rounds to the grid (0.28 → 0.3). The fab outline rounds to the nearest node, so it can differ from `body` by up to 0.025 mm; the fab pin 1 dot diameter is a multiple of 0.1 mm. The courtyard stays on the 0.01 mm grid (KLC F5.3).
 
 ## Pad keys shared by `rows`, `grid` and `pads`
 
