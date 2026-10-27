@@ -3,9 +3,11 @@
 
 Usage:
     python build_report.py report.md out.pdf
-    python build_report.py report.md --show-theme     # resolved theme and the source of each key
+    python build_report.py report.md out.pdf --cover on    # override the cover key for this build
+    python build_report.py report.md --show-theme          # resolved theme and the source of each key
 
 See ../SKILL.md for the Markdown dialect (front matter, equations, figures, tables, notes).
+Page geometry, the header, footer and cover page, and fixed words live in page_layout.py.
 Requires: pip install -r requirements.txt  (reportlab, matplotlib, svglib, pillow, numpy, fonttools).
 Fonts (IBM Plex Sans and Mono, DejaVu Sans fallback) are bundled in ../assets/fonts, so it runs the same on Linux, macOS and Windows.
 """
@@ -14,26 +16,25 @@ import argparse, hashlib, os, re, subprocess, sys, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-from PIL import Image as PILImage
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT
-from reportlab.lib.fonts import addMapping
-from reportlab.lib.pagesizes import A4, letter
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas as rl_canvas
 from reportlab.platypus import (BaseDocTemplate, Flowable, Frame, Image, KeepTogether, ListFlowable,
-                                ListItem, PageBreak, PageTemplate, Paragraph, Preformatted, Spacer,
-                                Table, TableStyle, XPreformatted)
+                                ListItem, NextPageTemplate, PageBreak, PageTemplate, Paragraph,
+                                Preformatted, Spacer, Table, TableStyle, XPreformatted)
 
 try:
-    from svglib.svglib import svg2rlg
+    import svglib  # noqa: F401 (page_layout draws SVG with it)
 except ImportError:
     sys.exit("svglib missing: pip install -r requirements.txt (in the skill folder)")
 
+os.environ["REPORT_FIGS_SKILL_THEME_ONLY"] = "1"  # see report_figs.default_layers
 import report_figs
+import page_layout  # registers the fonts (Sans, Sans-Bold, Mono, Fallback) on import
+from page_layout import LABELS, LAYOUT, MONO_CMAP, with_fallback
 
 # ---------------------------------------------------------------- theme
 # Colours, logo and switches come from report_figs.load_theme() (theme.yml, report-theme.yml,
@@ -44,51 +45,10 @@ SUB = '<sub rise="20%" size="72%">'     # ReportLab's default drops a subscript 
 SUP = '<super rise="38%" size="72%">'
 EQ_NUM_W = 14 * mm                      # width of the equation-number column (and its mirror on the left)
 EQ_SIZE = 11.5                          # display equation font size in pt (body text is 10 pt)
-HEADER_RULE_W = 0.9                     # header line, footer line and the line under the title block
 
 
 def C(key):
     return colors.HexColor(TH[key])
-
-
-FONT_DIR = os.path.join(HERE, "..", "assets", "fonts")
-
-
-def find_font(file):
-    p = os.path.join(FONT_DIR, file)
-    if os.path.exists(p):
-        return p
-    sys.exit(f"Font file missing: {p}. Re-copy the skill's assets/fonts folder.")
-
-
-def register_fonts():
-    """IBM Plex Sans for all text; DejaVu Sans as a per-character fallback; IBM Plex Mono for code."""
-    faces = {"Sans": "IBMPlexSans-Regular.ttf", "Sans-Bold": "IBMPlexSans-SemiBold.ttf",
-             "Sans-Oblique": "IBMPlexSans-Italic.ttf", "Sans-BoldOblique": "IBMPlexSans-SemiBoldItalic.ttf",
-             "Fallback": "DejaVuSans.ttf", "Mono": "IBMPlexMono-Regular.ttf"}
-    for k, f in faces.items():
-        pdfmetrics.registerFont(TTFont(k, find_font(f)))
-    addMapping("Sans", 0, 0, "Sans"); addMapping("Sans", 1, 0, "Sans-Bold")
-    addMapping("Sans", 0, 1, "Sans-Oblique"); addMapping("Sans", 1, 1, "Sans-BoldOblique")
-    addMapping("Fallback", 0, 0, "Fallback"); addMapping("Fallback", 1, 0, "Fallback")
-    addMapping("Fallback", 0, 1, "Fallback"); addMapping("Fallback", 1, 1, "Fallback")
-
-
-def _cmap(file):
-    from fontTools.ttLib import TTFont as FTFont
-    return set(FTFont(find_font(file)).getBestCmap())
-
-
-register_fonts()
-MAIN_CMAP = _cmap("IBMPlexSans-Regular.ttf")
-MONO_CMAP = _cmap("IBMPlexMono-Regular.ttf")
-FALLBACK_CMAP = _cmap("DejaVuSans.ttf")
-
-
-def with_fallback(t, cmap=MAIN_CMAP):
-    """Wrap characters Plex lacks (e.g. \u226b) in the DejaVu fallback font."""
-    return re.sub(r"[^\x00-\x7f]", lambda m: m.group(0) if ord(m.group(0)) in cmap or ord(m.group(0)) not in FALLBACK_CMAP
-                  else f'<font name="Fallback">{m.group(0)}</font>', t)
 
 
 def apply_theme(th):
@@ -125,9 +85,10 @@ class Inline:
     def __call__(self, t, italic_phrases=True):
         t = t.replace("\\|", "|").replace("\\*", "\u0000AST\u0000").replace("\\_", "\u0000US\u0000")
         t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        codes = []
+        codes, urls = [], []  # kept out of the markup passes below, put back at the end
         t = re.sub(r"`([^`]+)`", lambda m: codes.append(m.group(1)) or f"\u0000C{len(codes) - 1}\u0000", t)
-        t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", r'<link href="\2" color="' + TH["accent_color"] + r'"><u>\1</u></link>', t)
+        t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", lambda m: urls.append(m.group(2)) or
+                   f'<link href="\u0000U{len(urls) - 1}\u0000" color="{TH["accent_color"]}"><u>{m.group(1)}</u></link>', t)
         t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
         t = re.sub(r"(?<![*\w])\*(?!\s)(.+?)(?<!\s)\*(?!\w)", r"<i>\1</i>", t)
         t = re.sub(r"_\{([^}]*)\}", SUB + r"\1</sub>", t)
@@ -137,15 +98,17 @@ class Inline:
         if italic_phrases:
             for ph in self.italic:
                 t = t.replace(ph, f"<i>{ph}</i>")
-        t = re.sub(r"\u0000C(\d+)\u0000", lambda m: f'<font name="Mono">{codes[int(m.group(1))]}</font>', t)
-        return with_fallback(t.replace("\u0000AST\u0000", "*").replace("\u0000US\u0000", "_"))
+        t = with_fallback(t.replace("\u0000AST\u0000", "*").replace("\u0000US\u0000", "_"))
+        t = re.sub(r"\u0000U(\d+)\u0000", lambda m: urls[int(m.group(1))], t)
+        return re.sub(r"\u0000C(\d+)\u0000",  # code: Plex Mono lacks some glyphs Plex Sans has (\u03a9)
+                      lambda m: f'<font name="Mono">{with_fallback(codes[int(m.group(1))], MONO_CMAP)}</font>', t)
 
 
 # ---------------------------------------------------------------- flowables
 class Svg(Flowable):
     def __init__(self, path, width=None, scale=None):
         super().__init__()
-        self.d = svg2rlg(path)
+        self.d = page_layout.load_svg(path)
         self.s = scale if scale else width / self.d.width
         self.w, self.h = self.d.width * self.s, self.d.height * self.s
         self.hAlign = "CENTER"
@@ -169,8 +132,8 @@ class TitleRule(Flowable):
 
     def draw(self):
         c = self.canv  # same full-width line as the header rule above the title
-        c.setStrokeColor(colors.HexColor(TH["header_rule_color"] or TH["accent_color"]))
-        c.setLineWidth(HEADER_RULE_W); c.line(0, 6, self.aw, 6)
+        c.setStrokeColor(colors.HexColor(TH["header_rule_color"]))
+        c.setLineWidth(LAYOUT.rule_w); c.line(0, 6, self.aw, 6)
 
 
 def panel(content, tw, pad=7, number=None):
@@ -206,7 +169,7 @@ def note_box(content, tw):
 
 
 def cap_label(kind, n):
-    return f'<font name="Sans-Bold" color="{TH["text_color"]}">{kind} {n}.</font>&nbsp; '
+    return f'<font name="Sans-Bold" color="{TH["text_color"]}">{LABELS[kind]} {n}.</font>&nbsp; '
 
 
 # ---------------------------------------------------------------- builder
@@ -238,23 +201,30 @@ class Report:
             self.n_eq += 1
         return panel(e, self.tw, number=self.n_eq if numbered else None)
 
-    def figure(self, path, cap, width_pct):
+    def figure(self, path, cap, width_pct, line):
+        src = path
         path = path if os.path.isabs(path) else os.path.join(self.base, path)
+        if not os.path.isfile(path):
+            sys.exit(f"Figure not found: {src} (line {line}; paths are relative to the Markdown file)")
         w = self.tw * (width_pct / 100.0)
         if path.lower().endswith(".svg"):
             img = Svg(path, width=w)
         else:
-            iw, ih = PILImage.open(path).size
+            iw, ih = page_layout.image_size(path)
             img = Image(path, width=w, height=w * ih / iw)
         parts = [Spacer(1, 2), img]
         if cap:
             self.n_fig += 1
-            parts.append(Paragraph(cap_label("Figure", self.n_fig) + self.inline(cap), SS["cap"]))
+            parts.append(Paragraph(cap_label("figure", self.n_fig) + self.inline(cap), SS["cap"]))
         else:
             parts.append(Spacer(1, 8))
         return KeepTogether(parts)
 
     def table(self, rows, caption):
+        """Flowables for one table (a list; empty, with a warning, if the table has no rows)."""
+        if not rows:
+            print(f"WARNING: table with no rows skipped{f' ({caption})' if caption else ''}", file=sys.stderr)
+            return []
         n = max(len(r) for r in rows)
         rows = [r + [""] * (n - len(r)) for r in rows]
         data = [[Paragraph(self.inline(c), SS["cellh"] if i == 0 else SS["cell"]) for c in r]
@@ -287,9 +257,9 @@ class Report:
         parts = []
         if caption:
             self.n_tab += 1
-            parts.append(Paragraph(cap_label("Table", self.n_tab) + self.inline(caption), SS["tcap"]))
+            parts.append(Paragraph(cap_label("table", self.n_tab) + self.inline(caption), SS["tcap"]))
         parts.append(t)
-        return KeepTogether(parts) if len(rows) <= 10 else parts
+        return [KeepTogether(parts)] if len(rows) <= 10 else parts
 
     def lst(self, items, ordered, start=1):
         fl = [ListItem(Paragraph(self.inline(x), SS["body"]), leftIndent=16) for x in items]
@@ -309,12 +279,13 @@ class Report:
             out.append(Paragraph(self.inline(m["subtitle"], False), SS["subtitle"]))
         bits = [x for x in (TH["author"], m.get("date")) if x]
         if m.get("doc_no"):
-            bits.append(f"Doc. No. {m['doc_no']}")
+            bits.append(LABELS["doc_no"].format(doc_no=m["doc_no"]))
         if m.get("revision"):
-            bits.append(f"Rev. {m['revision']}")
+            bits.append(LABELS["rev"].format(revision=m["revision"]))
         if bits:
-            out.append(Paragraph(" \u00b7 ".join(bits), SS["meta"]))
-        out.append(TitleRule() if TH["title_rule"] else Spacer(1, 4))
+            esc = " \u00b7 ".join(bits).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            out.append(Paragraph(with_fallback(esc), SS["meta"]))
+        out.append(TitleRule() if TH["title_rule"] and TH["header_rule_color"] else Spacer(1, 4))
         return out
 
     def parse(self, body):
@@ -370,38 +341,29 @@ class Report:
                 story.append(self.equation(tex)); i = j + 1; continue
             im = re.match(r"^!\[(.*?)\]\((.+?)\)(\{width=(\d+)%\})?$", s)
             if im:
-                flush(); story.append(self.figure(im.group(2), im.group(1), int(im.group(4) or 88))); i += 1; continue
+                flush(); story.append(self.figure(im.group(2), im.group(1), int(im.group(4) or 88), self.line0 + i + 1))
+                i += 1; continue
+            cap, j = None, i
             if s.startswith("Table:") and i + 1 < len(L):
-                cap = s[6:].strip(); j = i + 1
+                cap, j = s[6:].strip(), i + 1
                 while j < len(L) and not L[j].strip():
                     j += 1
-                if j < len(L) and L[j].strip().startswith("|"):
-                    flush(); i = j; pending_caption = cap
-                    rows = []
-                    while i < len(L) and L[i].strip().startswith("|"):
-                        r = L[i].strip()
-                        if not re.match(r"^\|[\s:|-]+\|?$", r):
-                            rows.append([c.strip() for c in re.split(r"(?<!\\)\|", r.strip().strip("|"))])
-                        i += 1
-                    tb = self.table(rows, pending_caption)
-                    story += tb if isinstance(tb, list) else [tb]
-                    continue
-            if s.startswith("|"):
-                flush(); rows = []
-                while i < len(L) and L[i].strip().startswith("|"):
-                    r = L[i].strip()
-                    if not re.match(r"^\|[\s:|-]+\|?$", r):
+            if j < len(L) and L[j].strip().startswith("|"):
+                flush(); first, rows = j, []
+                while j < len(L) and L[j].strip().startswith("|"):
+                    r = L[j].strip()
+                    if not (j == first + 1 and re.match(r"^\|[\s:|-]+\|?$", r)):  # header separator: 2nd row only
                         rows.append([c.strip() for c in re.split(r"(?<!\\)\|", r.strip().strip("|"))])
-                    i += 1
-                tb = self.table(rows, None)
-                story += tb if isinstance(tb, list) else [tb]
+                    j += 1
+                i = j
+                story += self.table(rows, cap)
                 continue
             if s.startswith(">"):
                 flush(); buf = []
                 while i < len(L) and L[i].strip().startswith(">"):
                     buf.append(L[i].strip()[1:].strip()); i += 1
                 text = " ".join(buf)
-                label = "" if text.startswith("**") else f'<font name="Sans-Bold" color="{TH["accent_dark"]}">Note.</font>&nbsp; '
+                label = "" if text.startswith("**") else f'<font name="Sans-Bold" color="{TH["accent_dark"]}">{LABELS["note"]}</font>&nbsp; '
                 story.append(note_box(Paragraph(label + self.inline(text), SS["note"]), self.tw))
                 continue
             om = re.match(r"^(\d+)[.)] (.*)", s)
@@ -471,14 +433,11 @@ class Report:
         return out
 
 
-def make_canvas(meta, page_w, page_h, ml, mr):
-    short = meta.get("short_title") or meta.get("title", "")
-    if meta.get("doc_no"):
-        short = f"{short}  \u00b7  {meta['doc_no']}" + (f" Rev. {meta['revision']}" if meta.get("revision") else "")
-    left_foot = TH["footer"] or " \u00b7 ".join(x for x in (TH["author"], meta.get("date")) if x)
-    logo = TH["logo"]
-    lw_px, lh_px = PILImage.open(logo).size if logo else (1, 1)
-    muted, rule = C("muted_color"), TH["header_rule_color"]
+def make_canvas(meta, page_w, page_h, cover=False):
+    """Canvas class that draws the header and footer on every page once the page count is known.
+    With a cover, the first page gets neither and "Page 1 of N" starts on the page after it."""
+    th, skip = dict(TH), 1 if cover else 0
+    short, left_foot = page_layout.short_title(meta), page_layout.left_footer(th, meta)
 
     class NumberedCanvas(rl_canvas.Canvas):
         def __init__(self, *a, **k):
@@ -488,33 +447,20 @@ def make_canvas(meta, page_w, page_h, ml, mr):
             self._saved.append(dict(self.__dict__)); self._startPage()
 
         def save(self):
-            n = len(self._saved)
-            for st in self._saved:
-                self.__dict__.update(st); self.decorate(n); super().showPage()
+            n = len(self._saved) - skip
+            for i, st in enumerate(self._saved):
+                self.__dict__.update(st)
+                if i >= skip:
+                    page_layout.draw_header_footer(self, th, page_w, page_h, short, left_foot,
+                                                   LABELS["page"].format(n=i + 1 - skip, total=n))
+                super().showPage()
             super().save()
-
-        def decorate(self, n):
-            lh = 9.5 * mm
-            y_logo = page_h - 10 * mm - lh
-            if TH["header"]:  # the top margin stays the same without it, so the layout does not move
-                if logo:
-                    self.drawImage(logo, ml, y_logo, lh * lw_px / lh_px, lh, mask="auto")
-                self.setFont("Sans", 8); self.setFillColor(muted)
-                self.drawRightString(page_w - mr, y_logo + 2.2 * mm, short)
-                if rule:
-                    self.setStrokeColor(colors.HexColor(rule)); self.setLineWidth(HEADER_RULE_W)
-                    self.line(ml, y_logo - 2.6 * mm, page_w - mr, y_logo - 2.6 * mm)
-            if rule:  # footer line: same colour and weight as the header line
-                self.setStrokeColor(colors.HexColor(rule)); self.setLineWidth(HEADER_RULE_W)
-                self.line(ml, 13 * mm, page_w - mr, 13 * mm)
-            self.setFont("Sans", 7.8); self.setFillColor(muted)
-            self.drawString(ml, 9 * mm, left_foot)
-            self.drawRightString(page_w - mr, 9 * mm, f"Page {self._pageNumber} of {n}")
     return NumberedCanvas
 
 
 def read_front_matter(md):
     meta = {}
+    md = md.lstrip("﻿")
     if md.startswith("---"):
         end = md.find("\n---", 3)
         if end > 0:
@@ -523,11 +469,11 @@ def read_front_matter(md):
     return meta, md
 
 
-def report_theme(md_path, meta):
-    """Theme layers for one report: skill theme.yml, then the file named by `theme:` in the front
-    matter or report-theme.yml next to the report, then the front matter itself."""
+def theme_layers(md_path, meta):
+    """The theme layers a Markdown file adds above the skill theme: the file named by `theme:` in
+    its front matter, or report-theme.yml next to it, then its front matter."""
     base = os.path.dirname(os.path.abspath(md_path))
-    layers = [(report_figs.DEFAULT_THEME, report_figs.SKILL_DIR, report_figs.read_theme_file(report_figs.DEFAULT_THEME))]
+    layers = []
     proj = meta.get("theme")
     if proj:
         proj = proj if os.path.isabs(proj) else os.path.join(base, proj)
@@ -539,13 +485,24 @@ def report_theme(md_path, meta):
         proj = os.path.normpath(proj)
         layers.append((proj, os.path.dirname(proj), report_figs.read_theme_file(proj)))
     layers.append((f"front matter of {os.path.basename(md_path)}", base, meta))
-    return report_figs.load_theme(layers)
+    return layers
+
+
+def report_theme(md_path, meta, base_layers=()):
+    """Resolved theme of one report: skill theme.yml, then base_layers (a book passes its own
+    layers), then the report's theme_layers(). A theme file already in base_layers is used once."""
+    default = (report_figs.DEFAULT_THEME, report_figs.SKILL_DIR, report_figs.read_theme_file(report_figs.DEFAULT_THEME))
+    seen = {name for name, _, _ in base_layers}
+    own = [l for l in theme_layers(md_path, meta) if l[0] not in seen]
+    return report_figs.load_theme([default, *base_layers, *own])
 
 
 def show_theme(th, src):
     def short(p):
         if p == report_figs.DEFAULT_THEME:
             return "skill theme.yml"
+        if os.path.isabs(p) and os.path.normcase(p).startswith(os.path.normcase(report_figs.SKILL_DIR) + os.sep):
+            return "skill " + os.path.relpath(p, report_figs.SKILL_DIR).replace(os.sep, "/")
         try:
             return os.path.relpath(p) if os.path.isabs(p) else p
         except ValueError:  # other drive on Windows
@@ -555,32 +512,45 @@ def show_theme(th, src):
         v = "on" if v is True else "off" if v is False else "none" if v is None else v
         if k == "logo" and th[k]:
             v = "skill assets/logo.png" if os.path.samefile(v, os.path.join(report_figs.SKILL_DIR, "assets", "logo.png")) else short(v)
+        if k == "cover_logo":
+            v = "none" if th[k] == "" else short(th[k]) if th[k] else f"(auto: {short(page_layout.cover_logo(th) or 'none')})"
         if k == "footer" and not v:
             v = "(author · date)"
         print(f"{k:18} {v!s:24} {short(src[k])}")
 
 
-def build(md_path, out_pdf):
-    md = open(md_path, encoding="utf-8").read()
+def build(md_path, out_pdf, cover=None, base_layers=()):
+    """Build one report. cover=None follows the `cover` theme key; True or False overrides it (a
+    book passes False). base_layers sit between the skill theme and the report's own theme."""
+    md = open(md_path, encoding="utf-8-sig").read()
     meta, body = read_front_matter(md)
-    th, _ = report_theme(md_path, meta)
+    th, _ = report_theme(md_path, meta, base_layers)
     apply_theme(th)
+    cover = th["cover"] if cover is None else cover
     line0 = md[:len(md) - len(body)].count("\n")
-    paper = letter if meta.get("paper", "a4").lower() == "letter" else A4
+    paper = page_layout.parse_paper(meta, f"front matter of {os.path.basename(md_path)}")
     W, H = paper
-    ml = mr = 22 * mm
-    mt, mb = 28 * mm, 20 * mm
-    tw = W - ml - mr
+    L = LAYOUT
+    tw = W - L.margin_l - L.margin_r
     with tempfile.TemporaryDirectory(prefix="report_eq_") as work:  # equation SVGs, deleted after the build
         rep = Report(md_path, meta, tw, work, line0)
         story = rep.parse(body)
     title = meta.get("title") or next((l[2:] for l in body.split("\n") if l.startswith("# ")), "Report")
     meta.setdefault("title", title)
-    doc = BaseDocTemplate(out_pdf, pagesize=paper, leftMargin=ml, rightMargin=mr, topMargin=mt,
-                          bottomMargin=mb, title=title, author=TH["author"])
-    frame = Frame(ml, mb, tw, H - mt - mb, leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
-    doc.addPageTemplates([PageTemplate(id="p", frames=[frame])])
-    doc.build(story, canvasmaker=make_canvas(meta, W, H, ml, mr))
+    doc = BaseDocTemplate(out_pdf, pagesize=paper, leftMargin=L.margin_l, rightMargin=L.margin_r,
+                          topMargin=L.margin_t, bottomMargin=L.margin_b, title=title, author=TH["author"])
+    frame = Frame(L.margin_l, L.margin_b, tw, H - L.margin_t - L.margin_b,
+                  leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
+    templates = [PageTemplate(id="p", frames=[frame])]
+    if cover:  # the cover is drawn by its page template; the story starts on the next page
+        th_cover = dict(TH)
+        rows = [(LABELS["document"], meta.get("doc_no")), (LABELS["revision"], meta.get("revision")),
+                (LABELS["date"], meta.get("date")), (LABELS["author"], TH["author"])]
+        templates.insert(0, PageTemplate(id="cover", frames=[frame], onPage=lambda c, d:
+                                         page_layout.draw_cover(c, th_cover, meta, W, H, rows)))
+        story = [NextPageTemplate("p"), PageBreak()] + story
+    doc.addPageTemplates(templates)
+    doc.build(story, canvasmaker=make_canvas(meta, W, H, cover))
     print(f"Wrote {out_pdf}")
 
 
@@ -588,10 +558,11 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("markdown"); ap.add_argument("output", nargs="?")
     ap.add_argument("--show-theme", action="store_true", help="print the resolved theme and where each key came from, then exit")
+    ap.add_argument("--cover", choices=("on", "off"), help="cover page on or off for this build (default: the cover key)")
     a = ap.parse_args()
     if a.show_theme:
-        show_theme(*report_theme(a.markdown, read_front_matter(open(a.markdown, encoding="utf-8").read())[0]))
+        show_theme(*report_theme(a.markdown, read_front_matter(open(a.markdown, encoding="utf-8-sig").read())[0]))
     elif a.output:
-        build(a.markdown, a.output)
+        build(a.markdown, a.output, cover=None if a.cover is None else a.cover == "on")
     else:
         ap.error("give an output PDF path, or --show-theme")

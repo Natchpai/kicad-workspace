@@ -3,16 +3,18 @@
 
 Usage:
     python build_book.py book.md out.pdf
+    python build_book.py book.md --show-theme     # resolved theme and the source of each key
 
 book.md holds the cover values as front matter and lists the reports in reading order, one
 `- path/report.md` per line (paths relative to book.md). Every report is built fresh with
-build_report.py, so the combined file always matches its sources. The theme is resolved the
-same way as for a report (skill theme.yml, then report-theme.yml next to book.md, then the
-front matter), so the cover and contents pages match the report pages.
+build_report.py, so the combined file always matches its sources. The book's theme (skill
+theme.yml, then report-theme.yml next to book.md or `theme:`, then the front matter) styles the
+cover and contents pages and sits under each report's own theme, so one setting in book.md
+reaches every page. Page geometry and fixed words live in page_layout.py.
 See ../SKILL.md ("Combining reports") and ../references/example-book.md.
 Requires: pip install -r requirements.txt (adds pypdf to the report requirements).
 """
-import argparse, difflib, io, os, re, sys, tempfile
+import argparse, io, math, os, re, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -23,22 +25,16 @@ try:
     from pypdf.generic import Fit
 except ImportError:
     sys.exit("pypdf missing: pip install -r requirements.txt (in the skill folder)")
-from PIL import Image as PILImage
-from reportlab.graphics import renderPDF
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4, letter
-from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen import canvas
 
-import build_report  # registers the fonts (Sans, Sans-Bold, ...) on import
+import build_report
+import page_layout
 import report_figs
-from svglib.svglib import svg2rlg
+from page_layout import LABELS, LAYOUT, draw_text, fit_size, text_w
 
-BOOK_KEYS = ("title", "subtitle", "short_title", "date", "revision", "paper", "theme",
-             "kicker", "project", "specs", "note", "license", "cover_logo", "page_stamp")
-ML = MR = 22 * mm
-RULE_W = build_report.HEADER_RULE_W
+BOOK_KEYS = ("page_stamp",)  # book only; the report keys (title, cover fields ...) and theme keys also apply
 
 
 def fail(msg):
@@ -46,13 +42,8 @@ def fail(msg):
 
 
 def read_book(path):
-    text = open(path, encoding="utf-8").read()
-    meta, body = build_report.read_front_matter(text)
-    for k in meta:
-        if k not in BOOK_KEYS + report_figs.THEME_KEYS:
-            near = difflib.get_close_matches(k, BOOK_KEYS + report_figs.THEME_KEYS, n=1)
-            fail(f"unknown key '{k}' in {os.path.basename(path)}" + (f" (did you mean '{near[0]}'?)" if near else
-                 f"; book keys: {', '.join(BOOK_KEYS)}, plus the theme keys"))
+    meta, body = build_report.read_front_matter(open(path, encoding="utf-8-sig").read())
+    report_figs.check_keys(meta, os.path.basename(path), extra=BOOK_KEYS)
     base = os.path.dirname(os.path.abspath(path))
     reports = []
     for line in body.split("\n"):
@@ -67,261 +58,174 @@ def read_book(path):
     return meta, reports
 
 
-def fix_svg_gradients(drawing, path):
-    """svglib ignores gradientTransform on a userSpaceOnUse linearGradient, so a gradient defined
-    on a unit vector and placed by its transform (as Affinity exports it) collapses to its last
-    colour. Apply the matrix to the gradient end points; gradients are matched by their stops."""
-    import xml.etree.ElementTree as ET
-    fixes = {}
-    for g in ET.parse(path).getroot().iter("{http://www.w3.org/2000/svg}linearGradient"):
-        m = re.match(r"\s*matrix\(([^)]*)\)", g.get("gradientTransform", ""))
-        if not m or g.get("gradientUnits") != "userSpaceOnUse":
-            continue
-        a, b, c, d, e, f = (float(v) for v in re.split(r"[\s,]+", m.group(1).strip()))
-        x1, y1, x2, y2 = (float(g.get(k, dflt)) for k, dflt in (("x1", 0), ("y1", 0), ("x2", 1), ("y2", 0)))
-        stops = tuple(round(float(s.get("offset", 0)), 4) for s in g.iter("{http://www.w3.org/2000/svg}stop"))
-        fixes[stops] = (a * x1 + c * y1 + e, b * x1 + d * y1 + f, a * x2 + c * y2 + e, b * x2 + d * y2 + f)
-
-    def walk(node):
-        for ch in getattr(node, "contents", []):
-            if type(ch).__name__ == "LinearGradientShape":
-                end = fixes.get(tuple(round(p, 4) for p in ch._positions))
-                if end:
-                    ch._x0, ch._y0, ch._x1, ch._y1 = end
-            walk(ch)
-    if fixes:
-        walk(drawing)
+def theme_meta(meta):
+    return {k: v for k, v in meta.items() if k in report_figs.THEME_KEYS or k == "theme"}
 
 
+# ---------------------------------------------------------------- section pages
 def plain(s):
-    """Heading text as it appears in the PDF: no Markdown marks, single spaces."""
-    s = re.sub(r"[*`]|\\(?=[|_])", "", s)
-    s = re.sub(r"_\{([^}]*)\}", r"\1", s)
+    """Heading text as it reads in the PDF: no Markdown marks, single spaces."""
+    s = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", s)
+    s = re.sub(r"[*`]|\\(?=[|_*])", "", s)
+    s = re.sub(r"[_^]\{([^}]*)\}", r"\1", s)
     return re.sub(r"\s+", " ", s).strip()
 
 
-def build_reports(paths, work):
-    out = []
-    for i, md_path in enumerate(paths):
-        meta, body = build_report.read_front_matter(open(md_path, encoding="utf-8").read())
-        title = meta.get("title") or next((l[2:] for l in body.split("\n") if l.startswith("# ")), "Report")
-        pdf = os.path.join(work, f"{i:02d}.pdf")
-        build_report.build(md_path, pdf)
-        reader = PdfReader(pdf)
-        texts = [re.sub(r"\s+", " ", p.extract_text() or "") for p in reader.pages]
-        sections, page = [], 0
-        for num, head in re.findall(r"^## (\d+)\.\s+(.+)$", body, flags=re.M):
-            key = plain(f"{num}. {head}")[:32]
-            page = next((j for j in range(page, len(texts)) if key in texts[j]), page)
-            sections.append((plain(f"{num}. {head}"), page))
-        out.append(dict(pdf=pdf, title=plain(title), doc=meta.get("doc_no", ""),
-                        pages=len(reader.pages), sections=sections))
+def norm(s):
+    """Letters and digits only, so subscripts, spacing and punctuation do not affect a match."""
+    return re.sub(r"[\W_]+", "", s).lower()
+
+
+def headings(body):
+    """`## N. Heading` lines outside fenced code blocks, as plain text."""
+    out, fence = [], False
+    for line in body.split("\n"):
+        if line.strip().startswith("```"):
+            fence = not fence
+        elif not fence:
+            m = re.match(r"^## (\d+)\.\s+(.+)$", line)
+            if m:
+                out.append(plain(f"{m.group(1)}. {m.group(2)}"))
     return out
 
 
-class Book:
-    def __init__(self, meta, th, paper):
-        self.m, self.th = meta, th
-        self.W, self.H = paper
-        self.ink = colors.HexColor(th["text_color"])
-        self.acc = colors.HexColor(th["accent_color"])
-        self.muted = colors.HexColor(th["muted_color"])
-        self.tint = colors.HexColor(th["tint_light"])
-        self.rule = colors.HexColor(th["header_rule_color"]) if th["header_rule_color"] else None
-        self.logo = th["logo"]
-        # Cover logo: cover_logo key, else the vector assets/logo.svg while the theme uses the
-        # skill's own logo, else the theme logo (a custom theme keeps its own logo).
-        cl = meta.get("cover_logo")
-        assets = os.path.join(report_figs.SKILL_DIR, "assets")
-        if cl:
-            self.cover_logo = os.path.normpath(os.path.join(meta["_base"], cl))
-        elif self.logo and os.path.samefile(self.logo, os.path.join(assets, "logo.png")) \
-                and os.path.exists(os.path.join(assets, "logo.svg")):
-            self.cover_logo = os.path.join(assets, "logo.svg")
-        else:
-            self.cover_logo = self.logo
-        if self.cover_logo and not os.path.exists(self.cover_logo):
-            fail(f"cover_logo not found: {self.cover_logo}")
-        self.short = meta.get("short_title") or meta.get("title", "")
-        if meta.get("revision"):
-            self.short += f"  ·  " + " ".join(x for x in (meta.get("project"), f"Rev. {meta['revision']}") if x)
-        self.left_foot = th["footer"] or " · ".join(x for x in (th["author"], meta.get("date")) if x)
+def find_page(pages, key, start):
+    """First page from `start` with a text line equal to the heading, or to its start (a heading
+    that wraps, or whose subscript the PDF text puts on a line of its own)."""
+    for j in range(start, len(pages)):
+        if any(ln == key or (len(ln) >= 6 and key.startswith(ln)) for ln in pages[j]):
+            return j
+    return None
 
-    def _img(self, c, path, x, y_top, w=None, h=None):
-        """Draw a PNG/JPG, or an SVG as vector graphics, with its top-left corner at (x, y_top)."""
-        if path.lower().endswith(".svg"):
-            d = svg2rlg(path)
-            if d is None:
-                fail(f"cannot read SVG: {path}")
-            fix_svg_gradients(d, path)
-            pw, ph = d.width, d.height
-        else:
-            pw, ph = PILImage.open(path).size
-        if w is None:
-            w = h * pw / ph
-        h = w * ph / pw
-        if path.lower().endswith(".svg"):
-            d.scale(w / pw, h / ph); d.width, d.height = w, h
-            renderPDF.draw(d, c, x, y_top - h)
-        else:
-            c.drawImage(path, x, y_top - h, w, h, mask="auto")
-        return h
 
-    def rule_line(self, c, y):
-        if self.rule:
-            c.setStrokeColor(self.rule); c.setLineWidth(RULE_W); c.line(ML, y, self.W - MR, y)
-
-    def header_footer(self, c, n, total):
-        W, H = self.W, self.H
-        lh = 9.5 * mm
-        y_logo = H - 10 * mm - lh
-        if self.th["header"]:
-            if self.logo:
-                self._img(c, self.logo, ML, y_logo + lh, h=lh)
-            c.setFont("Sans", 8); c.setFillColor(self.muted)
-            c.drawRightString(W - MR, y_logo + 2.2 * mm, self.short)
-            self.rule_line(c, y_logo - 2.6 * mm)
-        self.rule_line(c, 13 * mm)
-        c.setFont("Sans", 7.8); c.setFillColor(self.muted)
-        c.drawString(ML, 9 * mm, self.left_foot)
-        c.drawRightString(W - MR, 9 * mm, f"{n} / {total}")
-
-    def wrap(self, text, font, size, width):
-        lines, cur = [], ""
-        for w in text.split():
-            t = f"{cur} {w}".strip()
-            if pdfmetrics.stringWidth(t, font, size) <= width or not cur:
-                cur = t
+def build_reports(paths, work, base_layers):
+    out = []
+    for i, md_path in enumerate(paths):
+        meta, body = build_report.read_front_matter(open(md_path, encoding="utf-8-sig").read())
+        title = meta.get("title") or next((l[2:] for l in body.split("\n") if l.startswith("# ")), "Report")
+        pdf = os.path.join(work, f"{i:02d}.pdf")
+        build_report.build(md_path, pdf, cover=False, base_layers=base_layers)
+        reader = PdfReader(pdf)
+        lines = [[n for n in map(norm, (p.extract_text() or "").split("\n")) if n] for p in reader.pages]
+        sections, page = [], 0
+        for txt in headings(body):
+            j = find_page(lines, norm(txt), page)
+            if j is None:
+                print(f"WARNING: section '{txt}' not found in the PDF of {os.path.basename(md_path)}; "
+                      f"the contents gives it page {page + 1} of that report", file=sys.stderr)
             else:
-                lines.append(cur); cur = w
-        return lines + ([cur] if cur else [])
+                page = j
+            sections.append((txt, page))
+        box = reader.pages[0].mediabox
+        out.append(dict(pdf=pdf, md=md_path, title=plain(title), doc=meta.get("doc_no", ""),
+                        pages=len(reader.pages), sections=sections, size=(float(box.width), float(box.height))))
+    return out
 
-    def cover(self, c, n_reports, total):
-        m, W, H = self.m, self.W, self.H
-        tw = W - ML - MR
-        c.setFillColor(self.acc); c.rect(0, 0, 7 * mm, H, stroke=0, fill=1)
-        if self.cover_logo:
-            self._img(c, self.cover_logo, ML, H - 28 * mm, w=46 * mm)
-        if m.get("project"):
-            c.setFont("Sans", 9); c.setFillColor(self.muted)
-            c.drawRightString(W - MR, H - 24 * mm, f"Project {m['project']}")
-        y = H - 118 * mm
-        if m.get("kicker"):
-            c.setFont("Sans-Bold", 10); c.setFillColor(self.acc); c.drawString(ML, y, m["kicker"].upper())
-            y -= 14 * mm
-        c.setFont("Sans-Bold", 27); c.setFillColor(colors.HexColor(self.th["title_color"]))
-        for line in self.wrap(m.get("title", ""), "Sans-Bold", 27, tw)[:3]:
-            c.drawString(ML, y, line); y -= 11.5 * mm
-        y += 2.5 * mm
-        c.setFont("Sans", 11.5); c.setFillColor(self.muted)
-        for line in self.wrap(m.get("subtitle", ""), "Sans", 11.5, tw)[:2]:
-            c.drawString(ML, y, line); y -= 6 * mm
-        y -= 1 * mm
-        self.rule_line(c, y)
-        specs = [s.split("=", 1) for s in m.get("specs", "").split("|") if "=" in s]
-        if specs:
-            y -= 30 * mm
-            c.setFillColor(self.tint); c.rect(ML, y, tw, 24 * mm, stroke=0, fill=1)
-            c.setFillColor(self.acc); c.rect(ML, y, 1.2 * mm, 24 * mm, stroke=0, fill=1)
-            colw = (tw - 6 * mm) / len(specs)
-            for i, (k, v) in enumerate(specs):
-                x = ML + 6 * mm + i * colw
-                c.setFont("Sans", 8.5); c.setFillColor(self.muted); c.drawString(x, y + 15 * mm, k.strip())
-                size = 11.5
-                while size > 8 and pdfmetrics.stringWidth(v.strip(), "Sans-Bold", size) > colw - 3 * mm:
-                    size -= 0.5
-                c.setFont("Sans-Bold", size); c.setFillColor(self.ink); c.drawString(x, y + 8 * mm, v.strip())
-        y -= 22 * mm
-        rows = [("Revision", m.get("revision")), ("Date", m.get("date")), ("Author", self.th["author"]),
-                ("Contents", f"{n_reports} reports, {total} pages")]
-        for k, v in rows:
-            if v:
-                c.setFont("Sans", 9); c.setFillColor(self.muted); c.drawString(ML, y, k)
-                c.setFont("Sans", 10); c.setFillColor(self.ink); c.drawString(ML + 28 * mm, y, v)
-                y -= 6.5 * mm
-        self.rule_line(c, 22 * mm)
-        c.setFont("Sans", 8); c.setFillColor(self.muted)
-        if m.get("note"):
-            c.drawString(ML, 16 * mm, m["note"])
-        if m.get("license"):
-            c.drawRightString(W - MR, 16 * mm, m["license"])
 
-    # contents layout
-    ROW_R, ROW_S, GAP = 8.2 * mm, 5.6 * mm, 3.0 * mm
+# ---------------------------------------------------------------- contents pages
+class Contents:
+    def __init__(self, meta, th, paper):
+        self.th = th
+        self.W, self.H = paper
+        self.short = page_layout.short_title(meta)
+        self.left_foot = page_layout.left_footer(th, meta)
 
     def paginate(self, reps):
-        top, bottom = self.H - 40 * mm, 20 * mm
-        pages, cur, y = [], [], top - 14 * mm
+        """Contents rows per page, each {rep, sections, cont}: a report row, then its section rows. A report that does not fit
+        moves to the next page whole; one longer than a page continues under a '(cont.)' row."""
+        L = LAYOUT
+        top, bottom, head = self.H - L.toc_top, L.toc_bottom, L.row_r + L.row_gap
+        pages, cur, y = [], [], top - L.toc_gap
         for r in reps:
-            h = self.ROW_R + self.GAP + self.ROW_S * len(r["sections"])
-            if y - h < bottom and cur:
+            secs, cont = list(r["sections"]), False
+            h = head + L.row_s * len(secs)
+            if y - h < bottom and cur and h <= top - bottom:
                 pages.append(cur); cur, y = [], top
-            cur.append(r); y -= h
+            while True:
+                fit = math.floor((y - head - bottom) / L.row_s + 1e-9)  # section rows under the report row
+                if cur and (fit < 0 or (secs and fit < 1)):
+                    pages.append(cur); cur, y = [], top
+                    continue
+                part, secs = secs[:max(fit, 1)], secs[max(fit, 1):]
+                cur.append(dict(rep=r, sections=part, cont=cont)); y -= head + L.row_s * len(part)
+                if not secs:
+                    break
+                pages.append(cur); cur, y, cont = [], top, True
         pages.append(cur)
         return pages
 
     def leader(self, c, x1, x2, y):
-        c.setFillColor(colors.HexColor(self.th["hairline"])); c.setFont("Sans", 8)
-        dot = pdfmetrics.stringWidth(". ", "Sans", 8)
+        size = LAYOUT.leader_size
+        c.setFillColor(colors.HexColor(self.th["hairline"])); c.setFont("Sans", size)
+        dot = pdfmetrics.stringWidth(". ", "Sans", size)
         x = x1
         while x + dot < x2:
             c.drawString(x, y, ". "); x += dot
 
-    def contents(self, c, pages, start, total, links):
-        W = self.W
+    def draw(self, c, pages, first, links):
+        """Draw the contents pages; `first` is the index of the first one. Appends
+        (page index, rect, target page index) to links."""
+        L, W, th = LAYOUT, self.W, self.th
+        ink, acc = colors.HexColor(th["text_color"]), colors.HexColor(th["accent_color"])
+        muted, tint = colors.HexColor(th["muted_color"]), colors.HexColor(th["tint_light"])
+        doc_x, num_x = W - L.margin_r - L.doc_right, W - L.margin_r - L.num_right
+        sec_x, lead_end = L.margin_l + L.sec_x, W - L.margin_r - L.leader_right
         for pi, reps in enumerate(pages):
-            self.header_footer(c, start + pi + 1, total)
-            y = self.H - 40 * mm
+            page_layout.draw_header_footer(c, th, W, self.H, self.short, self.left_foot)  # number: the book stamp
+            y = self.H - L.toc_top
             if pi == 0:
-                c.setFont("Sans-Bold", 20); c.setFillColor(self.ink); c.drawString(ML, y, "Contents")
-                y -= 14 * mm
-            for r in reps:
-                y -= self.GAP
-                c.setFillColor(self.tint); c.rect(ML, y - 2.6 * mm, W - ML - MR, self.ROW_R, stroke=0, fill=1)
-                c.setFillColor(self.acc); c.rect(ML, y - 2.6 * mm, 1.0 * mm, self.ROW_R, stroke=0, fill=1)
-                room = W - MR - 16 * mm - pdfmetrics.stringWidth(r["doc"], "Sans", 8) - (ML + 4 * mm) - 4 * mm
-                size = 10.5
-                while size > 8 and pdfmetrics.stringWidth(r["title"], "Sans-Bold", size) > room:
-                    size -= 0.5
-                c.setFont("Sans-Bold", size); c.setFillColor(self.ink)
-                c.drawString(ML + 4 * mm, y, r["title"])
-                c.setFont("Sans", 8); c.setFillColor(self.muted)
-                c.drawRightString(W - MR - 14 * mm, y, r["doc"])
-                c.setFont("Sans-Bold", 10.5); c.setFillColor(self.ink)
-                c.drawRightString(W - MR - 2 * mm, y, str(r["start"] + 1))
-                links.append((start + pi, (ML, y - 2.6 * mm, W - MR, y - 2.6 * mm + self.ROW_R), r["start"]))
-                y -= self.ROW_R
-                for txt, p in r["sections"]:
-                    c.setFont("Sans", 9.5); c.setFillColor(self.ink)
-                    c.drawString(ML + 10 * mm, y, txt)
-                    self.leader(c, ML + 12 * mm + pdfmetrics.stringWidth(txt, "Sans", 9.5), W - MR - 10 * mm, y)
-                    c.setFont("Sans", 9.5); c.setFillColor(self.ink)
-                    c.drawRightString(W - MR - 2 * mm, y, str(r["start"] + p + 1))
-                    links.append((start + pi, (ML + 8 * mm, y - 1.6 * mm, W - MR, y + 3.8 * mm), r["start"] + p))
-                    y -= self.ROW_S
+                draw_text(c, L.margin_l, y, LABELS["contents"], "Sans-Bold", L.toc_size, ink)
+                y -= L.toc_gap
+            for row in reps:
+                r = row["rep"]
+                y -= L.row_gap
+                band = y - L.row_pad
+                c.setFillColor(tint); c.rect(L.margin_l, band, W - L.margin_l - L.margin_r, L.row_r, stroke=0, fill=1)
+                c.setFillColor(acc); c.rect(L.margin_l, band, L.row_bar, L.row_r, stroke=0, fill=1)
+                cont = f" {LABELS['cont']}" if row["cont"] else ""
+                room = doc_x - text_w(r["doc"], "Sans", L.doc_size) - L.rep_gap - (L.margin_l + L.rep_x)
+                size = fit_size(r["title"] + cont, "Sans-Bold", L.rep_size, L.rep_min, room)
+                title = page_layout.ellipsis(r["title"], "Sans-Bold", size, room - text_w(cont, "Sans-Bold", size))
+                draw_text(c, L.margin_l + L.rep_x, y, title + cont, "Sans-Bold", size, ink)
+                draw_text(c, doc_x, y, r["doc"], "Sans", L.doc_size, muted, align="right")
+                draw_text(c, num_x, y, str(r["start"] + 1), "Sans-Bold", L.rep_size, ink, align="right")
+                links.append((first + pi, (L.margin_l, band, W - L.margin_r, band + L.row_r), r["start"]))
+                y -= L.row_r
+                for txt, p in row["sections"]:
+                    w = draw_text(c, sec_x, y, txt, "Sans", L.sec_size, ink, max_w=lead_end - L.leader_gap - sec_x)
+                    self.leader(c, sec_x + w + L.leader_gap, lead_end, y)
+                    draw_text(c, num_x, y, str(r["start"] + p + 1), "Sans", L.sec_size, ink, align="right")
+                    links.append((first + pi, (L.margin_l + L.link_x, y - L.link_below, W - L.margin_r,
+                                               y + L.link_above), r["start"] + p))
+                    y -= L.row_s
             c.showPage()
 
-    def stamp(self, n, total):
-        buf = io.BytesIO()
-        c = canvas.Canvas(buf, pagesize=(self.W, self.H))
-        c.setFont("Sans", 7.8); c.setFillColor(self.muted)
-        c.drawCentredString(self.W / 2, 9 * mm, f"{n} / {total}")
-        c.save(); buf.seek(0)
-        return PdfReader(buf).pages[0]
+
+def stamp_page(th, w, h, n, total):
+    buf = io.BytesIO()
+    c = canvas.Canvas(buf, pagesize=(w, h))
+    page_layout.draw_stamp(c, w, th, n, total)
+    c.save(); buf.seek(0)
+    return PdfReader(buf).pages[0]
 
 
+# ---------------------------------------------------------------- book
 def build_book(book_md, out_pdf):
     meta, paths = read_book(book_md)
-    meta["_base"] = os.path.dirname(os.path.abspath(book_md))
-    theme_meta = {k: v for k, v in meta.items() if k in report_figs.THEME_KEYS or k == "theme"}
-    th, _ = build_report.report_theme(book_md, theme_meta)
-    paper = letter if meta.get("paper", "a4").lower() == "letter" else A4
-    stamp = meta.get("page_stamp", "on").lower() not in ("off", "false", "no")
+    where = f"front matter of {os.path.basename(book_md)}"
+    layers = build_report.theme_layers(book_md, theme_meta(meta))
+    th, _ = build_report.report_theme(book_md, theme_meta(meta))
+    paper = page_layout.parse_paper(meta, where)
+    stamp = report_figs.parse_switch(meta.get("page_stamp", "on"), "page_stamp", where)
 
     with tempfile.TemporaryDirectory(prefix="book_") as work:
-        reps = build_reports(paths, work)
-        book = Book(meta, th, paper)
-        pages = book.paginate(reps)
+        reps = build_reports(paths, work, layers)
+        for r in reps:
+            if any(abs(a - b) > 1 for a, b in zip(r["size"], paper)):
+                print(f"WARNING: {os.path.basename(r['md'])} has a different paper size from the book "
+                      f"(set paper: in its front matter)", file=sys.stderr)
+        toc = Contents(meta, th, paper)
+        pages = toc.paginate(reps)
         front = 1 + len(pages)
         n = front
         for r in reps:
@@ -330,8 +234,11 @@ def build_book(book_md, out_pdf):
 
         buf, links = io.BytesIO(), []
         c = canvas.Canvas(buf, pagesize=paper)
-        book.cover(c, len(reps), total); c.showPage()
-        book.contents(c, pages, 1, total, links)
+        rows = [(LABELS["revision"], meta.get("revision")), (LABELS["date"], meta.get("date")),
+                (LABELS["author"], th["author"]),
+                (LABELS["contents"], LABELS["book_size"].format(n=len(reps), total=total))]
+        page_layout.draw_cover(c, th, meta, *paper, rows); c.showPage()
+        toc.draw(c, pages, 1, links)
         c.save(); buf.seek(0)
 
         w = PdfWriter()
@@ -340,13 +247,14 @@ def build_book(book_md, out_pdf):
         for r in reps:
             for p in PdfReader(r["pdf"]).pages:
                 w.add_page(p)
-        if stamp:
-            for i in range(front, total):
-                w.pages[i].merge_page(book.stamp(i + 1, total))
+        if stamp:  # every page but the cover
+            for i in range(1, total):
+                box = w.pages[i].mediabox
+                w.pages[i].merge_page(stamp_page(th, float(box.width), float(box.height), i + 1, total))
         for page_idx, rect, target in links:
             w.add_annotation(page_number=page_idx, annotation=Link(rect=rect, target_page_index=target, fit=Fit.fit()))
-        w.add_outline_item("Cover", 0)
-        w.add_outline_item("Contents", 1)
+        w.add_outline_item(LABELS["cover"], 0)
+        w.add_outline_item(LABELS["contents"], 1)
         for r in reps:
             parent = w.add_outline_item(r["title"], r["start"])
             for txt, p in r["sections"]:
@@ -361,6 +269,12 @@ def build_book(book_md, out_pdf):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("book"); ap.add_argument("output")
+    ap.add_argument("book"); ap.add_argument("output", nargs="?")
+    ap.add_argument("--show-theme", action="store_true", help="print the resolved book theme and where each key came from, then exit")
     a = ap.parse_args()
-    build_book(a.book, a.output)
+    if a.show_theme:
+        build_report.show_theme(*build_report.report_theme(a.book, theme_meta(read_book(a.book)[0])))
+    elif a.output:
+        build_book(a.book, a.output)
+    else:
+        ap.error("give an output PDF path, or --show-theme")

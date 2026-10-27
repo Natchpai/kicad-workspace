@@ -8,6 +8,9 @@ revision: A
 date: Oct 28, 2026
 specs: Input = 5 V | Output = 3.3 V, 2 A | Switching = 2.2 MHz
 note: Example of a combined report with a cover page and contents.
+# doc_no: EX-01-B            # header tag instead of project
+# cover_logo: my_logo.svg    # cover logo, .svg or .png
+# page_stamp: off            # no overall "n / N" page number
 ---
 
 Reports in reading order, one per line, paths relative to this file:

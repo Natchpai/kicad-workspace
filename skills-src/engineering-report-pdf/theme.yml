@@ -26,3 +26,7 @@ header: on                     # logo, short title and rule at the top of every 
 header_rule_color: title       # header, footer and title-block lines; title = title_color, none hides them
 title_color: text              # report title on page 1
 title_rule: on                 # line under the title block, same as the header rule
+
+# Cover page
+cover: off                     # on = a cover page before a single report (a book always has one)
+cover_logo:                    # .svg or .png; empty = the vector assets/logo.svg with the default logo, else `logo`; none hides it
