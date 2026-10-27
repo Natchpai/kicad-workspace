@@ -9,3 +9,6 @@ libDump/
 /sym-lib-table
 *.bak
 /testReports
+
+# Python bytecode cache (skill scripts)
+__pycache__/
