@@ -1,0 +1,28 @@
+# Default theme for every report: the only place default values are written.
+# Override per folder with report-theme.yml next to the report (or `theme: file.yml` in front matter),
+# and per report with the same keys in its front matter. Check the result with:
+#   python scripts/build_report.py report.md --show-theme
+# Colour keys take text, accent, muted or #RRGGBB. Switches take on or off.
+
+# Identity
+author: Natchanon
+logo: assets/logo.png          # path relative to the file that sets it; none hides the logo
+footer:                        # bottom-left text; empty = author · date
+
+# Colours
+text_color: #16202E            # body, headings, tables, caption labels, equation glyphs
+accent_color: #1F63D6          # rules, links, table lines; table fill, zebra rows and hairlines are tints of it
+muted_color: #5B6573           # meta line, captions, equation numbers, header and footer text
+heading_color: text            # ## and ### headings (#### uses a darker accent)
+number_color: text             # section numbers, list numbers and bullets
+
+# Equations
+eq_style: panel                # panel (tint + bar), bar (bar only) or plain
+eq_color: accent               # bar and tint colour for equation and code panels
+eq_numbers: on                 # (1), (2) ... on the right; \nonumber skips one equation
+
+# Page header and title block
+header: on                     # logo, short title and rule at the top of every page
+header_rule_color: accent      # rule under the header; none hides it
+title_color: text              # report title on page 1
+title_rule: on                 # short accent rule + hairline under the title block

@@ -6,37 +6,163 @@ Import from a figure script:
 
 Everything saves to SVG (vector) so build_report.py can embed it sharply.
 """
+import difflib
 import math
+import os
 import re
+import sys
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
-# Theme colours: the one palette for figures and pages (build_report.py imports these)
-INK = "#16202E"      # all text: body, headings, labels (navy-black)
-NAVY = "#1F2A3C"     # wires, outlines, reference lines (logo dark)
-BLUE = "#1F63D6"     # accent: the one series / component the figure is about
-BLUE_D = "#1A4FAF"   # small headings, note label
-SKY = "#2AB4E6"      # secondary accent (logo light)
-MUTED = "#5B6573"    # meta text, captions, equation numbers, header and footer
-GRAY = "#8A94A3"     # de-emphasised series, annotations
-BLACK = INK          # old name, kept so existing figure scripts still import it
-BLUE_L = "#E7F0FC"   # table header fill
-BLUE_LL = "#F4F8FE"  # equation panel, zebra rows
-BLUE_LINE = "#BCD3F2"  # hairlines, note border
-GRID = "#D5E3F5"
-GRID_MINOR = "#EEF4FB"
+# ---------------------------------------------------------------- theme
+# Default values live in <skill>/theme.yml only. A report-theme.yml next to the report, then the
+# report's front matter, override them. build_report.py uses load_theme() for the page.
+SKILL_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+DEFAULT_THEME = os.path.join(SKILL_DIR, "theme.yml")
+PROJECT_THEME = "report-theme.yml"
+
+COLOR_KEYS = ("text_color", "accent_color", "muted_color", "heading_color", "number_color",
+              "eq_color", "header_rule_color", "title_color")
+SWITCH_KEYS = ("eq_numbers", "header", "title_rule")
+THEME_KEYS = ("author", "logo", "footer", "eq_style") + COLOR_KEYS + SWITCH_KEYS
+REPORT_KEYS = ("title", "subtitle", "short_title", "date", "doc_no", "revision", "paper",
+               "subscripts", "italic_titles", "theme")
+EQ_STYLES = ("panel", "bar", "plain")
+
+
+def parse_kv(text):
+    """Flat `key: value` lines (front matter or a theme file). `#` starts a comment, but a value
+    that is a colour (`#1F63D6`) is kept. Quote a value to keep a literal ` #` in it."""
+    out = {}
+    for line in text.split("\n"):
+        if not line.strip() or line.lstrip().startswith("#") or ":" not in line:
+            continue
+        k, v = line.split(":", 1)
+        v = v.strip()
+        if v and v[0] in "\"'" and v[0] in v[1:]:
+            v = v[1:v.index(v[0], 1)]
+        else:
+            if v.startswith("#") and not re.match(r"#[0-9A-Fa-f]{6}(\s|$)", v):
+                v = ""  # the whole value is a comment
+            v = re.sub(r"\s+#.*$", "", v).strip()
+        out[k.strip().lower()] = v
+    return out
+
+
+def _fail(msg):
+    sys.exit(f"Theme error: {msg}")
+
+
+def check_keys(d, where):
+    for k in d:
+        if k not in THEME_KEYS + REPORT_KEYS:
+            near = difflib.get_close_matches(k, THEME_KEYS + REPORT_KEYS, n=1)
+            _fail(f"unknown key '{k}' in {where}" + (f" (did you mean '{near[0]}'?)" if near else ""))
+
+
+def _mix(hex_color, f, toward="#FFFFFF"):
+    """Blend: f = share of hex_color, the rest is `toward` (white makes a tint, black a shade)."""
+    a = [int(hex_color[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(toward[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#" + "".join(f"{round(x * f + y * (1 - f)):02X}" for x, y in zip(a, b))
+
+
+def load_theme(layers):
+    """Merge [(source_name, base_dir, dict), ...] from lowest to highest priority.
+    Returns (theme, sources): resolved values (hex colours, booleans, absolute logo path or None)
+    and the source of each key, for --show-theme."""
+    raw, src, base = {}, {}, {}
+    for name, folder, d in layers:
+        check_keys(d, name)
+        for k, v in d.items():
+            if k in THEME_KEYS:
+                raw[k], src[k], base[k] = v, name, folder
+    missing = [k for k in THEME_KEYS if k not in raw]
+    if missing:
+        _fail(f"{DEFAULT_THEME} is missing {', '.join(missing)}")
+
+    th = {"author": raw["author"], "footer": raw["footer"]}
+    logo = raw["logo"]
+    if logo.lower() == "none":
+        th["logo"] = None
+    else:
+        th["logo"] = logo if os.path.isabs(logo) else os.path.normpath(os.path.join(base["logo"], logo))
+        if not os.path.exists(th["logo"]):
+            _fail(f"logo not found: {th['logo']} (logo: {logo}, set in {src['logo']})")
+
+    hexre = re.compile(r"^#[0-9A-Fa-f]{6}$")
+    for k in ("text_color", "accent_color", "muted_color"):
+        if not hexre.match(raw[k]):
+            _fail(f"{k}: '{raw[k]}' must be #RRGGBB (set in {src[k]})")
+    names = {"text": raw["text_color"].upper(), "accent": raw["accent_color"].upper(),
+             "muted": raw["muted_color"].upper()}
+    for k in COLOR_KEYS:
+        v = raw[k].strip()
+        if v.lower() in names:
+            th[k] = names[v.lower()]
+        elif hexre.match(v):
+            th[k] = v.upper()
+        elif v.lower() == "none" and k == "header_rule_color":
+            th[k] = None
+        else:
+            allowed = "text, accent, muted, #RRGGBB" + (" or none" if k == "header_rule_color" else "")
+            _fail(f"{k}: '{v}' must be {allowed} (set in {src[k]})")
+    for k in SWITCH_KEYS:
+        v = raw[k].lower()
+        if v not in ("on", "off", "true", "false", "yes", "no"):
+            _fail(f"{k}: '{raw[k]}' must be on or off (set in {src[k]})")
+        th[k] = v in ("on", "true", "yes")
+    th["eq_style"] = raw["eq_style"].lower()
+    if th["eq_style"] not in EQ_STYLES:
+        _fail(f"eq_style: '{raw['eq_style']}' must be {', '.join(EQ_STYLES)} (set in {src['eq_style']})")
+
+    acc, eq = th["accent_color"], th["eq_color"]
+    th.update(accent_dark=_mix(acc, 0.82, "#000000"), tint=_mix(acc, 0.11), tint_light=_mix(acc, 0.05),
+              hairline=_mix(acc, 0.30), grid=_mix(acc, 0.18), grid_minor=_mix(acc, 0.07),
+              eq_fill=_mix(eq, 0.05))
+    return th, src
+
+
+def read_theme_file(path):
+    with open(path, encoding="utf-8") as f:
+        return parse_kv(f.read())
+
+
+def default_layers():
+    """The skill defaults, then report-theme.yml in the current folder if there is one."""
+    layers = [(DEFAULT_THEME, SKILL_DIR, read_theme_file(DEFAULT_THEME))]
+    if os.path.exists(PROJECT_THEME):
+        p = os.path.abspath(PROJECT_THEME)
+        layers.append((p, os.path.dirname(p), read_theme_file(p)))
+    return layers
+
+
+# Figure palette: theme colours from the layers above, plus fixed figure colours
+_TH, _ = load_theme(default_layers())
+INK = _TH["text_color"]        # all text: body, headings, labels
+NAVY = "#1F2A3C"               # wires, outlines, reference lines (logo dark)
+BLUE = _TH["accent_color"]     # accent: the one series / component the figure is about
+BLUE_D = _TH["accent_dark"]    # small headings, note label
+SKY = "#2AB4E6"                # secondary accent (logo light)
+MUTED = _TH["muted_color"]     # meta text, captions, equation numbers, header and footer
+GRAY = "#8A94A3"               # de-emphasised series, annotations
+BLACK = INK                    # old name, kept so existing figure scripts still import it
+BLUE_L = _TH["tint"]           # table header fill
+BLUE_LL = _TH["tint_light"]    # equation panel, zebra rows
+BLUE_LINE = _TH["hairline"]    # hairlines, note border
+GRID = _TH["grid"]
+GRID_MINOR = _TH["grid_minor"]
 
 # Use the bundled IBM Plex fonts if present (matplotlib also ships DejaVu Sans as a fallback)
-import os as _os
 from matplotlib import font_manager as _fm
-_FD = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "assets", "fonts")
-if _os.path.isdir(_FD):
-    for _f in _os.listdir(_FD):
+_FD = os.path.join(SKILL_DIR, "assets", "fonts")
+if os.path.isdir(_FD):
+    for _f in os.listdir(_FD):
         if _f.endswith(".ttf"):
-            _fm.fontManager.addfont(_os.path.join(_FD, _f))
+            _fm.fontManager.addfont(os.path.join(_FD, _f))
 
 plt.rcParams.update({
     "font.family": ["IBM Plex Sans", "DejaVu Sans"],
@@ -87,10 +213,10 @@ def latex_to_mathtext(tex):
     return tex
 
 
-def equation(tex, path, size=15):
+def equation(tex, path, size=15, color=None):
     """Render one display equation to SVG. Raises ValueError if mathtext cannot parse it."""
     fig = plt.figure(figsize=(0.01, 0.01))
-    fig.text(0, 0, f"${latex_to_mathtext(tex)}$", fontsize=size, color=BLACK)
+    fig.text(0, 0, f"${latex_to_mathtext(tex)}$", fontsize=size, color=color or INK)
     try:
         fig.savefig(path, transparent=True, bbox_inches="tight", pad_inches=0.04)
     finally:

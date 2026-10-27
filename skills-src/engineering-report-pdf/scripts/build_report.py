@@ -3,6 +3,7 @@
 
 Usage:
     python build_report.py report.md out.pdf
+    python build_report.py report.md --show-theme     # resolved theme and the source of each key
 
 See ../SKILL.md for the Markdown dialect (front matter, equations, figures, tables, notes).
 Requires: pip install -r requirements.txt  (reportlab, matplotlib, svglib, pillow, numpy, fonttools).
@@ -34,14 +35,18 @@ except ImportError:
 
 import report_figs
 
-# ---------------------------------------------------------------- theme (one palette, defined in report_figs.py)
-BLUE, BLUE_D, BLUE_L, BLUE_LL, BLUE_LINE, INK, MUTED = (colors.HexColor(getattr(report_figs, n)) for n in (
-    "BLUE", "BLUE_D", "BLUE_L", "BLUE_LL", "BLUE_LINE", "INK", "MUTED"))
+# ---------------------------------------------------------------- theme
+# Colours, logo and switches come from report_figs.load_theme() (theme.yml, report-theme.yml,
+# front matter). apply_theme() fills TH and SS before a report is parsed.
+TH = {}                                 # resolved theme of the report being built
+SS = {}                                 # paragraph styles built from TH
 SUB = '<sub rise="20%" size="72%">'     # ReportLab's default drops a subscript by half the font size
 SUP = '<super rise="38%" size="72%">'
 EQ_NUM_W = 14 * mm                      # width of the equation-number column (and its mirror on the left)
 
-DEFAULT_LOGO = os.path.join(HERE, "..", "assets", "logo.png")
+
+def C(key):
+    return colors.HexColor(TH[key])
 
 
 FONT_DIR = os.path.join(HERE, "..", "assets", "fonts")
@@ -84,24 +89,27 @@ def with_fallback(t, cmap=MAIN_CMAP):
                   else f'<font name="Fallback">{m.group(0)}</font>', t)
 
 
-SS = {
-    "title": ParagraphStyle("title", fontName="Sans-Bold", fontSize=19, leading=24, textColor=INK, spaceAfter=3),
-    "subtitle": ParagraphStyle("subtitle", fontName="Sans", fontSize=11.5, leading=15, textColor=MUTED, spaceAfter=4),
-    "meta": ParagraphStyle("meta", fontName="Sans", fontSize=9, leading=12, textColor=MUTED, spaceAfter=8),
-    "h2": ParagraphStyle("h2", fontName="Sans-Bold", fontSize=13.5, leading=18, textColor=INK, spaceBefore=16, spaceAfter=6, keepWithNext=1),
-    "h3": ParagraphStyle("h3", fontName="Sans-Bold", fontSize=11, leading=15, textColor=INK, spaceBefore=10, spaceAfter=4, keepWithNext=1),
-    "h4": ParagraphStyle("h4", fontName="Sans-Bold", fontSize=10, leading=14, textColor=BLUE_D, spaceBefore=8, spaceAfter=3, keepWithNext=1),
-    "body": ParagraphStyle("body", fontName="Sans", fontSize=10, leading=14.8, textColor=INK, spaceAfter=6.5),
-    "cell": ParagraphStyle("cell", fontName="Sans", fontSize=9, leading=12.4, textColor=INK),
-    "cellh": ParagraphStyle("cellh", fontName="Sans-Bold", fontSize=9, leading=12.4, textColor=INK),
-    "cap": ParagraphStyle("cap", fontName="Sans", fontSize=8.5, leading=11.5, textColor=MUTED,
-                          alignment=TA_CENTER, spaceBefore=4, spaceAfter=10),
-    "tcap": ParagraphStyle("tcap", fontName="Sans", fontSize=8.5, leading=11.5, textColor=MUTED, spaceBefore=4, spaceAfter=4,
-                           keepWithNext=1),
-    "code": ParagraphStyle("code", fontName="Mono", fontSize=8.3, leading=11.2, textColor=INK),
-    "note": ParagraphStyle("note", fontName="Sans", fontSize=9.4, leading=13.6, textColor=INK),
-    "eqno": ParagraphStyle("eqno", fontName="Sans", fontSize=9.5, leading=12, textColor=MUTED, alignment=TA_RIGHT),
-}
+def apply_theme(th):
+    TH.clear(); TH.update(th)
+    ink, muted, head = C("text_color"), C("muted_color"), C("heading_color")
+    SS.clear(); SS.update({
+        "title": ParagraphStyle("title", fontName="Sans-Bold", fontSize=19, leading=24, textColor=C("title_color"), spaceAfter=3),
+        "subtitle": ParagraphStyle("subtitle", fontName="Sans", fontSize=11.5, leading=15, textColor=muted, spaceAfter=4),
+        "meta": ParagraphStyle("meta", fontName="Sans", fontSize=9, leading=12, textColor=muted, spaceAfter=8),
+        "h2": ParagraphStyle("h2", fontName="Sans-Bold", fontSize=13.5, leading=18, textColor=head, spaceBefore=16, spaceAfter=6, keepWithNext=1),
+        "h3": ParagraphStyle("h3", fontName="Sans-Bold", fontSize=11, leading=15, textColor=head, spaceBefore=10, spaceAfter=4, keepWithNext=1),
+        "h4": ParagraphStyle("h4", fontName="Sans-Bold", fontSize=10, leading=14, textColor=C("accent_dark"), spaceBefore=8, spaceAfter=3, keepWithNext=1),
+        "body": ParagraphStyle("body", fontName="Sans", fontSize=10, leading=14.8, textColor=ink, spaceAfter=6.5),
+        "cell": ParagraphStyle("cell", fontName="Sans", fontSize=9, leading=12.4, textColor=ink),
+        "cellh": ParagraphStyle("cellh", fontName="Sans-Bold", fontSize=9, leading=12.4, textColor=ink),
+        "cap": ParagraphStyle("cap", fontName="Sans", fontSize=8.5, leading=11.5, textColor=muted,
+                              alignment=TA_CENTER, spaceBefore=4, spaceAfter=10),
+        "tcap": ParagraphStyle("tcap", fontName="Sans", fontSize=8.5, leading=11.5, textColor=muted, spaceBefore=4, spaceAfter=4,
+                               keepWithNext=1),
+        "code": ParagraphStyle("code", fontName="Mono", fontSize=8.3, leading=11.2, textColor=ink),
+        "note": ParagraphStyle("note", fontName="Sans", fontSize=9.4, leading=13.6, textColor=ink),
+        "eqno": ParagraphStyle("eqno", fontName="Sans", fontSize=9.5, leading=12, textColor=muted, alignment=TA_RIGHT),
+    })
 
 
 # ---------------------------------------------------------------- inline markup
@@ -117,7 +125,7 @@ class Inline:
         t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         codes = []
         t = re.sub(r"`([^`]+)`", lambda m: codes.append(m.group(1)) or f"\u0000C{len(codes) - 1}\u0000", t)
-        t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", r'<link href="\2" color="#1F63D6"><u>\1</u></link>', t)
+        t = re.sub(r"\[([^\]]+)\]\((https?://[^)\s]+)\)", r'<link href="\2" color="' + TH["accent_color"] + r'"><u>\1</u></link>', t)
         t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
         t = re.sub(r"(?<![*\w])\*(?!\s)(.+?)(?<!\s)\*(?!\w)", r"<i>\1</i>", t)
         t = re.sub(r"_\{([^}]*)\}", SUB + r"\1</sub>", t)
@@ -159,23 +167,27 @@ class TitleRule(Flowable):
 
     def draw(self):
         c = self.canv
-        c.setStrokeColor(BLUE); c.setLineWidth(1.6); c.line(0, 6, 28 * mm, 6)
-        c.setStrokeColor(BLUE_LINE); c.setLineWidth(0.6); c.line(28 * mm, 6, self.aw, 6)
+        c.setStrokeColor(C("accent_color")); c.setLineWidth(1.6); c.line(0, 6, 28 * mm, 6)
+        c.setStrokeColor(C("hairline")); c.setLineWidth(0.6); c.line(28 * mm, 6, self.aw, 6)
 
 
 def panel(content, tw, pad=7, number=None):
-    """Light-blue panel with a blue bar on the left (equations, code). With `number`, an equation
-    number sits on the right and an equal empty column on the left keeps the content centred."""
+    """Equation or code panel, drawn per eq_style: panel = tint + bar, bar = bar only, plain = neither.
+    With `number`, an equation number sits on the right and an equal empty column on the left
+    keeps the content centred."""
     if number is None:
         t = Table([[content]], colWidths=[tw])
     else:
         t = Table([["", content, Paragraph(f"({number})", SS["eqno"])]],
                   colWidths=[EQ_NUM_W, tw - 2 * EQ_NUM_W, EQ_NUM_W])
-    t.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, -1), BLUE_LL), ("LINEBEFORE", (0, 0), (0, -1), 2.2, BLUE),
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("TOPPADDING", (0, 0), (-1, -1), pad), ("BOTTOMPADDING", (0, 0), (-1, -1), pad),
-        ("LEFTPADDING", (0, 0), (-1, -1), 10), ("RIGHTPADDING", (0, 0), (-1, -1), 10)]))
+    sty = [("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+           ("TOPPADDING", (0, 0), (-1, -1), pad), ("BOTTOMPADDING", (0, 0), (-1, -1), pad),
+           ("LEFTPADDING", (0, 0), (-1, -1), 10), ("RIGHTPADDING", (0, 0), (-1, -1), 10)]
+    if TH["eq_style"] == "panel":
+        sty.append(("BACKGROUND", (0, 0), (-1, -1), C("eq_fill")))
+    if TH["eq_style"] in ("panel", "bar"):
+        sty.append(("LINEBEFORE", (0, 0), (0, -1), 2.2, C("eq_color")))
+    t.setStyle(TableStyle(sty))
     t.spaceBefore, t.spaceAfter = 3, 8
     return t
 
@@ -184,7 +196,7 @@ def note_box(content, tw):
     """Outlined white box, so a note never looks like an equation panel."""
     t = Table([[content]], colWidths=[tw])
     t.setStyle(TableStyle([
-        ("BOX", (0, 0), (-1, -1), 0.8, BLUE_LINE), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("BOX", (0, 0), (-1, -1), 0.8, C("hairline")), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ("TOPPADDING", (0, 0), (-1, -1), 7), ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
         ("LEFTPADDING", (0, 0), (-1, -1), 10), ("RIGHTPADDING", (0, 0), (-1, -1), 10)]))
     t.spaceBefore, t.spaceAfter = 3, 9
@@ -192,7 +204,7 @@ def note_box(content, tw):
 
 
 def cap_label(kind, n):
-    return f'<font name="Sans-Bold" color="{report_figs.INK}">{kind} {n}.</font>&nbsp; '
+    return f'<font name="Sans-Bold" color="{TH["text_color"]}">{kind} {n}.</font>&nbsp; '
 
 
 # ---------------------------------------------------------------- builder
@@ -207,13 +219,13 @@ class Report:
         self.n_fig = self.n_tab = self.n_eq = 0
 
     def equation(self, tex):
-        numbered = not re.search(r"\\(nonumber|notag)(?![a-zA-Z])", tex)
+        numbered = TH["eq_numbers"] and not re.search(r"\\(nonumber|notag)(?![a-zA-Z])", tex)
         tex = re.sub(r"\\(nonumber|notag)(?![a-zA-Z])", "", tex).strip()
         p = os.path.join(self.work, hashlib.md5(tex.encode()).hexdigest() + ".svg")
         max_w = self.tw - 2 * EQ_NUM_W - 8 * mm
         try:
             if not os.path.exists(p):
-                report_figs.equation(tex, p)
+                report_figs.equation(tex, p, color=TH["text_color"])
             e = Svg(p, scale=0.9)
             if e.w > max_w:
                 e = Svg(p, width=max_w)
@@ -250,11 +262,11 @@ class Report:
         tw = self.tw if full else min(self.tw, 95 * mm)
         cw = [tw * l / sum(lens) for l in lens]
         t = Table(data, colWidths=cw, hAlign="LEFT", repeatRows=1)
-        sty = [("BACKGROUND", (0, 0), (-1, 0), BLUE_L), ("LINEBELOW", (0, 0), (-1, 0), 1.0, BLUE),
-               ("LINEBELOW", (0, 1), (-1, -1), 0.4, BLUE_LINE), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        sty = [("BACKGROUND", (0, 0), (-1, 0), C("tint")), ("LINEBELOW", (0, 0), (-1, 0), 1.0, C("accent_color")),
+               ("LINEBELOW", (0, 1), (-1, -1), 0.4, C("hairline")), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
                ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
                ("LEFTPADDING", (0, 0), (-1, -1), 6), ("RIGHTPADDING", (0, 0), (-1, -1), 6)]
-        sty += [("BACKGROUND", (0, i), (-1, i), BLUE_LL) for i in range(2, len(data), 2)]
+        sty += [("BACKGROUND", (0, i), (-1, i), C("tint_light")) for i in range(2, len(data), 2)]
         t.setStyle(TableStyle(sty))
         t.spaceBefore, t.spaceAfter = 2, 10
         parts = []
@@ -266,7 +278,7 @@ class Report:
 
     def lst(self, items, ordered, start=1):
         fl = [ListItem(Paragraph(self.inline(x), SS["body"]), leftIndent=16) for x in items]
-        kw = dict(bulletFontName="Sans-Bold", bulletFontSize=9.4, bulletColor=BLUE, leftIndent=16)
+        kw = dict(bulletFontName="Sans-Bold", bulletFontSize=9.4, bulletColor=C("number_color"), leftIndent=16)
         if ordered:
             f = ListFlowable(fl, bulletType="1", start=start, bulletFormat="%s.", **kw)
         else:
@@ -280,14 +292,14 @@ class Report:
         out = [Paragraph(self.inline(title, False), SS["title"])]
         if m.get("subtitle"):
             out.append(Paragraph(self.inline(m["subtitle"], False), SS["subtitle"]))
-        bits = [m.get(k) for k in ("author", "date") if m.get(k)]
+        bits = [x for x in (TH["author"], m.get("date")) if x]
         if m.get("doc_no"):
             bits.append(f"Doc. No. {m['doc_no']}")
         if m.get("revision"):
             bits.append(f"Rev. {m['revision']}")
         if bits:
             out.append(Paragraph(" \u00b7 ".join(bits), SS["meta"]))
-        out.append(TitleRule())
+        out.append(TitleRule() if TH["title_rule"] else Spacer(1, 4))
         return out
 
     def parse(self, body):
@@ -316,8 +328,8 @@ class Report:
             hm = re.match(r"^(#{2,4}) (.*)", s)
             if hm:
                 flush()
-                txt = re.sub(r"^(\d+(?:\.\d+)*\.?)\s+",  # section number in the accent colour
-                             lambda m: f'<font color="{report_figs.BLUE}">{m.group(1)}</font>&nbsp;&nbsp;',
+                txt = re.sub(r"^(\d+(?:\.\d+)*\.?)\s+",  # section number in number_color
+                             lambda m: f'<font color="{TH["number_color"]}">{m.group(1)}</font>&nbsp;&nbsp;',
                              self.inline(hm.group(2), False))
                 story.append(Paragraph(txt, SS["h" + str(len(hm.group(1)))]))
                 i += 1; continue
@@ -374,7 +386,7 @@ class Report:
                 while i < len(L) and L[i].strip().startswith(">"):
                     buf.append(L[i].strip()[1:].strip()); i += 1
                 text = " ".join(buf)
-                label = "" if text.startswith("**") else f'<font name="Sans-Bold" color="{report_figs.BLUE_D}">Note.</font>&nbsp; '
+                label = "" if text.startswith("**") else f'<font name="Sans-Bold" color="{TH["accent_dark"]}">Note.</font>&nbsp; '
                 story.append(note_box(Paragraph(label + self.inline(text), SS["note"]), self.tw))
                 continue
             om = re.match(r"^(\d+)[.)] (.*)", s)
@@ -444,14 +456,14 @@ class Report:
         return out
 
 
-def make_canvas(meta, logo, page_w, page_h, ml, mr):
+def make_canvas(meta, page_w, page_h, ml, mr):
     short = meta.get("short_title") or meta.get("title", "")
     if meta.get("doc_no"):
         short = f"{short}  \u00b7  {meta['doc_no']}" + (f" Rev. {meta['revision']}" if meta.get("revision") else "")
-    left_foot = " \u00b7 ".join(x for x in (meta.get("author"), meta.get("date")) if x)
-    if meta.get("footer"):
-        left_foot = meta["footer"]
+    left_foot = TH["footer"] or " \u00b7 ".join(x for x in (TH["author"], meta.get("date")) if x)
+    logo = TH["logo"]
     lw_px, lh_px = PILImage.open(logo).size if logo else (1, 1)
+    muted, rule, hairline = C("muted_color"), TH["header_rule_color"], C("hairline")
 
     class NumberedCanvas(rl_canvas.Canvas):
         def __init__(self, *a, **k):
@@ -469,15 +481,17 @@ def make_canvas(meta, logo, page_w, page_h, ml, mr):
         def decorate(self, n):
             lh = 9.5 * mm
             y_logo = page_h - 10 * mm - lh
-            if logo:
-                self.drawImage(logo, ml, y_logo, lh * lw_px / lh_px, lh, mask="auto")
-            self.setFont("Sans", 8); self.setFillColor(MUTED)
-            self.drawRightString(page_w - mr, y_logo + 2.2 * mm, short)
-            self.setStrokeColor(BLUE); self.setLineWidth(0.9)
-            self.line(ml, y_logo - 2.6 * mm, page_w - mr, y_logo - 2.6 * mm)
-            self.setStrokeColor(BLUE_LINE); self.setLineWidth(0.5)
+            if TH["header"]:  # the top margin stays the same without it, so the layout does not move
+                if logo:
+                    self.drawImage(logo, ml, y_logo, lh * lw_px / lh_px, lh, mask="auto")
+                self.setFont("Sans", 8); self.setFillColor(muted)
+                self.drawRightString(page_w - mr, y_logo + 2.2 * mm, short)
+                if rule:
+                    self.setStrokeColor(colors.HexColor(rule)); self.setLineWidth(0.9)
+                    self.line(ml, y_logo - 2.6 * mm, page_w - mr, y_logo - 2.6 * mm)
+            self.setStrokeColor(hairline); self.setLineWidth(0.5)
             self.line(ml, 13 * mm, page_w - mr, 13 * mm)
-            self.setFont("Sans", 7.8); self.setFillColor(MUTED)
+            self.setFont("Sans", 7.8); self.setFillColor(muted)
             self.drawString(ml, 9 * mm, left_foot)
             self.drawRightString(page_w - mr, 9 * mm, f"Page {self._pageNumber} of {n}")
     return NumberedCanvas
@@ -488,46 +502,80 @@ def read_front_matter(md):
     if md.startswith("---"):
         end = md.find("\n---", 3)
         if end > 0:
-            for line in md[3:end].strip().split("\n"):
-                if ":" in line:
-                    k, v = line.split(":", 1)
-                    meta[k.strip().lower()] = v.strip().strip('"').strip("'")
+            meta = report_figs.parse_kv(md[3:end])
             md = md[end + 4:]
     return meta, md
+
+
+def report_theme(md_path, meta):
+    """Theme layers for one report: skill theme.yml, then the file named by `theme:` in the front
+    matter or report-theme.yml next to the report, then the front matter itself."""
+    base = os.path.dirname(os.path.abspath(md_path))
+    layers = [(report_figs.DEFAULT_THEME, report_figs.SKILL_DIR, report_figs.read_theme_file(report_figs.DEFAULT_THEME))]
+    proj = meta.get("theme")
+    if proj:
+        proj = proj if os.path.isabs(proj) else os.path.join(base, proj)
+        if not os.path.exists(proj):
+            sys.exit(f"Theme error: theme file not found: {proj} (theme: in the front matter)")
+    elif os.path.exists(os.path.join(base, report_figs.PROJECT_THEME)):
+        proj = os.path.join(base, report_figs.PROJECT_THEME)
+    if proj:
+        proj = os.path.normpath(proj)
+        layers.append((proj, os.path.dirname(proj), report_figs.read_theme_file(proj)))
+    layers.append((f"front matter of {os.path.basename(md_path)}", base, meta))
+    return report_figs.load_theme(layers)
+
+
+def show_theme(th, src):
+    def short(p):
+        if p == report_figs.DEFAULT_THEME:
+            return "skill theme.yml"
+        try:
+            return os.path.relpath(p) if os.path.isabs(p) else p
+        except ValueError:  # other drive on Windows
+            return p
+    for k in report_figs.THEME_KEYS:
+        v = th[k]
+        v = "on" if v is True else "off" if v is False else "none" if v is None else v
+        if k == "logo" and th[k]:
+            v = "skill assets/logo.png" if os.path.samefile(v, os.path.join(report_figs.SKILL_DIR, "assets", "logo.png")) else short(v)
+        if k == "footer" and not v:
+            v = "(author · date)"
+        print(f"{k:18} {v!s:24} {short(src[k])}")
 
 
 def build(md_path, out_pdf):
     md = open(md_path, encoding="utf-8").read()
     meta, body = read_front_matter(md)
+    th, _ = report_theme(md_path, meta)
+    apply_theme(th)
     line0 = md[:len(md) - len(body)].count("\n")
     paper = letter if meta.get("paper", "a4").lower() == "letter" else A4
     W, H = paper
     ml = mr = 22 * mm
     mt, mb = 28 * mm, 20 * mm
     tw = W - ml - mr
-    logo = meta.get("logo", DEFAULT_LOGO)
-    if logo.lower() == "none":
-        logo = None
-    else:
-        logo = logo if os.path.isabs(logo) else os.path.join(os.path.dirname(os.path.abspath(md_path)), logo) \
-            if not os.path.exists(logo) else logo
-        if not os.path.exists(logo):
-            sys.exit(f"Logo not found: {logo}")
     with tempfile.TemporaryDirectory(prefix="report_eq_") as work:  # equation SVGs, deleted after the build
         rep = Report(md_path, meta, tw, work, line0)
         story = rep.parse(body)
     title = meta.get("title") or next((l[2:] for l in body.split("\n") if l.startswith("# ")), "Report")
     meta.setdefault("title", title)
     doc = BaseDocTemplate(out_pdf, pagesize=paper, leftMargin=ml, rightMargin=mr, topMargin=mt,
-                          bottomMargin=mb, title=title, author=meta.get("author", ""))
+                          bottomMargin=mb, title=title, author=TH["author"])
     frame = Frame(ml, mb, tw, H - mt - mb, leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
     doc.addPageTemplates([PageTemplate(id="p", frames=[frame])])
-    doc.build(story, canvasmaker=make_canvas(meta, logo, W, H, ml, mr))
+    doc.build(story, canvasmaker=make_canvas(meta, W, H, ml, mr))
     print(f"Wrote {out_pdf}")
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("markdown"); ap.add_argument("output")
+    ap.add_argument("markdown"); ap.add_argument("output", nargs="?")
+    ap.add_argument("--show-theme", action="store_true", help="print the resolved theme and where each key came from, then exit")
     a = ap.parse_args()
-    build(a.markdown, a.output)
+    if a.show_theme:
+        show_theme(*report_theme(a.markdown, read_front_matter(open(a.markdown, encoding="utf-8").read())[0]))
+    elif a.output:
+        build(a.markdown, a.output)
+    else:
+        ap.error("give an output PDF path, or --show-theme")
