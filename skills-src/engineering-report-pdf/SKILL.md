@@ -10,7 +10,7 @@ This skill turns report content written in a simple Markdown dialect into a bran
 
 The default template, and why it looks this way:
 - **White page, navy-black text (`#16202E`) in IBM Plex Sans.** It prints well and reads like a formal engineering document. Plex keeps 0/O and 1/l/I distinct, which matters for part values and references.
-- **Logo blue (`#20A0E0`, the main tone of the NP logo gradient) is the only accent**: the header rule, links, table lines, the bar beside equations. Headings, section numbers and list numbers use the text color. Figures use the same palette, so the document reads as one piece.
+- **Logo blue (`#20A0E0`, the main tone of the NP logo gradient) is the only accent**: links, table lines, the bar beside equations. Headings, section numbers, list numbers and the header, footer and title-block lines use the text color (one setting, `header_rule_color`, same color and weight). Figures use the same palette, so the document reads as one piece.
 - **Small logo top-left on every page**, short title top-right, author and date bottom-left, "Page X of Y" bottom-right. The logo is small on purpose; keep it that size.
 - **Equations sit in numbered panels** so derivations are easy to scan and cite. Figures and tables are numbered too.
 
@@ -44,7 +44,7 @@ Three layers, each overriding the one before:
 2. `report-theme.yml` next to the report, or the file named by `theme: path.yml` in the front matter: a folder-wide style (for example a club logo and accent). `references/example-theme.yml` is a sample.
 3. Theme keys in the report's front matter: this report only.
 
-A logo path is relative to the file that sets it. Color keys take `text`, `accent`, `muted` or `#RRGGBB`; switches take `on` or `off`; `eq_style` takes `panel`, `bar` or `plain`. A typo or bad value stops the build with a one-line message naming the key and the file. `--show-theme` prints every resolved key and where it came from. Figures see layers 1 and 2 only, so put any color a figure must match in `report-theme.yml`.
+A logo path is relative to the file that sets it. Color keys take `text`, `accent`, `muted` or `#RRGGBB` (`header_rule_color` also takes `title`, its default, and `none`); switches take `on` or `off`; `eq_style` takes `panel`, `bar` or `plain`. A typo or bad value stops the build with a one-line message naming the key and the file. `--show-theme` prints every resolved key and where it came from. Figures see layers 1 and 2 only, so put any color a figure must match in `report-theme.yml`.
 
 ## Markdown dialect
 

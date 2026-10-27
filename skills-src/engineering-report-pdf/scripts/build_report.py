@@ -43,7 +43,7 @@ SS = {}                                 # paragraph styles built from TH
 SUB = '<sub rise="20%" size="72%">'     # ReportLab's default drops a subscript by half the font size
 SUP = '<super rise="38%" size="72%">'
 EQ_NUM_W = 14 * mm                      # width of the equation-number column (and its mirror on the left)
-HEADER_RULE_W = 0.9                     # line under the page header, and under the title block
+HEADER_RULE_W = 0.9                     # header line, footer line and the line under the title block
 
 
 def C(key):
@@ -464,7 +464,7 @@ def make_canvas(meta, page_w, page_h, ml, mr):
     left_foot = TH["footer"] or " \u00b7 ".join(x for x in (TH["author"], meta.get("date")) if x)
     logo = TH["logo"]
     lw_px, lh_px = PILImage.open(logo).size if logo else (1, 1)
-    muted, rule, hairline = C("muted_color"), TH["header_rule_color"], C("hairline")
+    muted, rule = C("muted_color"), TH["header_rule_color"]
 
     class NumberedCanvas(rl_canvas.Canvas):
         def __init__(self, *a, **k):
@@ -490,8 +490,9 @@ def make_canvas(meta, page_w, page_h, ml, mr):
                 if rule:
                     self.setStrokeColor(colors.HexColor(rule)); self.setLineWidth(HEADER_RULE_W)
                     self.line(ml, y_logo - 2.6 * mm, page_w - mr, y_logo - 2.6 * mm)
-            self.setStrokeColor(hairline); self.setLineWidth(0.5)
-            self.line(ml, 13 * mm, page_w - mr, 13 * mm)
+            if rule:  # footer line: same colour and weight as the header line
+                self.setStrokeColor(colors.HexColor(rule)); self.setLineWidth(HEADER_RULE_W)
+                self.line(ml, 13 * mm, page_w - mr, 13 * mm)
             self.setFont("Sans", 7.8); self.setFillColor(muted)
             self.drawString(ml, 9 * mm, left_foot)
             self.drawRightString(page_w - mr, 9 * mm, f"Page {self._pageNumber} of {n}")

@@ -99,16 +99,18 @@ def load_theme(layers):
             _fail(f"{k}: '{raw[k]}' must be #RRGGBB (set in {src[k]})")
     names = {"text": raw["text_color"].upper(), "accent": raw["accent_color"].upper(),
              "muted": raw["muted_color"].upper()}
-    for k in COLOR_KEYS:
+    for k in sorted(COLOR_KEYS, key=lambda k: k == "header_rule_color"):  # last: it may follow title_color
         v = raw[k].strip()
         if v.lower() in names:
             th[k] = names[v.lower()]
         elif hexre.match(v):
             th[k] = v.upper()
+        elif v.lower() == "title" and k == "header_rule_color":
+            th[k] = th["title_color"]
         elif v.lower() == "none" and k == "header_rule_color":
             th[k] = None
         else:
-            allowed = "text, accent, muted, #RRGGBB" + (" or none" if k == "header_rule_color" else "")
+            allowed = "text, accent, muted, #RRGGBB" + (", title or none" if k == "header_rule_color" else "")
             _fail(f"{k}: '{v}' must be {allowed} (set in {src[k]})")
     for k in SWITCH_KEYS:
         v = raw[k].lower()
