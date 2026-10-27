@@ -54,7 +54,7 @@ author: Natchanon Thuentham                          # theme key; any theme key 
 specs: Input = 15–28 V | Output = 12 V, 20 A | Controller = STM32G474   # key-figure panel, optional
 note: Schematic design only.                         # bottom-left line, optional
 license: CERN-OHL-S-2.0                              # bottom-right, optional
-cover_logo: logo_large.png                           # optional; default is the theme logo
+cover_logo: logo_large.svg                           # optional, .svg or .png; default is the vector assets/logo.svg
 page_stamp: on                                       # off removes the overall "n / N"
 ---
 

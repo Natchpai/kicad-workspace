@@ -24,6 +24,7 @@ try:
 except ImportError:
     sys.exit("pypdf missing: pip install -r requirements.txt (in the skill folder)")
 from PIL import Image as PILImage
+from reportlab.graphics import renderPDF
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, letter
 from reportlab.lib.units import mm
@@ -32,6 +33,7 @@ from reportlab.pdfgen import canvas
 
 import build_report  # registers the fonts (Sans, Sans-Bold, ...) on import
 import report_figs
+from svglib.svglib import svg2rlg
 
 BOOK_KEYS = ("title", "subtitle", "short_title", "date", "revision", "paper", "theme",
              "kicker", "project", "specs", "note", "license", "cover_logo", "page_stamp")
@@ -63,6 +65,32 @@ def read_book(path):
     if not reports:
         fail(f"no reports listed in {os.path.basename(path)}; add lines like '- 01_Intro/report.md'")
     return meta, reports
+
+
+def fix_svg_gradients(drawing, path):
+    """svglib ignores gradientTransform on a userSpaceOnUse linearGradient, so a gradient defined
+    on a unit vector and placed by its transform (as Affinity exports it) collapses to its last
+    colour. Apply the matrix to the gradient end points; gradients are matched by their stops."""
+    import xml.etree.ElementTree as ET
+    fixes = {}
+    for g in ET.parse(path).getroot().iter("{http://www.w3.org/2000/svg}linearGradient"):
+        m = re.match(r"\s*matrix\(([^)]*)\)", g.get("gradientTransform", ""))
+        if not m or g.get("gradientUnits") != "userSpaceOnUse":
+            continue
+        a, b, c, d, e, f = (float(v) for v in re.split(r"[\s,]+", m.group(1).strip()))
+        x1, y1, x2, y2 = (float(g.get(k, dflt)) for k, dflt in (("x1", 0), ("y1", 0), ("x2", 1), ("y2", 0)))
+        stops = tuple(round(float(s.get("offset", 0)), 4) for s in g.iter("{http://www.w3.org/2000/svg}stop"))
+        fixes[stops] = (a * x1 + c * y1 + e, b * x1 + d * y1 + f, a * x2 + c * y2 + e, b * x2 + d * y2 + f)
+
+    def walk(node):
+        for ch in getattr(node, "contents", []):
+            if type(ch).__name__ == "LinearGradientShape":
+                end = fixes.get(tuple(round(p, 4) for p in ch._positions))
+                if end:
+                    ch._x0, ch._y0, ch._x1, ch._y1 = end
+            walk(ch)
+    if fixes:
+        walk(drawing)
 
 
 def plain(s):
@@ -101,8 +129,17 @@ class Book:
         self.tint = colors.HexColor(th["tint_light"])
         self.rule = colors.HexColor(th["header_rule_color"]) if th["header_rule_color"] else None
         self.logo = th["logo"]
+        # Cover logo: cover_logo key, else the vector assets/logo.svg while the theme uses the
+        # skill's own logo, else the theme logo (a custom theme keeps its own logo).
         cl = meta.get("cover_logo")
-        self.cover_logo = (os.path.normpath(os.path.join(meta["_base"], cl)) if cl else self.logo)
+        assets = os.path.join(report_figs.SKILL_DIR, "assets")
+        if cl:
+            self.cover_logo = os.path.normpath(os.path.join(meta["_base"], cl))
+        elif self.logo and os.path.samefile(self.logo, os.path.join(assets, "logo.png")) \
+                and os.path.exists(os.path.join(assets, "logo.svg")):
+            self.cover_logo = os.path.join(assets, "logo.svg")
+        else:
+            self.cover_logo = self.logo
         if self.cover_logo and not os.path.exists(self.cover_logo):
             fail(f"cover_logo not found: {self.cover_logo}")
         self.short = meta.get("short_title") or meta.get("title", "")
@@ -111,11 +148,23 @@ class Book:
         self.left_foot = th["footer"] or " · ".join(x for x in (th["author"], meta.get("date")) if x)
 
     def _img(self, c, path, x, y_top, w=None, h=None):
-        pw, ph = PILImage.open(path).size
+        """Draw a PNG/JPG, or an SVG as vector graphics, with its top-left corner at (x, y_top)."""
+        if path.lower().endswith(".svg"):
+            d = svg2rlg(path)
+            if d is None:
+                fail(f"cannot read SVG: {path}")
+            fix_svg_gradients(d, path)
+            pw, ph = d.width, d.height
+        else:
+            pw, ph = PILImage.open(path).size
         if w is None:
             w = h * pw / ph
         h = w * ph / pw
-        c.drawImage(path, x, y_top - h, w, h, mask="auto")
+        if path.lower().endswith(".svg"):
+            d.scale(w / pw, h / ph); d.width, d.height = w, h
+            renderPDF.draw(d, c, x, y_top - h)
+        else:
+            c.drawImage(path, x, y_top - h, w, h, mask="auto")
         return h
 
     def rule_line(self, c, y):
