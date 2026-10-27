@@ -26,10 +26,11 @@ PROJECT_THEME = "report-theme.yml"
 
 COLOR_KEYS = ("text_color", "accent_color", "muted_color", "heading_color", "number_color",
               "eq_color", "header_rule_color", "title_color")
-SWITCH_KEYS = ("eq_numbers", "header", "title_rule")
-THEME_KEYS = ("author", "logo", "footer", "eq_style") + COLOR_KEYS + SWITCH_KEYS
+SWITCH_KEYS = ("eq_numbers", "header", "title_rule", "cover")
+THEME_KEYS = ("author", "logo", "footer", "eq_style", "cover_logo") + COLOR_KEYS + SWITCH_KEYS
 REPORT_KEYS = ("title", "subtitle", "short_title", "date", "doc_no", "revision", "paper",
-               "subscripts", "italic_titles", "theme")
+               "subscripts", "italic_titles", "theme",
+               "kicker", "project", "specs", "note", "license")   # the last five fill the cover page
 EQ_STYLES = ("panel", "bar", "plain")
 
 
@@ -56,11 +57,19 @@ def _fail(msg):
     sys.exit(f"Theme error: {msg}")
 
 
-def check_keys(d, where):
+def check_keys(d, where, extra=()):
+    known = THEME_KEYS + REPORT_KEYS + tuple(extra)
     for k in d:
-        if k not in THEME_KEYS + REPORT_KEYS:
-            near = difflib.get_close_matches(k, THEME_KEYS + REPORT_KEYS, n=1)
+        if k not in known:
+            near = difflib.get_close_matches(k, known, n=1)
             _fail(f"unknown key '{k}' in {where}" + (f" (did you mean '{near[0]}'?)" if near else ""))
+
+
+def parse_switch(v, key, where):
+    """on/off (also true/false, yes/no) -> bool; anything else stops with the key and its source."""
+    if v.lower() not in ("on", "off", "true", "false", "yes", "no"):
+        _fail(f"{key}: '{v}' must be on or off (set in {where})")
+    return v.lower() in ("on", "true", "yes")
 
 
 def _mix(hex_color, f, toward="#FFFFFF"):
@@ -85,13 +94,17 @@ def load_theme(layers):
         _fail(f"{DEFAULT_THEME} is missing {', '.join(missing)}")
 
     th = {"author": raw["author"], "footer": raw["footer"]}
-    logo = raw["logo"]
-    if logo.lower() == "none":
-        th["logo"] = None
-    else:
-        th["logo"] = logo if os.path.isabs(logo) else os.path.normpath(os.path.join(base["logo"], logo))
-        if not os.path.exists(th["logo"]):
-            _fail(f"logo not found: {th['logo']} (logo: {logo}, set in {src['logo']})")
+
+    def path_key(k):  # a file path relative to the file that sets it
+        v = raw[k].strip()
+        p = v if os.path.isabs(v) else os.path.normpath(os.path.join(base[k], v))
+        if not os.path.isfile(p):
+            _fail(f"{k} not found: {p} ({k}: {v}, set in {src[k]})")
+        return p
+    th["logo"] = None if raw["logo"].strip().lower() in ("", "none") else path_key("logo")
+    # cover_logo: None = automatic (see page_layout.cover_logo), "" = no logo, else a file
+    cl = raw["cover_logo"].strip().lower()
+    th["cover_logo"] = None if cl == "" else "" if cl == "none" else path_key("cover_logo")
 
     hexre = re.compile(r"^#[0-9A-Fa-f]{6}$")
     for k in ("text_color", "accent_color", "muted_color"):
@@ -113,10 +126,7 @@ def load_theme(layers):
             allowed = "text, accent, muted, #RRGGBB" + (", title or none" if k == "header_rule_color" else "")
             _fail(f"{k}: '{v}' must be {allowed} (set in {src[k]})")
     for k in SWITCH_KEYS:
-        v = raw[k].lower()
-        if v not in ("on", "off", "true", "false", "yes", "no"):
-            _fail(f"{k}: '{raw[k]}' must be on or off (set in {src[k]})")
-        th[k] = v in ("on", "true", "yes")
+        th[k] = parse_switch(raw[k], k, src[k])
     th["eq_style"] = raw["eq_style"].lower()
     if th["eq_style"] not in EQ_STYLES:
         _fail(f"eq_style: '{raw['eq_style']}' must be {', '.join(EQ_STYLES)} (set in {src['eq_style']})")
@@ -129,14 +139,16 @@ def load_theme(layers):
 
 
 def read_theme_file(path):
-    with open(path, encoding="utf-8") as f:
+    with open(path, encoding="utf-8-sig") as f:
         return parse_kv(f.read())
 
 
 def default_layers():
-    """The skill defaults, then report-theme.yml in the current folder if there is one."""
+    """The skill defaults, then report-theme.yml in the current folder if there is one. The page
+    builders set REPORT_FIGS_SKILL_THEME_ONLY: they resolve their own layers and use only the
+    figure helpers from here, so a theme file in the current folder must not affect them."""
     layers = [(DEFAULT_THEME, SKILL_DIR, read_theme_file(DEFAULT_THEME))]
-    if os.path.exists(PROJECT_THEME):
+    if os.path.exists(PROJECT_THEME) and not os.environ.get("REPORT_FIGS_SKILL_THEME_ONLY"):
         p = os.path.abspath(PROJECT_THEME)
         layers.append((p, os.path.dirname(p), read_theme_file(p)))
     return layers

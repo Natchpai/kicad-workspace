@@ -1,6 +1,6 @@
 ---
 name: engineering-report-pdf
-description: Build a PDF engineering document in Natchanon's NP template (small NP logo in the header, IBM Plex text, navy text with a logo-blue accent, numbered LaTeX equations in panels, numbered figures and tables, "Page X of Y" footer). Use for a design, calculation or test report, technical memo, specification or any engineering write-up delivered as a PDF, for "my template", "the NP template" or "same style as before", or to export a report or Claude Doc to a styled PDF.
+description: Build a PDF engineering document in Natchanon's NP template (small NP logo in the header, IBM Plex text, navy text with a logo-blue accent, numbered LaTeX equations in panels, numbered figures and tables, "Page X of Y" footer). Use for a design, calculation or test report, technical memo, specification or any engineering write-up delivered as a PDF, for "my template", "the NP template" or "same style as before", to export a report or Claude Doc to a styled PDF, or to combine several reports into one PDF with a cover page and table of contents.
 disable-model-invocation: true
 ---
 
@@ -18,9 +18,17 @@ The default template, and why it looks this way:
 
 `<skill>` below means the folder that holds this SKILL.md (e.g. `~/.claude/skills/engineering-report-pdf` in Claude Code).
 
-0. **Choose the style, before any content work.** Run `python <skill>/scripts/build_report.py <report.md> --show-theme` (on a stub with just the front matter if the report does not exist yet) and tell the user which theme applies now: the skill default, or a `report-theme.yml` / `theme:` file already in the folder. Then ask once (AskUserQuestion when the host has it): **default** or **custom** style?
-   - Default: write no theme keys.
-   - Custom: ask which groups to change, then only those values: identity (`author`, `logo`, `footer`), colors (`text_color`, `accent_color`, `muted_color`, `heading_color`, `number_color`), equations (`eq_style`, `eq_color`, `eq_numbers`), page header and title block (`header`, `header_rule_color`, `title_color`, `title_rule`). Then ask where to save them: **this report only** (front matter) or **every report in this folder** (`report-theme.yml`). Write them there and show `--show-theme` again before building.
+0. **Ask the setup questions, before any content work.** Run `python <skill>/scripts/build_report.py <report.md> --show-theme` (on a stub with just the front matter if the report does not exist yet) and tell the user which theme applies now: the skill default, or a `report-theme.yml` / `theme:` file already in the folder. Then ask these in one round (AskUserQuestion when the host has it):
+   1. Style: **default** or **custom**?
+   2. Cover page: **no** (default) or yes? Skip it for a book: a book always has a cover.
+   3. Page header (logo, short title and rule on every page): **on** (default) or off?
+   4. Document number and revision (`doc_no`, `revision`): the values, or none.
+
+   Then act on the answers:
+   - Default style: write no theme keys.
+   - Custom style: ask which groups to change, then only those values: identity (`author`, `logo`, `footer`), colors (`text_color`, `accent_color`, `muted_color`, `heading_color`, `number_color`), equations (`eq_style`, `eq_color`, `eq_numbers`), title block and lines (`header_rule_color`, `title_color`, `title_rule`). Then ask where to save them: **this report only** (front matter) or **every report in this folder** (`report-theme.yml`).
+   - Cover yes, or a book: ask a second round for the cover fields: `kicker` (small accent line above the title), `project`, `specs` (`Key = value | Key = value`), `note` (bottom-left), `license` (bottom-right) and `cover_logo` (default: the vector NP logo). Write only the fields the user gives.
+   - Write `cover: on`, `header: off`, `doc_no`, `revision` and the cover fields in the front matter, show `--show-theme` again, and only then start the content.
    - Edit `<skill>/theme.yml` only when the user asks to change the defaults themselves: it restyles every future report.
 1. **Get the content.** Write the report in Markdown (dialect below), next to its figures, in the user's working directory. If the content is in a Claude Doc, export the tab as Markdown, then replace each `[embedded content: …]` placeholder with a `![caption](figure.svg)` line pointing at a figure you regenerate.
 2. **Make figures as SVG** with `<skill>/scripts/report_figs.py` (vector, theme colors, mathtext labels). Run figure scripts from the report folder so they pick up its `report-theme.yml`. See "Figures" below.
@@ -36,6 +44,45 @@ The default template, and why it looks this way:
    ```
    It uses pypdfium2 and falls back to poppler's `pdftoppm`; if neither works, ask the user to open the PDF. On each page, check that every lead-in line (one ending in `:`) sits on the same page as the equation, figure or table after it, and that every "Eq. (n)" reference in the text matches the number printed beside that equation.
 5. **Deliver** the PDF: in claude.ai write it to `/mnt/user-data/outputs/` and call `present_files`; in Claude Code leave it in the working directory and give its path.
+
+## Combining reports
+
+When the user wants several reports in one file, write a `book.md` next to them and build it with `scripts/build_book.py`. It rebuilds every listed report (without their own covers), then adds a cover page, contents pages (each report with its `## N.` sections, page numbers and links), PDF bookmarks and an overall "n / N" page number in each footer. The book's theme (`report-theme.yml` next to `book.md`, or `theme:`, then theme keys in `book.md`) styles the cover and contents and sits under each report's own theme, so `author: Full Name` in `book.md` reaches every page. `--show-theme` works on a book too.
+
+```markdown
+---
+title: 2-Phase Interleaved Sync-Buck Converter      # cover title, wraps to 3 lines
+kicker: Schematic Design Reports                     # small accent line above the title
+subtitle: 24 V to 12 V at 20 A, 200 kHz per phase
+short_title: Schematic Design Reports                # header text on the contents pages
+project: LQRx                                        # cover top-right and header tag (doc_no wins if set)
+revision: 1.1
+date: Oct 28, 2026
+author: Natchanon Thuentham                          # theme key; any theme key may be set here
+specs: Input = 15–28 V | Output = 12 V, 20 A | Controller = STM32G474   # key-figure panel, optional
+note: Schematic design only.                         # bottom-left line, optional
+license: CERN-OHL-S-2.0                              # bottom-right, optional
+cover_logo: logo_large.svg                           # optional, .svg or .png; default is the vector assets/logo.svg
+page_stamp: on                                       # off removes the overall "n / N"
+---
+
+- 01_System/report.md        # reports in reading order, paths relative to book.md
+- 02_Power_Stage/report.md
+```
+
+```bash
+python <skill>/scripts/build_book.py book.md Combined.pdf
+```
+
+Then preview the cover and contents pages with `preview.py`, as in Workflow step 4: check that the title and the specs panel fit, and that every contents entry starts on the page it names. The build prints `WARNING: section … not found` when it could not place a `## N.` heading (the contents then repeats the previous page number), and `WARNING: cover title cut` when the title or subtitle is too long: shorten the text and rebuild. `references/example-book.md` is a one-report sample.
+
+## Cover on a single report
+
+`cover: on` in the front matter puts the same cover page before one report. It takes the cover fields above (`kicker`, `project`, `specs`, `note`, `license`, `cover_logo`) plus `title`, `subtitle`, `doc_no`, `revision`, `date` and the theme `author`. The cover has no header or footer, and the report pages still count from "Page 1 of N". `--cover on` or `--cover off` on the build command overrides the key for one build.
+
+## Changing the layout
+
+Every distance, font size and fixed word of the header, footer, cover and contents pages ("Contents", "Revision", "Page X of Y" …) is in `scripts/page_layout.py`, in `LAYOUT` and `LABELS`, one commented line each. Both builders read them, so one edit there changes reports and books alike. User choices (colors, logo, cover on or off) are theme keys instead: see "Theme".
 
 ## Theme
 
@@ -61,6 +108,7 @@ italic_titles: Calculation Report: L-Match Network | Another Doc Title   # optio
 paper: a4                                 # a4 (default) or letter
 theme: ../club-theme.yml                  # optional; default is report-theme.yml in this folder, if present
 eq_style: bar                             # any theme key overrides the theme for this report only
+cover: on                                 # optional cover page (default off); see "Cover on a single report"
 ---
 
 Lead paragraph: state the result first.
@@ -105,7 +153,7 @@ Details that matter:
 - **Tables** with 10 rows or fewer are kept on one page. A `Table: caption` line directly above a table numbers and captions it. Two-column tables are drawn narrow; wider ones span the page.
 - **Figures**: `![caption](path){width=NN%}` (default 88%). Paths are relative to the Markdown file. SVG preferred; PNG and JPG accepted. An empty caption gives an unnumbered figure.
 - **Equations**: one per ```` ```latex ```` block (separate several with a blank line inside the block), or `$$ … $$`. Each gets a number, (1), (2) …, through the whole document; put `\nonumber` or `\notag` in an equation to leave it unnumbered. Cite them by hand as "Eq. (n)", and recheck those numbers after adding or removing an equation. Equations are rendered by matplotlib *mathtext*, not full LaTeX. `\frac` is upgraded to display-size `\dfrac` automatically; `\operatorname{}` and `\text{}` become `\mathrm{}`. Not supported: `\begin{aligned}`, `\begin{cases}`, matrices, `\boldsymbol`. Split a multi-line derivation into one equation per line.
-- **Fonts**: text is IBM Plex Sans (SemiBold for headings and bold), code is IBM Plex Mono, equations are Computer Modern (mathtext `cm`) so they read like LaTeX. Unicode symbols (Ω µ ≈ ≥ √ − ² · × ≫ ∝ ∠) are fine in text, tables and code: glyphs Plex lacks are drawn from the DejaVu fallback automatically, so type the real symbol.
+- **Fonts**: text is IBM Plex Sans (SemiBold for headings and bold), code is IBM Plex Mono, equations are Computer Modern (mathtext `cm`) so they read like LaTeX. Unicode symbols (Ω µ ≈ ≥ √ − ² · × ≫ ∝ ∠) are fine in text, tables, code, headers and the cover: glyphs Plex lacks are drawn from the DejaVu fallback automatically, so type the real symbol. No bundled font covers Thai or CJK script.
 
 ## Figures
 
