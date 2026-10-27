@@ -23,6 +23,6 @@ eq_numbers: on                 # (1), (2) ... on the right; \nonumber skips one 
 
 # Page header and title block
 header: on                     # logo, short title and rule at the top of every page
-header_rule_color: accent      # rule under the header; none hides it
+header_rule_color: title       # header, footer and title-block lines; title = title_color, none hides them
 title_color: text              # report title on page 1
 title_rule: on                 # line under the title block, same as the header rule
