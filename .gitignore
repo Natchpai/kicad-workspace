@@ -8,3 +8,4 @@ libDump/
 /fp-lib-table.bak
 /sym-lib-table
 *.bak
+/testReports

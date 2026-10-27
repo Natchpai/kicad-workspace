@@ -2,16 +2,22 @@
 """Build a branded engineering-report PDF from a Markdown file.
 
 Usage:
-    python build_report.py report.md out.pdf
-    python build_report.py report.md out.pdf --cover on    # override the cover key for this build
-    python build_report.py report.md --show-theme          # resolved theme and the source of each key
+    python build_report.py report.md out.pdf                     # cover, contents, report (pages: full)
+    python build_report.py report.md out.pdf --pages content     # the report only (or cover: cover + report)
+    python build_report.py report.md out.pdf --set eq_style=bar --set header=off
+    python build_report.py report.md out.pdf --strict --preview preview
+    python build_report.py report.md --show-theme                # resolved theme and the source of each key
+
+--set KEY=VALUE takes any theme or front-matter key for this build only, above every file.
+--strict exits with code 1 when the build printed a warning. --preview DIR renders the pages
+(--sheet N tiles them N per image).
 
 See ../SKILL.md for the Markdown dialect (front matter, equations, figures, tables, notes).
-Page geometry, the header, footer and cover page, and fixed words live in page_layout.py.
+Sizes, distances, the header, footer and cover page, and fixed words live in page_layout.py.
 Requires: pip install -r requirements.txt  (reportlab, matplotlib, svglib, pillow, numpy, fonttools).
 Fonts (IBM Plex Sans and Mono, DejaVu Sans fallback) are bundled in ../assets/fonts, so it runs the same on Linux, macOS and Windows.
 """
-import argparse, hashlib, os, re, subprocess, sys, tempfile
+import argparse, hashlib, os, re, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -19,7 +25,6 @@ sys.path.insert(0, HERE)
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_RIGHT
 from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfgen import canvas as rl_canvas
 from reportlab.platypus import (BaseDocTemplate, Flowable, Frame, Image, KeepTogether, ListFlowable,
@@ -34,17 +39,22 @@ except ImportError:
 os.environ["REPORT_FIGS_SKILL_THEME_ONLY"] = "1"  # see report_figs.default_layers
 import report_figs
 import page_layout  # registers the fonts (Sans, Sans-Bold, Mono, Fallback) on import
-from page_layout import LABELS, LAYOUT, MONO_CMAP, with_fallback
+from page_layout import BLOCKS, LABELS, LAYOUT, MONO_CMAP, STYLES, warn, with_fallback
 
 # ---------------------------------------------------------------- theme
 # Colours, logo and switches come from report_figs.load_theme() (theme.yml, report-theme.yml,
-# front matter). apply_theme() fills TH and SS before a report is parsed.
+# front matter, --set). apply_theme() fills TH and SS before a report is parsed.
 TH = {}                                 # resolved theme of the report being built
-SS = {}                                 # paragraph styles built from TH
-SUB = '<sub rise="20%" size="72%">'     # ReportLab's default drops a subscript by half the font size
-SUP = '<super rise="38%" size="72%">'
-EQ_NUM_W = 14 * mm                      # width of the equation-number column (and its mirror on the left)
-EQ_SIZE = 11.5                          # display equation font size in pt (body text is 10 pt)
+SS = {}                                 # paragraph styles built from TH and page_layout.STYLES
+B = BLOCKS
+SUB = f'<sub rise="{B.sub_rise}" size="{B.script_size}">'   # ReportLab's default drops a subscript by half the font size
+SUP = f'<super rise="{B.sup_rise}" size="{B.script_size}">'
+EQ_LANGS = ("latex", "math", "tex")     # fenced blocks that hold equations
+NONUMBER = r"\\(nonumber|notag)(?![a-zA-Z])"
+LABEL = r"\\label\{([^}]*)\}"           # \label{key} in an equation ...
+REF = r"\(@([\w:.-]+)\)"                # ... and (@key) in the text becomes its number, (3)
+EQ_CITE = r"\b(?:Eqs?\.|Equations?)\s*\((\d+)\)"   # a number written by hand, checked against the count
+CMDLINE = "command line (--set)"
 
 
 def C(key):
@@ -54,24 +64,16 @@ def C(key):
 def apply_theme(th):
     TH.clear(); TH.update(th)
     ink, muted, head = C("text_color"), C("muted_color"), C("heading_color")
-    SS.clear(); SS.update({
-        "title": ParagraphStyle("title", fontName="Sans-Bold", fontSize=19, leading=24, textColor=C("title_color"), spaceAfter=3),
-        "subtitle": ParagraphStyle("subtitle", fontName="Sans", fontSize=11.5, leading=15, textColor=muted, spaceAfter=4),
-        "meta": ParagraphStyle("meta", fontName="Sans", fontSize=9, leading=12, textColor=muted, spaceAfter=8),
-        "h2": ParagraphStyle("h2", fontName="Sans-Bold", fontSize=13.5, leading=18, textColor=head, spaceBefore=16, spaceAfter=6, keepWithNext=1),
-        "h3": ParagraphStyle("h3", fontName="Sans-Bold", fontSize=11, leading=15, textColor=head, spaceBefore=10, spaceAfter=4, keepWithNext=1),
-        "h4": ParagraphStyle("h4", fontName="Sans-Bold", fontSize=10, leading=14, textColor=C("accent_dark"), spaceBefore=8, spaceAfter=3, keepWithNext=1),
-        "body": ParagraphStyle("body", fontName="Sans", fontSize=10, leading=14.8, textColor=ink, spaceAfter=6.5),
-        "cell": ParagraphStyle("cell", fontName="Sans", fontSize=9, leading=12.4, textColor=ink),
-        "cellh": ParagraphStyle("cellh", fontName="Sans-Bold", fontSize=9, leading=12.4, textColor=ink),
-        "cap": ParagraphStyle("cap", fontName="Sans", fontSize=8.5, leading=11.5, textColor=muted,
-                              alignment=TA_CENTER, spaceBefore=4, spaceAfter=10),
-        "tcap": ParagraphStyle("tcap", fontName="Sans", fontSize=8.5, leading=11.5, textColor=muted, spaceBefore=4, spaceAfter=4,
-                               keepWithNext=1),
-        "code": ParagraphStyle("code", fontName="Mono", fontSize=8.3, leading=11.2, textColor=ink),
-        "note": ParagraphStyle("note", fontName="Sans", fontSize=9.4, leading=13.6, textColor=ink),
-        "eqno": ParagraphStyle("eqno", fontName="Sans", fontSize=9.5, leading=12, textColor=muted, alignment=TA_RIGHT),
-    })
+    color = dict(title=C("title_color"), h2=head, h3=head, h4=C("accent_dark"),
+                 **{k: muted for k in ("subtitle", "meta", "cap", "tcap", "eqno")})
+    extra = dict(h2=dict(keepWithNext=1), h3=dict(keepWithNext=1), h4=dict(keepWithNext=1),
+                 tcap=dict(keepWithNext=1), cap=dict(alignment=TA_CENTER), eqno=dict(alignment=TA_RIGHT))
+    SS.clear()
+    for name, s in STYLES.items():
+        SS[name] = ParagraphStyle(name, fontName=s["font"], fontSize=s["size"], leading=s["leading"],
+                                  spaceBefore=s.get("before", 0), spaceAfter=s.get("after", 0),
+                                  textColor=color.get(name, ink), **extra.get(name, {}))
+    SS["cellh"] = ParagraphStyle("cellh", parent=SS["cell"], fontName="Sans-Bold")
 
 
 # ---------------------------------------------------------------- inline markup
@@ -81,8 +83,17 @@ class Inline:
         self.re = (re.compile(r"(?<![A-Za-z0-9])(" + "|".join(map(re.escape, self.subs)) + r")(?![A-Za-z0-9])")
                    if self.subs else None)
         self.italic = italic_phrases
+        self.labels = {}  # equation label -> number, filled by Report.number_equations
+
+    def ref(self, m):
+        n = self.labels.get(m.group(1))
+        if n is None:
+            warn(f"equation label (@{m.group(1)}) not found; printed as (??)")
+            return "(??)"
+        return f"({n})"
 
     def __call__(self, t, italic_phrases=True):
+        t = re.sub(REF, self.ref, t)
         t = t.replace("\\|", "|").replace("\\*", "\u0000AST\u0000").replace("\\_", "\u0000US\u0000")
         t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         codes, urls = [], []  # kept out of the markup passes below, put back at the end
@@ -102,6 +113,34 @@ class Inline:
         t = re.sub(r"\u0000U(\d+)\u0000", lambda m: urls[int(m.group(1))], t)
         return re.sub(r"\u0000C(\d+)\u0000",  # code: Plex Mono lacks some glyphs Plex Sans has (\u03a9)
                       lambda m: f'<font name="Mono">{with_fallback(codes[int(m.group(1))], MONO_CMAP)}</font>', t)
+
+
+# ---------------------------------------------------------------- block readers
+# Shared by Report.parse and the equation pre-pass, so both see the same equations in the same order.
+def read_fence(L, i, line0):
+    """Fenced block opening at line i: (lang, lines inside, index after the closing fence)."""
+    lang, j = L[i].strip()[3:].strip().lower(), i + 1
+    while j < len(L) and not L[j].strip().startswith("```"):
+        j += 1
+    if j >= len(L):
+        sys.exit(f"Unclosed ``` starting at line {line0 + i + 1}")
+    return lang, L[i + 1:j], j + 1
+
+
+def read_dollars(L, i, line0):
+    """$$ ... $$ equation opening at line i: (TeX, index after the closing $$)."""
+    buf, j = [L[i].strip()[2:]], i
+    while not buf[-1].rstrip().endswith("$$"):
+        j += 1
+        if j >= len(L):
+            sys.exit(f"Unclosed $$ starting at line {line0 + i + 1}")
+        buf.append(L[j].strip())
+    return " ".join(buf).rstrip()[:-2], j + 1
+
+
+def split_equations(buf):
+    """Equations of a latex block: separated by a blank line, each joined into one line."""
+    return [" ".join(eq.split("\n")) for eq in "\n".join(buf).split("\n\n") if eq.strip()]
 
 
 # ---------------------------------------------------------------- flowables
@@ -128,15 +167,15 @@ class Svg(Flowable):
 class TitleRule(Flowable):
     def wrap(self, aw, ah):
         self.aw = aw
-        return aw, 10
+        return aw, B.title_rule_h
 
     def draw(self):
         c = self.canv  # same full-width line as the header rule above the title
         c.setStrokeColor(colors.HexColor(TH["header_rule_color"]))
-        c.setLineWidth(LAYOUT.rule_w); c.line(0, 6, self.aw, 6)
+        c.setLineWidth(LAYOUT.rule_w); c.line(0, B.title_rule_y, self.aw, B.title_rule_y)
 
 
-def panel(content, tw, pad=7, number=None):
+def panel(content, tw, pad=B.eq_pad, number=None):
     """Equation or code panel, drawn per eq_style: panel = tint + bar, bar = bar only, plain = neither.
     With `number`, an equation number sits on the right and an equal empty column on the left
     keeps the content centred."""
@@ -144,16 +183,16 @@ def panel(content, tw, pad=7, number=None):
         t = Table([[content]], colWidths=[tw])
     else:
         t = Table([["", content, Paragraph(f"({number})", SS["eqno"])]],
-                  colWidths=[EQ_NUM_W, tw - 2 * EQ_NUM_W, EQ_NUM_W])
+                  colWidths=[B.eq_num_w, tw - 2 * B.eq_num_w, B.eq_num_w])
     sty = [("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
            ("TOPPADDING", (0, 0), (-1, -1), pad), ("BOTTOMPADDING", (0, 0), (-1, -1), pad),
-           ("LEFTPADDING", (0, 0), (-1, -1), 10), ("RIGHTPADDING", (0, 0), (-1, -1), 10)]
+           ("LEFTPADDING", (0, 0), (-1, -1), B.panel_side), ("RIGHTPADDING", (0, 0), (-1, -1), B.panel_side)]
     if TH["eq_style"] == "panel":
         sty.append(("BACKGROUND", (0, 0), (-1, -1), C("eq_fill")))
     if TH["eq_style"] in ("panel", "bar"):
-        sty.append(("LINEBEFORE", (0, 0), (0, -1), 2.2, C("eq_color")))
+        sty.append(("LINEBEFORE", (0, 0), (0, -1), B.eq_bar, C("eq_color")))
     t.setStyle(TableStyle(sty))
-    t.spaceBefore, t.spaceAfter = 3, 8
+    t.spaceBefore, t.spaceAfter = B.panel_before, B.panel_after
     return t
 
 
@@ -161,10 +200,10 @@ def note_box(content, tw):
     """Outlined white box, so a note never looks like an equation panel."""
     t = Table([[content]], colWidths=[tw])
     t.setStyle(TableStyle([
-        ("BOX", (0, 0), (-1, -1), 0.8, C("hairline")), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("TOPPADDING", (0, 0), (-1, -1), 7), ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
-        ("LEFTPADDING", (0, 0), (-1, -1), 10), ("RIGHTPADDING", (0, 0), (-1, -1), 10)]))
-    t.spaceBefore, t.spaceAfter = 3, 9
+        ("BOX", (0, 0), (-1, -1), B.note_line, C("hairline")), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("TOPPADDING", (0, 0), (-1, -1), B.note_pad), ("BOTTOMPADDING", (0, 0), (-1, -1), B.note_pad),
+        ("LEFTPADDING", (0, 0), (-1, -1), B.note_side), ("RIGHTPADDING", (0, 0), (-1, -1), B.note_side)]))
+    t.spaceBefore, t.spaceAfter = B.note_before, B.note_after
     return t
 
 
@@ -183,19 +222,50 @@ class Report:
         self.inline = Inline(subs, italic)
         self.n_fig = self.n_tab = self.n_eq = 0
 
+    def number_equations(self, L):
+        """Pre-pass: the number of every \\label{key}, so (@key) works before its equation too, and
+        a check of numbers written by hand ("Eq. (7)") against the equation count."""
+        n, i, text = 0, 0, []
+        while i < len(L):
+            s, ln = L[i].strip(), self.line0 + i + 1
+            if s.startswith("```"):
+                lang, buf, i = read_fence(L, i, self.line0)
+                eqs = split_equations(buf) if lang in EQ_LANGS else []
+            elif s.startswith("$$"):
+                tex, i = read_dollars(L, i, self.line0)
+                eqs = [tex]
+            else:
+                text.append((ln, L[i])); i += 1
+                continue
+            for tex in eqs:
+                numbered = TH["eq_numbers"] and not re.search(NONUMBER, tex)
+                n += numbered
+                for key in re.findall(LABEL, tex):
+                    if not numbered:
+                        warn(f"line {ln}: \\label{{{key}}} is on an unnumbered equation; (@{key}) cannot cite it")
+                    elif key in self.inline.labels:
+                        warn(f"line {ln}: \\label{{{key}}} is used twice; (@{key}) gives the first")
+                    else:
+                        self.inline.labels[key] = n
+        for ln, t in text:
+            for m in re.finditer(EQ_CITE, t):
+                if int(m.group(1)) > n:
+                    warn(f"line {ln}: '{m.group(0)}' but the report has {n} numbered equations "
+                         f"(cite with \\label{{key}} and (@key) to keep numbers right)")
+
     def equation(self, tex):
-        numbered = TH["eq_numbers"] and not re.search(r"\\(nonumber|notag)(?![a-zA-Z])", tex)
-        tex = re.sub(r"\\(nonumber|notag)(?![a-zA-Z])", "", tex).strip()
+        numbered = TH["eq_numbers"] and not re.search(NONUMBER, tex)
+        tex = re.sub(LABEL, "", re.sub(NONUMBER, "", tex)).strip()
         p = os.path.join(self.work, hashlib.md5(tex.encode()).hexdigest() + ".svg")
-        max_w = self.tw - 2 * EQ_NUM_W - 8 * mm
+        max_w = self.tw - 2 * B.eq_num_w - B.eq_room
         try:
             if not os.path.exists(p):
-                report_figs.equation(tex, p, size=EQ_SIZE, color=TH["text_color"])
+                report_figs.equation(tex, p, size=B.eq_size, color=TH["text_color"])
             e = Svg(p, scale=1.0)
             if e.w > max_w:
                 e = Svg(p, width=max_w)
         except Exception as ex:  # mathtext could not parse: show the source rather than fail
-            print(f"WARNING: equation not rendered ({ex.__class__.__name__}): {tex}", file=sys.stderr)
+            warn(f"equation not rendered ({ex.__class__.__name__}): {tex}")
             e = Preformatted(tex, SS["code"])
         if numbered:
             self.n_eq += 1
@@ -212,30 +282,30 @@ class Report:
         else:
             iw, ih = page_layout.image_size(path)
             img = Image(path, width=w, height=w * ih / iw)
-        parts = [Spacer(1, 2), img]
+        parts = [Spacer(1, B.fig_before), img]
         if cap:
             self.n_fig += 1
             parts.append(Paragraph(cap_label("figure", self.n_fig) + self.inline(cap), SS["cap"]))
         else:
-            parts.append(Spacer(1, 8))
+            parts.append(Spacer(1, B.fig_after))
         return KeepTogether(parts)
 
     def table(self, rows, caption):
         """Flowables for one table (a list; empty, with a warning, if the table has no rows)."""
         if not rows:
-            print(f"WARNING: table with no rows skipped{f' ({caption})' if caption else ''}", file=sys.stderr)
+            warn(f"table with no rows skipped{f' ({caption})' if caption else ''}")
             return []
         n = max(len(r) for r in rows)
         rows = [r + [""] * (n - len(r)) for r in rows]
         data = [[Paragraph(self.inline(c), SS["cellh"] if i == 0 else SS["cell"]) for c in r]
                 for i, r in enumerate(rows)]
         lens = [max(6, max(len(r[j]) for r in rows)) for j in range(n)]
-        full = sum(lens) > 60 or n > 2
-        tw = self.tw if full else min(self.tw, 95 * mm)
+        full = sum(lens) > B.narrow_chars or n > 2
+        tw = self.tw if full else min(self.tw, B.narrow_w)
         # Column widths: each column gets at least its longest unbreakable token (a number keeps its
         # unit: "0.11 W"), then the space left goes to the columns with the most text.
         def text_w(s, font):
-            return pdfmetrics.stringWidth(re.sub(r"\*\*|\\|_\{|\}", "", s), font, SS["cell"].fontSize) + 12
+            return pdfmetrics.stringWidth(re.sub(r"\*\*|\\|_\{|\}", "", s), font, SS["cell"].fontSize) + 2 * B.cell_pad_h
         fonts = ["Sans-Bold"] + ["Sans"] * (len(rows) - 1)
         lo = [max(text_w(tok, f) for r, f in zip(rows, fonts) for tok in re.split(r"(?<![\d.]) ", r[j]))
               for j in range(n)]
@@ -247,23 +317,24 @@ class Report:
             k = (tw - sum(lo)) / (sum(hi) - sum(lo))
             cw = [l + k * (h - l) for l, h in zip(lo, hi)]
         t = Table(data, colWidths=cw, hAlign="LEFT", repeatRows=1)
-        sty = [("BACKGROUND", (0, 0), (-1, 0), C("tint")), ("LINEBELOW", (0, 0), (-1, 0), 1.0, C("accent_color")),
-               ("LINEBELOW", (0, 1), (-1, -1), 0.4, C("hairline")), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-               ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-               ("LEFTPADDING", (0, 0), (-1, -1), 6), ("RIGHTPADDING", (0, 0), (-1, -1), 6)]
+        sty = [("BACKGROUND", (0, 0), (-1, 0), C("tint")), ("LINEBELOW", (0, 0), (-1, 0), B.head_line, C("accent_color")),
+               ("LINEBELOW", (0, 1), (-1, -1), B.row_line, C("hairline")), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+               ("TOPPADDING", (0, 0), (-1, -1), B.cell_pad_v), ("BOTTOMPADDING", (0, 0), (-1, -1), B.cell_pad_v),
+               ("LEFTPADDING", (0, 0), (-1, -1), B.cell_pad_h), ("RIGHTPADDING", (0, 0), (-1, -1), B.cell_pad_h)]
         sty += [("BACKGROUND", (0, i), (-1, i), C("tint_light")) for i in range(2, len(data), 2)]
         t.setStyle(TableStyle(sty))
-        t.spaceBefore, t.spaceAfter = 2, 10
+        t.spaceBefore, t.spaceAfter = B.table_before, B.table_after
         parts = []
         if caption:
             self.n_tab += 1
             parts.append(Paragraph(cap_label("table", self.n_tab) + self.inline(caption), SS["tcap"]))
         parts.append(t)
-        return [KeepTogether(parts)] if len(rows) <= 10 else parts
+        return [KeepTogether(parts)] if len(rows) <= B.table_keep else parts
 
     def lst(self, items, ordered, start=1):
-        fl = [ListItem(Paragraph(self.inline(x), SS["body"]), leftIndent=16) for x in items]
-        kw = dict(bulletFontName="Sans-Bold", bulletFontSize=9.4, bulletColor=C("number_color"), leftIndent=16)
+        fl = [ListItem(Paragraph(self.inline(x), SS["body"]), leftIndent=B.list_indent) for x in items]
+        kw = dict(bulletFontName="Sans-Bold", bulletFontSize=B.bullet_size, bulletColor=C("number_color"),
+                  leftIndent=B.list_indent)
         if ordered:
             f = ListFlowable(fl, bulletType="1", start=start, bulletFormat="%s.", **kw)
         else:
@@ -285,11 +356,12 @@ class Report:
         if bits:
             esc = " \u00b7 ".join(bits).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
             out.append(Paragraph(with_fallback(esc), SS["meta"]))
-        out.append(TitleRule() if TH["title_rule"] and TH["header_rule_color"] else Spacer(1, 4))
+        out.append(TitleRule() if TH["title_rule"] and TH["header_rule_color"] else Spacer(1, B.title_gap))
         return out
 
     def parse(self, body):
         L = body.split("\n")
+        self.number_equations(L)
         story, i, title_done = [], 0, False
         para = []
 
@@ -300,6 +372,11 @@ class Report:
                 p._lead_in = text.rstrip().endswith(":")
                 story.append(p)
                 para.clear()
+
+        def nested(k, item_re):
+            if re.match(item_re, L[k].strip()):
+                warn(f"line {self.line0 + k + 1}: nested list item flattened (only one list level is "
+                     f"supported): {L[k].strip()}")
 
         while i < len(L):
             s = L[i].strip()
@@ -317,32 +394,29 @@ class Report:
                 txt = re.sub(r"^(\d+(?:\.\d+)*\.?)\s+",  # section number in number_color
                              lambda m: f'<font color="{TH["number_color"]}">{m.group(1)}</font>&nbsp;&nbsp;',
                              self.inline(hm.group(2), False))
-                story.append(Paragraph(txt, SS["h" + str(len(hm.group(1)))]))
+                p = Paragraph(txt, SS["h" + str(len(hm.group(1)))])
+                if len(hm.group(1)) == 2:
+                    p._heading = hm.group(2)  # ReportDoc records its page
+                story.append(p)
                 i += 1; continue
             if s.startswith("```"):
-                flush(); lang = s[3:].strip().lower(); j = i + 1; buf = []
-                while j < len(L) and not L[j].strip().startswith("```"):
-                    buf.append(L[j]); j += 1
-                if lang in ("latex", "math", "tex"):
-                    for eq in [e for e in "\n".join(buf).split("\n\n") if e.strip()]:
-                        story.append(self.equation(" ".join(eq.split("\n"))))
+                flush(); lang, buf, i = read_fence(L, i, self.line0)
+                if lang in EQ_LANGS:
+                    story += [self.equation(eq) for eq in split_equations(buf)]
                 else:
                     code = "\n".join(buf).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-                    story.append(panel(XPreformatted(with_fallback(code, MONO_CMAP), SS["code"]), self.tw, pad=6))  # Plex Mono lacks Ω, µ
-                i = j + 1; continue
+                    story.append(panel(XPreformatted(with_fallback(code, MONO_CMAP), SS["code"]), self.tw, pad=B.code_pad))  # Plex Mono lacks Ω, µ
+                continue
             if s.startswith("$$"):
-                flush(); buf = [s[2:]]; j = i
-                while not buf[-1].rstrip().endswith("$$"):
-                    j += 1
-                    if j >= len(L):
-                        sys.exit(f"Unclosed $$ starting at line {self.line0 + i + 1}")
-                    buf.append(L[j].strip())
-                tex = " ".join(buf).rstrip()[:-2]
-                story.append(self.equation(tex)); i = j + 1; continue
-            im = re.match(r"^!\[(.*?)\]\((.+?)\)(\{width=(\d+)%\})?$", s)
+                flush(); tex, i = read_dollars(L, i, self.line0)
+                story.append(self.equation(tex)); continue
+            im = re.match(r"^!\[(.*?)\]\((.+?)\)(\{width=(\d+(?:\.\d+)?)%\})?$", s)
             if im:
-                flush(); story.append(self.figure(im.group(2), im.group(1), int(im.group(4) or 88), self.line0 + i + 1))
+                flush(); story.append(self.figure(im.group(2), im.group(1), float(im.group(4) or B.fig_width), self.line0 + i + 1))
                 i += 1; continue
+            if s.startswith("!["):
+                warn(f"line {self.line0 + i + 1}: image line not understood, printed as text "
+                     f"(write ![caption](file.svg) or ![caption](file.svg){{width=NN%}} alone on the line)")
             cap, j = None, i
             if s.startswith("Table:") and i + 1 < len(L):
                 cap, j = s[6:].strip(), i + 1
@@ -370,15 +444,21 @@ class Report:
             if om:
                 flush(); start = int(om.group(1)); items = []
                 while i < len(L) and re.match(r"^\d+[.)] ", L[i].strip()):
+                    if L[i][:1].isspace():
+                        nested(i, r"^\d+[.)] ")
                     items.append(re.sub(r"^\d+[.)] ", "", L[i].strip())); i += 1
                     while i < len(L) and L[i].startswith("   ") and L[i].strip() and not re.match(r"^\d+[.)] ", L[i].strip()):
+                        nested(i, r"^[-*] ")
                         items[-1] += " " + L[i].strip(); i += 1
                 story.append(self.lst(items, True, start)); continue
             if re.match(r"^[-*] ", s):
                 flush(); items = []
                 while i < len(L) and re.match(r"^[-*] ", L[i].strip()):
+                    if L[i][:1].isspace():
+                        nested(i, r"^[-*] ")
                     items.append(L[i].strip()[2:]); i += 1
                     while i < len(L) and L[i].startswith("  ") and L[i].strip() and not re.match(r"^[-*] ", L[i].strip()):
+                        nested(i, r"^\d+[.)] ")
                         items[-1] += " " + L[i].strip(); i += 1
                 story.append(self.lst(items, False)); continue
             para.append(s); i += 1
@@ -433,9 +513,18 @@ class Report:
         return out
 
 
-def make_canvas(meta, page_w, page_h, cover=False):
+class ReportDoc(BaseDocTemplate):
+    """Records the page index of every ## heading as it is drawn (the book's contents use it)."""
+    def afterFlowable(self, f):
+        if hasattr(f, "_heading"):
+            self.headings.append((f._heading, self.page - 1))
+
+
+def make_canvas(meta, page_w, page_h, cover=False, offset=0):
     """Canvas class that draws the header and footer on every page once the page count is known.
-    With a cover, the first page gets neither and "Page 1 of N" starts on the page after it."""
+    With a cover, the first page gets neither and "Page 1 of N" starts on the page after it.
+    offset: pages that come before this PDF in the final file (cover and contents of pages: full),
+    counted in "Page X of Y"."""
     th, skip = dict(TH), 1 if cover else 0
     short, left_foot = page_layout.short_title(meta), page_layout.left_footer(th, meta)
 
@@ -447,12 +536,12 @@ def make_canvas(meta, page_w, page_h, cover=False):
             self._saved.append(dict(self.__dict__)); self._startPage()
 
         def save(self):
-            n = len(self._saved) - skip
+            n = len(self._saved) - skip + offset
             for i, st in enumerate(self._saved):
                 self.__dict__.update(st)
                 if i >= skip:
                     page_layout.draw_header_footer(self, th, page_w, page_h, short, left_foot,
-                                                   LABELS["page"].format(n=i + 1 - skip, total=n))
+                                                   LABELS["page"].format(n=i + 1 - skip + offset, total=n))
                 super().showPage()
             super().save()
     return NumberedCanvas
@@ -460,13 +549,34 @@ def make_canvas(meta, page_w, page_h, cover=False):
 
 def read_front_matter(md):
     meta = {}
-    md = md.lstrip("﻿")
+    md = md.lstrip("\ufeff")
     if md.startswith("---"):
         end = md.find("\n---", 3)
         if end > 0:
             meta = report_figs.parse_kv(md[3:end])
             md = md[end + 4:]
     return meta, md
+
+
+def doc_title(meta, body):
+    """Front matter title, else the first `# ` line outside code fences, else 'Report'."""
+    if meta.get("title"):
+        return meta["title"]
+    fence = False
+    for line in body.split("\n"):
+        if line.strip().startswith("```"):
+            fence = not fence
+        elif not fence and line.startswith("# "):
+            return line[2:].strip()
+    return "Report"
+
+
+def split_set(top):
+    """--set values -> (theme keys, other keys): the first go on top of the theme layers, the
+    second into the front matter."""
+    report_figs.check_keys(top, CMDLINE)
+    th = {k: v for k, v in top.items() if k in report_figs.THEME_KEYS}
+    return th, {k: v for k, v in top.items() if k not in th}
 
 
 def theme_layers(md_path, meta):
@@ -488,13 +598,15 @@ def theme_layers(md_path, meta):
     return layers
 
 
-def report_theme(md_path, meta, base_layers=()):
+def report_theme(md_path, meta, base_layers=(), top=None):
     """Resolved theme of one report: skill theme.yml, then base_layers (a book passes its own
-    layers), then the report's theme_layers(). A theme file already in base_layers is used once."""
+    layers), then the report's theme_layers(), then `top` (--set theme keys, paths relative to the
+    current folder). A theme file already in base_layers is used once."""
     default = (report_figs.DEFAULT_THEME, report_figs.SKILL_DIR, report_figs.read_theme_file(report_figs.DEFAULT_THEME))
     seen = {name for name, _, _ in base_layers}
     own = [l for l in theme_layers(md_path, meta) if l[0] not in seen]
-    return report_figs.load_theme([default, *base_layers, *own])
+    cmd = [(CMDLINE, os.getcwd(), top)] if top else []
+    return report_figs.load_theme([default, *base_layers, *own, *cmd])
 
 
 def show_theme(th, src):
@@ -511,7 +623,7 @@ def show_theme(th, src):
         v = th[k]
         v = "on" if v is True else "off" if v is False else "none" if v is None else v
         if k == "logo" and th[k]:
-            v = "skill assets/logo.png" if os.path.samefile(v, os.path.join(report_figs.SKILL_DIR, "assets", "logo.png")) else short(v)
+            v = "skill assets/logo.png" if page_layout.is_skill_logo(v) else short(v)
         if k == "cover_logo":
             v = "none" if th[k] == "" else short(th[k]) if th[k] else f"(auto: {short(page_layout.cover_logo(th) or 'none')})"
         if k == "footer" and not v:
@@ -519,26 +631,40 @@ def show_theme(th, src):
         print(f"{k:18} {v!s:24} {short(src[k])}")
 
 
-def build(md_path, out_pdf, cover=None, base_layers=()):
-    """Build one report. cover=None follows the `cover` theme key; True or False overrides it (a
-    book passes False). base_layers sit between the skill theme and the report's own theme."""
+def load_report(md_path, base_layers=(), top=None):
+    """(meta with the --set front-matter keys, body, resolved theme, source lines before the body)."""
     md = open(md_path, encoding="utf-8-sig").read()
     meta, body = read_front_matter(md)
-    th, _ = report_theme(md_path, meta, base_layers)
+    top_th, top_meta = split_set(top or {})
+    meta.update(top_meta)
+    th, _ = report_theme(md_path, meta, base_layers, top_th)
+    meta.setdefault("title", doc_title(meta, body))
+    return meta, body, th, md[:len(md) - len(body)].count("\n")
+
+
+def build(md_path, out_pdf, pages=None, base_layers=(), top=None, offset=0):
+    """Build one report and return [(## heading text, page index), ...] for its ## headings.
+    pages=None follows the `pages` theme key: full (cover, contents, report; assembled by
+    build_book.single), cover (cover page and report) or content (the report only; a book passes it).
+    base_layers sit between the skill theme and the report's own theme; top is the --set dict;
+    offset is the number of pages before the report in the final file."""
+    meta, body, th, line0 = load_report(md_path, base_layers, top)
+    pages = th["pages"] if pages is None else pages
+    if pages == "full":
+        import build_book
+        return build_book.single(md_path, out_pdf, base_layers, top)
     apply_theme(th)
-    cover = th["cover"] if cover is None else cover
-    line0 = md[:len(md) - len(body)].count("\n")
-    paper = page_layout.parse_paper(meta, f"front matter of {os.path.basename(md_path)}")
-    W, H = paper
+    cover = pages == "cover"
+    W, H = paper = page_layout.PAPERS[TH["paper"]]
     L = LAYOUT
     tw = W - L.margin_l - L.margin_r
     with tempfile.TemporaryDirectory(prefix="report_eq_") as work:  # equation SVGs, deleted after the build
         rep = Report(md_path, meta, tw, work, line0)
         story = rep.parse(body)
-    title = meta.get("title") or next((l[2:] for l in body.split("\n") if l.startswith("# ")), "Report")
-    meta.setdefault("title", title)
-    doc = BaseDocTemplate(out_pdf, pagesize=paper, leftMargin=L.margin_l, rightMargin=L.margin_r,
-                          topMargin=L.margin_t, bottomMargin=L.margin_b, title=title, author=TH["author"])
+    title = meta["title"]
+    doc = ReportDoc(out_pdf, pagesize=paper, leftMargin=L.margin_l, rightMargin=L.margin_r,
+                    topMargin=L.margin_t, bottomMargin=L.margin_b, title=title, author=TH["author"])
+    doc.headings = []
     frame = Frame(L.margin_l, L.margin_b, tw, H - L.margin_t - L.margin_b,
                   leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
     templates = [PageTemplate(id="p", frames=[frame])]
@@ -550,19 +676,28 @@ def build(md_path, out_pdf, cover=None, base_layers=()):
                                          page_layout.draw_cover(c, th_cover, meta, W, H, rows)))
         story = [NextPageTemplate("p"), PageBreak()] + story
     doc.addPageTemplates(templates)
-    doc.build(story, canvasmaker=make_canvas(meta, W, H, cover))
-    print(f"Wrote {out_pdf}")
+    doc.build(story, canvasmaker=make_canvas(meta, W, H, cover, offset))
+    return [(h, p - (1 if cover else 0)) for h, p in doc.headings]
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("markdown"); ap.add_argument("output", nargs="?")
-    ap.add_argument("--show-theme", action="store_true", help="print the resolved theme and where each key came from, then exit")
-    ap.add_argument("--cover", choices=("on", "off"), help="cover page on or off for this build (default: the cover key)")
+    ap.add_argument("--pages", choices=report_figs.CHOICES["pages"],
+                    help="full = cover, contents and report (default); cover = cover and report; "
+                         "content = the report only (short for --set pages=...)")
+    page_layout.add_options(ap)
     a = ap.parse_args()
+    top = page_layout.parse_set(a.set)
+    if a.pages:
+        top["pages"] = a.pages
     if a.show_theme:
-        show_theme(*report_theme(a.markdown, read_front_matter(open(a.markdown, encoding="utf-8-sig").read())[0]))
+        meta = read_front_matter(open(a.markdown, encoding="utf-8-sig").read())[0]
+        top_th, top_meta = split_set(top)
+        show_theme(*report_theme(a.markdown, {**meta, **top_meta}, top=top_th))
     elif a.output:
-        build(a.markdown, a.output, cover=None if a.cover is None else a.cover == "on")
+        build(a.markdown, a.output, top=top)
+        print(f"Wrote {a.output}")
+        page_layout.finish(a, a.output)
     else:
         ap.error("give an output PDF path, or --show-theme")

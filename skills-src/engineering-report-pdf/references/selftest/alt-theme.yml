@@ -1,0 +1,13 @@
+# Selftest theme for plain.md: every value differs from the skill default.
+logo: none
+footer: Plain style footer
+pages: content
+paper: letter
+eq_style: bar
+eq_numbers: off
+header: off
+header_rule_color: none
+title_rule: off
+accent_color: #0F8A5F
+number_color: accent
+heading_color: #333333

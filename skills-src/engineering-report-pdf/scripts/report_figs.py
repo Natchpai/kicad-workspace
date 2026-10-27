@@ -7,6 +7,7 @@ Import from a figure script:
 Everything saves to SVG (vector) so build_report.py can embed it sharply.
 """
 import difflib
+import logging
 import math
 import os
 import re
@@ -26,12 +27,14 @@ PROJECT_THEME = "report-theme.yml"
 
 COLOR_KEYS = ("text_color", "accent_color", "muted_color", "heading_color", "number_color",
               "eq_color", "header_rule_color", "title_color")
-SWITCH_KEYS = ("eq_numbers", "header", "title_rule", "cover")
-THEME_KEYS = ("author", "logo", "footer", "eq_style", "cover_logo") + COLOR_KEYS + SWITCH_KEYS
-REPORT_KEYS = ("title", "subtitle", "short_title", "date", "doc_no", "revision", "paper",
+SWITCH_KEYS = ("eq_numbers", "header", "title_rule")
+CHOICES = {"pages": ("full", "cover", "content"),                 # keys with a fixed set of values
+           "eq_style": ("panel", "bar", "plain"), "paper": ("a4", "letter")}
+RENAMED = {"cover": "pages: full, cover or content"}              # old key -> what replaced it
+THEME_KEYS = ("author", "logo", "footer", "cover_logo") + tuple(CHOICES) + COLOR_KEYS + SWITCH_KEYS
+REPORT_KEYS = ("title", "subtitle", "short_title", "date", "doc_no", "revision",
                "subscripts", "italic_titles", "theme",
                "kicker", "project", "specs", "note", "license")   # the last five fill the cover page
-EQ_STYLES = ("panel", "bar", "plain")
 
 
 def parse_kv(text):
@@ -60,6 +63,8 @@ def _fail(msg):
 def check_keys(d, where, extra=()):
     known = THEME_KEYS + REPORT_KEYS + tuple(extra)
     for k in d:
+        if k in RENAMED and k not in known:
+            _fail(f"key '{k}' in {where} is replaced by {RENAMED[k]}")
         if k not in known:
             near = difflib.get_close_matches(k, known, n=1)
             _fail(f"unknown key '{k}' in {where}" + (f" (did you mean '{near[0]}'?)" if near else ""))
@@ -127,9 +132,10 @@ def load_theme(layers):
             _fail(f"{k}: '{v}' must be {allowed} (set in {src[k]})")
     for k in SWITCH_KEYS:
         th[k] = parse_switch(raw[k], k, src[k])
-    th["eq_style"] = raw["eq_style"].lower()
-    if th["eq_style"] not in EQ_STYLES:
-        _fail(f"eq_style: '{raw['eq_style']}' must be {', '.join(EQ_STYLES)} (set in {src['eq_style']})")
+    for k, allowed in CHOICES.items():
+        th[k] = raw[k].strip().lower()
+        if th[k] not in allowed:
+            _fail(f"{k}: '{raw[k]}' must be {', '.join(allowed)} (set in {src[k]})")
 
     acc, eq = th["accent_color"], th["eq_color"]
     th.update(accent_dark=_mix(acc, 0.82, "#000000"), tint=_mix(acc, 0.11), tint_light=_mix(acc, 0.05),
@@ -177,6 +183,9 @@ if os.path.isdir(_FD):
     for _f in os.listdir(_FD):
         if _f.endswith(".ttf"):
             _fm.fontManager.addfont(os.path.join(_FD, _f))
+
+# weight="semibold" also asks the DejaVu fallback, which has no semibold, for every label: quiet that
+logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
 
 plt.rcParams.update({
     "font.family": ["IBM Plex Sans", "DejaVu Sans"],

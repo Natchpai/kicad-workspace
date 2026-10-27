@@ -1,9 +1,9 @@
-"""Page drawing shared by build_report.py and build_book.py: fonts, header and footer, images and
-the cover page.
+"""Page drawing shared by build_report.py and build_book.py: fonts, header and footer, images,
+the cover page, warnings and the command-line options both builders share.
 
-LAYOUT and LABELS below are the only place page geometry and fixed words are written. Change a
-value there and both builders follow. User choices (colours, logo, cover on or off) are theme keys
-in ../theme.yml, not values here.
+LAYOUT, STYLES, BLOCKS and LABELS below are the only place sizes, distances and fixed words are
+written. Change a value there and both builders follow. User choices (colours, logo, paper,
+pages) are theme keys in ../theme.yml, not values here.
 """
 import os, re, sys
 import xml.etree.ElementTree as ET
@@ -67,6 +67,48 @@ LAYOUT = SimpleNamespace(
     stamp_y=9 * mm, stamp_size=7.8,
 )
 
+# ---------------------------------------------------------------- report body text
+# Paragraph styles: font, size and leading in pt, space before and after in pt. Colours come from
+# the theme (build_report.apply_theme).
+STYLES = dict(
+    title=dict(font="Sans-Bold", size=19, leading=24, after=3),             # report title, page 1
+    subtitle=dict(font="Sans", size=11.5, leading=15, after=4),
+    meta=dict(font="Sans", size=9, leading=12, after=8),                    # author · date · doc no. line
+    h2=dict(font="Sans-Bold", size=13.5, leading=18, before=16, after=6),
+    h3=dict(font="Sans-Bold", size=11, leading=15, before=10, after=4),
+    h4=dict(font="Sans-Bold", size=10, leading=14, before=8, after=3),
+    body=dict(font="Sans", size=10, leading=14.8, after=6.5),
+    cell=dict(font="Sans", size=9, leading=12.4),                           # table cells; header row in bold
+    cap=dict(font="Sans", size=8.5, leading=11.5, before=4, after=10),      # figure caption, centred
+    tcap=dict(font="Sans", size=8.5, leading=11.5, before=4, after=4),      # table caption, above the table
+    code=dict(font="Mono", size=8.3, leading=11.2),
+    note=dict(font="Sans", size=9.4, leading=13.6),
+    eqno=dict(font="Sans", size=9.5, leading=12),                           # equation number, right
+)
+
+# Blocks in the report body (pt unless marked mm)
+BLOCKS = SimpleNamespace(
+    sub_rise="20%", sup_rise="38%", script_size="72%",   # inline X_{sub} and x^{sup}
+    title_rule_h=10, title_rule_y=6,        # line under the title block: its row height, line height in it
+    title_gap=4,                            # space instead of that line when it is off
+    eq_size=11.5,                           # display equation size (body text is 10 pt)
+    eq_num_w=14 * mm,                       # equation-number column, mirrored empty on the left
+    eq_room=8 * mm,                         # an equation wider than the middle column less this is scaled down
+    eq_bar=2.2,                             # bar on the left of equation and code panels
+    eq_pad=7, code_pad=6, panel_side=10,    # panel padding: equation top/bottom, code top/bottom, sides
+    panel_before=3, panel_after=8,
+    note_line=0.8, note_pad=7, note_side=10, note_before=3, note_after=9,
+    cell_pad_v=4, cell_pad_h=6,             # table cell padding
+    head_line=1.0, row_line=0.4,            # line under the table header row, hairlines between rows
+    table_before=2, table_after=10,
+    table_keep=10,                          # tables with this many rows or fewer are kept on one page
+    narrow_w=95 * mm,                       # width of a two-column table ...
+    narrow_chars=60,                        # ... whose columns hold at most this many characters together
+    fig_width=88,                           # default figure width, % of the text width
+    fig_before=2, fig_after=8,              # space above a figure, and below one without a caption
+    list_indent=16, bullet_size=9.4,
+)
+
 # ---------------------------------------------------------------- fixed words
 LABELS = dict(
     page="Page {n} of {total}",             # report footer, right
@@ -83,18 +125,63 @@ LABELS = dict(
     cont="(cont.)",                         # report row repeated on the next contents page
 )
 
-PAPERS = {"a4": A4, "letter": letter}
+PAPERS = {"a4": A4, "letter": letter}   # sizes for the `paper` theme key (names checked in report_figs.CHOICES)
 
 
 def fail(msg):
     sys.exit(f"Layout error: {msg}")
 
 
-def parse_paper(meta, where):
-    v = (meta.get("paper") or "a4").lower()
-    if v not in PAPERS:
-        fail(f"paper: '{meta['paper']}' must be {' or '.join(PAPERS)} (set in {where})")
-    return PAPERS[v]
+# ---------------------------------------------------------------- console, warnings, options
+def utf8_console():
+    """Print UTF-8 even when the output goes to a pipe on a Windows console whose code page lacks
+    a character (cp874 has no '·'), so a heading or path never crashes a print."""
+    for f in (sys.stdout, sys.stderr):
+        if hasattr(f, "reconfigure"):
+            f.reconfigure(encoding="utf-8", errors="replace")
+
+
+utf8_console()
+WARNINGS = []
+
+
+def warn(msg):
+    """Print a build warning and keep it for the summary (finish)."""
+    WARNINGS.append(msg)
+    print(f"WARNING: {msg}", file=sys.stderr)
+
+
+def add_options(ap):
+    """Command-line options both builders take."""
+    ap.add_argument("--show-theme", action="store_true", help="print the resolved theme and where each key came from, then exit")
+    ap.add_argument("--set", action="append", default=[], metavar="KEY=VALUE",
+                    help="theme or front-matter key for this build only (repeatable); wins over every file")
+    ap.add_argument("--strict", action="store_true", help="exit with code 1 if the build printed any warning")
+    ap.add_argument("--preview", metavar="DIR", help="after the build, render the pages to DIR (as preview.py)")
+    ap.add_argument("--sheet", type=int, default=0, metavar="N", help="with --preview: N pages per contact sheet")
+
+
+def parse_set(items):
+    """--set values -> dict; the keys are checked with the theme layers."""
+    out = {}
+    for it in items:
+        if "=" not in it:
+            sys.exit(f"--set '{it}' must be KEY=VALUE")
+        k, v = it.split("=", 1)
+        out[k.strip().lower()] = v.strip()
+    return out
+
+
+def finish(a, out_pdf):
+    """After a build: the optional preview, the warning count, and exit code 1 under --strict."""
+    if a.preview:
+        import preview
+        for n in preview.preview(out_pdf, a.preview, sheet=a.sheet):
+            print(os.path.join(a.preview, n))
+    if WARNINGS:
+        print(f"{len(WARNINGS)} warning(s)", file=sys.stderr)
+        if a.strict:
+            sys.exit(1)
 
 
 # ---------------------------------------------------------------- fonts
@@ -330,21 +417,30 @@ def draw_stamp(c, page_w, th, n, total):
 
 
 # ---------------------------------------------------------------- cover page
+ASSETS = os.path.join(report_figs.SKILL_DIR, "assets")
+
+
+def same_path(a, b):
+    return os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
+
+
+def is_skill_logo(path):
+    return bool(path) and same_path(path, os.path.join(ASSETS, "logo.png"))
+
+
 def cover_logo(th):
     """Cover logo: the cover_logo key; else the vector assets/logo.svg while the theme uses the
     skill's own logo; else the theme logo (a custom theme keeps its own logo). None = no logo."""
     if th["cover_logo"] is not None:
         return th["cover_logo"] or None  # "" = cover_logo: none
-    assets = os.path.join(report_figs.SKILL_DIR, "assets")
-    if th["logo"] and os.path.samefile(th["logo"], os.path.join(assets, "logo.png")) \
-            and os.path.exists(os.path.join(assets, "logo.svg")):
-        return os.path.join(assets, "logo.svg")
+    if is_skill_logo(th["logo"]) and os.path.exists(os.path.join(ASSETS, "logo.svg")):
+        return os.path.join(ASSETS, "logo.svg")
     return th["logo"]
 
 
 def _cut_warning(what, lines, kept):
     if len(lines) > kept:
-        print(f"WARNING: cover {what} cut to {kept} lines; dropped: {' '.join(lines[kept:])}", file=sys.stderr)
+        warn(f"cover {what} cut to {kept} lines; dropped: {' '.join(lines[kept:])}")
 
 
 def draw_cover(c, th, meta, page_w, page_h, rows):
@@ -378,7 +474,11 @@ def draw_cover(c, th, meta, page_w, page_h, rows):
         y -= L.subtitle_lead
     y -= L.title_rule_gap
     rule_line(c, th, page_w, y)
-    specs = [s.split("=", 1) for s in m.get("specs", "").split("|") if "=" in s]
+    items = [s.strip() for s in m.get("specs", "").split("|") if s.strip()]
+    for s in items:
+        if "=" not in s:
+            warn(f"cover specs item '{s}' has no '=' and is left out (write Key = value)")
+    specs = [s.split("=", 1) for s in items if "=" in s]
     if specs:
         y -= L.specs_drop
         c.setFillColor(tint); c.rect(L.margin_l, y, tw, L.specs_h, stroke=0, fill=1)

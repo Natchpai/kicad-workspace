@@ -18,31 +18,32 @@ The default template, and why it looks this way:
 
 `<skill>` below means the folder that holds this SKILL.md (e.g. `~/.claude/skills/engineering-report-pdf` in Claude Code).
 
-0. **Ask the setup questions, before any content work.** Run `python <skill>/scripts/build_report.py <report.md> --show-theme` (on a stub with just the front matter if the report does not exist yet) and tell the user which theme applies now: the skill default, or a `report-theme.yml` / `theme:` file already in the folder. Then ask these in one round (AskUserQuestion when the host has it):
+0. **Ask the setup questions, before any content work.** Run `python <skill>/scripts/build_report.py <report.md> --show-theme` (on a stub with just the front matter if the report does not exist yet) and tell the user which theme applies now: the skill default, or a `report-theme.yml` / `theme:` file already in the folder. Then ask these in one round, always, as multiple-choice questions (AskUserQuestion when the host has it): the default is the first option and is marked "(default)", and the user may answer in their own words instead:
    1. Style: **default** or **custom**?
-   2. Cover page: **no** (default) or yes? Skip it for a book: a book always has a cover.
+   2. Pages: **full report** (default: cover page, contents page, then the report), **content only** (the report pages alone), or **cover and report** (no contents page)? Skip it for a book: a book always has a cover and contents.
    3. Page header (logo, short title and rule on every page): **on** (default) or off?
    4. Document number and revision (`doc_no`, `revision`): the values, or none.
 
    Then act on the answers:
    - Default style: write no theme keys.
    - Custom style: ask which groups to change, then only those values: identity (`author`, `logo`, `footer`), colors (`text_color`, `accent_color`, `muted_color`, `heading_color`, `number_color`), equations (`eq_style`, `eq_color`, `eq_numbers`), title block and lines (`header_rule_color`, `title_color`, `title_rule`). Then ask where to save them: **this report only** (front matter) or **every report in this folder** (`report-theme.yml`).
-   - Cover yes, or a book: ask a second round for the cover fields: `kicker` (small accent line above the title), `project`, `specs` (`Key = value | Key = value`), `note` (bottom-left), `license` (bottom-right) and `cover_logo` (default: the vector NP logo). Write only the fields the user gives.
-   - Write `cover: on`, `header: off`, `doc_no`, `revision` and the cover fields in the front matter, show `--show-theme` again, and only then start the content.
+   - Full report, cover and report, or a book: ask a second round for the cover fields: `kicker` (small accent line above the title), `project`, `specs` (`Key = value | Key = value`), `note` (bottom-left), `license` (bottom-right) and `cover_logo` (default: the vector NP logo). Write only the fields the user gives.
+   - Write `pages: content` or `pages: cover` (nothing for the default full report), `header: off`, `doc_no`, `revision` and the cover fields in the front matter, show `--show-theme` again, and only then start the content.
+   - To show the user a style before writing it anywhere, build with `--set key=value` (repeatable, any theme or front-matter key, this build only).
    - Edit `<skill>/theme.yml` only when the user asks to change the defaults themselves: it restyles every future report.
 1. **Get the content.** Write the report in Markdown (dialect below), next to its figures, in the user's working directory. If the content is in a Claude Doc, export the tab as Markdown, then replace each `[embedded content: …]` placeholder with a `![caption](figure.svg)` line pointing at a figure you regenerate.
 2. **Make figures as SVG** with `<skill>/scripts/report_figs.py` (vector, theme colors, mathtext labels). Run figure scripts from the report folder so they pick up its `report-theme.yml`. See "Figures" below.
 3. **Build:**
    ```bash
    pip install -r <skill>/requirements.txt -q     # once; add --break-system-packages on a managed system Python
-   python <skill>/scripts/build_report.py report.md Report_Name.pdf
+   python <skill>/scripts/build_report.py report.md Report_Name.pdf --strict --preview preview
    ```
-   Fonts are bundled in `assets/fonts` (IBM Plex Sans for text, IBM Plex Mono for code, DejaVu Sans as a per-character fallback), so output is the same on Linux, macOS and Windows. The build prints `WARNING: equation not rendered` if an equation fell back to raw TeX: fix the TeX (see the limits below) and rebuild. An unclosed `$$` stops the build with its line number.
-4. **Look at every page.** Overflowing labels, a figure stranded on its own page, or a raw-TeX equation only show up in the render:
+   Fonts are bundled in `assets/fonts` (IBM Plex Sans for text, IBM Plex Mono for code, DejaVu Sans as a per-character fallback), so output is the same on Linux, macOS and Windows. Every problem the build can see prints a `WARNING:` line and the build ends with the count; `--strict` makes it exit with code 1, so no warning goes unnoticed. Fix each one and rebuild: an equation that fell back to raw TeX (see the limits below), an unknown equation label, an "Eq. (n)" above the equation count, a nested list item, an image line it could not read, a cover title or specs item it had to cut. An unclosed `$$` or ```` ``` ```` stops the build with its line number.
+4. **Look at every page.** Overflowing labels, a figure stranded on its own page, or a cramped table only show up in the render. `--preview preview` above wrote `preview/p-1.png`, `p-2.png` ...; for a long document add `--sheet 8` (8 pages per image, page number under each), then render single pages where something looks wrong:
    ```bash
-   python <skill>/scripts/preview.py Report_Name.pdf preview --dpi 80     # preview/p-1.png, p-2.png ...
+   python <skill>/scripts/preview.py Report_Name.pdf preview --pages 3,7     # or --sheet 8; --dpi 80 default
    ```
-   It uses pypdfium2 and falls back to poppler's `pdftoppm`; if neither works, ask the user to open the PDF. On each page, check that every lead-in line (one ending in `:`) sits on the same page as the equation, figure or table after it, and that every "Eq. (n)" reference in the text matches the number printed beside that equation.
+   It clears old page images first, uses pypdfium2 and falls back to poppler's `pdftoppm`; if neither works, ask the user to open the PDF. On each page, check that every lead-in line (one ending in `:`) sits on the same page as the equation, figure or table after it. Equation numbers cited with labels need no check; any "Eq. (n)" written by hand must still match the number beside that equation.
 5. **Deliver** the PDF: in claude.ai write it to `/mnt/user-data/outputs/` and call `present_files`; in Claude Code leave it in the working directory and give its path.
 
 ## Combining reports
@@ -71,27 +72,33 @@ page_stamp: on                                       # off removes the overall "
 ```
 
 ```bash
-python <skill>/scripts/build_book.py book.md Combined.pdf
+python <skill>/scripts/build_book.py book.md Combined.pdf --strict --preview preview --sheet 8
 ```
 
-Then preview the cover and contents pages with `preview.py`, as in Workflow step 4: check that the title and the specs panel fit, and that every contents entry starts on the page it names. The build prints `WARNING: section … not found` when it could not place a `## N.` heading (the contents then repeats the previous page number), and `WARNING: cover title cut` when the title or subtitle is too long: shorten the text and rebuild. `references/example-book.md` is a one-report sample.
+The contents takes each `## N.` heading's page from the report build itself, so its page numbers and links are exact. `paper:` in `book.md` reaches every report, and theme keys given with `--set` reach every report too. Then look at the sheets as in Workflow step 4: check that the cover title and the specs panel fit (`WARNING: cover title cut` means shorten the title or subtitle). `references/example-book.md` is a one-report sample.
 
-## Cover on a single report
+## Full report or content only
 
-`cover: on` in the front matter puts the same cover page before one report. It takes the cover fields above (`kicker`, `project`, `specs`, `note`, `license`, `cover_logo`) plus `title`, `subtitle`, `doc_no`, `revision`, `date` and the theme `author`. The cover has no header or footer, and the report pages still count from "Page 1 of N". `--cover on` or `--cover off` on the build command overrides the key for one build.
+The `pages` theme key sets what a single report's PDF holds:
+- `full` (default): the book's cover page and a contents page (the report row with its `## N.` sections, page numbers, links and bookmarks), then the report. It is one document: the footer counts every page ("Page 3 of 8" on the first report page) and the contents shows the same numbers, so there is no "n / N" stamp.
+- `content`: the report pages only, "Page 1 of N" from the first page.
+- `cover`: the cover page, then the report, which still counts from "Page 1 of N".
+
+The cover takes the cover fields above (`kicker`, `project`, `specs`, `note`, `license`, `cover_logo`) plus `title`, `subtitle`, `doc_no`, `revision`, `date` and the theme `author`; without `kicker`, `subtitle` and `specs` it looks bare, so ask for them. `--pages full|cover|content` on the build command overrides the key for one build. Inside a book, every report is built as `content`.
 
 ## Changing the layout
 
-Every distance, font size and fixed word of the header, footer, cover and contents pages ("Contents", "Revision", "Page X of Y" …) is in `scripts/page_layout.py`, in `LAYOUT` and `LABELS`, one commented line each. Both builders read them, so one edit there changes reports and books alike. User choices (colors, logo, cover on or off) are theme keys instead: see "Theme".
+Every distance, font size and fixed word is in `scripts/page_layout.py`, one commented line each: `LAYOUT` (page margins, header, footer, cover and contents pages), `STYLES` (font, size, leading and spacing of each paragraph style: title, headings, body, cells, captions, code, notes), `BLOCKS` (equation, code and note panels, tables, figures, lists) and `LABELS` (fixed words: "Contents", "Revision", "Page X of Y" …). Both builders read them, so one edit there changes reports and books alike. User choices (colors, logo, paper, full report or content only) are theme keys instead: see "Theme". After any edit to the skill, run the selftest (see "Testing the skill").
 
 ## Theme
 
-Three layers, each overriding the one before:
+Four layers, each overriding the one before:
 1. `<skill>/theme.yml`: the defaults, and the list of every theme key with a comment on what it sets. Read it when you need a key.
 2. `report-theme.yml` next to the report, or the file named by `theme: path.yml` in the front matter: a folder-wide style (for example a club logo and accent). `references/example-theme.yml` is a sample.
 3. Theme keys in the report's front matter: this report only.
+4. `--set key=value` on the build command: this build only (a path is relative to the current folder).
 
-A logo path is relative to the file that sets it. Color keys take `text`, `accent`, `muted` or `#RRGGBB` (`header_rule_color` also takes `title`, its default, and `none`); switches take `on` or `off`; `eq_style` takes `panel`, `bar` or `plain`. A typo or bad value stops the build with a one-line message naming the key and the file. `--show-theme` prints every resolved key and where it came from. Figures see layers 1 and 2 only, so put any color a figure must match in `report-theme.yml`.
+A logo path is relative to the file that sets it. Color keys take `text`, `accent`, `muted` or `#RRGGBB` (`header_rule_color` also takes `title`, its default, and `none`); switches take `on` or `off`; `eq_style` takes `panel`, `bar` or `plain`; `paper` takes `a4` or `letter`. A typo or bad value stops the build with a one-line message naming the key and the file. `--show-theme` prints every resolved key and where it came from. Figures see layers 1 and 2 only, so put any color a figure must match in `report-theme.yml`.
 
 ## Markdown dialect
 
@@ -105,10 +112,10 @@ doc_no: DR-0012                           # optional, shown in meta line and hea
 revision: A                               # optional
 subscripts: Z0, rL, Rs, Rd, Cd, Vin, Rtot # optional: tokens auto-rendered as Z₀, r_L, R_s ...
 italic_titles: Calculation Report: L-Match Network | Another Doc Title   # optional, italicised when cited
-paper: a4                                 # a4 (default) or letter
+paper: a4                                 # a4 (default) or letter; a theme key, so report-theme.yml can set it too
 theme: ../club-theme.yml                  # optional; default is report-theme.yml in this folder, if present
 eq_style: bar                             # any theme key overrides the theme for this report only
-cover: on                                 # optional cover page (default off); see "Cover on a single report"
+pages: content                            # full (default: cover, contents, report), cover or content; see "Full report or content only"
 ---
 
 Lead paragraph: state the result first.
@@ -119,10 +126,10 @@ Lead paragraph: state the result first.
 
 Body with **bold**, *italic*, `code`, [links](https://…), explicit R_{d} subscripts and x^{2} superscripts.
 
-The damping resistor is:
+The damping resistor follows Eq. (@rd):
 
 ```latex
-R_d = \frac{Z_0^2}{\frac{Z_0}{Q} - r_L}
+R_d = \frac{Z_0^2}{\frac{Z_0}{Q} - r_L} \label{rd}
 ```
 
 $$ Z_0 = \sqrt{L/C} \nonumber $$
@@ -136,7 +143,7 @@ Table: Design inputs
 | Peak \|Zo\| | 1.06 Ω |
 
 1. Numbered step (numbers continue from the number you write)
-- Bullet
+- Bullet (one level only: an indented sub-item is flattened, with a warning)
 
 > Note box. Gets a bold "Note." label.
 
@@ -151,8 +158,8 @@ Details that matter:
 - **Lead-ins**: a paragraph, or the last item of a list, that ends with `:` is kept on the same page as the equation, figure, table or code block right after it. End a line with `:` exactly when it introduces that block.
 - **Pipes inside table cells** must be escaped: `\|Zo\|`. An unescaped `|` splits the cell.
 - **Tables** with 10 rows or fewer are kept on one page. A `Table: caption` line directly above a table numbers and captions it. Two-column tables are drawn narrow; wider ones span the page.
-- **Figures**: `![caption](path){width=NN%}` (default 88%). Paths are relative to the Markdown file. SVG preferred; PNG and JPG accepted. An empty caption gives an unnumbered figure.
-- **Equations**: one per ```` ```latex ```` block (separate several with a blank line inside the block), or `$$ … $$`. Each gets a number, (1), (2) …, through the whole document; put `\nonumber` or `\notag` in an equation to leave it unnumbered. Cite them by hand as "Eq. (n)", and recheck those numbers after adding or removing an equation. Equations are rendered by matplotlib *mathtext*, not full LaTeX. `\frac` is upgraded to display-size `\dfrac` automatically; `\operatorname{}` and `\text{}` become `\mathrm{}`. Not supported: `\begin{aligned}`, `\begin{cases}`, matrices, `\boldsymbol`. Split a multi-line derivation into one equation per line.
+- **Figures**: `![caption](path){width=NN%}` alone on its line (default 88%; decimals such as `70.5%` work). Paths are relative to the Markdown file. SVG preferred; PNG and JPG accepted. An empty caption gives an unnumbered figure.
+- **Equations**: one per ```` ```latex ```` block (separate several with a blank line inside the block), or `$$ … $$`. Each gets a number, (1), (2) …, through the whole document; put `\nonumber` or `\notag` in an equation to leave it unnumbered. To cite one, put `\label{key}` in it and write `Eq. (@key)` in the text: the build prints its number, before or after the equation, and stays right when equations are added or removed. Use labels for every citation. A hand-written "Eq. (n)" larger than the equation count is a warning, but a wrong number within range is not caught. Equations are rendered by matplotlib *mathtext*, not full LaTeX. `\frac` is upgraded to display-size `\dfrac` automatically; `\operatorname{}` and `\text{}` become `\mathrm{}`. Not supported: `\begin{aligned}`, `\begin{cases}`, matrices, `\boldsymbol`. Split a multi-line derivation into one equation per line.
 - **Fonts**: text is IBM Plex Sans (SemiBold for headings and bold), code is IBM Plex Mono, equations are Computer Modern (mathtext `cm`) so they read like LaTeX. Unicode symbols (Ω µ ≈ ≥ √ − ² · × ≫ ∝ ∠) are fine in text, tables, code, headers and the cover: glyphs Plex lacks are drawn from the DejaVu fallback automatically, so type the real symbol. No bundled font covers Thai or CJK script.
 
 ## Figures
@@ -178,6 +185,16 @@ Plot conventions (they keep figures readable and on-brand): the accent (`BLUE`) 
 ## Writing the content
 
 The template sets the look; good reports also share a shape. Start with a one-paragraph lead that states the result with its numbers. Use numbered sections (`## 1. …`). Put assumptions and inputs in tables, derivations as numbered steps with one equation each, then a verification (exact check, simulation, or measurement compared with the hand calculation), then a short conclusion. Mark illustrative values as illustrative.
+
+## Testing the skill
+
+After editing any script, `theme.yml` or a `page_layout.py` value, run:
+
+```bash
+python <skill>/scripts/selftest.py             # add a folder name to keep its PDFs and inputs
+```
+
+It builds the buck example, the fixtures in `references/selftest/` (`features.md` uses every dialect construct, `plain.md` with `alt-theme.yml` changes every theme value, `book.md` combines them) and a set of broken inputs. It checks exit codes, warnings and errors, page sizes, equation labels, the book's contents and bookmark pages, `preview.py` and the figure helpers, then prints PASS or FAIL per case. All must pass. When a change adds a construct or a warning, add a case for it.
 
 ## Reference
 

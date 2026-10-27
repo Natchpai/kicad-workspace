@@ -5,7 +5,7 @@ author: Natchanon
 date: Oct 27, 2026
 revision: Rough draft
 subscripts: Vin, Vo, Io, Po, fsw, f0, Rn, Pin, Rd, Cd, Z0, Zo, Cout, Cin, fc
-# cover: on                    # a cover page before the report (default off)
+# pages: content               # the report only; default full = cover, contents, report
 ---
 
 A synchronous buck at 2.2 MHz with L = 1.0 µH and 2 × 22 µF output capacitors meets the 5 V to 3.3 V, 2 A requirement with an estimated 93 % efficiency and about 3 mV output ripple. The controller is not chosen yet, so IC values in this draft are assumed.
