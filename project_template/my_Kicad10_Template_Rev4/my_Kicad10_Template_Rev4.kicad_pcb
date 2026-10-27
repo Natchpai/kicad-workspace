@@ -23,8 +23,8 @@
 		(3 "B.Mask" user)
 		(17 "Dwgs.User" user "User.Drawings")
 		(19 "Cmts.User" user "User.Comments")
-		(21 "Eco1.User" user "User.Eco1")
-		(23 "Eco2.User" user "User.Eco2")
+		(21 "Eco1.User" user "F.DNP")
+		(23 "Eco2.User" user "B.DNP")
 		(25 "Edge.Cuts" user)
 		(27 "Margin" user)
 		(31 "F.CrtYd" user "F.Courtyard")
@@ -92,6 +92,7 @@
 		)
 		(capping no)
 		(filling no)
+		(zone_defaults)
 		(pcbplotparams
 			(layerselection 0x00000000_00000000_55555555_5755f5ff)
 			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
@@ -130,41 +131,44 @@
 		)
 	)
 	(property "AUTHOR" "NATCHANON THUENTHAM")
-	(property "DRAWING_DATE" "DRAWING_DATE ")
-	(property "DRAWING_NAME" "DRAWING_NAME")
 	(property "EX_PAGE" "0")
+	(property "PCB_DRAWING_DATE" "PCB_DRAWING_DATE ")
+	(property "PCB_DRAWING_NAME" "PCB_DRAWING_NAME")
+	(property "PCB_REVIEW_DATE" "PCB_REVIEW_DATE")
+	(property "PCB_REVIEW_NAME" "PCB_REVIEW_NAME")
 	(property "PROJECT_ID" "PROJECT_ID")
 	(property "PROJECT_NAME" "PROJECT_NAME")
 	(property "RELEASE_DATE" "RELEASE_DATE")
-	(property "REVIEW_DATE" "REVIEW_DATE")
-	(property "REVIEW_NAME" "REVIEW_NAME")
+	(property "SCH_DRAWING_DATE" "SCH_DRAWING_DATE ")
+	(property "SCH_DRAWING_NAME" "SCH_DRAWING_NAME")
+	(property "SCH_REVIEW_DATE" "SCH_REVIEW_DATE")
+	(property "SCH_REVIEW_NAME" "SCH_REVIEW_NAME")
 	(embedded_fonts no)
 	(embedded_files
 		(file
-			(name "V2-0_MyCustomTemplate_A3_CGFont_Fabri.kicad_wks")
+			(name "V2-0_MyCustomTemplate_A4_CGFont_Fabri.kicad_wks")
 			(type worksheet)
-			(data |KLUv/WC6HAUiAPZtiCfw0OYBuKjCOnQZBnZhzciKeHthB6ihQrgIKZLkdqTrtgk8A+sHHgKDAIIA
-				eACY+1h7z+x9MGxl1edLUQ6V8LFmBcw4Y1FLLXtVV8OMGV9L3Q4EMd1Q1q2o3Vz3XhjOdSckqmXO
-				VpWw1OZyI6jG8bwZT9xM9VCrahwuZzvTjNq5GPQSAHAsLu2wZg5doJqhFw0HYntdylKLSjiku7dn
-				z9ZVO5ZeEAAECHQqPJcMVdUKgt1kQySZ3qL8lk6qRJDLg5TRXBh2QPn9/9/N2W1IHCKUiEWaNAag
-				TOVL6QQF4s3mqpyxvTRX5f5VdeJeCPyxFteij2dwNnSOkrXBBZ2stR9Lr0Ur/kTU27GgeM8eff4x
-				w2AwzJsDsqjNNbGHSrhDN7UCMa2oa10Rzu+5c3Egh/hi0BuxIokiU2T5f8banaec7f/RNbcxSZPo
-				OUaBbcL5zd695147fs57uvm8ReitX/PKQ1JwmCaNJ2T9pHSs2z/4enpr6RtekUgNDQ6Pd7Ln8/u/
-				FaW47GTG+bHlX4uqlrJI+K+1dE41t1Yk9Jb8PDaMCZVoUpGkBIqL/zEBAg4ZY3Q+SZYLJHpEFmY7
-				WQ/cjBJD5ABGfxaEu8/2+d/vDKN7F11D+dP5gx0hkfg+/9trLlEiiaH5bPAbXqojsxffX/+z9u3O
-				H7/1g9P562/+zme7l7Cqh7IQB2NDZ9f+g+EM9dB6Qad37Y8giTxEE0S+Jpl3gNigITFzSk1JkoIk
-				wxhQhEzJHHEbhYOEhWpQWqotzCoN81MsLeHE7hfVlG2F0powcIdqf1AcRPsElpCkzIKId7+lOiDI
-				DCieFnKjYj3IJbV3pAYaQYVB9DM/YXNilhqYCbZ8z+lLaW+HEfBfKqkwXcaGLbj5OzAAtpl5jwlJ
-				Ysf2aKDAAJF9bcScoEWL4X9ciJG053hcjFmZGpmpcRwkFWFqliTiCR/Q0/AmCrqFVmrdcGIHxEBR
-				ylJRuCfrouny8Ta+z/DDLnt5UVjqzp7L5eKe8zBcNGin76N1atvEH/iONGFw+O1pbxhDLJDmYgjJ
-				xrVOTlyfjyX9/erB2rAYJoYL28Zn/9L5I1zrtl+WU6MO2xayqwRwM3B6DSQNHiUEdtFF44UTXkAT
-				jxLFQu7x3oGtpkjvn9OozF8RxXSta2AbxulBc5MhNYoRI4BrCEoG0KcdNIb3TyTgE6EuCW4RWsIq
-				W7csoMMyapMX6KQJKPNkFrSFOY3ADgjxWZMAmAYNJnlWGnIijIjAVgREfZ5RCozI+tpNMS9qCLHz
-				W1QG1hdT5MxN+UCFUmEaD2G7zg8F6gFabGgPZAP6hFI9UKO4h4PKIJQehk+PVXpkAKCxGiQDcCzp
-				zlffMGxbLyft0QQ45jdxF+BDjAfmAeH845GIz2zGe4vHSzpceKDetrRcZmTRszljrqFupKaxIaIY
-				MQACdISTWKNstIAag1cF|
+			(data |KLUv/WDhGz0hAEbshSfwsrgBSJhAHL4M+LMCy6LkKu2aoqeHWjq1yO5NJ2IEhxyRzWjcCg99AH4A
+				dwC+DTsc9MKmb7Ve81CEzV2wvRfs6WM0uypme3srtermefYzFlavp5ms1syiyeqFxaTdFpsW1MpU
+				asVjILBx70W9TM5jEwORzm2/Y24qx1cCAI1G/U1zt6fyzMtXMJpnaVYt+thbQKDWmvP2xbK5ob9B
+				ABAgsMngVC7WNTMIApKkMjFVDiIQF0xmWYivy8fdNr4PysMkYiIxUR4Dz2Vu/b+IeLZin8lkV+ul
+				GSa7rnlRs4TtUI2KfcS7Obu2Lp3jaLDxFKW0Q79if22nYtaNBgb0bVLH4bbFYunmIA9mZTJqOU/Z
+				zWdm9exfVsWyirbQd5NpnvZs5fhqqbAdDNKEkiTkc++DmiAkGDlD0UUc12Mk4Wt+6y02tz8XI2QY
+				VZFp4YFyLjlu1CIDZ4fNcYRaRZkcHB4i7g9i93UoX70eI6MQkXwcecWsSS0JFzEEHcNuj6mzcihG
+				jgvj4wgqVBJENU0KEU9Kl/yig0SB3KIIpYP83lQFAQIQCbkzlN4cH9Sae+ScmiQqEikyYXCPmQhu
+				I+hxmxomCM4bOolRGHy1JA06x9hQMmnNDrVz3RaK3D5FSFPDREHyRY6uYL1jxA05dnMJJT9f9272
+				GNvjyAKbHItKXnxQx7KX5/zceCqBMpmQKIlDHTm2dQi6ihKA1KBRMVIKTYlI0iTDGGBEhGSORg+H
+				qAil87arsxg856TvRLbPwD9bnj0Zh3AHFTaiJ1CMxt0x7CvW3AAC+1g7o4/HN3moOLXOq5g7KrSj
+				mVJ+zD4kr4erMo48Tf8zky/v9TBI33jI4ouiD4JFB5Fv0Nae2mBpiQYJZkqDOurpvWhM3DQmaCG2
+				zP7NkacM1+svm+08bQgZ1l5tjMJu61cuFn41Vf9AKVgGZiDWno3vCwHb20pD5qrhYjrKjQEsTGoT
+				ABZ5x0eVCiZMs04JCGBI63O34t1WMQ2NU8mHbZg0lQ8af5IbIU35hLRFWwx0qYyZVIN174Fk2fWg
+				tFuGV8BSm64ZjC9u8ydgXROTgskCrALJIvNUgR8QJjvKdgJggqOfQwwvld6sPBZfqJFSf1ja2LPF
+				zq7lrhxY7NbZIiMhGGVJSPtHzMEsxaoaC1sHVCVwMRVTDICeC+ivlPIB3DVNtDXImelacBbNIIJw
+				9K0gJCwSlh6FJWLFCaiJFYMWy2b02pag6vyzOW9phfCuUxwWIKlwyU5/UF/Zmv6B9ui8ULkG0Ju2
+				2tBsQIcAxR99yn2dVhFMgdvMuSzQOmNAHxsCYwCNtV307h/ODWvioHkwEc75TdwH+BljATFQOPfA
+				gMjJQsRPi8fLPlt6mN7mvPyGCKOZzbALBV5r1rQEQUgMwEEf5E3QRv46QI3BqwI=|
 			)
-			(checksum "ECC81AE93083E09A687030A8AD80B321")
+			(checksum "7F72EAB0FBF11DF7DF23E596E19122E2")
 		)
 	)
 )

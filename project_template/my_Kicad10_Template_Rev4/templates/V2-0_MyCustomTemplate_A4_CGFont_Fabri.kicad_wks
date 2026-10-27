@@ -110,9 +110,9 @@
 		(justify center)
 		(comment "Sheet id")
 	)
-	(tbtext "${REVIEW_DATE}"
+	(tbtext "${PCB_REVIEW_DATE}"
 		(name "")
-		(pos 44.5372 10.5692)
+		(pos 44.537 10.569)
 		(font
 			(face "Century Gothic")
 			(size 1.5 1.5)
@@ -120,9 +120,9 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${REVIEW_NAME}"
+	(tbtext "${PCB_REVIEW_NAME}"
 		(name "")
-		(pos 64.7272 10.7742)
+		(pos 64.727 10.774)
 		(font
 			(face "Century Gothic")
 			(size 1.5 1.5)
@@ -248,9 +248,9 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${DRAWING_NAME}"
+	(tbtext "${PCB_DRAWING_NAME}"
 		(name "")
-		(pos 64.7272 16.6742)
+		(pos 64.727 16.674)
 		(font
 			(face "Century Gothic")
 			(size 1.5 1.5)
@@ -276,9 +276,9 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${DRAWING_DATE}"
+	(tbtext "${PCB_DRAWING_DATE}"
 		(name "")
-		(pos 44.6702 16.6642)
+		(pos 44.67 16.664)
 		(font
 			(face "Century Gothic")
 			(size 1.5 1.5)

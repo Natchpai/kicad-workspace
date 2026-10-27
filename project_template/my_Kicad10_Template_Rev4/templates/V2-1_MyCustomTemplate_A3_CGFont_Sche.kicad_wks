@@ -110,7 +110,7 @@
 		(justify center)
 		(comment "Sheet id")
 	)
-	(tbtext "${REVIEW_DATE}"
+	(tbtext "${SCH_REVIEW_DATE}"
 		(name "")
 		(pos 44.5372 10.5692)
 		(font
@@ -120,7 +120,7 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${REVIEW_NAME}"
+	(tbtext "${SCH_REVIEW_NAME}"
 		(name "")
 		(pos 64.7272 10.7742)
 		(font
@@ -258,7 +258,7 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${DRAWING_NAME}"
+	(tbtext "${SCH_DRAWING_NAME}"
 		(name "")
 		(pos 64.7272 16.6742)
 		(font
@@ -286,7 +286,7 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${DRAWING_DATE}"
+	(tbtext "${SCH_DRAWING_DATE}"
 		(name "")
 		(pos 44.6702 16.6642)
 		(font

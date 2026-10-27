@@ -111,7 +111,7 @@
 		(justify center)
 		(comment "Sheet id")
 	)
-	(tbtext "${REVIEW_DATE}"
+	(tbtext "${PCB_REVIEW_DATE}"
 		(name "")
 		(pos 48.287 13.319)
 		(font
@@ -120,7 +120,7 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${REVIEW_NAME}"
+	(tbtext "${PCB_REVIEW_NAME}"
 		(name "")
 		(pos 83.727 13.274)
 		(font
@@ -252,7 +252,7 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${DRAWING_NAME}"
+	(tbtext "${PCB_DRAWING_NAME}"
 		(name "")
 		(pos 83.727 21.424)
 		(font
@@ -281,7 +281,7 @@
 		)
 		(comment "Sheet id")
 	)
-	(tbtext "${DRAWING_DATE}"
+	(tbtext "${PCB_DRAWING_DATE}"
 		(name "")
 		(pos 48.42 21.414)
 		(font
