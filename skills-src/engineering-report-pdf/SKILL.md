@@ -133,4 +133,4 @@ The template sets the look; good reports also share a shape. Start with a one-pa
 
 ## Reference
 
-`references/example_report.md` is a complete worked example of the dialect (front matter, numbered and unnumbered equations, "Eq. (n)" references, schematic and plot, captioned tables, note box). `references/example_figures.py` builds its two figures. Read them when unsure how a construct is written.
+`references/buck_converter_design_report.md` is a complete worked example of the dialect (front matter with `revision`, captioned tables, numbered equations with units in `\mathrm{}`, bold lead-ins, lists, `###` subsections). `references/figures.py` builds its three figures, one of each common graph type: a horizontal bar chart (loss breakdown, largest bar in the accent), a line plot with annotated points (efficiency against load) and a log-log Bode plot with a labelled limit line (filter impedance against |Rn|). Read them when unsure how a construct is written. The example has no schematic, note box, unnumbered equation or "Eq. (n)" reference; for those, follow the Markdown dialect and Figures sections above.
