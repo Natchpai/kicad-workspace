@@ -172,7 +172,7 @@ plt.rcParams.update({
 
 
 def apply_plot_style(ax, legend_loc=None):
-    """Light-blue grid, soft spines, readable ticks."""
+    """Accent-tinted grid, soft spines, readable ticks."""
     ax.grid(True, which="major", color=GRID, lw=0.8)
     ax.grid(True, which="minor", color=GRID_MINOR, lw=0.6)
     ax.tick_params(labelsize=8.5, colors=INK)

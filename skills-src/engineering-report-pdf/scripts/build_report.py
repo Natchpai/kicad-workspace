@@ -43,6 +43,7 @@ SS = {}                                 # paragraph styles built from TH
 SUB = '<sub rise="20%" size="72%">'     # ReportLab's default drops a subscript by half the font size
 SUP = '<super rise="38%" size="72%">'
 EQ_NUM_W = 14 * mm                      # width of the equation-number column (and its mirror on the left)
+HEADER_RULE_W = 0.9                     # line under the page header, and under the title block
 
 
 def C(key):
@@ -166,9 +167,9 @@ class TitleRule(Flowable):
         return aw, 10
 
     def draw(self):
-        c = self.canv
-        c.setStrokeColor(C("accent_color")); c.setLineWidth(1.6); c.line(0, 6, 28 * mm, 6)
-        c.setStrokeColor(C("hairline")); c.setLineWidth(0.6); c.line(28 * mm, 6, self.aw, 6)
+        c = self.canv  # same full-width line as the header rule above the title
+        c.setStrokeColor(colors.HexColor(TH["header_rule_color"] or TH["accent_color"]))
+        c.setLineWidth(HEADER_RULE_W); c.line(0, 6, self.aw, 6)
 
 
 def panel(content, tw, pad=7, number=None):
@@ -487,7 +488,7 @@ def make_canvas(meta, page_w, page_h, ml, mr):
                 self.setFont("Sans", 8); self.setFillColor(muted)
                 self.drawRightString(page_w - mr, y_logo + 2.2 * mm, short)
                 if rule:
-                    self.setStrokeColor(colors.HexColor(rule)); self.setLineWidth(0.9)
+                    self.setStrokeColor(colors.HexColor(rule)); self.setLineWidth(HEADER_RULE_W)
                     self.line(ml, y_logo - 2.6 * mm, page_w - mr, y_logo - 2.6 * mm)
             self.setStrokeColor(hairline); self.setLineWidth(0.5)
             self.line(ml, 13 * mm, page_w - mr, 13 * mm)

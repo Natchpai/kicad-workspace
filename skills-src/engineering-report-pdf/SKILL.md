@@ -1,6 +1,6 @@
 ---
 name: engineering-report-pdf
-description: Build a PDF engineering document in Natchanon's NP template (small NP logo in the header, IBM Plex text, navy text with a blue accent, numbered LaTeX equations in panels, numbered figures and tables, "Page X of Y" footer). Use for a design, calculation or test report, technical memo, specification or any engineering write-up delivered as a PDF, for "my template", "the NP template" or "same style as before", or to export a report or Claude Doc to a styled PDF.
+description: Build a PDF engineering document in Natchanon's NP template (small NP logo in the header, IBM Plex text, navy text with a logo-blue accent, numbered LaTeX equations in panels, numbered figures and tables, "Page X of Y" footer). Use for a design, calculation or test report, technical memo, specification or any engineering write-up delivered as a PDF, for "my template", "the NP template" or "same style as before", or to export a report or Claude Doc to a styled PDF.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ This skill turns report content written in a simple Markdown dialect into a bran
 
 The default template, and why it looks this way:
 - **White page, navy-black text (`#16202E`) in IBM Plex Sans.** It prints well and reads like a formal engineering document. Plex keeps 0/O and 1/l/I distinct, which matters for part values and references.
-- **Blue (`#1F63D6`, from the logo) is the only accent**: the header rule, links, table lines, the bar beside equations. Headings, section numbers and list numbers use the text color. Figures use the same palette, so the document reads as one piece.
+- **Logo blue (`#20A0E0`, the main tone of the NP logo gradient) is the only accent**: the header rule, links, table lines, the bar beside equations. Headings, section numbers and list numbers use the text color. Figures use the same palette, so the document reads as one piece.
 - **Small logo top-left on every page**, short title top-right, author and date bottom-left, "Page X of Y" bottom-right. The logo is small on purpose; keep it that size.
 - **Equations sit in numbered panels** so derivations are easy to scan and cite. Figures and tables are numbered too.
 
@@ -123,7 +123,7 @@ apply_plot_style(ax, legend_loc="upper left")
 save_svg(fig, "fig_result.svg")
 ```
 
-Plot conventions (they keep figures readable and on-brand): blue for the series the conclusion is about, gray for comparisons, navy dashed for limits and references with a text label on the line; light-blue grid; axis labels with units; no chart titles (the numbered caption is the title); plain tick labels on log axes via `plain_log_ticks`. For bold figure text use `weight="semibold"`, the heaviest Plex weight bundled. `BLUE`, `INK`, `MUTED` and the grid tints come from the theme (`accent_color`, `text_color`, `muted_color`); `NAVY`, `SKY` and `GRAY` are fixed figure colors.
+Plot conventions (they keep figures readable and on-brand): the accent (`BLUE`) for the series the conclusion is about, gray for comparisons, navy dashed for limits and references with a text label on the line; accent-tinted grid; axis labels with units; no chart titles (the numbered caption is the title); plain tick labels on log axes via `plain_log_ticks`. For bold figure text use `weight="semibold"`, the heaviest Plex weight bundled. `BLUE`, `INK`, `MUTED` and the grid tints come from the theme (`accent_color`, `text_color`, `muted_color`); `NAVY`, `SKY` and `GRAY` are fixed figure colors.
 
 `Schematic(w, h)` draws circuits and simple block diagrams on a y-down canvas: `wire`, `res_h`, `res_v`, `ind_h`, `cap_v`, `source`, `ground`, `dot`, `box` (dashed group or solid block), `arrow`, `text` (mathtext labels like `r"$R_d$"`). Navy for normal parts, `c=BLUE` to highlight the parts the report is about. Check that labels stay inside boxes after rendering.
 
