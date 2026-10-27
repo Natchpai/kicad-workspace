@@ -1,6 +1,6 @@
 ---
 name: engineering-report-pdf
-description: Build a PDF engineering document in Natchanon's NP template (small NP logo in the header, IBM Plex text, navy text with a logo-blue accent, numbered LaTeX equations in panels, numbered figures and tables, "Page X of Y" footer). Use for a design, calculation or test report, technical memo, specification or any engineering write-up delivered as a PDF, for "my template", "the NP template" or "same style as before", or to export a report or Claude Doc to a styled PDF.
+description: Build a PDF engineering document in Natchanon's NP template (small NP logo in the header, IBM Plex text, navy text with a logo-blue accent, numbered LaTeX equations in panels, numbered figures and tables, "Page X of Y" footer). Use for a design, calculation or test report, technical memo, specification or any engineering write-up delivered as a PDF, for "my template", "the NP template" or "same style as before", to export a report or Claude Doc to a styled PDF, or to combine several reports into one PDF with a cover page and table of contents.
 disable-model-invocation: true
 ---
 
@@ -36,6 +36,37 @@ The default template, and why it looks this way:
    ```
    It uses pypdfium2 and falls back to poppler's `pdftoppm`; if neither works, ask the user to open the PDF. On each page, check that every lead-in line (one ending in `:`) sits on the same page as the equation, figure or table after it, and that every "Eq. (n)" reference in the text matches the number printed beside that equation.
 5. **Deliver** the PDF: in claude.ai write it to `/mnt/user-data/outputs/` and call `present_files`; in Claude Code leave it in the working directory and give its path.
+
+## Combining reports
+
+When the user wants several reports in one file, write a `book.md` next to them and build it with `scripts/build_book.py`. It rebuilds every listed report, then adds a cover page, a contents page (each report with its `## N.` sections, page numbers and links), PDF bookmarks and an overall "n / N" page number in each footer. The cover and contents use the same theme layers as a report, so `report-theme.yml` in the book's folder applies to both.
+
+```markdown
+---
+title: 2-Phase Interleaved Sync-Buck Converter      # cover title, wraps to 3 lines
+kicker: Schematic Design Reports                     # small accent line above the title
+subtitle: 24 V to 12 V at 20 A, 200 kHz per phase
+short_title: Schematic Design Reports                # header text on the contents pages
+project: LQRx
+revision: 1.1
+date: Oct 28, 2026
+author: Natchanon Thuentham                          # theme key; any theme key may be set here
+specs: Input = 15–28 V | Output = 12 V, 20 A | Controller = STM32G474   # key-figure panel, optional
+note: Schematic design only.                         # bottom-left line, optional
+license: CERN-OHL-S-2.0                              # bottom-right, optional
+cover_logo: logo_large.png                           # optional; default is the theme logo
+page_stamp: on                                       # off removes the overall "n / N"
+---
+
+- 01_System/report.md        # reports in reading order, paths relative to book.md
+- 02_Power_Stage/report.md
+```
+
+```bash
+python <skill>/scripts/build_book.py book.md Combined.pdf
+```
+
+Then preview the cover and contents pages with `preview.py`, as in Workflow step 4: check that the title and the specs panel fit, and that every contents entry starts on the page it names. `references/example-book.md` is a one-report sample.
 
 ## Theme
 
