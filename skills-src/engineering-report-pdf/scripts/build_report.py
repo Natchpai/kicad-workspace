@@ -43,6 +43,7 @@ SS = {}                                 # paragraph styles built from TH
 SUB = '<sub rise="20%" size="72%">'     # ReportLab's default drops a subscript by half the font size
 SUP = '<super rise="38%" size="72%">'
 EQ_NUM_W = 14 * mm                      # width of the equation-number column (and its mirror on the left)
+EQ_SIZE = 11.5                          # display equation font size in pt (body text is 10 pt)
 HEADER_RULE_W = 0.9                     # header line, footer line and the line under the title block
 
 
@@ -226,8 +227,8 @@ class Report:
         max_w = self.tw - 2 * EQ_NUM_W - 8 * mm
         try:
             if not os.path.exists(p):
-                report_figs.equation(tex, p, color=TH["text_color"])
-            e = Svg(p, scale=0.9)
+                report_figs.equation(tex, p, size=EQ_SIZE, color=TH["text_color"])
+            e = Svg(p, scale=1.0)
             if e.w > max_w:
                 e = Svg(p, width=max_w)
         except Exception as ex:  # mathtext could not parse: show the source rather than fail
@@ -261,7 +262,20 @@ class Report:
         lens = [max(6, max(len(r[j]) for r in rows)) for j in range(n)]
         full = sum(lens) > 60 or n > 2
         tw = self.tw if full else min(self.tw, 95 * mm)
-        cw = [tw * l / sum(lens) for l in lens]
+        # Column widths: each column gets at least its longest unbreakable token (a number keeps its
+        # unit: "0.11 W"), then the space left goes to the columns with the most text.
+        def text_w(s, font):
+            return pdfmetrics.stringWidth(re.sub(r"\*\*|\\|_\{|\}", "", s), font, SS["cell"].fontSize) + 12
+        fonts = ["Sans-Bold"] + ["Sans"] * (len(rows) - 1)
+        lo = [max(text_w(tok, f) for r, f in zip(rows, fonts) for tok in re.split(r"(?<![\d.]) ", r[j]))
+              for j in range(n)]
+        hi = [max(text_w(r[j], f) for r, f in zip(rows, fonts)) for j in range(n)]
+        if sum(hi) <= tw or sum(lo) >= tw:
+            base = hi if sum(hi) <= tw else lo
+            cw = [tw * b / sum(base) for b in base]
+        else:
+            k = (tw - sum(lo)) / (sum(hi) - sum(lo))
+            cw = [l + k * (h - l) for l, h in zip(lo, hi)]
         t = Table(data, colWidths=cw, hAlign="LEFT", repeatRows=1)
         sty = [("BACKGROUND", (0, 0), (-1, 0), C("tint")), ("LINEBELOW", (0, 0), (-1, 0), 1.0, C("accent_color")),
                ("LINEBELOW", (0, 1), (-1, -1), 0.4, C("hairline")), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
