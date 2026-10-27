@@ -1,0 +1,7 @@
+reportlab>=4.0
+matplotlib>=3.7
+svglib>=1.5
+pillow>=9.0
+numpy>=1.22
+fonttools>=4.0
+pypdfium2>=4.0

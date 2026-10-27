@@ -12,6 +12,7 @@ Git-tracked sources of the Claude Code skills that run globally, from `~/.claude
 | `kicad-link-audit` | Read-only check of symbol, footprint, 3D model and library-table links in a project; `scripts/rename_map.py` lists old and new names from this repo's history | `~/.claude/skills/kicad-link-audit/` |
 | `kicad-footprint-sync` | Aligns footprint libraries, local 3D folders and paths, `fp-lib-table` and schematic footprint nicknames in a project. Runs only when you ask | `~/.claude/skills/kicad-footprint-sync/` |
 | `kicad-symbol-sync` | Splits `.kicad_sym` into `.kicad_symdir`, aligns `sym-lib-table`, fixes symbol footprint links and filters in a project. Runs only when you ask | `~/.claude/skills/kicad-symbol-sync/` |
+| `engineering-report-pdf` | Builds a PDF engineering report in the NP template (IBM Plex, navy text with a blue accent, numbered equations, figures and tables) from a Markdown dialect (`scripts/build_report.py`, figures with `scripts/report_figs.py`, page previews with `scripts/preview.py`). Runs only when you ask | `~/.claude/skills/engineering-report-pdf/` |
 
 Projects keep no copies of these skills; they all run from the global folder.
 
@@ -20,11 +21,11 @@ Projects keep no copies of these skills; they all run from the global folder.
 Edit here, commit, then copy to the global folder:
 
 ```
-for s in kicad-naming kicad-lib-organize kicad-part-start kicad-footprint-make kicad-symbol-make kicad-link-audit kicad-footprint-sync kicad-symbol-sync; do
+for s in kicad-naming kicad-lib-organize kicad-part-start kicad-footprint-make kicad-symbol-make kicad-link-audit kicad-footprint-sync kicad-symbol-sync engineering-report-pdf; do
   cp -r skills-src/$s/. ~/.claude/skills/$s/
 done
 ```
 
-Check with `diff -r skills-src/<skill> ~/.claude/skills/<skill>`. The copy never deletes: when a file is removed here, remove it from the global folder too (`diff -r` lists it as `Only in`). Edit only here; changes made in the global copy are lost at the next install.
+Check with `diff -r -x __pycache__ skills-src/<skill> ~/.claude/skills/<skill>`. The copy never deletes: when a file is removed here, remove it from the global folder too (`diff -r` lists it as `Only in`). Edit only here; changes made in the global copy are lost at the next install.
 
 `kicad-naming/references/KLC/` is a copy of `library/KLC/`. When the KLC rules are updated, update both.
