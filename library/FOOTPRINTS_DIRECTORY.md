@@ -9,7 +9,7 @@ Inventory: 31 libraries, 129 footprints.
 - **0_Conn_Barrel.pretty** (2) — BarrelJack_CLIFF_FC681465S_SMT_Horizontal, BarrelJack_CUI_PJ-002A_Horizontal
 - **0_Conn_Ethernet.pretty** (2) — RJ45_GCT_MGB005-1CF1B002H_Horizontal, RJ45_Pulse_JXD0-0019NL_Horizontal
 - **0_Conn_FFC.pretty** (4) — GCT_FFC2B28-04_1x04-1MP_P0.5mm_Horizontal, GCT_FFC2B28-16_1x16-1MP_P0.5mm_Horizontal, GCT_FFC2B35-04_1x04-1MP_P0.5mm_Horizontal, GCT_FFC2B35-16_1x16-1MP_P0.5mm_Horizontal
-- **0_Conn_JST.pretty** (7) — JST_EH_S2B-EH_1x02_P2.50mm_Horizontal, JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal, JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal, JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal, JST_GH_SM07B-GHS-TB_1x07-1MP_P1.25mm_Horizontal, JST_GH_SM08B-GHS-TB_1x08-1MP_P1.25mm_Horizontal, JST_ZH_B2B-ZR_1x02_P1.50mm_Vertical
+- **0_Conn_JST.pretty** (6) — JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal, JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal, JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal, JST_GH_SM07B-GHS-TB_1x07-1MP_P1.25mm_Horizontal, JST_GH_SM08B-GHS-TB_1x08-1MP_P1.25mm_Horizontal, JST_ZH_B2B-ZR_1x02_P1.50mm_Vertical
 - **0_Conn_Mezzanine.pretty** (1) — Amphenol_10144518-101802LF_2x50_P0.8mm_Vertical
 - **0_Conn_Molex.pretty** (2) — Molex_Mini-Fit_Jr_5569-04A2_2x02_P4.20mm_Horizontal, Molex_Mini-Fit_Jr_5569-06A2_2x03_P4.20mm_Horizontal
 - **0_Conn_PinHeader.pretty** (4) — PinHeader_1x02_P2.54mm_Vertical, PinHeader_2x04_P2.54mm_Vertical, PinHeader_2x05_P1.27mm_Vertical_SMD, PinHeader_2x08_P2.54mm_Vertical
@@ -18,7 +18,7 @@ Inventory: 31 libraries, 129 footprints.
 - **0_Crystal.pretty** (1) — Crystal_SMD_Abracon_ABM11W-4Pin_2.0x1.6mm
 - **0_Diode_SMD.pretty** (8) — D_SMA, D_SMB_J-Bend, D_SOD-123, D_SOD-123FL, D_SOD-323, D_SOD-523, D_SOD-882, D_SOD-923
 - **0_Graphics.pretty** (4) — HotSurface, LayerMarker_4_6.35x2.54mm_TextH1mm_P1.27mm_LowerMirrored, NP_Logo_5mm, NP_Logo_8mm
-- **0_Inductor_SMD.pretty** (10) — L_0603_1608Metric, L_Abracon_AMDLA3020S, L_Abracon_AMDLA4020S, L_Abracon_AMELA2012S, L_Abracon_AMPLH5030S, L_Abracon_AOTA-B201208S, L_Abracon_AOTA-B252010S, L_Abracon_ASPI-8040HS, L_Chilisin_BDCD00201610, L_Wuerth_WE-XHMI-744393665100
+- **0_Inductor_SMD.pretty** (11) — L_0603_1608Metric, L_Abracon_AMDLA3020S, L_Abracon_AMDLA4020S, L_Abracon_AMELA2012S, L_Abracon_AMPLH5030S, L_Abracon_AOTA-B201208S, L_Abracon_AOTA-B252010S, L_Abracon_ASPI-8040HS, L_Chilisin_BDCD00201610, L_JIERR_PCR0420, L_Wuerth_WE-XHMI-744393665100
 - **0_LED_SMD.pretty** (1) — LED_0603_1608Metric
 - **0_MountingHole.pretty** (1) — MountingHole_3.2mm_M3_Pad_Via
 - **0_NetTie.pretty** (5) — NetTie-2_SMD_Pad0.15mm, NetTie-2_SMD_Pad0.2mm, NetTie-2_SMD_Pad0.3mm, NetTie-2_SMD_Pad0.4mm, NetTie-2_SMD_Pad0.5mm

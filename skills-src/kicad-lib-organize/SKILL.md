@@ -10,7 +10,7 @@ Works in any repository or KiCad project that keeps its own library tree: a libr
 Three branches share one procedure:
 
 - **Import**: the source is the staging folder, libDump/ unless the user names another. Each file moves into its library family and takes its KLC name in the same run.
-- **Publish**: the source is a project's own library folder; the destination is the archive library repo. Only parts the archive does not have yet go over, as KLC-named **copies** (`--copy`); nothing in the project is written. Ask for the archive path (and the project library path, when not running in that project); never write either path into a file. Pass the archive as `--root` to both scripts. It works from either session, the project's or the archive's.
+- **Publish**: the source is a project's own library folder; the destination is the archive library repo, the master copy. The project library is a subset of the archive: an item only the archive has is fine and goes unreported. An item the project has and the archive lacks or holds differently (lib_diff NEW, DIFFERS or OTHER NAME) is a **gap**, and the user decides each gap (step 1). Items go over as KLC-named **copies** (`--copy`); nothing in the project is written. Ask for the archive path (and the project library path, when not running in that project); never write either path into a file. Pass the archive as `--root` to both scripts. It works from either session, the project's or the archive's.
 - **Rename**: the source is the library folder itself, when the user asks to rename existing items to KLC.
 
 A fourth branch, **Stock copy**, takes parts from KiCad's own library with their stock names and content. It has its own steps in [STOCK.md](STOCK.md); the map and steps below do not apply to it.
@@ -42,7 +42,11 @@ Collisions, checked case-insensitively against the destination:
 
 ## Steps
 
-1. **Inspect.** Check `git status` (for Publish, in the archive repo). For an import, inventory the staging folder by type and source library, and skip project files. For Publish, run the read-only `python -I <skill dir>/scripts/lib_diff.py <project library> --root <archive>`: it sorts every item into IDENTICAL, DIFFERS, OTHER NAME (the archive holds the same content under another name, usually a rename), NEW and PACKED. Only NEW items go on; the others are reported. Split packed multi-symbol `.kicad_sym` libraries into `.kicad_symdir` first (create the empty `<name>.kicad_symdir` folder, then `kicad-cli sym upgrade --force -o <name>.kicad_symdir <lib>.kicad_sym`; without the folder, kicad-cli writes one packed file under that name). Read each symbol's `Footprint` property and each footprint's `(model ...)` paths.
+1. **Inspect.** Check `git status` (for Publish, in the archive repo). For an import, inventory the staging folder by type and source library, and skip project files. For Publish, run the read-only `python -I <skill dir>/scripts/lib_diff.py <project library> --root <archive>`: it sorts every item into IDENTICAL, DIFFERS, OTHER NAME (the archive holds the same content under another name, usually a rename), NEW and PACKED. Then set the Publish scope:
+   - Items or families the user named ("archive 0_Protection_eFuse") go on. Their NEW items go through the map. A named DIFFERS item goes on only when the user said to replace it: show its diff first (flag moved pins and changed `Footprint` values), then copy it over directly in the archive's line endings (its `.gitattributes`).
+   - Every other gap: list it (type, name, lib_diff class, what differs) and ask per item: archive now, or later. A "later" item stays out of this run; the next lib_diff shows it again.
+
+   Split packed multi-symbol `.kicad_sym` libraries into `.kicad_symdir` first (create the empty `<name>.kicad_symdir` folder, then `kicad-cli sym upgrade --force -o <name>.kicad_symdir <lib>.kicad_sym`; without the folder, kicad-cli writes one packed file under that name). Read each symbol's `Footprint` property and each footprint's `(model ...)` paths.
    Done when every source file is listed as symbol, footprint, model or other, and every footprint-to-model and symbol-to-footprint reference is known.
 
 2. **Build the map**, using the rules above.
@@ -68,7 +72,7 @@ Collisions, checked case-insensitively against the destination:
 
 6. **Report**:
    - counts moved, renamed, copied and consolidated, plus final library counts;
-   - what stays in the staging folder and why (Publish: the DIFFERS, OTHER NAME and PACKED items);
+   - what stays in the staging folder and why (Publish: the gaps left for later, and PACKED items);
    - Publish: an `old -> new` list (`nickname:name` and model files) for every item the archive named differently from the project, so `kicad-footprint-sync` / `kicad-symbol-sync` can update the project when the user asks;
    - conflicts, and names built on unconfirmed facts;
    - checks run, with `NOT_VERIFIED` for KiCad GUI loading and 3D rendering;

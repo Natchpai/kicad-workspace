@@ -30,7 +30,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_QFP:LQFP-48_7x7mm_P0.5mm"
+		(property "Footprint" "0_Package_QFP:LQFP-48_7x7mm_P0.5mm"
 			(at -15.24 -44.45 0)
 			(show_name no)
 			(do_not_autoplace no)
