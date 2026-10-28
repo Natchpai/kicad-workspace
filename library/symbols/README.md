@@ -17,7 +17,7 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 | **0_Interface_USB** | 2 | **FT2232HQ**, **USB3320C-EZK** |
 | **0_Jumper** | 11 | **Jumper_2_Bridged**, **Jumper_2_Open**, **Jumper_2_Small_Bridged**, **Jumper_2_Small_Open**, **Jumper_3_Bridged12**, **Jumper_3_Open**, **SolderJumper_2_Bridged**, **SolderJumper_2_Open**, **SolderJumper_3_Bridged12**, **SolderJumper_3_Bridged123**, **SolderJumper_3_Open** |
 | **0_Logic_74x** | 1 | **SN74LVC1G07DCK** |
-| **0_MCU_ST_STM32F1** | 1 | **STM32F103C8Tx** |
+| **0_MCU_ST_STM32F1** | 2 | **STM32F100C8Tx**, **STM32F103C8Tx** |
 | **0_MCU_ST_STM32G4** | 1 | **STM32G474R_B-C-E_Tx** |
 | **0_MCU_ST_STM32H7** | 1 | **STM32H743VITx** |
 | **0_Memory_DDR3** | 1 | **MT41K256M16TW-107** |
@@ -28,7 +28,7 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 | **0_Oscillator** | 2 | **ASDMB**, **ECS-2520MV** |
 | **0_Power_Management** | 1 | **LM66100DCK** |
 | **0_Power_Switch** | 1 | **TPS2051CDBV** |
-| **0_Protection_eFuse** | 2 | **STEF05PU**, **TPS16412DRC** |
+| **0_Protection_eFuse** | 6 | **STEF05PU**, **TPS16412DRC**, **TPS25923xDRC**, **TPS25924xDRC**, **TPS25925xDRC**, **TPS25926xDRC** |
 | **0_Protection_ESD** | 9 | **DF2S6.2CT**, **ESD5Z3V3**, **ESD9L5.0S**, **GSEWT3U003C**, **PESD4USB5BTBR-Q**, **PUSB3FR4Z**, **SMBJ30A**, **SP3031-01E**, **USBLC6-2SC6** |
 | **0_Reference_Voltage** | 1 | **MCP1501-30xCHY** |
 | **0_Regulator_DDR_VTT** | 1 | **TPS51200DRC** |

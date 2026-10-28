@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "2.7V to 40V, 1.8A current limiting eFuse with IN to OUT short detection, VSON-10"
+		(property "Description" "2.7V to 40V, 1.8A Current Limiting eFuse With IN to OUT Short Detection"
 			(at 0 -22.86 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -63,7 +63,7 @@
 				)
 			)
 		)
-		(property "ki_keywords" "hot-swap overcurrent overvoltage protection"
+		(property "ki_keywords" "efuse overcurrent overvoltage protection"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -136,7 +136,7 @@
 				)
 			)
 			(pin input line
-				(at -13.97 0 0)
+				(at -13.97 -5.08 0)
 				(length 2.54)
 				(name "OVP"
 					(effects
@@ -172,7 +172,7 @@
 				)
 			)
 			(pin input line
-				(at -13.97 -5.08 0)
+				(at -13.97 0 0)
 				(length 2.54)
 				(name "EN/~{SHDN}"
 					(effects
