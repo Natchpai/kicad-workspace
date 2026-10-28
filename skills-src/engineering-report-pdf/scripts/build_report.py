@@ -53,7 +53,7 @@ EQ_LANGS = ("latex", "math", "tex")     # fenced blocks that hold equations
 NONUMBER = r"\\(nonumber|notag)(?![a-zA-Z])"
 LABEL = r"\\label\{([^}]*)\}"           # \label{key} in an equation ...
 REF = r"\(@([\w:.-]+)\)"                # ... and (@key) in the text becomes its number, (3)
-EQ_CITE = r"\b(?:Eqs?\.|Equations?)\s*\((\d+)\)"   # a number written by hand, checked against the count
+EQ_CITE = r"\b(?:Eqs?\.|Equations?)\s*\((?:(\d+)\.)?(\d+)\)"   # a number written by hand, (7) or (3.7), checked against the count
 CMDLINE = "command line (--set)"
 
 
@@ -175,6 +175,14 @@ class TitleRule(Flowable):
         c.setLineWidth(LAYOUT.rule_w); c.line(0, B.title_rule_y, self.aw, B.title_rule_y)
 
 
+def num_w(number):
+    """Width of the equation-number column: B.eq_num_w, or wider for a long number like (3.12)."""
+    if number is None:
+        return B.eq_num_w
+    w = pdfmetrics.stringWidth(f"({number})", SS["eqno"].fontName, SS["eqno"].fontSize)
+    return max(B.eq_num_w, w + 2 * B.panel_side + 1)
+
+
 def panel(content, tw, pad=B.eq_pad, number=None):
     """Equation or code panel, drawn per eq_style: panel = tint + bar, bar = bar only, plain = neither.
     With `number`, an equation number sits on the right and an equal empty column on the left
@@ -182,8 +190,8 @@ def panel(content, tw, pad=B.eq_pad, number=None):
     if number is None:
         t = Table([[content]], colWidths=[tw])
     else:
-        t = Table([["", content, Paragraph(f"({number})", SS["eqno"])]],
-                  colWidths=[B.eq_num_w, tw - 2 * B.eq_num_w, B.eq_num_w])
+        nw = num_w(number)
+        t = Table([["", content, Paragraph(f"({number})", SS["eqno"])]], colWidths=[nw, tw - 2 * nw, nw])
     sty = [("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
            ("TOPPADDING", (0, 0), (-1, -1), pad), ("BOTTOMPADDING", (0, 0), (-1, -1), pad),
            ("LEFTPADDING", (0, 0), (-1, -1), B.panel_side), ("RIGHTPADDING", (0, 0), (-1, -1), B.panel_side)]
@@ -213,14 +221,18 @@ def cap_label(kind, n):
 
 # ---------------------------------------------------------------- builder
 class Report:
-    def __init__(self, md_path, meta, tw, workdir, line0=0):
+    def __init__(self, md_path, meta, tw, workdir, line0=0, prefix=None):
         self.base = os.path.dirname(os.path.abspath(md_path))
+        self.prefix = prefix  # report number in a book: equations (3.1), Figure 3.1, Table 3.1
         self.meta, self.tw, self.work = meta, tw, workdir
         self.line0 = line0  # source lines before the body (front matter), for error messages
         subs = [s.strip() for s in meta.get("subscripts", "").split(",") if s.strip()]
         italic = [s.strip() for s in meta.get("italic_titles", "").split("|") if s.strip()]
         self.inline = Inline(subs, italic)
         self.n_fig = self.n_tab = self.n_eq = 0
+
+    def num(self, n):
+        return f"{self.prefix}.{n}" if self.prefix else str(n)
 
     def number_equations(self, L):
         """Pre-pass: the number of every \\label{key}, so (@key) works before its equation too, and
@@ -246,10 +258,13 @@ class Report:
                     elif key in self.inline.labels:
                         warn(f"line {ln}: \\label{{{key}}} is used twice; (@{key}) gives the first")
                     else:
-                        self.inline.labels[key] = n
+                        self.inline.labels[key] = self.num(n)
         for ln, t in text:
             for m in re.finditer(EQ_CITE, t):
-                if int(m.group(1)) > n:
+                if self.prefix and m.group(1) is None:
+                    warn(f"line {ln}: '{m.group(0)}' has no report number, but in the book this report's "
+                         f"equations read ({self.prefix}.n) (cite with \\label{{key}} and (@key))")
+                elif m.group(1) in (None, self.prefix) and int(m.group(2)) > n:
                     warn(f"line {ln}: '{m.group(0)}' but the report has {n} numbered equations "
                          f"(cite with \\label{{key}} and (@key) to keep numbers right)")
 
@@ -257,7 +272,8 @@ class Report:
         numbered = TH["eq_numbers"] and not re.search(NONUMBER, tex)
         tex = re.sub(LABEL, "", re.sub(NONUMBER, "", tex)).strip()
         p = os.path.join(self.work, hashlib.md5(tex.encode()).hexdigest() + ".svg")
-        max_w = self.tw - 2 * B.eq_num_w - B.eq_room
+        number = self.num(self.n_eq + 1) if numbered else None
+        max_w = self.tw - 2 * num_w(number) - B.eq_room
         try:
             if not os.path.exists(p):
                 report_figs.equation(tex, p, size=B.eq_size, color=TH["text_color"])
@@ -267,9 +283,8 @@ class Report:
         except Exception as ex:  # mathtext could not parse: show the source rather than fail
             warn(f"equation not rendered ({ex.__class__.__name__}): {tex}")
             e = Preformatted(tex, SS["code"])
-        if numbered:
-            self.n_eq += 1
-        return panel(e, self.tw, number=self.n_eq if numbered else None)
+        self.n_eq += numbered
+        return panel(e, self.tw, number=number)
 
     def figure(self, path, cap, width_pct, line):
         src = path
@@ -285,7 +300,7 @@ class Report:
         parts = [Spacer(1, B.fig_before), img]
         if cap:
             self.n_fig += 1
-            parts.append(Paragraph(cap_label("figure", self.n_fig) + self.inline(cap), SS["cap"]))
+            parts.append(Paragraph(cap_label("figure", self.num(self.n_fig)) + self.inline(cap), SS["cap"]))
         else:
             parts.append(Spacer(1, B.fig_after))
         return KeepTogether(parts)
@@ -327,7 +342,7 @@ class Report:
         parts = []
         if caption:
             self.n_tab += 1
-            parts.append(Paragraph(cap_label("table", self.n_tab) + self.inline(caption), SS["tcap"]))
+            parts.append(Paragraph(cap_label("table", self.num(self.n_tab)) + self.inline(caption), SS["tcap"]))
         parts.append(t)
         return [KeepTogether(parts)] if len(rows) <= B.table_keep else parts
 
@@ -345,7 +360,8 @@ class Report:
 
     def title_block(self, title):
         m = self.meta
-        out = [Paragraph(self.inline(title, False), SS["title"])]
+        num = f'<font color="{TH["number_color"]}">{self.prefix}</font>&nbsp;&nbsp;' if self.prefix else ""
+        out = [Paragraph(num + self.inline(title, False), SS["title"])]
         if m.get("subtitle"):
             out.append(Paragraph(self.inline(m["subtitle"], False), SS["subtitle"]))
         bits = [x for x in (TH["author"], m.get("date")) if x]
@@ -642,12 +658,13 @@ def load_report(md_path, base_layers=(), top=None):
     return meta, body, th, md[:len(md) - len(body)].count("\n")
 
 
-def build(md_path, out_pdf, pages=None, base_layers=(), top=None, offset=0):
+def build(md_path, out_pdf, pages=None, base_layers=(), top=None, offset=0, number_prefix=None):
     """Build one report and return [(## heading text, page index), ...] for its ## headings.
     pages=None follows the `pages` theme key: full (cover, contents, report; assembled by
     build_book.single), cover (cover page and report) or content (the report only; a book passes it).
     base_layers sit between the skill theme and the report's own theme; top is the --set dict;
-    offset is the number of pages before the report in the final file."""
+    offset is the number of pages before the report in the final file; number_prefix (a book
+    passes the report's place, "3") numbers equations, figures and tables (3.1), Figure 3.1."""
     meta, body, th, line0 = load_report(md_path, base_layers, top)
     pages = th["pages"] if pages is None else pages
     if pages == "full":
@@ -659,7 +676,7 @@ def build(md_path, out_pdf, pages=None, base_layers=(), top=None, offset=0):
     L = LAYOUT
     tw = W - L.margin_l - L.margin_r
     with tempfile.TemporaryDirectory(prefix="report_eq_") as work:  # equation SVGs, deleted after the build
-        rep = Report(md_path, meta, tw, work, line0)
+        rep = Report(md_path, meta, tw, work, line0, number_prefix)
         story = rep.parse(body)
     title = meta["title"]
     doc = ReportDoc(out_pdf, pagesize=paper, leftMargin=L.margin_l, rightMargin=L.margin_r,

@@ -13,7 +13,9 @@ given with --set reach every report.
 
 book.md holds the cover values as front matter and lists the reports in reading order, one
 `- path/report.md` per line (paths relative to book.md). Every report is built fresh with
-build_report.py, so the combined file always matches its sources. The book's theme (skill
+build_report.py, so the combined file always matches its sources. With `report_numbers: on`
+(default) report 3's equations, figures and tables read (3.1), Figure 3.1, Table 3.1, and its
+title, contents row and bookmark carry the 3; off restarts (1), Figure 1 in each report. The book's theme (skill
 theme.yml, then report-theme.yml next to book.md or `theme:`, then the front matter) styles the
 cover and contents pages and sits under each report's own theme, so one setting in book.md
 reaches every page. The contents takes each `## N.` heading's page from the report build.
@@ -41,7 +43,7 @@ import page_layout
 import report_figs
 from page_layout import LABELS, LAYOUT, draw_text, fit_size, text_w, warn
 
-BOOK_KEYS = ("page_stamp",)  # book only; the report keys (title, cover fields ...) and theme keys also apply
+BOOK_KEYS = ("page_stamp", "report_numbers")  # book only; the report keys (title, cover fields ...) and theme keys also apply
 
 
 def fail(msg):
@@ -83,9 +85,10 @@ def plain(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
-def report_entry(md_path, pdf, heads, meta):
-    """Contents entry of one built report: its title, doc no., page count, paper size and its
-    numbered ## headings (`## 3. Output stage`) with their page index in the report."""
+def report_entry(md_path, pdf, heads, meta, num=None):
+    """Contents entry of one built report: its title (label: with its book number, "3  Title"),
+    doc no., page count, paper size and its numbered ## headings (`## 3. Output stage`) with
+    their page index in the report."""
     sections = []
     for txt, page in heads:
         m = re.match(r"^(\d+)\.\s+(.+)$", txt.strip())
@@ -93,17 +96,20 @@ def report_entry(md_path, pdf, heads, meta):
             sections.append((plain(f"{m.group(1)}. {m.group(2)}"), page))
     reader = PdfReader(pdf)
     box = reader.pages[0].mediabox
-    return dict(pdf=pdf, md=md_path, title=plain(meta["title"]), doc=meta.get("doc_no", ""),
+    title = plain(meta["title"])
+    return dict(pdf=pdf, md=md_path, title=title, label=f"{num}  {title}" if num else title, doc=meta.get("doc_no", ""),
                 pages=len(reader.pages), sections=sections, size=(float(box.width), float(box.height)))
 
 
-def build_reports(paths, work, base_layers, top):
+def build_reports(paths, work, base_layers, top, numbers=True):
     out = []
     for i, md_path in enumerate(paths):
         meta = build_report.load_report(md_path, base_layers, top)[0]
         pdf = os.path.join(work, f"{i:02d}.pdf")
-        heads = build_report.build(md_path, pdf, pages="content", base_layers=base_layers, top=top)
-        out.append(report_entry(md_path, pdf, heads, meta))
+        num = str(i + 1) if numbers else None
+        heads = build_report.build(md_path, pdf, pages="content", base_layers=base_layers, top=top,
+                                   number_prefix=num)
+        out.append(report_entry(md_path, pdf, heads, meta, num))
     return out
 
 
@@ -170,8 +176,8 @@ class Contents:
                 c.setFillColor(acc); c.rect(L.margin_l, band, L.row_bar, L.row_r, stroke=0, fill=1)
                 cont = f" {LABELS['cont']}" if row["cont"] else ""
                 room = doc_x - text_w(r["doc"], "Sans", L.doc_size) - L.rep_gap - (L.margin_l + L.rep_x)
-                size = fit_size(r["title"] + cont, "Sans-Bold", L.rep_size, L.rep_min, room)
-                title = page_layout.ellipsis(r["title"], "Sans-Bold", size, room - text_w(cont, "Sans-Bold", size))
+                size = fit_size(r["label"] + cont, "Sans-Bold", L.rep_size, L.rep_min, room)
+                title = page_layout.ellipsis(r["label"], "Sans-Bold", size, room - text_w(cont, "Sans-Bold", size))
                 draw_text(c, L.margin_l + L.rep_x, y, title + cont, "Sans-Bold", size, ink)
                 draw_text(c, doc_x, y, r["doc"], "Sans", L.doc_size, muted, align="right")
                 draw_text(c, num_x, y, str(r["start"] + 1), "Sans-Bold", L.rep_size, ink, align="right")
@@ -222,7 +228,7 @@ def assemble(out_pdf, meta, th, paper, reps, toc, toc_pages, rows, stamp):
     w.add_outline_item(LABELS["cover"], 0)
     w.add_outline_item(LABELS["contents"], 1)
     for r in reps:
-        parent = w.add_outline_item(r["title"], r["start"])
+        parent = w.add_outline_item(r["label"], r["start"])
         for txt, p in r["sections"]:
             w.add_outline_item(txt, r["start"] + p, parent=parent)
     w.add_metadata({"/Title": meta.get("title", "Reports"), "/Author": th["author"] or ""})
@@ -265,10 +271,11 @@ def build_book(book_md, out_pdf, top=None):
     th, _ = build_report.report_theme(book_md, theme_meta(meta))
     paper = page_layout.PAPERS[th["paper"]]
     stamp = report_figs.parse_switch(meta.get("page_stamp", "on"), "page_stamp", where)
+    numbers = report_figs.parse_switch(meta.get("report_numbers", "on"), "report_numbers", where)
     top_th = {k: v for k, v in (top or {}).items() if k in report_figs.THEME_KEYS}
 
     with tempfile.TemporaryDirectory(prefix="book_") as work:
-        reps = build_reports(paths, work, layers, top_th)
+        reps = build_reports(paths, work, layers, top_th, numbers)
         for r in reps:
             if any(abs(a - b) > 1 for a, b in zip(r["size"], paper)):
                 warn(f"{os.path.basename(r['md'])} has a different paper size from the book "
@@ -285,7 +292,7 @@ def build_book(book_md, out_pdf, top=None):
         total = assemble(out_pdf, meta, th, paper, reps, toc, pages, rows, stamp)
     print(f"Wrote {out_pdf}: {total} pages, {len(reps)} reports, {len(pages)} contents page(s)")
     for r in reps:
-        print(f"  p{r['start'] + 1:>3}  {r['title']}")
+        print(f"  p{r['start'] + 1:>3}  {r['label']}")
 
 
 if __name__ == "__main__":
