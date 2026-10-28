@@ -65,6 +65,7 @@ note: Schematic design only.                         # bottom-left line, optiona
 license: CERN-OHL-S-2.0                              # bottom-right, optional
 cover_logo: logo_large.svg                           # optional, .svg or .png; default is the vector assets/logo.svg
 page_stamp: on                                       # off removes the overall "n / N"
+report_numbers: on                                   # off restarts (1), Figure 1, Table 1 in each report
 ---
 
 - 01_System/report.md        # reports in reading order, paths relative to book.md
@@ -75,7 +76,7 @@ page_stamp: on                                       # off removes the overall "
 python <skill>/scripts/build_book.py book.md Combined.pdf --strict --preview preview --sheet 8
 ```
 
-The contents takes each `## N.` heading's page from the report build itself, so its page numbers and links are exact. `paper:` in `book.md` reaches every report, and theme keys given with `--set` reach every report too. Then look at the sheets as in Workflow step 4: check that the cover title and the specs panel fit (`WARNING: cover title cut` means shorten the title or subtitle). `references/example-book.md` is a one-report sample.
+The contents takes each `## N.` heading's page from the report build itself, so its page numbers and links are exact. Each report takes its place in the list as a number: report 3's equations, figures and tables read (3.1), Figure 3.1, Table 3.1, and the 3 stands before its title, contents row and bookmark. `(@key)` cites follow; a hand-written "Eq. (n)" without the report number is a warning in a book. `paper:` in `book.md` reaches every report, and theme keys given with `--set` reach every report too. Then look at the sheets as in Workflow step 4: check that the cover title and the specs panel fit (`WARNING: cover title cut` means shorten the title or subtitle). `references/example-book.md` is a one-report sample.
 
 ## Full report or content only
 
@@ -159,7 +160,7 @@ Details that matter:
 - **Pipes inside table cells** must be escaped: `\|Zo\|`. An unescaped `|` splits the cell.
 - **Tables** with 10 rows or fewer are kept on one page. A `Table: caption` line directly above a table numbers and captions it. Two-column tables are drawn narrow; wider ones span the page.
 - **Figures**: `![caption](path){width=NN%}` alone on its line (default 88%; decimals such as `70.5%` work). Paths are relative to the Markdown file. SVG preferred; PNG and JPG accepted. An empty caption gives an unnumbered figure.
-- **Equations**: one per ```` ```latex ```` block (separate several with a blank line inside the block), or `$$ … $$`. Each gets a number, (1), (2) …, through the whole document; put `\nonumber` or `\notag` in an equation to leave it unnumbered. To cite one, put `\label{key}` in it and write `Eq. (@key)` in the text: the build prints its number, before or after the equation, and stays right when equations are added or removed. Use labels for every citation. A hand-written "Eq. (n)" larger than the equation count is a warning, but a wrong number within range is not caught. Equations are rendered by matplotlib *mathtext*, not full LaTeX. `\frac` is upgraded to display-size `\dfrac` automatically; `\operatorname{}` and `\text{}` become `\mathrm{}`. Not supported: `\begin{aligned}`, `\begin{cases}`, matrices, `\boldsymbol`. Split a multi-line derivation into one equation per line.
+- **Equations**: one per ```` ```latex ```` block (separate several with a blank line inside the block), or `$$ … $$`. Each gets a number, (1), (2) …, through the whole document ((3.1), (3.2) … for report 3 of a book); put `\nonumber` or `\notag` in an equation to leave it unnumbered, or set the theme key `eq_numbers: off` to number none. To cite one, put `\label{key}` in it and write `Eq. (@key)` in the text: the build prints its number, before or after the equation, and stays right when equations are added or removed. Use labels for every citation. A hand-written "Eq. (n)" larger than the equation count is a warning, but a wrong number within range is not caught. Equations are rendered by matplotlib *mathtext*, not full LaTeX. `\frac` is upgraded to display-size `\dfrac` automatically; `\operatorname{}` and `\text{}` become `\mathrm{}`. Not supported: `\begin{aligned}`, `\begin{cases}`, matrices, `\boldsymbol`. Split a multi-line derivation into one equation per line.
 - **Fonts**: text is IBM Plex Sans (SemiBold for headings and bold), code is IBM Plex Mono, equations are Computer Modern (mathtext `cm`) so they read like LaTeX. Unicode symbols (Ω µ ≈ ≥ √ − ² · × ≫ ∝ ∠) are fine in text, tables, code, headers and the cover: glyphs Plex lacks are drawn from the DejaVu fallback automatically, so type the real symbol. No bundled font covers Thai or CJK script.
 
 ## Figures

@@ -11,6 +11,7 @@ note: Example of a combined report with a cover page and contents.
 # doc_no: EX-01-B            # header tag instead of project
 # cover_logo: my_logo.svg    # cover logo, .svg or .png
 # page_stamp: off            # no overall "n / N" page number
+# report_numbers: off        # (1), Figure 1 in each report instead of (3.1), Figure 3.1
 ---
 
 Reports in reading order, one per line, paths relative to this file:

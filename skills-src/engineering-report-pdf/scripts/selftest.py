@@ -106,8 +106,10 @@ def good_builds(out):
           code == 0 and re.search(r"eq_style\s+panel\s+command line", log) and "alt-theme.yml" in log, log)
 
     book = os.path.join(out, "book.pdf")
-    code, log = run("build_book.py", os.path.join(FIX, "book.md"), book, "--strict")
-    check("book.md builds with no warning", code == 0, log)
+    code, log = run("build_book.py", os.path.join(FIX, "book.md"), book)
+    warns = [l for l in log.splitlines() if l.startswith("WARNING")]
+    check("book.md builds; its one warning is the hand-written Eq. (3) of features.md (no report number)",
+          code == 0 and len(warns) == 1 and "'Eq. (3)' has no report number" in warns[0], log)
     if code == 0:
         check_book(book, log)
 
@@ -131,13 +133,20 @@ def check_book(book, log):
             if title in ("Cover", "Contents"):
                 continue
             # the heading text (without its number) must be on the page the bookmark opens
-            want = norm(re.sub(r"^\d+\.\s*", "", title))[:20]
+            want = norm(re.sub(r"^\d+\.?\s+", "", title))[:20]
             if want not in norm(text(book, page)):
                 bad.append(f"{title} -> p{page + 1}")
     walk(r.outline)
     check("every bookmark opens the page that holds its heading", not bad, "; ".join(bad))
     stamp = text(book, 1)
     check("contents page carries the book page stamp", re.search(r"2 / \d+", stamp) is not None, stamp)
+    t = text(book)
+    check("book numbers by report: (@rd) is (1.2), Figure 1.1, Table 1.1, the third report's Figure 3.1",
+          "follows Eq. (1.2)" in t and "impedance of Eq. (1.1)" in t and "(1.3)" in t
+          and "Figure 1.1." in t and "Table 1.1." in t and "Figure 3.1." in t, t[:1500])
+    check("contents rows and report bookmarks carry the report number",
+          re.search(r"1\s+Selftest: Every Dialect Construct", stamp) is not None
+          and any(not isinstance(it, list) and it.title.startswith("3  ") for it in r.outline), stamp)
 
 
 # ---------------------------------------------------------------- broken inputs
@@ -196,11 +205,14 @@ def broken_inputs(out):
         code, log = run("build_book.py", write(d, "book.md", body), os.path.join(d, "book.pdf"))
         check(f"error: {name}", code != 0 and want in log, log)
     pdf = os.path.join(d, "book.pdf")
-    code, log = run("build_book.py", write(d, "book.md", "---\ntitle: B\n---\n- ok.md\n"), pdf,
-                    "--set", "footer=Footer from set", "--set", "page_stamp=off")
+    write(d, "num.md", FRONT.format(extra="") + "$$ x = 1 $$\n\nTable: T\n| a | b |\n| - | - |\n| 1 | 2 |\n")
+    code, log = run("build_book.py", write(d, "book.md", "---\ntitle: B\n---\n- ok.md\n- num.md\n"), pdf,
+                    "--set", "footer=Footer from set", "--set", "page_stamp=off", "--set", "report_numbers=off")
     last = text(pdf, -1) if code == 0 else ""
     check("book --set: theme keys reach the reports, page_stamp=off drops the stamp",
           code == 0 and "Footer from set" in last and not re.search(r"\d+ / \d+", last), log + last)
+    check("book report_numbers=off: each report restarts at (1) and Table 1",
+          "(1)" in last and "Table 1." in last and "2.1" not in last, last)
 
 
 # ---------------------------------------------------------------- preview and figures
