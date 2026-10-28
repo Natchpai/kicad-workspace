@@ -61,21 +61,27 @@ Claude never renames files by hand; the script applies the map.
 
 Use this when you design parts inside a project, for example `AeroOptix-Horizon/hardware/AO-Horizon/library/`, and want them in `kicad-workspace/library/`. You copy nothing by hand.
 
-1. In either session (the project's or the archive's), ask Claude:
+The archive is the master copy, and a project library only needs the parts the project uses. A part the archive has and the project does not is fine. A part the project has and the archive does not (or has in another version) is a **gap**: Claude lists it and asks you whether to archive it now or later.
+
+1. In either session (the project's or the archive's), ask Claude for everything, or name the parts or families:
 
    > Publish my new parts from `<project>/hardware/<board>/library` to the archive at `<path to kicad-workspace>`.
+
+   > Archive 0_Protection_eFuse, replace the old version, and archive the new 0_Inductor_SMD.
 
 2. Claude runs `lib_diff.py` and sorts every item:
 
    | Result | Meaning | Action |
    |---|---|---|
    | IDENTICAL | The archive already has it, same content | Nothing |
-   | DIFFERS | Same name, different content | Reported, never overwritten. You decide. |
-   | OTHER NAME | The archive has the same content under another name (usually it was renamed there) | Reported |
-   | NEW | Not in the archive | Published |
+   | DIFFERS | Same name, different content | Gap. Overwritten only when you say "replace"; Claude shows the diff first |
+   | OTHER NAME | The archive has the same content under another name (usually it was renamed there) | Gap. Reported |
+   | NEW | Not in the archive | Gap. Published when you named it |
    | PACKED | A multi-symbol `.kicad_sym` library | Split it first |
 
-3. NEW items are copied into the archive with KLC names. The project is not written; Claude checks this with a hash list before and after.
+   Parts you named go on. Claude lists every other gap and asks per item: archive now, or later. A "later" item shows up again on the next run.
+
+3. Items going on are copied into the archive with KLC names. The project is not written; Claude checks this with a hash list before and after.
 4. The report has an `old -> new` list for every part the archive named differently. To make the project use the archive names, ask for `kicad-footprint-sync` / `kicad-symbol-sync` in the project.
 
 **Tip:** name parts with `kicad-naming` while you design them in the project ("what should I name this footprint?"). Then most parts publish with no rename.
