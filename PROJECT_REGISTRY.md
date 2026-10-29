@@ -14,6 +14,7 @@ NP-<PP>-<YY><NN>    co-op with partner PP  NP-AO-2601
 - `YY`: year the project started.
 - `NN`: running number in that year, shared by all NP projects with or without a partner. The ID stays unique without the partner tag.
 - The ID never changes, even if the project is renamed.
+- `Doc code`: 2 to 4 letter code for the project's document numbers. See DOCUMENT_REGISTRY.md in the document-archive repo.
 
 ## Revision
 
