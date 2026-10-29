@@ -1,8 +1,0 @@
-# Example project theme. Save as report-theme.yml next to the reports it should style.
-# Only the keys you change; everything else comes from the skill's theme.yml.
-logo: none                     # or a path relative to this file, e.g. ../assets/club_logo.png
-footer: Example Club · Internal
-accent_color: #0F8A5F
-number_color: accent           # section and list numbers in the accent colour
-eq_style: bar
-header_rule_color: muted
