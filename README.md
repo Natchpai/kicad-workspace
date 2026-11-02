@@ -48,7 +48,7 @@ Day to day:
 
 ## Claude Code skills
 
-The KiCad skills run globally from `~/.claude/skills/`, in every project; their sources are in [skills-src/](skills-src/README.md), with install steps. Rules for Claude are in [CLAUDE.md](CLAUDE.md).
+The KiCad skills run globally from `~/.claude/skills/`, in every project; their sources are in [skills-src/](skills-src/README.md), with symlink setup steps. Rules for Claude are in [CLAUDE.md](CLAUDE.md).
 
 - kicad-naming: proposes and checks KLC names.
 - kicad-lib-organize: imports libraries from libDump/ with KLC names, publishes new parts made in a project straight into library/ (without copying them here first), or renames library items to KLC. How to use it: [MANUAL.md](skills-src/kicad-lib-organize/MANUAL.md).
@@ -56,7 +56,7 @@ The KiCad skills run globally from `~/.claude/skills/`, in every project; their 
 - kicad-link-audit: read-only check of symbol, footprint, 3D and library-table links.
 - kicad-footprint-sync, kicad-symbol-sync: fix footprint and symbol links and library tables in a project, only when asked.
 
-On a new machine, install them by running the copy loop in [skills-src/README.md](skills-src/README.md). Edit a skill in skills-src/ and reinstall it; changes made only in `~/.claude/skills/` are lost at the next install.
+On a new machine, link them by running the symlink loop in [skills-src/README.md](skills-src/README.md). Edit a skill in skills-src/; the links pick up changes at once.
 
 ## Authority and scope
 

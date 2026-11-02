@@ -1,6 +1,6 @@
 # Global skill sources
 
-Git-tracked sources of the Claude Code skills that run globally, from `~/.claude/skills/`. Claude does not load skills from this folder, so each skill runs from one place only: the global copy.
+Git-tracked sources of the Claude Code skills that run globally, from `~/.claude/skills/`. Claude does not load skills from this folder directly. Each global skill is a symlink to its folder here, so there is one copy only.
 
 | Skill | What it does | Global install |
 |---|---|---|
@@ -13,18 +13,18 @@ Git-tracked sources of the Claude Code skills that run globally, from `~/.claude
 | `kicad-footprint-sync` | Aligns footprint libraries, local 3D folders and paths, `fp-lib-table` and schematic footprint nicknames in a project. Runs only when you ask | `~/.claude/skills/kicad-footprint-sync/` |
 | `kicad-symbol-sync` | Splits `.kicad_sym` into `.kicad_symdir`, aligns `sym-lib-table`, fixes symbol footprint links and filters in a project. Runs only when you ask | `~/.claude/skills/kicad-symbol-sync/` |
 
-Projects keep no copies of these skills; they all run from the global folder. The `engineering-report-pdf` skill moved to the document-archive repo (`C:\Users\AORUS\Documents\Github\document-archive\skills-src\`).
+Projects keep no copies of these skills; they all run through the global symlinks. The `engineering-report-pdf` skill moved to the document-archive repo (`C:\Users\AORUS\Documents\Github\document-archive\skills-src\`).
 
 ## Install or update
 
-Edit here, commit, then copy to the global folder:
+Each global skill is a symlink to its folder here, so edits take effect at once. Set the links up once per machine, from the repo root:
 
 ```
 for s in kicad-naming kicad-lib-organize kicad-part-start kicad-footprint-make kicad-symbol-make kicad-link-audit kicad-footprint-sync kicad-symbol-sync; do
-  cp -r skills-src/$s/. ~/.claude/skills/$s/
+  ln -s "$PWD/skills-src/$s" ~/.claude/skills/$s
 done
 ```
 
-Check with `diff -r -x __pycache__ skills-src/<skill> ~/.claude/skills/<skill>`. The copy never deletes: when a file is removed here, remove it from the global folder too (`diff -r` lists it as `Only in`). Edit only here; changes made in the global copy are lost at the next install.
+Check with `ls -l ~/.claude/skills`. If a real folder is already there, move it away first. After an edit, commit here; there is no copy step.
 
 `kicad-naming/references/KLC/` is a copy of `library/KLC/`. When the KLC rules are updated, update both.
