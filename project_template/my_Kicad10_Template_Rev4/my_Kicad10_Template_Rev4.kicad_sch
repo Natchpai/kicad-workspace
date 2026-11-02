@@ -5,11 +5,655 @@
 	(uuid "76162bf1-0d95-48cb-b65a-4de551455d04")
 	(paper "A3")
 	(title_block
-		(rev "1.0")
+		(rev "A")
 		(comment 1 "Comment1")
 		(comment 2 "Comment2")
 	)
 	(lib_symbols)
+	(rectangle
+		(start 167.64 83.82)
+		(end 247.64 163.82)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "1900cda4-9aec-4bcd-9979-f371904e2360")
+	)
+	(rectangle
+		(start 270.51 83.82)
+		(end 350.51 163.82)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "60cc0cb7-1dfc-4382-a527-ac69f0709b4a")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 121.92 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#2")
+		)
+		(uuid "0374a9a4-b1bc-4ebb-b2c4-e4f9bb954408")
+	)
+	(text "Top Hierarchical View"
+		(exclude_from_sim no)
+		(at 49.53 106.68 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#C")
+		)
+		(uuid "13d1c047-978f-499d-a2f8-80045746e0ba")
+	)
+	(text "C"
+		(exclude_from_sim no)
+		(at 44.45 106.68 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "20a89a58-fde6-444d-b00a-c47c07e2424a")
+	)
+	(text "Power Supplies"
+		(exclude_from_sim no)
+		(at 55.88 114.3 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#1")
+		)
+		(uuid "21ed4ab6-da4a-418c-9c83-329d8e95166c")
+	)
+	(text "7"
+		(exclude_from_sim no)
+		(at 52.07 160.02 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "265ed94a-f681-4772-a2ac-58b7c1c1c383")
+	)
+	(text "5"
+		(exclude_from_sim no)
+		(at 52.07 144.78 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "2795cce5-7873-4476-8655-82b3c074f79a")
+	)
+	(text "Table of Contents"
+		(exclude_from_sim no)
+		(at 39.37 81.28 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 3.048 3.048)
+				(bold yes)
+			)
+			(justify left)
+		)
+		(uuid "2fe9d1ab-cc37-4cdd-bba8-849ffc8d2e67")
+	)
+	(text "8"
+		(exclude_from_sim no)
+		(at 52.07 167.64 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "3a62190e-a7e8-4eac-ac92-bcfd419d413f")
+	)
+	(text "Block Diagram"
+		(exclude_from_sim no)
+		(at 49.53 99.06 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#B")
+		)
+		(uuid "3e40510c-e40f-4b17-bab8-373f4686f418")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 160.02 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#7")
+		)
+		(uuid "453a5913-4095-42a9-bf0c-3d0dc96a7190")
+	)
+	(text "B"
+		(exclude_from_sim no)
+		(at 44.45 99.06 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "4de237e6-9443-4076-9401-e6d6a0072ff1")
+	)
+	(text "9\n"
+		(exclude_from_sim no)
+		(at 52.07 175.26 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "4f3150e4-eaed-4218-a81b-767a6c2ef596")
+	)
+	(text "1"
+		(exclude_from_sim no)
+		(at 52.07 114.3 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "5f3094a8-7f5d-4093-a0b2-dfa36e7aabce")
+	)
+	(text "D"
+		(exclude_from_sim no)
+		(at 44.45 184.15 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "6cefabf0-1b33-4b3d-9deb-4648e04ff267")
+	)
+	(text "Rev: ${REVISION}"
+		(exclude_from_sim no)
+		(at 397.51 34.29 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 8.89 8.89)
+				(bold yes)
+			)
+			(justify right)
+		)
+		(uuid "6d311a45-505d-406a-be27-4e62a8aa39c1")
+	)
+	(text "....................................................."
+		(exclude_from_sim no)
+		(at 25.4 52.07 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 6.35 6.35)
+				(bold yes)
+			)
+			(justify left)
+		)
+		(uuid "6fe0ca09-8ef0-442e-a4bc-1a34a8ce38af")
+	)
+	(text "3"
+		(exclude_from_sim no)
+		(at 52.07 129.54 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "7298dde9-0be9-40b0-93bf-170aa9848d71")
+	)
+	(text "${RELEASE_DATE}"
+		(exclude_from_sim no)
+		(at 397.51 52.07 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 6.35 6.35)
+				(bold yes)
+			)
+			(justify right)
+		)
+		(uuid "73f3b00b-3409-4cc1-a9e3-f8395a868cc0")
+	)
+	(text "Legend"
+		(exclude_from_sim no)
+		(at 26.67 261.62 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 3.048 3.048)
+				(bold yes)
+			)
+			(justify left)
+		)
+		(uuid "753e82c2-baf2-414f-b5cf-2149ed2b0bdb")
+	)
+	(text "A"
+		(exclude_from_sim no)
+		(at 44.45 91.44 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "7e87611a-1934-4263-85b3-b5b73605550c")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 152.4 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#6")
+		)
+		(uuid "87221489-1986-4023-9a55-9d8dd66c41ea")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 175.26 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#9")
+		)
+		(uuid "8d958166-d3d1-411d-879c-8a1568e37ad1")
+	)
+	(text "Project Overview"
+		(exclude_from_sim no)
+		(at 49.53 91.44 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#A")
+		)
+		(uuid "972e406e-d17f-476c-ae1e-f354be753c3c")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 129.54 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#3")
+		)
+		(uuid "9cc5cac9-16fb-4ae7-92c4-67b173faa046")
+	)
+	(text "4"
+		(exclude_from_sim no)
+		(at 52.07 137.16 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "a58768d4-ea9b-4a2e-a9d6-494c88715719")
+	)
+	(text "Top View"
+		(exclude_from_sim no)
+		(at 207.01 81.28 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 3.048 3.048)
+				(bold yes)
+			)
+		)
+		(uuid "ab8a5adb-0400-4e57-add7-a0d5fb4cce22")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 137.16 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#3")
+		)
+		(uuid "b04df7f0-65c4-4df2-b3d6-659ebb85f7d1")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 144.78 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#4")
+		)
+		(uuid "b3afa225-4f4d-4ca5-b172-edc6a9824790")
+	)
+	(text "6"
+		(exclude_from_sim no)
+		(at 52.07 152.4 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "b4e71ffe-397b-4e4f-af15-e00a6ea90914")
+	)
+	(text "DESIGN CONVENTIONS\n───────────────────────────────────────────────\nNET NAMING\n  Power     +5V  +3V3  +1V8  (suffix _A for analog)\n  Ground    GND  AGND  PGND  (join at one point only)\n  Signal    <FUNC>_<SIGNAL>   SPI1_SCK  I2C2_SDA\n  Active-low  suffix _N       RESET_N  CS_N\n  Diff pair   suffix _P / _N  USB_DP  USB_DN\n  Format    UPPERCASE, A-Z 0-9 _ only, no spaces\n\nSCHEMATIC STYLE\n  Flow      Inputs left, outputs right, VCC top, GND bottom\n  Grid      50 mil, wires orthogonal, junction dot at 3+ ways\n  Unused    X no-connect marker on every unused pin\n\nREFERENCE DESIGNATORS\n  R C L  passive   D diode/LED   Q transistor   U IC\n  FB ferrite   CN connector  SW switch   TP test point   H mounting hole\n\nUNITS\n  Ω kΩ MΩ  |  pF nF µF  |  nH µH  |  V A mA  |  Hz kHz MHz\n  4k7 = 4.7 kΩ   100n = 100 nF   0R = 0 Ω link\n\nCOMPONENTS\n  Every part: Value, Footprint, MFR, MFR.P/N\n───────────────────────────────────────────────"
+		(exclude_from_sim no)
+		(at 29.21 307.34 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 1.524 1.524)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "c07796f0-ff15-41db-b766-e0334d48788f")
+	)
+	(text "Revision History"
+		(exclude_from_sim no)
+		(at 49.53 191.77 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#E")
+		)
+		(uuid "c0be1c36-aded-4b58-9954-7466a1701ba4")
+	)
+	(text "2"
+		(exclude_from_sim no)
+		(at 52.07 121.92 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "c3b0b3bf-8565-4f23-9141-084bc7ef5952")
+	)
+	(text "STATUS: ${STATUS}"
+		(exclude_from_sim no)
+		(at 260.35 248.92 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 6.35 6.35)
+				(bold yes)
+				(italic yes)
+				(color 132 132 132 1)
+			)
+			(justify left)
+		)
+		(uuid "cde33f45-6f6e-4a5a-8f88-8ebfd1feedf0")
+	)
+	(text "Bottom View"
+		(exclude_from_sim no)
+		(at 309.88 81.28 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 3.048 3.048)
+				(bold yes)
+			)
+		)
+		(uuid "d6c15eeb-8ce3-440c-88de-04b9d9433e7b")
+	)
+	(text "${PROJECT_NAME}"
+		(exclude_from_sim no)
+		(at 25.4 34.29 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 8.89 8.89)
+				(bold yes)
+			)
+			(justify left)
+		)
+		(uuid "e12340c6-48e6-4e68-a005-403947648ff9")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 55.88 167.64 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#8")
+		)
+		(uuid "e38b8c0d-8795-4a0a-bb7b-9ccf206fc0ac")
+	)
+	(text "E"
+		(exclude_from_sim no)
+		(at 44.45 191.77 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify right)
+		)
+		(uuid "e60d6734-122c-4aaf-8bce-6dd4e540ec36")
+	)
+	(text "......"
+		(exclude_from_sim no)
+		(at 49.53 184.15 0)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 2.54 2.54)
+			)
+			(justify left)
+			(href "#D")
+		)
+		(uuid "ffd697be-5717-4742-a95b-89edc384d6ed")
+	)
+	(text_box "DESIGN NOTE:\n\nText for critical design\n"
+		(exclude_from_sim no)
+		(at 107.95 267.97 0)
+		(size 24.13 11.43)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0.3)
+			(type solid)
+			(color 255 0 0 1)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 1.27 1.27)
+				(thickness 0.1588)
+				(bold yes)
+				(color 194 0 0 1)
+			)
+			(justify left top)
+		)
+		(uuid "1f2a8aef-6235-4948-bdda-f6b1f36e3ae1")
+	)
+	(text_box "DEBUG NOTE:\n\nText for Debug notes.\n"
+		(exclude_from_sim no)
+		(at 54.61 267.97 0)
+		(size 24.13 11.43)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0.3)
+			(type solid)
+			(color 221 133 0 1)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 1.27 1.27)
+				(thickness 0.1588)
+				(bold yes)
+				(color 221 133 0 1)
+			)
+			(justify left top)
+		)
+		(uuid "69dc0a73-a925-4a63-bfee-fa76e35fbaa8")
+	)
+	(text_box "DESIGN NOTE:\n\nText for design guideline\n\n"
+		(exclude_from_sim no)
+		(at 81.28 267.97 0)
+		(size 24.13 11.43)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0.3)
+			(type solid)
+			(color 0 0 194 1)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 1.27 1.27)
+				(thickness 0.1588)
+				(bold yes)
+				(color 0 0 194 1)
+			)
+			(justify left top)
+		)
+		(uuid "714dd200-9cb1-4be7-8d32-42b5fcbd79b0")
+	)
+	(text_box "DESIGN NOTE:\n\nText for information design."
+		(exclude_from_sim no)
+		(at 27.94 267.97 0)
+		(size 24.13 11.43)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0.3)
+			(type solid)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Century Gothic")
+				(size 1.27 1.27)
+				(thickness 0.1588)
+				(bold yes)
+				(color 72 72 72 1)
+			)
+			(justify left top)
+		)
+		(uuid "93363235-0954-4ebf-92f5-492885b2a73e")
+	)
+	(polyline
+		(pts
+			(xy 39.37 83.82) (xy 114.3 83.82)
+		)
+		(stroke
+			(width 0.508)
+			(type solid)
+		)
+		(uuid "4e16dec5-3586-4cfd-bbbd-b110a78a150e")
+	)
+	(polyline
+		(pts
+			(xy 26.67 264.16) (xy 134.62 264.16)
+		)
+		(stroke
+			(width 0.508)
+			(type solid)
+		)
+		(uuid "98ccccfa-e3d9-4f55-83d8-12c6776f3d8c")
+	)
+	(polyline
+		(pts
+			(xy 327.66 40.64) (xy 397.51 40.64)
+		)
+		(stroke
+			(width 0.508)
+			(type solid)
+		)
+		(uuid "9c2a35e0-c2b8-42e8-bb1f-ef69e3e1bc89")
+	)
+	(polyline
+		(pts
+			(xy 25.4 40.64) (xy 177.8 40.64)
+		)
+		(stroke
+			(width 0.508)
+			(type solid)
+		)
+		(uuid "c249e8b6-c5a6-4379-8fa6-70475e257942")
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")
