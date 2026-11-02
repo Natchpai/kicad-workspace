@@ -6,10 +6,10 @@ This manual is for you, the engineer. Claude reads `SKILL.md`; you read this fil
 
 ## Where it lives
 
-| Copy | Path | Role |
+| Location | Path | Role |
 |---|---|---|
-| Global (used in every project) | `~/.claude/skills/kicad-lib-organize/` | What Claude runs |
-| Source (in Git) | `kicad-workspace/skills-src/kicad-lib-organize/` | Version history; edit here, then reinstall (see [Update the global copy](#update-the-global-copy)). Not loaded as a skill, so only the global copy runs. |
+| Global (used in every project) | `~/.claude/skills/kicad-lib-organize/` | Symlink to the source folder. What Claude runs |
+| Source (in Git) | `kicad-workspace/skills-src/kicad-lib-organize/` | The real files, with version history. Edit here (see [Update the skill](#update-the-skill)). Not loaded as a skill directly, so the skill loads once, through the link. |
 
 ## What you need
 
@@ -194,12 +194,6 @@ python -I -X utf8 stock_copy.py fp|sym <StockLib>:<name> <0_Family> [--dry] [--l
 | `model outside library/3D/` | A local model is stored outside the library's 3D folder | Move it into `3D/<Family>/` through the map |
 | An old file name stays in Git after a case-only rename | Git on Windows ignores case | `git rm --cached <old>` then `git add <new>` |
 
-## Update the global copy
+## Update the skill
 
-Edit the source in `kicad-workspace/skills-src/`, commit it, then copy it over the global one:
-
-```
-cp -r kicad-workspace/skills-src/kicad-lib-organize/. ~/.claude/skills/kicad-lib-organize/
-```
-
-Check the copy afterwards with `diff -r` between the two folders. Edit only the source; a change made in the global copy is lost at the next install. The same applies to `kicad-naming` (see `skills-src/README.md`).
+Edit the source in `kicad-workspace/skills-src/kicad-lib-organize/`. The global folder is a symlink to it, so the change is live at once, with no copy step; commit when it is ready. Checking out another branch of `kicad-workspace` also switches the version that runs. To create the link on a new machine, see the install steps in `skills-src/README.md`. The same applies to `kicad-naming`.

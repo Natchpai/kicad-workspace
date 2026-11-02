@@ -56,7 +56,7 @@ The KiCad skills run globally from `~/.claude/skills/`, in every project; their 
 - kicad-link-audit: read-only check of symbol, footprint, 3D and library-table links.
 - kicad-footprint-sync, kicad-symbol-sync: fix footprint and symbol links and library tables in a project, only when asked.
 
-On a new machine, link them by running the symlink loop in [skills-src/README.md](skills-src/README.md). Edit a skill in skills-src/; the links pick up changes at once.
+Each global skill folder is a symlink to its folder in skills-src/. On a new machine, create the links with the install loop in [skills-src/README.md](skills-src/README.md). Edit a skill in skills-src/; the change is live at once, with no reinstall.
 
 ## Authority and scope
 
