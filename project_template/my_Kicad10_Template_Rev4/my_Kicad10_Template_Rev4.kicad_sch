@@ -11,8 +11,8 @@
 	)
 	(lib_symbols)
 	(rectangle
-		(start 167.64 83.82)
-		(end 247.64 163.82)
+		(start 157.48 83.82)
+		(end 237.48 163.82)
 		(stroke
 			(width 0)
 			(type default)
@@ -23,8 +23,8 @@
 		(uuid "1900cda4-9aec-4bcd-9979-f371904e2360")
 	)
 	(rectangle
-		(start 270.51 83.82)
-		(end 350.51 163.82)
+		(start 260.35 83.82)
+		(end 340.35 163.82)
 		(stroke
 			(width 0)
 			(type default)
@@ -208,7 +208,7 @@
 		)
 		(uuid "6cefabf0-1b33-4b3d-9deb-4648e04ff267")
 	)
-	(text "Rev: ${REVISION}"
+	(text "Rev ${REVISION}"
 		(exclude_from_sim no)
 		(at 397.51 34.29 0)
 		(effects
@@ -221,9 +221,9 @@
 		)
 		(uuid "6d311a45-505d-406a-be27-4e62a8aa39c1")
 	)
-	(text "....................................................."
+	(text "Description along the way"
 		(exclude_from_sim no)
-		(at 25.4 52.07 0)
+		(at 25.4 50.8 0)
 		(effects
 			(font
 				(face "Century Gothic")
@@ -248,7 +248,7 @@
 	)
 	(text "${RELEASE_DATE}"
 		(exclude_from_sim no)
-		(at 397.51 52.07 0)
+		(at 397.51 50.8 0)
 		(effects
 			(font
 				(face "Century Gothic")
@@ -350,7 +350,7 @@
 	)
 	(text "Top View"
 		(exclude_from_sim no)
-		(at 207.01 81.28 0)
+		(at 196.85 81.28 0)
 		(effects
 			(font
 				(face "Century Gothic")
@@ -453,7 +453,7 @@
 	)
 	(text "Bottom View"
 		(exclude_from_sim no)
-		(at 309.88 81.28 0)
+		(at 299.72 81.28 0)
 		(effects
 			(font
 				(face "Century Gothic")
@@ -633,26 +633,6 @@
 			(type solid)
 		)
 		(uuid "98ccccfa-e3d9-4f55-83d8-12c6776f3d8c")
-	)
-	(polyline
-		(pts
-			(xy 327.66 40.64) (xy 397.51 40.64)
-		)
-		(stroke
-			(width 0.508)
-			(type solid)
-		)
-		(uuid "9c2a35e0-c2b8-42e8-bb1f-ef69e3e1bc89")
-	)
-	(polyline
-		(pts
-			(xy 25.4 40.64) (xy 177.8 40.64)
-		)
-		(stroke
-			(width 0.508)
-			(type solid)
-		)
-		(uuid "c249e8b6-c5a6-4379-8fa6-70475e257942")
 	)
 	(sheet_instances
 		(path "/"
