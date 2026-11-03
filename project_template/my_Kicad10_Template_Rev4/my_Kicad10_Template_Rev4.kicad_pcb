@@ -8,7 +8,7 @@
 	)
 	(paper "A4")
 	(title_block
-		(rev "1.0")
+		(rev "A")
 		(comment 1 "PCB LAYOUT")
 	)
 	(layers

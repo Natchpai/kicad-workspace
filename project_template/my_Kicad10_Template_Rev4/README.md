@@ -12,6 +12,15 @@ Reusable KiCad 10 project template.
 
 Native KiCad files in this directory are the design authority.
 
+## Revisions
+
+Set the revision in the schematic and PCB title blocks (`rev`). Sheets and worksheets show it through `${REVISION}`.
+
+- Revisions use letters: `A`, `B`, `C`, ...
+- A revision with variants adds a number: `A-1`, `A-2`, ...
+- A revision without variants keeps the single letter: `A`, `B`.
+- The `Rev4` in the template name is the template version, not a project revision.
+
 ## Directory tree
 
 ```text

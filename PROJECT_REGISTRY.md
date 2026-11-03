@@ -18,9 +18,10 @@ NP-<PP>-<YY><NN>    co-op with partner PP  NP-AO-2601
 
 ## Revision
 
-- Title block `rev` field (`${REVISION}`), in the schematic and the PCB Page Settings: `<major>.<minor>`, for example `1.0`. New major for each fabricated board, new minor for changes that need no respin.
-- KiCad text variable `PROJECT_ID` (Schematic Setup > Text Variables) holds the ID plus the version: `<ID>-V<major>-<minor>`, for example `NP-AO-2601-V1-0` for rev `1.0`.
-- Update `PROJECT_ID` by hand when the revision changes, so its `V` part matches `rev`.
+- Title block `rev` field (`${REVISION}`), in the schematic and the PCB Page Settings: a letter, `A`, `B`, `C`, ...
+- A revision with variants adds a number: `A-1`, `A-2`, ... A revision without variants keeps the single letter.
+- KiCad text variable `PROJECT_ID` (Schematic Setup > Text Variables) holds the ID plus the revision: `<ID>-<rev>`, for example `NP-AO-2601-A` for rev `A` and `NP-AO-2601-A-1` for rev `A-1`.
+- Update `PROJECT_ID` by hand when the revision changes, so its revision part matches `rev`.
 - PCB silkscreen mark: a text item `${PROJECT_ID}`, placed by hand.
 
 ## Partner codes
