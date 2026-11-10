@@ -17,13 +17,14 @@ Map format (paths relative to the root unless absolute, forward slashes):
   "link_fixes": {"<old lib:name>": "<new lib:name>"}
 }
 
-- sym: renames each symbol file and its internal names (root, unit sub-symbols, Value when equal to the old name).
+- sym: renames each symbol file and its internal names (root, unit sub-symbols, Value when equal to the old name),
+       then rewrites (extends "<old>") in the derived symbols of the same library folder.
 - fp:  renames each footprint file and its internal name (and Value when equal), then rewrites every symbol
        Footprint property that pointed at "<src .pretty name>:<old name>" (plus link_fixes) across <library>/symbols.
 - 3d:  moves each model to dst (a second entry with the same src copies it, so each footprint owns its file)
        and rewrites the one (model "...") path in that footprint whose file name matches src.
 Edits are byte-level, so CRLF/LF line endings are kept. Each edited file is checked: only name, Value,
-Footprint and model lines may change. Refuses to overwrite (case-insensitive check); case-only renames go
+extends, Footprint and model lines may change. Refuses to overwrite (case-insensitive check); case-only renames go
 through a temporary name.
 """
 import json, os, re, shutil, sys
@@ -37,7 +38,7 @@ if '--root' in sys.argv:
     os.chdir(sys.argv[sys.argv.index('--root') + 1])
 SYM_ROOT = f'{LIB}/symbols'
 FP_ROOT = f'{LIB}/footprints'
-ALLOWED = re.compile(rb'^\s*(\(footprint "|\(symbol "|\(property "Value" "|\(property "Footprint" "|\(model ")')
+ALLOWED = re.compile(rb'^\s*(\(footprint "|\(symbol "|\(extends "|\(property "Value" "|\(property "Footprint" "|\(model ")')
 LOG = []
 
 
@@ -62,6 +63,8 @@ def wr(p, old, new):
 def put(src, old, new, dst):
     """Move mode: edit src in place, then move it. Copy mode: write the edited bytes to dst; src untouched."""
     if not COPY:
+        if not DRY and not same_ci(src, dst) and exists_ci(dst):   # before src is edited
+            sys.exit(f'COLLISION: {dst}')
         wr(src, old, new)
         move(src, dst)
         return
@@ -83,7 +86,10 @@ def exists_ci(path):
 
 
 def same_ci(a, b):
-    return os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
+    """a and b name the same file but for letter case: a case-only rename. os.path.normcase folds case
+    only on Windows, and macOS disks ignore case too, so ask the disk when b is there."""
+    a, b = os.path.abspath(a), os.path.abspath(b)
+    return a.lower() == b.lower() and (a == b or not os.path.exists(b) or os.path.samefile(a, b))
 
 
 def move(src, dst):
@@ -116,6 +122,7 @@ def stem(p, ext):
 
 
 def do_sym():
+    renamed = {}   # old name -> (new name, source folder, destination folder)
     for e in MAP.get('symbols', []):
         src, new = e['src'], e['new']
         old = stem(src, '.kicad_sym')
@@ -128,6 +135,34 @@ def do_sym():
         b = re.sub(rb'\(symbol "' + re.escape(o) + rb'(_\d+_\d+")', b'(symbol "' + n + rb'\1', b)
         b = b.replace(b'(property "Value" "' + o + b'"', b'(property "Value" "' + n + b'"')
         put(src, b0, b, dst)
+        if old != new:
+            renamed.setdefault(old, (new, os.path.dirname(src), os.path.dirname(dst)))
+    # derived symbols: (extends "<old>") follows its renamed parent. KiCad needs parent and child in one
+    # library, so look in the parent's new folder and, unless --copy, in the folder it came from.
+    ext_re = re.compile(rb'\(extends "([^"]+)"\)')
+    dirs = set()
+    for _, sdir, ddir in renamed.values():
+        dirs.update([ddir] if COPY else [sdir, ddir])
+    for d in sorted(x for x in dirs if os.path.isdir(x)):
+        here = os.listdir(d)
+        for f in sorted(here):
+            if not f.endswith('.kicad_sym'):
+                continue
+            p = f'{d}/{f}'
+            b0 = rd(p)
+            m = ext_re.search(b0)
+            old = m.group(1).decode() if m else None
+            if old not in renamed:
+                continue
+            new, sdir, ddir = renamed[old]
+            if os.path.abspath(d) not in (os.path.abspath(sdir), os.path.abspath(ddir)):
+                continue   # another library's symbol of the same name
+            if not DRY and f'{old}.kicad_sym' in here:
+                continue   # a symbol with the old name is still in this folder: the child is its child
+            LOG.append(f'extends {p}: {old} -> {new}')
+            if os.path.abspath(d) != os.path.abspath(ddir):
+                LOG.append(f'WARN {p} is not in its parent\'s library {ddir}; move it there too')
+            wr(p, b0, b0[:m.start(1)] + new.encode() + b0[m.end(1):])
 
 
 def do_fp():
@@ -144,6 +179,8 @@ def do_fp():
             b = b.replace(b'(property "Value" "' + v + b'"', b'(property "Value" "' + new.encode() + b'"')
         put(src, b0, b, dst)
         links[f'{src_lib}:{old}'] = f"{e['dst_lib']}:{new}"
+    link_re = re.compile(rb'(\(property "Footprint" ")(' + b'|'.join(
+        re.escape(o.encode()) for o in sorted(links, key=len, reverse=True)) + rb')"') if links else None
     for d, _, files in os.walk(SYM_ROOT):
         for f in files:
             if not f.endswith('.kicad_sym'):
@@ -151,8 +188,8 @@ def do_fp():
             p = os.path.join(d, f)
             b0 = rd(p)
             b = b0
-            for o, n in links.items():
-                b = b.replace(b'(property "Footprint" "' + o.encode() + b'"', b'(property "Footprint" "' + n.encode() + b'"')
+            if link_re:   # one pass, so a new name that is also an old name is not renamed twice
+                b = link_re.sub(lambda m: m.group(1) + links[m.group(2).decode()].encode() + b'"', b0)
             if b != b0:
                 LOG.append(f'link {p}')
                 wr(p, b0, b)
@@ -164,6 +201,13 @@ def do_3d():
         src, dst = e['src'], e['dst']
         lib, name = e['footprint'].split(':', 1)
         fpath = f'{FP_ROOT}/{lib}.pretty/{name}.kicad_mod'
+        if not os.path.isfile(fpath):   # checked before the model moves
+            sys.exit(f'{fpath}: footprint not found')
+        b0 = rd(fpath)
+        base = os.path.basename(src).lower().encode()
+        hits = [m for m in re.finditer(rb'\(model "([^"]+)"', b0) if os.path.basename(m.group(1).decode()).lower().encode() == base]
+        if len(hits) != 1:
+            sys.exit(f'{fpath}: expected one model path ending in {os.path.basename(src)}, found {len(hits)}')
         if src in moved:
             copy(moved[src], dst)
         elif COPY:
@@ -172,11 +216,6 @@ def do_3d():
         else:
             move(src, dst)
             moved[src] = dst
-        b0 = rd(fpath)
-        base = os.path.basename(src).lower().encode()
-        hits = [m for m in re.finditer(rb'\(model "([^"]+)"', b0) if os.path.basename(m.group(1).decode()).lower().encode() == base]
-        if len(hits) != 1:
-            sys.exit(f'{fpath}: expected one model path ending in {os.path.basename(src)}, found {len(hits)}')
         folder, f = dst.split('/')[-2:]
         b = b0[:hits[0].start(1)] + f'${{KIPRJMOD}}/{LIB}/3D/{folder}/{f}'.encode() + b0[hits[0].end(1):]
         LOG.append(f'    model {fpath}: {hits[0].group(1).decode()} -> {folder}/{f}')

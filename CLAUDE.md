@@ -20,7 +20,7 @@ This is the user's personal archive on GitHub, not an official KiCad library and
 
 ## Commands
 
-kicad-cli is not on PATH. Use `"C:/Program Files/KiCad/10.0/bin/kicad-cli.exe"` (10.0.7). Its `sym` and `fp` commands offer only `export` and `upgrade`; there is no library linter. Use SVG export into the scratchpad as a parse check:
+kicad-cli is not on PATH. On Windows use `"C:/Program Files/KiCad/10.0/bin/kicad-cli.exe"` (10.0.7); on macOS use `/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli` (10.0.8). The skill scripts run with `python -I`; use `python3 -I` where `python` is missing. Its `sym` and `fp` commands offer only `export` and `upgrade`; there is no library linter. Use SVG export into the scratchpad as a parse check:
 
 ```sh
 kicad-cli sym export svg -o <scratch dir> library/symbols/0_Diode.kicad_symdir/SL34A.kicad_sym

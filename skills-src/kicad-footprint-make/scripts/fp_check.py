@@ -812,8 +812,8 @@ def checks(fp, stencil, crt_req):
     thin = []
     for p in fp.pads:
         if p['kind'] == 'thru_hole' and p['drill']:
-            w, h = (p['h'], p['w']) if round(p['rot']) % 180 == 90 else (p['w'], p['h'])
-            ring = min(w - p['drill'][0], h - p['drill'][1]) / 2
+            # the drill is in the pad's own frame: no swap for a turned pad
+            ring = min(p['w'] - p['drill'][0], p['h'] - p['drill'][1]) / 2
             if p['shape'] == 'circle':
                 ring = (p['w'] - max(p['drill'])) / 2
             if ring < 0.15 - 0.001:

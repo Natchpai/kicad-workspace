@@ -112,13 +112,18 @@ def table_vs_disk(entries, kind_ext, proj, label, issues):
     for e in entries:
         if not e['local']:
             continue
+        ok, real = exact_case_exists(e['path'], proj)
         if not os.path.exists(e['path']):
-            ok, real = exact_case_exists(e['path'], proj)
             hint = f' (on disk: {real})' if real else ''
             issues.append(f'{label}: table entry "{e["name"]}" -> missing path '
                           f'{e["uri"]}{hint}')
-        elif e['name'] != os.path.basename(e['path'])[:-len(kind_ext)]:
-            issues.append(f'{label}: nickname "{e["name"]}" differs from folder '
+            continue
+        if not ok and real:   # Windows and macOS disks ignore case, Linux does not
+            issues.append(f'{label}: table entry "{e["name"]}" -> path {e["uri"]} differs in '
+                          f'letter case from disk (on disk: {real})')
+        # a folder library (.pretty, .kicad_symdir) or a packed .kicad_sym file
+        if e['name'] != os.path.splitext(os.path.basename(e['path']))[0]:
+            issues.append(f'{label}: nickname "{e["name"]}" differs from '
                           f'"{os.path.basename(e["path"])}"')
     for n in sorted(on_disk):
         if n not in folders:

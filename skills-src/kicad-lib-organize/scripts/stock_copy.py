@@ -7,7 +7,9 @@ Usage (from the folder that holds the library folder):
                                [--root <dir>] [--stock <dir>]
 
 --stock is KiCad's share folder holding symbols/ and footprints/. Default: the parent of $KICAD10_SYMBOL_DIR,
-else C:/Program Files/KiCad/10.0/share/kicad. --lib defaults to "library"; --root runs from <dir>.
+else the first that exists of /Applications/KiCad/KiCad.app/Contents/SharedSupport (macOS),
+C:/Program Files/KiCad/10.0/share/kicad (Windows) and /usr/share/kicad (Linux).
+--lib defaults to "library"; --root runs from <dir>.
 
 find: case-insensitive glob on item names (stock names hold the base part number or package, not the order code:
       search "TPS62142*" or "*VQFN-16*", not "TPS62142RGTR"). Footprints print pad count, smallest pad spacing,
@@ -51,7 +53,15 @@ ROOT = opt('--root')
 STOCK = opt('--stock')
 if not STOCK:
     env = os.environ.get('KICAD10_SYMBOL_DIR')
-    STOCK = os.path.dirname(env.rstrip('/\\')) if env else 'C:/Program Files/KiCad/10.0/share/kicad'
+    places = [os.path.dirname(env.rstrip('/\\'))] if env else [
+        '/Applications/KiCad/KiCad.app/Contents/SharedSupport',   # macOS
+        'C:/Program Files/KiCad/10.0/share/kicad',                # Windows
+        '/usr/share/kicad']                                       # Linux
+    STOCK = next((p for p in places if os.path.isdir(f'{p}/symbols')), None)
+    if not STOCK:
+        sys.exit(f'stock KiCad libraries not found in {", ".join(places)}; give --stock <dir>')
+elif not os.path.isdir(f'{STOCK}/symbols'):
+    sys.exit(f'--stock {STOCK}: no symbols/ folder there')
 SYM_DIR, FP_DIR = f'{STOCK}/symbols', f'{STOCK}/footprints'
 if ROOT:
     os.chdir(ROOT)

@@ -23,7 +23,8 @@ Do not assume paths. Find them, then use them for the rest of the task:
 - **Footprint root:** the folder holding the `*.pretty` directories, taken from
   `fp-lib-table`.
 - **kicad-cli:** on PATH, or under the KiCad install (on Windows usually
-  `C:/Program Files/KiCad/<ver>/bin/kicad-cli.exe`). Check `--version` and
+  `C:/Program Files/KiCad/<ver>/bin/kicad-cli.exe`, on macOS
+  `/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli`). Check `--version` and
   `sym upgrade --help` before relying on the splitting behavior below.
 
 ## Authorization

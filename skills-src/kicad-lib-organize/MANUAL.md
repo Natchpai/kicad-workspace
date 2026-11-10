@@ -15,7 +15,7 @@ This manual is for you, the engineer. Claude reads `SKILL.md`; you read this fil
 
 - **Claude Code**, with the global `kicad-naming` skill installed. It holds the KLC naming rules this skill follows.
 - **Python 3.** The scripts use the standard library only.
-- **kicad-cli** (KiCad 10), for the parse check. Claude looks for it on PATH, then in `C:/Program Files/KiCad/<version>/bin/`.
+- **kicad-cli** (KiCad 10), for the parse check. Claude looks for it on PATH, then in `C:/Program Files/KiCad/<version>/bin/` (Windows) or `/Applications/KiCad/KiCad.app/Contents/MacOS/` (macOS).
 - **A library tree** with this layout. The folder is named `library/` by default; any other name works with `--lib`:
 
   ```
@@ -117,7 +117,7 @@ The script checks each edited file: only name, Value, Footprint and model lines 
 
 ## The scripts
 
-All scripts are in `scripts/` under the skill folder. Run them with `python -I`. On Windows with a non-UTF-8 console, add `-X utf8`.
+All scripts are in `scripts/` under the skill folder. Run them with `python -I` (`python3 -I` where `python` is missing). On Windows with a non-UTF-8 console, add `-X utf8`.
 
 ### `lib_diff.py` (read-only)
 
@@ -178,7 +178,7 @@ python -I -X utf8 stock_copy.py fp|sym <StockLib>:<name> <0_Family> [--dry] [--l
 - `find`: case-insensitive name search over the stock symbols and footprints. Footprint lines show pad count, smallest pad spacing, pad sizes and model paths.
 - `fp`: byte-for-byte copy of a stock footprint.
 - `sym`: copies a stock symbol, plus its `extends` parents, one file per symbol, and points its `Footprint` at the local copy when one exists.
-- `--stock`: KiCad's `share/kicad` folder. Default: from `KICAD10_SYMBOL_DIR`, else `C:/Program Files/KiCad/10.0/share/kicad`.
+- `--stock`: KiCad's share folder, the one that holds `symbols/` and `footprints/`. Default: from `KICAD10_SYMBOL_DIR`, else the first that exists of `/Applications/KiCad/KiCad.app/Contents/SharedSupport` (macOS), `C:/Program Files/KiCad/10.0/share/kicad` (Windows) and `/usr/share/kicad` (Linux).
 - Identical targets are skipped; a differing one stops the run with `COLLISION` before anything is written. Lib tables are not touched.
 
 ## Troubleshooting
@@ -190,9 +190,9 @@ python -I -X utf8 stock_copy.py fp|sym <StockLib>:<name> <0_Family> [--dry] [--l
 | `expected one root symbol` | A packed multi-symbol `.kicad_sym` | Create an empty `<name>.kicad_symdir` folder, then split into it: `kicad-cli sym upgrade --force -o <name>.kicad_symdir <lib>.kicad_sym` |
 | The split produced one big file named `<name>.kicad_symdir` | The output folder did not exist, so kicad-cli wrote a packed file | Delete that file, create the folder, run the split again |
 | `COLLISION: ... differs from the stock item` (Stock copy) | A local item with the stock name was edited, often in a project | Keep the local one, or rename it by its real difference; the copy never overwrites |
-| `missing model (exact case)` | A 3D path points to a file that is missing, or differs in letter case | Fix the path or the file name. Windows ignores case, but Linux and macOS do not |
+| `missing model (exact case)` | A 3D path points to a file that is missing, or differs in letter case | Fix the path or the file name. Windows and macOS ignore case, but Linux does not |
 | `model outside library/3D/` | A local model is stored outside the library's 3D folder | Move it into `3D/<Family>/` through the map |
-| An old file name stays in Git after a case-only rename | Git on Windows ignores case | `git rm --cached <old>` then `git add <new>` |
+| An old file name stays in Git after a case-only rename | Git on Windows and macOS ignores case | `git rm --cached <old>` then `git add <new>` |
 
 ## Update the skill
 

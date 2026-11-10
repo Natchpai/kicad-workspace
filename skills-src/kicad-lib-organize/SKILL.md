@@ -21,7 +21,7 @@ A direct request to import, publish, categorize, rename or copy from stock autho
 
 - Naming: the global `kicad-naming` skill. Call it for every family, symbol, footprint and 3D model name; it holds the KLC rules and the house rules (`0_` prefix, 3D folder and model file names). A project `CLAUDE.md` with its own naming rules adds to it.
 - Layout and families: the live library tree and any index files that list its members. Inspect them; never hardcode a family list.
-- kicad-cli: the location the project `CLAUDE.md` gives; else `kicad-cli` on PATH; else the KiCad install folder (Windows: `C:/Program Files/KiCad/<version>/bin/kicad-cli.exe`).
+- kicad-cli: the location the project `CLAUDE.md` gives; else `kicad-cli` on PATH; else the KiCad install folder (Windows: `C:/Program Files/KiCad/<version>/bin/kicad-cli.exe`; macOS: `/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli`).
 
 ## The map
 
@@ -78,7 +78,7 @@ Collisions, checked case-insensitively against the destination:
    - checks run, with `NOT_VERIFIED` for KiCad GUI loading and 3D rendering;
    - pre-existing Git changes, preserved.
 
-   List every case-only rename (for example `.STEP` to `.step`). Git on Windows ignores case, so at commit time each one needs `git rm --cached <old>` plus `git add <new>`, or the old case stays in the repository. Do not stage or commit unless asked.
+   List every case-only rename (for example `.STEP` to `.step`). Git on Windows and macOS ignores case, so at commit time each one needs `git rm --cached <old>` plus `git add <new>`, or the old case stays in the repository. Do not stage or commit unless asked.
 
 ## Never changed
 
