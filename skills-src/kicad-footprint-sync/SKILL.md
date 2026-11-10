@@ -87,7 +87,7 @@ are treated as correct.
    in the `.kicad_mod` files. Re-list before every edit step: the human may
    rename folders in parallel.
 2. **Rename 3D folders** to the `.pretty` name without `0_`. For case-only renames on
-   Windows, move through a temporary name in two steps. Do not move or modify
+   Windows and macOS, move through a temporary name in two steps. Do not move or modify
    the `.step/.stp/.wrl` files themselves.
 3. **Repoint local models.** For each `${KIPRJMOD}` model path, edit only that
    path string so it matches the actual file location and folder case.
@@ -117,7 +117,7 @@ are treated as correct.
    - `.kicad_pcb`: list footprints that still carry the old library link and let
      the human update them in KiCad (Tools > Update Footprints from Library, or
      Change Footprints). Do not edit the PCB file.
-   On Windows, case-only renames (for example `.STEP` to `.step`) go through a
+   On Windows and macOS, case-only renames (for example `.STEP` to `.step`) go through a
    temporary name, and Git records them only through `git rm --cached` plus
    `git add`; report them.
 8. **Verify.** Re-grep model paths and confirm each local path resolves to an

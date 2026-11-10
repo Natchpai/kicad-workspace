@@ -13,11 +13,13 @@ Git-tracked sources of the Claude Code skills that run globally, from `~/.claude
 | `kicad-footprint-sync` | Aligns footprint libraries, local 3D folders and paths, `fp-lib-table` and schematic footprint nicknames in a project. Runs only when you ask | `~/.claude/skills/kicad-footprint-sync/` |
 | `kicad-symbol-sync` | Splits `.kicad_sym` into `.kicad_symdir`, aligns `sym-lib-table`, fixes symbol footprint links and filters in a project. Runs only when you ask | `~/.claude/skills/kicad-symbol-sync/` |
 
-Projects keep no copies of these skills; they all run through the global links. The `engineering-report-pdf` skill moved to the document-archive repo (`C:\Users\AORUS\Documents\Github\document-archive\skills-src\`).
+Projects keep no copies of these skills; they all run through the global links. The `engineering-report-pdf` skill moved to the document-archive repo (its `skills-src/` folder).
 
 ## Install
 
-Install once per machine by linking each global skill folder to its source here. On Windows, symlinks need Developer Mode or an admin shell. Run from the repo root in PowerShell. If a global folder already exists as a real folder (an old copy), move it out of `~/.claude/skills/` first.
+Install once per machine by linking each global skill folder to its source here. Run from the repo root. If a global folder already exists as a real folder (an old copy), move it out of `~/.claude/skills/` first.
+
+Windows (PowerShell; symlinks need Developer Mode or an admin shell):
 
 ```powershell
 Get-ChildItem skills-src -Directory -Filter "kicad-*" | ForEach-Object {
@@ -26,6 +28,17 @@ Get-ChildItem skills-src -Directory -Filter "kicad-*" | ForEach-Object {
 ```
 
 Check with `Get-ChildItem ~/.claude/skills -Filter "kicad*" | Select-Object Name, LinkType, Target`. Each row should show `SymbolicLink` and a target in this folder.
+
+macOS and Linux:
+
+```sh
+mkdir -p ~/.claude/skills
+for d in skills-src/kicad-*/; do ln -s "$PWD/${d%/}" ~/.claude/skills/; done
+```
+
+Check with `ls -l ~/.claude/skills | grep kicad`. Each row should point into this folder.
+
+The scripts need Python 3 (standard library only) and run as `python -I`; use `python3 -I` where `python` is missing.
 
 ## Update
 

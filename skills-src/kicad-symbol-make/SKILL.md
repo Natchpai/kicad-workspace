@@ -5,7 +5,7 @@ description: Draw a KiCad 10 symbol (.kicad_sym) from a datasheet pin table, or 
 
 # KiCad symbol make
 
-Two stdlib scripts in this skill's `scripts/` folder, run with `python -I`:
+Two stdlib scripts in this skill's `scripts/` folder, run with `python -I` (`python3 -I` where `python` is missing):
 - `make_symbol.py <pins.csv> <out.kicad_sym> [--layout layout.json] [--fp <fp.kicad_mod>]` writes one symbol. Input format: [`SPEC.md`](SPEC.md).
 - `sym_check.py <lib.kicad_sym> [--name <symbol>] [--ref pins.csv | --vs <other.kicad_sym>[:name]] [--fp <fp.kicad_mod>] [--dump pins.csv] [--quiet]` prints the pin table (`--quiet` skips it) and the KLC checks (WARN / INFO with the rule number). It also compares the pins with a pin table, another symbol or a footprint: number, name, type, alternates and stacks, with DIFF lines and exit code 1. `--dump` writes a symbol as `pins.csv` plus `<stem>.layout.json`, to start from a stock symbol (hidden power pins come out with an empty side, shared unit-0 pins in a new last unit; it prints a NOTE for each). `--scan` with `--ref` ranks a whole stock library against the table.
 
