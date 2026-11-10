@@ -12,7 +12,7 @@ Only renames whose final path still exists are printed.
 import os, subprocess, sys
 
 repo = sys.argv[1]
-root = sys.argv[sys.argv.index('--root') + 1] if '--root' in sys.argv else 'library'
+root = (sys.argv[sys.argv.index('--root') + 1] if '--root' in sys.argv else 'library').rstrip('/\\')
 
 
 def git(*args):
@@ -21,7 +21,8 @@ def git(*args):
 
 current = set(git('ls-files', '--', root).splitlines())
 chain = {}  # old path -> newest path
-for line in git('log', '--reverse', '-M', '--diff-filter=R', '--name-status', '--format=', '--', root).splitlines():
+# --relative: paths from <library repo dir>, as ls-files prints them, also when it is not the Git top level
+for line in git('log', '--reverse', '-M', '--diff-filter=R', '--name-status', '--format=', '--relative', '--', root).splitlines():
     parts = line.split('\t')
     if len(parts) != 3 or not parts[0].startswith('R'):
         continue

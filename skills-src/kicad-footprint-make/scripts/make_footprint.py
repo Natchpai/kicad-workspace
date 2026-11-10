@@ -211,10 +211,10 @@ class Builder:
             if drill is None:
                 raise SpecError(f'{where}: a {kind} pad needs "drill"')
             dw, dh = pair(drill, f'{where} drill')
-            pw, ph = (h, w) if round(rot) % 180 == 90 else (w, h)
-            if dw > pw + EPS or dh > ph + EPS:
+            # KiCad keeps the drill in the pad's own frame, so it turns with the pad
+            if dw > w + EPS or dh > h + EPS:
                 raise SpecError(f'{where}: drill {dw}x{dh} is bigger than the pad {w}x{h}')
-            ring = min(pw - dw, ph - dh) / 2
+            ring = min(w - dw, h - dh) / 2
             if kind == 'thru_hole' and ring < 0.15 - EPS:
                 self.warns.append(f'{where}: annular ring {f(ring)} mm < 0.15 mm (KLC F7.5)')
         if mask_margin is not None:
@@ -308,6 +308,9 @@ class Builder:
         on_cols = g.get('letters', 'rows') == 'cols'   # letters count along x instead of y
         nl, nn = (cols, rows) if on_cols else (rows, cols)
         letters = row_letters(nl, g.get('skip_letters', SKIP_LETTERS))
+        unknown = sorted(str(e) for e in empty - {f'{l}{j + 1}' for l in letters for j in range(nn)})
+        if unknown:
+            raise SpecError(f'grid "empty" holds names that are not grid positions: {", ".join(unknown)}')
         fx = -1 if corner.endswith('right') else 1
         fy = -1 if corner.startswith('bottom') else 1
         for i, letter in enumerate(letters):
@@ -788,7 +791,7 @@ class Builder:
         bot = [p for p in self.pads if p['num'] and not p['via'] and 'B.Cu' in p['layers']]
         lines.append(f'pads: {len(top)} top, {len(bot)} B.Cu, {len(nums)} unique numbers, '
                      f'{len([p for p in self.pads if p["via"]])} thermal vias, '
-                     f'{len([p for p in self.pads if not p["num"]])} paste-only apertures')
+                     f'{len([p for p in self.pads if not p["num"] and p["kind"] == "smd"])} paste-only apertures')
         for num, copper, main, pbox, via_pts, vias in self.ep_info:
             ca = union_area(copper)
             pa = union_area(pbox)
@@ -852,6 +855,7 @@ def main():
                 with open(os.path.join(folder, fn), 'rb') as fh:
                     nl = '\r\n' if b'\r\n' in fh.read(4096) else '\n'
                 break
+    os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)   # a new .pretty folder
     with open(a.out, 'w', encoding='utf-8', newline=nl) as fh:
         fh.write(text)
     print(f'wrote {a.out}')
