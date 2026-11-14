@@ -55,7 +55,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row with mounting pin"
-			(at 0 0 0)
+			(at 0.254 8.128 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -89,8 +89,8 @@
 		)
 		(symbol "Conn_01x02_MountingPin_1_1"
 			(rectangle
-				(start -2.54 1.27)
-				(end 2.54 -5.08)
+				(start -2.54 2.54)
+				(end 2.54 -2.54)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -100,8 +100,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 0.127)
-				(end -1.27 -0.127)
+				(start -2.54 1.397)
+				(end -1.27 1.143)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -111,8 +111,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 -2.413)
-				(end -1.27 -2.667)
+				(start -2.54 -1.143)
+				(end -1.27 -1.397)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -122,8 +122,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 0 0)
-				(length 2.54)
+				(at -6.35 1.27 0)
+				(length 3.81)
 				(name "Pin_1"
 					(effects
 						(font
@@ -140,8 +140,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 -2.54 0)
-				(length 2.54)
+				(at -6.35 -1.27 0)
+				(length 3.81)
 				(name "Pin_2"
 					(effects
 						(font
@@ -158,7 +158,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -8.89 90)
+				(at 0 -6.35 90)
 				(length 3.81)
 				(name "MP"
 					(effects

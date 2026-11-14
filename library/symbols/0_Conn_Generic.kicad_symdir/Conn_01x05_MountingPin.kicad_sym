@@ -13,7 +13,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "CN"
-			(at 6.35 2.54 0)
+			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -23,7 +23,7 @@
 			)
 		)
 		(property "Value" "Conn_01x05_MountingPin"
-			(at 13.97 -1.27 0)
+			(at 12.7 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -55,7 +55,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x05 with mounting pin"
-			(at 0 0 0)
+			(at 0 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -90,7 +90,7 @@
 		(symbol "Conn_01x05_MountingPin_1_1"
 			(rectangle
 				(start -2.54 6.35)
-				(end 2.54 -7.62)
+				(end 2.54 -6.35)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -155,8 +155,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 5.08 0)
-				(length 2.54)
+				(at -6.35 5.08 0)
+				(length 3.81)
 				(name "Pin_1"
 					(effects
 						(font
@@ -173,8 +173,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 2.54 0)
-				(length 2.54)
+				(at -6.35 2.54 0)
+				(length 3.81)
 				(name "Pin_2"
 					(effects
 						(font
@@ -191,8 +191,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 0 0)
-				(length 2.54)
+				(at -6.35 0 0)
+				(length 3.81)
 				(name "Pin_3"
 					(effects
 						(font
@@ -209,8 +209,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 -2.54 0)
-				(length 2.54)
+				(at -6.35 -2.54 0)
+				(length 3.81)
 				(name "Pin_4"
 					(effects
 						(font
@@ -227,8 +227,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 -5.08 0)
-				(length 2.54)
+				(at -6.35 -5.08 0)
+				(length 3.81)
 				(name "Pin_5"
 					(effects
 						(font
@@ -245,7 +245,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 -11.43 90)
+				(at 0 -10.16 90)
 				(length 3.81)
 				(name "MountPin"
 					(effects

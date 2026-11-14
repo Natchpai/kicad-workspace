@@ -6,7 +6,7 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 |---|---:|---|
 | **0_Amplifier_Operational** | 1 | **TLV9061xDBV** |
 | **0_Conn_Ethernet** | 2 | **JXD0-0019NL**, **MGB005-1CF1B002H** |
-| **0_Conn_Generic** | 13 | **Conn_01x02**, **Conn_01x02_MountingPin**, **Conn_01x04_MountingPin**, **Conn_01x05_MountingPin**, **Conn_01x06**, **Conn_01x06_MountingPin**, **Conn_01x08_MountingPin**, **Conn_01x16_MountingPin**, **Conn_02x02_Top_Bottom**, **Conn_02x03_Top_Bottom**, **Conn_ARM_JTAG_SWD_10**, **Conn_JTAG_STDC10**, **SolderPad** |
+| **0_Conn_Generic** | 14 | **Conn_01x02**, **Conn_01x02_MountingPin**, **Conn_01x04_MountingPin**, **Conn_01x05_MountingPin**, **Conn_01x06**, **Conn_01x06_MountingPin**, **Conn_01x08_MountingPin**, **Conn_01x10_MountingPin**, **Conn_01x16_MountingPin**, **Conn_02x02_Top_Bottom**, **Conn_02x03_Top_Bottom**, **Conn_ARM_JTAG_SWD_10**, **Conn_JTAG_STDC10**, **SolderPad** |
 | **0_Conn_Mezzanine** | 1 | **10144518-101802LF** |
 | **0_Conn_USB** | 3 | **USB_B_Micro**, **USB_B_Mini**, **USB_C_Receptacle_USB2.0_16P** |
 | **0_Crystal** | 1 | **Crystal_GND24** |
