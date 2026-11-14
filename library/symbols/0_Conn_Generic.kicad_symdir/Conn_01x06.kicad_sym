@@ -13,7 +13,7 @@
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "CN"
-			(at 0 7.62 0)
+			(at 0 8.89 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -23,7 +23,7 @@
 			)
 		)
 		(property "Value" "Conn_01x06"
-			(at 0 -10.16 0)
+			(at 0 -8.89 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -55,7 +55,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 0 0 0)
+			(at 0 1.27 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -89,8 +89,8 @@
 		)
 		(symbol "Conn_01x06_1_1"
 			(rectangle
-				(start -2.54 6.35)
-				(end 2.54 -8.89)
+				(start -2.54 7.62)
+				(end 2.54 -7.62)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -100,8 +100,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 5.207)
-				(end -1.27 4.953)
+				(start -2.54 6.477)
+				(end -1.27 6.223)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -111,8 +111,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 2.667)
-				(end -1.27 2.413)
+				(start -2.54 3.937)
+				(end -1.27 3.683)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -122,8 +122,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 0.127)
-				(end -1.27 -0.127)
+				(start -2.54 1.397)
+				(end -1.27 1.143)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -133,8 +133,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 -2.413)
-				(end -1.27 -2.667)
+				(start -2.54 -1.143)
+				(end -1.27 -1.397)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -144,8 +144,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 -4.953)
-				(end -1.27 -5.207)
+				(start -2.54 -3.683)
+				(end -1.27 -3.937)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -155,8 +155,8 @@
 				)
 			)
 			(rectangle
-				(start -2.54 -7.493)
-				(end -1.27 -7.747)
+				(start -2.54 -6.223)
+				(end -1.27 -6.477)
 				(stroke
 					(width 0.1524)
 					(type default)
@@ -166,8 +166,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 5.08 0)
-				(length 2.54)
+				(at -6.35 6.35 0)
+				(length 3.81)
 				(name "Pin_1"
 					(effects
 						(font
@@ -184,8 +184,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 2.54 0)
-				(length 2.54)
+				(at -6.35 3.81 0)
+				(length 3.81)
 				(name "Pin_2"
 					(effects
 						(font
@@ -202,8 +202,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 0 0)
-				(length 2.54)
+				(at -6.35 1.27 0)
+				(length 3.81)
 				(name "Pin_3"
 					(effects
 						(font
@@ -220,8 +220,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 -2.54 0)
-				(length 2.54)
+				(at -6.35 -1.27 0)
+				(length 3.81)
 				(name "Pin_4"
 					(effects
 						(font
@@ -238,8 +238,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 -5.08 0)
-				(length 2.54)
+				(at -6.35 -3.81 0)
+				(length 3.81)
 				(name "Pin_5"
 					(effects
 						(font
@@ -256,8 +256,8 @@
 				)
 			)
 			(pin passive line
-				(at -5.08 -7.62 0)
-				(length 2.54)
+				(at -6.35 -6.35 0)
+				(length 3.81)
 				(name "Pin_6"
 					(effects
 						(font
