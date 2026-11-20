@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "Electronic fuse for 5 V line"
+		(property "Description" "eFuse, 5V, DFN-10"
 			(at -1.27 21.59 0)
 			(show_name no)
 			(do_not_autoplace no)

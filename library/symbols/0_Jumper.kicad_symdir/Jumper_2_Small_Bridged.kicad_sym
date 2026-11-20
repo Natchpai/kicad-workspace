@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" "Jumper, 2-pole, small symbol, bridged"
+		(property "Description" "Jumper, 2-pole, bridged, small symbol"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

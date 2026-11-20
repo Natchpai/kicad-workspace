@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "Texas Ins - TPS62A0x and TPS62A0xA, 1A, 2A, High-Efficiency, Synchronous Buck Converters in a SOT-563 and a SOT-23 Package"
+		(property "Description" "Step-down converter, synchronous, 1A/2A, TSOT-23-6"
 			(at -1.27 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" "Jumper, 2-pole, closed/bridged"
+		(property "Description" "Jumper, 2-pole, bridged"
 			(at 0 -7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" "30V 0.2A Schottky Barrier Diodes ,trr 5ns , SOD-523"
+		(property "Description" "Schottky diode, 30V, 0.2A, trr 5ns, SOD-523"
 			(at -1.27 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

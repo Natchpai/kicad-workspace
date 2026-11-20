@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "DC to 5 MHz Bandwidth, Isolated, High-Accuracy Current Sensor IC with Reference Output"
+		(property "Description" "Current sensor, isolated, DC to 5MHz, reference output, SOIC-6"
 			(at 0 12.7 0)
 			(show_name no)
 			(do_not_autoplace no)

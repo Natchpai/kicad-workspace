@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "Low- and High-Side Voltage Output, Current-Sense Amplifiers"
+		(property "Description" "Current sense amplifier, low- and high-side, voltage output, SOT-23-5"
 			(at 0 12.7 0)
 			(show_name no)
 			(do_not_autoplace no)

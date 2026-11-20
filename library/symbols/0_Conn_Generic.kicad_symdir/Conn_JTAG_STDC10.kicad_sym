@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "ARM Cortex-M SWD and JTAG interface 10 Pin"
+		(property "Description" "Arm Cortex-M SWD and JTAG connector, STDC10, 10 pins"
 			(at 0 29.21 0)
 			(show_name no)
 			(do_not_autoplace no)

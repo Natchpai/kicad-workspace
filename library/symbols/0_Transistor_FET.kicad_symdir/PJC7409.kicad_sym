@@ -58,7 +58,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "20V P-CHANNEL ENHANCEMENT MODE M"
+		(property "Description" "P-channel MOSFET, 20V, SOT-323"
 			(at 11.43 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)

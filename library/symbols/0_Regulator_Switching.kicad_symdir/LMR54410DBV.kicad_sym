@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "4V to 45V 0.6A/1A Buck Converter in a SOT-23 Package"
+		(property "Description" "Step-down converter, 0.6A/1A, 4-45V input, SOT-23-6"
 			(at 0 12.065 0)
 			(show_name no)
 			(do_not_autoplace no)

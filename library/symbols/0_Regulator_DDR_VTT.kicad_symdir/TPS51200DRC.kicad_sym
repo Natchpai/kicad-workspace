@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "Sink and Source DDR Termination Regulator"
+		(property "Description" "DDR termination regulator, sink and source, VSON-10"
 			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

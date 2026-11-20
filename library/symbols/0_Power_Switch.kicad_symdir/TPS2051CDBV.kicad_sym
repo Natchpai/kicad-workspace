@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "TPS20xxC and TPS20xxC-2 Current Limited, Power-Distribution Switches"
+		(property "Description" "Power distribution switch, current limited, SOT-23-5"
 			(at -1.27 13.97 0)
 			(show_name no)
 			(do_not_autoplace no)

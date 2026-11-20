@@ -51,7 +51,7 @@
 				)
 			)
 		)
-		(property "Description" "High-Accuracy Analog Output Temperature Sensors, ±1C accuracy, -40C to +150C, SC-70-5"
+		(property "Description" "Temperature sensor, analog output, ±1C accuracy, -40C to +150C, SC-70-5"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

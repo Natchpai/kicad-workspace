@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" "40V 3A DIODE SCHOTTKY DO214AC, SMA"
+		(property "Description" "Schottky diode, 40V, 3A, SMA"
 			(at -1.27 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

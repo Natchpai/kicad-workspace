@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "OptiMOS6 Power-MOSFET,40V, 27A(Ta), 1.8mOhm"
+		(property "Description" "Power MOSFET, OptiMOS 6, 40V, 27A (Ta), 1.8mOhm, PG-TSDSON-8"
 			(at -1.27 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)

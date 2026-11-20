@@ -51,7 +51,7 @@
 				)
 			)
 		)
-		(property "Description" "250 mA ultra low noise LDO, Fixed Output 3.3V Vin MAX 5.5V, SOT-23-5"
+		(property "Description" "LDO regulator, fixed 3.3V output, 250mA, 5.5V max input, ultra low noise, SOT-23-5"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

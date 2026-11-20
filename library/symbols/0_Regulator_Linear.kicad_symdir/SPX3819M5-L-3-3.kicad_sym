@@ -54,7 +54,7 @@
 				)
 			)
 		)
-		(property "Description" "500mA Low drop-out regulator, Fixed Output 3.3V, SOT-23-5"
+		(property "Description" "LDO regulator, fixed 3.3V output, 500mA, SOT-23-5"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

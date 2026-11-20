@@ -54,7 +54,7 @@
 				)
 			)
 		)
-		(property "Description" "Jumper, 3-pole, pins 1+2 closed/bridged"
+		(property "Description" "Jumper, 3-pole, pins 1+2 bridged"
 			(at 0 -11.43 0)
 			(show_name no)
 			(do_not_autoplace no)

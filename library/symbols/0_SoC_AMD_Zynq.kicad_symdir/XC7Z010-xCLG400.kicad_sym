@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "XILINX - XC7Z010-2CLG400I - PSoC / MPSoC Microprocessor, Zynq-7000 XC7Z010 Series, ARM Cortex-A9, 766 MHz, CSBGA-400"
+		(property "Description" "Zynq-7000 SoC, Arm Cortex-A9, 766MHz, BGA-400"
 			(at -2.54 5.08 0)
 			(show_name no)
 			(do_not_autoplace no)
