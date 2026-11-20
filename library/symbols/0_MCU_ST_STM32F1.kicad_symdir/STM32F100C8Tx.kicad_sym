@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "STMicroelectronics Arm Cortex-M3 MCU, 64KB flash, 8KB RAM, 24 MHz, 2.0-3.6V, 37 GPIO, LQFP48"
+		(property "Description" "STMicroelectronics Arm Cortex-M3 MCU, 64KB flash, 8KB RAM, 24MHz, 2.0-3.6V, 37 GPIO, LQFP-48"
 			(at -19.05 -52.07 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -57,7 +57,7 @@
 				(justify bottom)
 			)
 		)
-		(property "Description" "Connector XT30PW30-M.G.* Male Plug Right Angle for RC ESC"
+		(property "Description" "XT30 power connector, male plug, right angle"
 			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "Dual unidirectional ESD Protection"
+		(property "Description" "ESD protection, dual, unidirectional"
 			(at 0 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -58,7 +58,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "MOSFET N-CH 30V 100mA SOT-323"
+		(property "Description" "N-channel MOSFET, 30V, 100mA, SOT-323"
 			(at 2.54 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)

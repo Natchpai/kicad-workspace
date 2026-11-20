@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "Dual bidirectional ESD Protection"
+		(property "Description" "ESD protection, dual, bidirectional"
 			(at 22.86 -4.953 0)
 			(show_name no)
 			(do_not_autoplace no)

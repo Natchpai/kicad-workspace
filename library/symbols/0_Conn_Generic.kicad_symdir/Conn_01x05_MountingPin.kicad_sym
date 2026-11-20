@@ -54,7 +54,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x05 with mounting pin"
+		(property "Description" "Generic connector, single row, 01x05, mounting pin"
 			(at 0 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)

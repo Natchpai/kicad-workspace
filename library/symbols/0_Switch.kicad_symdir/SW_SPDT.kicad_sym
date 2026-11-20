@@ -54,7 +54,7 @@
 				)
 			)
 		)
-		(property "Description" "Switch, single pole double throw"
+		(property "Description" "Switch, SPDT"
 			(at 0 -7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

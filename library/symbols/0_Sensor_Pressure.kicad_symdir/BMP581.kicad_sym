@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "Barometric pressure and temperature sensor, I2C/I3C/SPI, VDD 1.71-3.6V, LGA-10 2x2mm"
+		(property "Description" "Barometric pressure and temperature sensor, 1.71-3.6V, I2C/I3C/SPI, LGA-10 2x2mm"
 			(at 1.27 -27.94 0)
 			(show_name no)
 			(do_not_autoplace no)

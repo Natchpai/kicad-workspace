@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "ESD protection for ultra high-speed interfaces, 3.3V Standoff, 4 Channels, 0.25pF, ±15kV, SOT1176-1"
+		(property "Description" "ESD protection for high-speed interfaces, 4 channels, 3.3V standoff, 0.25pF, ±15kV, DFN-10 1x2.5mm"
 			(at 0 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -54,7 +54,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, double row, 02x02, top/bottom pin numbering scheme (row 1: 1...pins_per_row, row2: pins_per_row+1 ... num_pins), script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Generic connector, double row, 02x02, top/bottom pin numbering"
 			(at -1.27 6.35 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "ESD DIODE 5VWM SOT-23"
+		(property "Description" "ESD protection diode, 5V standoff, SOT-23"
 			(at 22.86 -4.953 0)
 			(show_name no)
 			(do_not_autoplace no)

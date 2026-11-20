@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "3.3V General Purpose ESD Protection Diode 105pF"
+		(property "Description" "ESD protection diode, general purpose, 3.3V, 105pF, SOD-523"
 			(at 0 8.89 0)
 			(show_name no)
 			(do_not_autoplace no)

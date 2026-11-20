@@ -55,7 +55,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connectable mounting pin connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Generic connector, single row, 01x04, mounting pin"
 			(at -1.016 9.652 0)
 			(show_name no)
 			(do_not_autoplace no)

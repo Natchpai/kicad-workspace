@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "Extremely low capacitance bidirectional ESD protection diode array , 3.3V Standoff, 0.25pF ±15kV"
+		(property "Description" "ESD protection diode array, bidirectional, 3.3V standoff, 0.25pF, ±15kV, DFN-10 1x2.5mm"
 			(at 0 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)

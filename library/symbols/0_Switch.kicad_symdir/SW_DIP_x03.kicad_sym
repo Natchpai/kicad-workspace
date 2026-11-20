@@ -54,7 +54,7 @@
 				)
 			)
 		)
-		(property "Description" "3x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol"
+		(property "Description" "DIP switch, SPST, 3 positions"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

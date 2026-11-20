@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "TVS/ESD diode, bidirectional"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

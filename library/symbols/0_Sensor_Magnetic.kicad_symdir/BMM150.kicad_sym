@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "Geomagnetic Sensor, WLCSP-12"
+		(property "Description" "Geomagnetic sensor, WLCSP-12"
 			(at -20.32 26.67 0)
 			(show_name no)
 			(do_not_autoplace no)

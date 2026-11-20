@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "3D Magnetometer, I2C Interface, LGA-16"
+		(property "Description" "3-axis magnetometer, I2C, LGA-16"
 			(at 0 29.21 0)
 			(show_name no)
 			(do_not_autoplace no)
