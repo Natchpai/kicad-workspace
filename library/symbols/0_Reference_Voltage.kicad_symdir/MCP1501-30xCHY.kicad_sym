@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "High-Precision Buffered Voltage Reference"
+		(property "Description" "Voltage reference, buffered, high precision, SOT-23-6"
 			(at 0 19.05 0)
 			(show_name no)
 			(do_not_autoplace no)

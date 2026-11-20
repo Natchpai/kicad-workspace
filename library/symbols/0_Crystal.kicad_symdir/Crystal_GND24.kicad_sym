@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "Four pin crystal, GND on pins 2 and 4"
+		(property "Description" "Crystal, 4 pins, GND on pins 2 and 4"
 			(at 0 -10.16 0)
 			(show_name no)
 			(do_not_autoplace no)

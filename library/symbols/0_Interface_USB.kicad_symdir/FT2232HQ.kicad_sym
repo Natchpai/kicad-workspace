@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "Hi Speed Double Channel USB UART/FIFO, QFN-64"
+		(property "Description" "USB to dual UART/FIFO, Hi-Speed, QFN-64"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

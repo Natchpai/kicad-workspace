@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "Microchip USB3320C-EZK-TR, USB Transceiver, USB 2.0, 1.8 V, 3.3 V, 32-Pin QFN | Microchip Technology Inc. USB3320C-EZK-TR"
+		(property "Description" "USB 2.0 transceiver, 1.8V, 3.3V, QFN-32"
 			(at 2.54 44.45 0)
 			(show_name no)
 			(do_not_autoplace no)

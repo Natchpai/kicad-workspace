@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" "Solder Jumper, 2-pole, open"
+		(property "Description" "Solder jumper, 2-pole, open"
 			(at 0 -5.08 0)
 			(show_name no)
 			(do_not_autoplace no)

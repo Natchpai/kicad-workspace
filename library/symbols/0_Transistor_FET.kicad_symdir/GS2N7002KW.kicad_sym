@@ -58,7 +58,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "60V Vds, 0.34 Id, N-CHANNEL ENHANCEMENT MODE MOSFET"
+		(property "Description" "N-channel MOSFET, 60V, 0.34A, SOT-323"
 			(at 1.27 -12.7 0)
 			(show_name no)
 			(do_not_autoplace no)

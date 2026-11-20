@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "10/100/1000 Base-T ,1 Port RJ45 Jack with Magnetics"
+		(property "Description" "RJ45 jack with magnetics, 10/100/1000BASE-T, 1 port, horizontal"
 			(at 0 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)

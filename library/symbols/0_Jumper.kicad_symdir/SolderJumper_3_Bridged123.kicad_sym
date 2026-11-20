@@ -54,7 +54,7 @@
 				)
 			)
 		)
-		(property "Description" "Solder Jumper, 3-pole, pins 1+2+3 closed/bridged"
+		(property "Description" "Solder jumper, 3-pole, pins 1+2+3 bridged"
 			(at 0 -11.43 0)
 			(show_name no)
 			(do_not_autoplace no)

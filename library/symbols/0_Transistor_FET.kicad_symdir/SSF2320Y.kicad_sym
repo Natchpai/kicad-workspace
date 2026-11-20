@@ -58,7 +58,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "20V Vds, 0.8 Id, N-CHANNEL ENHANCEMENT MODE MOSFET"
+		(property "Description" "N-channel MOSFET, 20V, 0.8A, SOT-523"
 			(at 1.27 -12.7 0)
 			(show_name no)
 			(do_not_autoplace no)

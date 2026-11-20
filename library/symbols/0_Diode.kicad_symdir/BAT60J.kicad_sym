@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" "10V 3A Small Signal Schottky Diode, SOD-323"
+		(property "Description" "Schottky diode, small signal, 10V, 3A, SOD-323"
 			(at -1.27 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)

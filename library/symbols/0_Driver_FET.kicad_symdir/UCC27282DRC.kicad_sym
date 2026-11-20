@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "3-A 120-V Half-Bridge Driver"
+		(property "Description" "Half-bridge driver, 120V, 3A, VSON-10"
 			(at -2.54 20.32 0)
 			(show_name no)
 			(do_not_autoplace no)

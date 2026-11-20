@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "eMMC, LFBGA-153"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

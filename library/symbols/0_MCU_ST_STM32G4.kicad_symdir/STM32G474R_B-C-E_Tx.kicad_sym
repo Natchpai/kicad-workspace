@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "STMicroelectronics Arm Cortex-M4 MCU, 128-512KB flash, 128KB RAM, 170 MHz, 1.71-3.6V, 52 GPIO, LQFP64"
+		(property "Description" "STMicroelectronics Arm Cortex-M4 MCU, 128-512KB flash, 128KB RAM, 170MHz, 1.71-3.6V, 52 GPIO, LQFP-64"
 			(at -6.35 50.8 0)
 			(show_name no)
 			(do_not_autoplace no)

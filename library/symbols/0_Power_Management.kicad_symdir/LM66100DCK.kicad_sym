@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "Ideal Diode With Input Polarity Protection 1.5 - 5.5V  Input Voltage, 1.5A Output Current, Ron 141 mOhm, SC-70-6"
+		(property "Description" "Ideal diode, input polarity protection, 1.5-5.5V input, 1.5A, 141mOhm, SC-70-6"
 			(at 0 -18.034 0)
 			(show_name no)
 			(do_not_autoplace no)

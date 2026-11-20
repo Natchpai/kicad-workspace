@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Ethernet PHY, QFN-48"
 			(at -1.27 35.56 0)
 			(show_name no)
 			(do_not_autoplace no)
