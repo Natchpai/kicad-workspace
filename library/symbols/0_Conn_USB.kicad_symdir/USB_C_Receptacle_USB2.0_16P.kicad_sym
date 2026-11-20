@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "USB 2.0-only 16P Type-C Receptacle connector"
+		(property "Description" "USB 2.0 Type-C receptacle, 16 pins"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

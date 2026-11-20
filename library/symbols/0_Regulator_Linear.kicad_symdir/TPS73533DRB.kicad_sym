@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "500mA Low Quiescent Current, Low Noise, High PSRR LDO Linear Regulator, Fixed 3.3V Output, 2.7-6.5V Input Voltage, VSON-8"
+		(property "Description" "LDO regulator, fixed 3.3V output, 500mA, 2.7-6.5V input, low noise, high PSRR, VSON-8"
 			(at 0 -29.21 0)
 			(show_name no)
 			(do_not_autoplace no)

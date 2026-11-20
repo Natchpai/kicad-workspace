@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "Pin Header 12 Position 2.54mm Pitch Triple Row Through Hole, Right Angle"
+		(property "Description" "Pin header, triple row, 12 pins, 2.54mm pitch, right angle, through hole"
 			(at 1.27 -25.4 0)
 			(show_name no)
 			(do_not_autoplace no)

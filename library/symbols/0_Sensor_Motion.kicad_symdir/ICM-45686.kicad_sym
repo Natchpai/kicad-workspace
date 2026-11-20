@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "High performance 6-axis IMU, accelerometer and gyroscope, dual interface (UI + AUX), I3C/I2C/SPI, LGA-14 2.5x3mm"
+		(property "Description" "6-axis IMU, accelerometer and gyroscope, I3C/I2C/SPI, UI and AUX interfaces, LGA-14 2.5x3mm"
 			(at -49.53 30.48 0)
 			(show_name no)
 			(do_not_autoplace no)

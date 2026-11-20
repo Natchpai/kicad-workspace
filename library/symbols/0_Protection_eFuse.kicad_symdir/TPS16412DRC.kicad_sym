@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "2.7V to 40V, 1.8A Current Limiting eFuse With IN to OUT Short Detection"
+		(property "Description" "eFuse, 2.7-40V, 1.8A current limit, IN-to-OUT short detection, VSON-10"
 			(at 0 -22.86 0)
 			(show_name no)
 			(do_not_autoplace no)

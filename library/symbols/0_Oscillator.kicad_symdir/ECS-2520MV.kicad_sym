@@ -50,7 +50,7 @@
 				)
 			)
 		)
-		(property "Description" "1.6-3.3V CMOS Clock Oscillator"
+		(property "Description" "Clock oscillator, CMOS, 1.6-3.3V, 2.5x2.0mm"
 			(at 0 11.43 0)
 			(show_name no)
 			(do_not_autoplace no)

@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "3.3V ESD Protection Diode 0.3pF"
+		(property "Description" "ESD protection diode, 3.3V, 0.3pF, SOD-882"
 			(at 0 8.89 0)
 			(show_name no)
 			(do_not_autoplace no)

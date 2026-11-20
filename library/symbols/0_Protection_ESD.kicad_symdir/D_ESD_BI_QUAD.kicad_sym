@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "Quad bidirectional ESD Protection"
+		(property "Description" "ESD protection, quad, bidirectional"
 			(at 0 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)

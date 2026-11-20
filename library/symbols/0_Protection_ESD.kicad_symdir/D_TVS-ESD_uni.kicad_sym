@@ -57,7 +57,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "TVS/ESD diode, unidirectional"
 			(at 0 -5.08 0)
 			(show_name no)
 			(do_not_autoplace no)

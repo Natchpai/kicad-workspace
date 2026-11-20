@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "STMicroelectronics Arm Cortex-M7 MCU, 2048KB flash, 1024KB RAM, 480 MHz, 1.71-3.6V, 82 GPIO, LQFP100"
+		(property "Description" "STMicroelectronics Arm Cortex-M7 MCU, 2048KB flash, 1024KB RAM, 480MHz, 1.71-3.6V, 82 GPIO, LQFP-100"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)

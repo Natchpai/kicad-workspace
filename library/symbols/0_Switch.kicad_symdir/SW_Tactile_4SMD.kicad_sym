@@ -59,7 +59,7 @@
 				)
 			)
 		)
-		(property "Description" "single pole normally-open tactile switch"
+		(property "Description" "Tactile switch, SPST-NO, 4 pins"
 			(at 0 -6.35 0)
 			(show_name no)
 			(do_not_autoplace no)

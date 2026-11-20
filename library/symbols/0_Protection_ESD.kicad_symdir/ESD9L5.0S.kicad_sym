@@ -53,7 +53,7 @@
 				)
 			)
 		)
-		(property "Description" "5V(STD) ESD Protection Diode"
+		(property "Description" "ESD protection diode, 5V, SOD-923"
 			(at 0 8.89 0)
 			(show_name no)
 			(do_not_autoplace no)

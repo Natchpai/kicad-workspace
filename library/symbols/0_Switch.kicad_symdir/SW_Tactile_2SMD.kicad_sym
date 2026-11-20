@@ -58,7 +58,7 @@
 				)
 			)
 		)
-		(property "Description" "Push button switch, generic, two pins"
+		(property "Description" "Tactile switch, SPST-NO, 2 pins"
 			(at 0 -4.064 0)
 			(show_name no)
 			(do_not_autoplace no)

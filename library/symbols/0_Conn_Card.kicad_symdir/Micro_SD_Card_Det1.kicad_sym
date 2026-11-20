@@ -51,7 +51,7 @@
 				)
 			)
 		)
-		(property "Description" "Micro SD Card Socket with one card detection pin"
+		(property "Description" "Micro SD card socket, one card detect pin"
 			(at 21.844 -23.622 0)
 			(show_name no)
 			(do_not_autoplace no)

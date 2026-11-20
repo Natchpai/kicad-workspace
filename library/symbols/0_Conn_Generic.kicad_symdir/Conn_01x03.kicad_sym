@@ -55,7 +55,7 @@
 				)
 			)
 		)
-		(property "Description" "Generic connectable  connector, single row, 01x03"
+		(property "Description" "Generic connector, single row, 01x03"
 			(at -1.016 9.652 0)
 			(show_name no)
 			(do_not_autoplace no)

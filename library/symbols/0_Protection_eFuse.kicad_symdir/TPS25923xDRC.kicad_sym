@@ -52,7 +52,7 @@
 				)
 			)
 		)
-		(property "Description" "5-V eFuse with 6.1V Fixed-Over Voltage Protection and Blocking FET Control"
+		(property "Description" "eFuse, 5V, 6.1V fixed overvoltage protection, blocking FET control, VSON-10"
 			(at 0 21.59 0)
 			(show_name no)
 			(do_not_autoplace no)
