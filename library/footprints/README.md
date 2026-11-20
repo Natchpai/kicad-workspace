@@ -1,6 +1,6 @@
 # Footprint Libraries
 
-The shared footprint libraries use family-based `0_*.pretty` names. There are 31 libraries containing 129 footprints.
+The shared footprint libraries use family-based `0_*.pretty` names. There are 32 libraries containing 143 footprints.
 
 ```text
 library/
@@ -8,6 +8,7 @@ library/
     ├── 0_Capacitor_SMD.pretty/
     ├── 0_Conn_AMASS.pretty/
     ├── 0_Conn_Barrel.pretty/
+    ├── 0_Conn_Card.pretty/
     ├── 0_Conn_Ethernet.pretty/
     ├── 0_Conn_FFC.pretty/
     ├── 0_Conn_JST.pretty/

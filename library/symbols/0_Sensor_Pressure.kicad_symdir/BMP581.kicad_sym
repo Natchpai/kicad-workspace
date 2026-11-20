@@ -63,6 +63,28 @@
 				)
 			)
 		)
+		(property "MFR" "Bosch"
+			(at 1.27 -27.94 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MFR.P/N" "BMP581"
+			(at 1.27 -27.94 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "ki_keywords" "Bosch barometer pressure altimeter"
 			(at 0 0 0)
 			(show_name no)

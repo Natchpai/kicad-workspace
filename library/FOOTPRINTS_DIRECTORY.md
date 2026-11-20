@@ -2,17 +2,18 @@
 
 Custom KiCad footprints are stored in footprints/. Each nonempty .pretty folder is one library. Names below omit the .kicad_mod suffix.
 
-Inventory: 31 libraries, 129 footprints.
+Inventory: 32 libraries, 143 footprints.
 
-- **0_Capacitor_SMD.pretty** (9) — C_0201_0603Metric_Murata, C_0402_1005Metric_NomDensity, C_0603_1608Metric_NomDensity, C_0805_2012Metric_NomDensity, C_1206_3216Metric_NomDensity, C_1210_3225Metric_NomDensity, CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm, CP_Elec_Wuerth_WCAP-ASLI_5x5mm_H5.5mm, CP_Elec_Wuerth_WCAP-ASLI_6.3x6.3mm_H5.5mm
-- **0_Conn_AMASS.pretty** (2) — AMASS_XT60PW-F_1x02_P7.20mm_Horizontal, AMASS_XT60PW-M_1x02_P7.20mm_Horizontal
+- **0_Capacitor_SMD.pretty** (11) — CP_EIA-3528-21_Kemet-B, CP_EIA-6032-28_Kemet-C, CP_Elec_Panasonic_OS-CON-SVPK_6.3x6.3mm_H5.9mm, CP_Elec_Wuerth_WCAP-ASLI_5x5mm_H5.5mm, CP_Elec_Wuerth_WCAP-ASLI_6.3x6.3mm_H5.5mm, C_0201_0603Metric_Murata, C_0402_1005Metric_NomDensity, C_0603_1608Metric_NomDensity, C_0805_2012Metric_NomDensity, C_1206_3216Metric_NomDensity, C_1210_3225Metric_NomDensity
+- **0_Conn_AMASS.pretty** (3) — AMASS_XT30PW-M, AMASS_XT60PW-F_1x02_P7.20mm_Horizontal, AMASS_XT60PW-M_1x02_P7.20mm_Horizontal
 - **0_Conn_Barrel.pretty** (2) — BarrelJack_CLIFF_FC681465S_SMT_Horizontal, BarrelJack_CUI_PJ-002A_Horizontal
+- **0_Conn_Card.pretty** (1) — CUI_microSD_MSD-1-A
 - **0_Conn_Ethernet.pretty** (2) — RJ45_GCT_MGB005-1CF1B002H_Horizontal, RJ45_Pulse_JXD0-0019NL_Horizontal
 - **0_Conn_FFC.pretty** (4) — GCT_FFC2B28-04_1x04-1MP_P0.5mm_Horizontal, GCT_FFC2B28-16_1x16-1MP_P0.5mm_Horizontal, GCT_FFC2B35-04_1x04-1MP_P0.5mm_Horizontal, GCT_FFC2B35-16_1x16-1MP_P0.5mm_Horizontal
-- **0_Conn_JST.pretty** (6) — JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal, JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal, JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal, JST_GH_SM07B-GHS-TB_1x07-1MP_P1.25mm_Horizontal, JST_GH_SM08B-GHS-TB_1x08-1MP_P1.25mm_Horizontal, JST_ZH_B2B-ZR_1x02_P1.50mm_Vertical
+- **0_Conn_JST.pretty** (9) — JST_GH_SM03B-GHS-TB_1x03-1MP_P1.25mm_Horizontal, JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal, JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal, JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal, JST_GH_SM07B-GHS-TB_1x07-1MP_P1.25mm_Horizontal, JST_GH_SM08B-GHS-TB_1x08-1MP_P1.25mm_Horizontal, JST_GH_SM10B-GHS-TB_1x10-1MP_P1.25mm_Horizontal, JST_SH_SM06B-SRSS-TB_1x06-1MP_P1.00mm_Horizontal, JST_ZH_B2B-ZR_1x02_P1.50mm_Vertical
 - **0_Conn_Mezzanine.pretty** (1) — Amphenol_10144518-101802LF_2x50_P0.8mm_Vertical
-- **0_Conn_Molex.pretty** (2) — Molex_Mini-Fit_Jr_5569-04A2_2x02_P4.20mm_Horizontal, Molex_Mini-Fit_Jr_5569-06A2_2x03_P4.20mm_Horizontal
-- **0_Conn_PinHeader.pretty** (4) — PinHeader_1x02_P2.54mm_Vertical, PinHeader_2x04_P2.54mm_Vertical, PinHeader_2x05_P1.27mm_Vertical_SMD, PinHeader_2x08_P2.54mm_Vertical
+- **0_Conn_Molex.pretty** (3) — Molex_CLIK-Mate_502494-0670_1x06-1MP_P2.00mm_Horizontal, Molex_Mini-Fit_Jr_5569-04A2_2x02_P4.20mm_Horizontal, Molex_Mini-Fit_Jr_5569-06A2_2x03_P4.20mm_Horizontal
+- **0_Conn_PinHeader.pretty** (6) — PinHeader_1x02_P2.54mm_Vertical, PinHeader_1x03_P2.54mm_Horizontal, PinHeader_2x04_P2.54mm_Vertical, PinHeader_2x05_P1.27mm_Vertical_SMD, PinHeader_2x08_P2.54mm_Vertical, SAMTEC_TSW-104-08-F-T-RA
 - **0_Conn_RF.pretty** (1) — SMA_Samtec_SMA-J-P-H-ST-EM1_EdgeMount
 - **0_Conn_USB.pretty** (5) — USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal, USB_C_Receptacle_GCT_USB4215-03-A_16P_TopMnt_Horizontal, USB_Micro-B_GCT_USB3076-30-A, USB_Mini-B_Lumberg_2486_01_Horizontal, USB_Mini-B_TE_2172034-1
 - **0_Crystal.pretty** (1) — Crystal_SMD_Abracon_ABM11W-4Pin_2.0x1.6mm
@@ -22,10 +23,10 @@ Inventory: 31 libraries, 129 footprints.
 - **0_LED_SMD.pretty** (1) — LED_0603_1608Metric
 - **0_MountingHole.pretty** (1) — MountingHole_3.2mm_M3_Pad_Via
 - **0_NetTie.pretty** (5) — NetTie-2_SMD_Pad0.15mm, NetTie-2_SMD_Pad0.2mm, NetTie-2_SMD_Pad0.3mm, NetTie-2_SMD_Pad0.4mm, NetTie-2_SMD_Pad0.5mm
-- **0_Oscillator.pretty** (2) — Oscillator_SMD_Abracon_ASDMB-4Pin_2.5x2.0mm, Oscillator_SMD_ECS_2520MV-4Pin_2.5x2.0mm
+- **0_Oscillator.pretty** (3) — Oscillator_SMD_Abracon_ASDDV-4Pin_2.5x2.0mm, Oscillator_SMD_Abracon_ASDMB-4Pin_2.5x2.0mm, Oscillator_SMD_ECS_2520MV-4Pin_2.5x2.0mm
 - **0_Package_BGA.pretty** (3) — BGA-400_17x17mm_Layout20x20_P0.8mm, BGA-96_8x14mm_Layout9x16_P0.8mm, LFBGA-153_11.5x13mm_Layout14x14_P0.5mm
 - **0_Package_CSP.pretty** (1) — WLCSP-12_1.56x1.56mm_P0.4mm
-- **0_Package_DFN_QFN.pretty** (6) — DFN-10-1EP_3x3mm_P0.5mm, Nexperia_SOT1176-2_DFN-10_1x2.5mm_P0.5mm, QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias, QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias, QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm, VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm_ThermalVias
+- **0_Package_DFN_QFN.pretty** (8) — DFN-10-1EP_3x3mm_P0.5mm, Nexperia_SOT1176-2_DFN-10_1x2.5mm_P0.5mm, QFN-32-1EP_5x5mm_P0.5mm_EP3.3x3.3mm_ThermalVias, QFN-48-1EP_7x7mm_P0.5mm_EP5.15x5.15mm_ThermalVias, QFN-64-1EP_9x9mm_P0.5mm_EP4.35x4.35mm, Texas_VQFN-HR-12_2x2.5mm_P0.5mm, Texas_VQFN-HR-12_2x2.5mm_P0.5mm_ThermalVias, VQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm_ThermalVias
 - **0_Package_LGA.pretty** (4) — Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder3x2y, Bosch_LGA-14_3x2.5mm_P0.5mm, LGA-16_3x3mm_P0.5mm, ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y
 - **0_Package_QFP.pretty** (3) — LQFP-100_14x14mm_P0.5mm, LQFP-48_7x7mm_P0.5mm, LQFP-64_10x10mm_P0.5mm
 - **0_Package_SO.pretty** (2) — Allegro_LZ_SOIC-6_3.9x4.9mm_P1.27mm, SOIC-8_3.9x4.9mm_P1.27mm
@@ -34,4 +35,4 @@ Inventory: 31 libraries, 129 footprints.
 - **0_Resistor_SMD.pretty** (9) — R_0201_0603Metric_Yageo, R_0402_1005Metric_NomDensity, R_0603_1608Metric_NomDensity, R_1206_3216Metric_Yageo, R_Shunt_Stackpole_CSNL2010_5025Metric_R002, R_Shunt_Yageo_PA1206_3216Metric_R004-R020, R_Shunt_Yageo_PA2010_5025Metric_R001-R003, R_Shunt_Yageo_PA2010_5025Metric_R004-R020, R_Shunt_Yageo_PA2512_6332Metric_R005-R006
 - **0_SolderJumper.pretty** (1) — SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm
 - **0_Switch.pretty** (6) — SW_DIP_SPSTx03_Slide_KingTek_DSHP03TS_W7.62mm_P1.27mm, SW_Push_SPST_NO_Alps_SKRK, SW_Push_SPST_NO_CK_PTS815_4.2x3.2mm_H2.5mm, SW_Push_SPST_NO_SameSky_TS06-667-34_6x6.7mm_H3.4mm, SW_Push_SPST_NO_SameSky_TS09-63-25_6.1x3.7mm_H2.5mm, SW_SPDT_PCM12
-- **0_TestPoint.pretty** (9) — TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded, TestPoint_NoSilk_D0.5mm_Bottom, TestPoint_NoSilk_D0.5mm_Top, TestPoint_NoSilk_D1.0mm_Bottom, TestPoint_NoSilk_D1.0mm_Top, TestPoint_Pad_D1.0mm_Bottom, TestPoint_Pad_D1.0mm_Top, TestPoint_THTPad_1.0x1.0mm_Drill0.5mm, TestPoint_THTPad_1.5x1.5mm_Drill0.7mm
+- **0_TestPoint.pretty** (10) — TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded, TestPoint_NoSilk_D0.5mm_Bottom, TestPoint_NoSilk_D0.5mm_Top, TestPoint_NoSilk_D1.0mm_Bottom, TestPoint_NoSilk_D1.0mm_Top, TestPoint_Pad_D1.0mm_Bottom, TestPoint_Pad_D1.0mm_Top, TestPoint_Pad_D2.0mm, TestPoint_THTPad_1.0x1.0mm_Drill0.5mm, TestPoint_THTPad_1.5x1.5mm_Drill0.7mm
