@@ -56,7 +56,7 @@
 				)
 			)
 		)
-		(property "Description" "ESD protection for high-speed interfaces,, 5V Standoff, 4 Channels, 0.25pF ±15kV, SOT1176-1"
+		(property "Description" "Bidirectional ESD protection for high-speed interfaces,, 5V Standoff, 4 Channels, 0.25pF ±15kV, SOT1176-1"
 			(at 0 -15.24 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -91,7 +91,7 @@
 		)
 		(symbol "PESD4USB5BTBR-Q_0_0"
 			(pin passive line
-				(at 0 5.08 270)
+				(at -1.27 5.08 270)
 				(length 2.54)
 				(name "K"
 					(effects
@@ -111,8 +111,8 @@
 		)
 		(symbol "PESD4USB5BTBR-Q_0_1"
 			(rectangle
-				(start -4.445 2.54)
-				(end 6.985 -2.54)
+				(start -5.715 2.54)
+				(end 5.715 -2.54)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -123,7 +123,7 @@
 			)
 			(polyline
 				(pts
-					(xy -3.302 1.016) (xy -3.048 1.27) (xy -2.032 1.27)
+					(xy -3.81 3.81) (xy -3.81 2.54)
 				)
 				(stroke
 					(width 0)
@@ -135,7 +135,7 @@
 			)
 			(polyline
 				(pts
-					(xy -2.54 2.54) (xy -2.54 1.27)
+					(xy -3.81 2.54) (xy -3.81 0) (xy 1.27 0) (xy 1.27 2.54)
 				)
 				(stroke
 					(width 0)
@@ -147,7 +147,7 @@
 			)
 			(polyline
 				(pts
-					(xy -2.54 1.27) (xy -2.54 -1.27) (xy 2.54 -1.27) (xy 2.54 1.27)
+					(xy -3.81 1.905) (xy -4.445 1.905) (xy -3.175 1.905)
 				)
 				(stroke
 					(width 0)
@@ -159,7 +159,7 @@
 			)
 			(polyline
 				(pts
-					(xy -2.54 1.27) (xy -1.905 0) (xy -3.175 0) (xy -2.54 1.27)
+					(xy -3.81 1.905) (xy -3.175 0.635) (xy -4.445 0.635) (xy -3.81 1.905)
 				)
 				(stroke
 					(width 0)
@@ -171,7 +171,7 @@
 			)
 			(polyline
 				(pts
-					(xy -2.032 1.27) (xy -1.778 1.524)
+					(xy -3.175 1.905) (xy -3.175 1.651)
 				)
 				(stroke
 					(width 0)
@@ -183,7 +183,7 @@
 			)
 			(polyline
 				(pts
-					(xy 0 2.54) (xy 0 1.27)
+					(xy -1.27 3.81) (xy -1.27 2.54)
 				)
 				(stroke
 					(width 0)
@@ -195,7 +195,7 @@
 			)
 			(polyline
 				(pts
-					(xy 0 -1.27) (xy 0 1.27)
+					(xy -1.27 1.905) (xy -1.905 1.905) (xy -0.635 1.905)
 				)
 				(stroke
 					(width 0)
@@ -207,7 +207,67 @@
 			)
 			(polyline
 				(pts
-					(xy 0 -1.27) (xy 0 -2.54)
+					(xy -1.27 0) (xy -1.27 2.54)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -0.635 1.905) (xy -0.635 1.651)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -0.635 0.635) (xy -1.905 0.635) (xy -1.27 1.905) (xy -0.635 0.635)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -0.635 -0.762) (xy 0.635 -0.762) (xy 0 -2.032) (xy -0.635 -0.762)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -0.635 -2.032) (xy -0.635 -1.778)
+				)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0 0) (xy 0 -3.81)
 				)
 				(stroke
 					(width 0)
@@ -218,7 +278,7 @@
 				)
 			)
 			(circle
-				(center 0 -1.27)
+				(center 0 0)
 				(radius 0.254)
 				(stroke
 					(width 0)
@@ -230,7 +290,7 @@
 			)
 			(polyline
 				(pts
-					(xy 0.508 1.27) (xy 0.762 1.524)
+					(xy 0 -2.032) (xy 0.635 -2.032) (xy -0.635 -2.032)
 				)
 				(stroke
 					(width 0)
@@ -242,7 +302,7 @@
 			)
 			(polyline
 				(pts
-					(xy 0.508 1.27) (xy -0.508 1.27) (xy -0.762 1.016)
+					(xy 1.27 3.81) (xy 1.27 2.54)
 				)
 				(stroke
 					(width 0)
@@ -254,7 +314,7 @@
 			)
 			(polyline
 				(pts
-					(xy 0.635 0) (xy -0.635 0) (xy 0 1.27) (xy 0.635 0)
+					(xy 1.27 1.905) (xy 0.635 1.905) (xy 1.905 1.905)
 				)
 				(stroke
 					(width 0)
@@ -266,7 +326,7 @@
 			)
 			(polyline
 				(pts
-					(xy 1.778 1.016) (xy 2.032 1.27) (xy 3.048 1.27) (xy 3.048 1.27)
+					(xy 1.27 1.905) (xy 0.635 0.635) (xy 1.905 0.635) (xy 1.27 1.905)
 				)
 				(stroke
 					(width 0)
@@ -278,7 +338,7 @@
 			)
 			(polyline
 				(pts
-					(xy 2.54 2.54) (xy 2.54 1.27)
+					(xy 1.905 1.905) (xy 1.905 1.651)
 				)
 				(stroke
 					(width 0)
@@ -290,30 +350,7 @@
 			)
 			(polyline
 				(pts
-					(xy 2.54 1.27) (xy 1.905 0) (xy 3.175 0) (xy 2.54 1.27)
-				)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(circle
-				(center 2.54 -1.27)
-				(radius 0.254)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type outline)
-				)
-			)
-			(polyline
-				(pts
-					(xy 3.048 1.27) (xy 3.302 1.524)
+					(xy 3.81 3.81) (xy 3.81 2.54)
 				)
 				(stroke
 					(width 0)
@@ -325,7 +362,7 @@
 			)
 			(polyline
 				(pts
-					(xy 4.318 1.016) (xy 4.572 1.27) (xy 5.588 1.27) (xy 5.588 1.27)
+					(xy 3.81 2.54) (xy 3.81 0) (xy 1.27 0)
 				)
 				(stroke
 					(width 0)
@@ -337,7 +374,7 @@
 			)
 			(polyline
 				(pts
-					(xy 5.08 2.54) (xy 5.08 1.27)
+					(xy 3.81 1.905) (xy 3.175 1.905) (xy 4.445 1.905)
 				)
 				(stroke
 					(width 0)
@@ -349,7 +386,7 @@
 			)
 			(polyline
 				(pts
-					(xy 5.08 1.27) (xy 5.08 -1.27) (xy 2.54 -1.27)
+					(xy 3.81 1.905) (xy 3.175 0.635) (xy 4.445 0.635) (xy 3.81 1.905)
 				)
 				(stroke
 					(width 0)
@@ -361,19 +398,7 @@
 			)
 			(polyline
 				(pts
-					(xy 5.08 1.27) (xy 4.445 0) (xy 5.715 0) (xy 5.08 1.27)
-				)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
-			(polyline
-				(pts
-					(xy 5.588 1.27) (xy 5.842 1.524)
+					(xy 4.445 1.905) (xy 4.445 1.651)
 				)
 				(stroke
 					(width 0)
@@ -386,7 +411,7 @@
 		)
 		(symbol "PESD4USB5BTBR-Q_1_1"
 			(pin passive line
-				(at -2.54 5.08 270)
+				(at -3.81 5.08 270)
 				(length 2.54)
 				(name "K"
 					(effects
@@ -422,7 +447,7 @@
 				)
 			)
 			(pin passive line
-				(at 2.54 5.08 270)
+				(at 1.27 5.08 270)
 				(length 2.54)
 				(name "K"
 					(effects
@@ -440,7 +465,7 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 5.08 270)
+				(at 3.81 5.08 270)
 				(length 2.54)
 				(name "K"
 					(effects
@@ -458,7 +483,7 @@
 				)
 			)
 			(pin passive line
-				(at 5.08 5.08 270)
+				(at 3.81 5.08 270)
 				(length 2.54)
 				(hide yes)
 				(name ""
@@ -477,7 +502,7 @@
 				)
 			)
 			(pin passive line
-				(at 2.54 5.08 270)
+				(at 1.27 5.08 270)
 				(length 2.54)
 				(hide yes)
 				(name ""
@@ -515,7 +540,7 @@
 				)
 			)
 			(pin passive line
-				(at 0 5.08 270)
+				(at -1.27 5.08 270)
 				(length 2.54)
 				(hide yes)
 				(name ""
@@ -534,7 +559,7 @@
 				)
 			)
 			(pin passive line
-				(at -2.54 5.08 270)
+				(at -3.81 5.08 270)
 				(length 2.54)
 				(hide yes)
 				(name ""

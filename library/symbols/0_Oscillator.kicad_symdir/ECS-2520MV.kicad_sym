@@ -61,6 +61,17 @@
 				)
 			)
 		)
+		(property "MFR" "ECS"
+			(at 0 11.43 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "ki_fp_filters" "Oscillator*ECS?2520MV*"
 			(at 0 0 0)
 			(show_name no)
@@ -74,7 +85,7 @@
 		)
 		(symbol "ECS-2520MV_0_0"
 			(pin power_in line
-				(at 7.62 -5.08 180)
+				(at 0 -10.16 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -92,7 +103,7 @@
 				)
 			)
 			(pin passive line
-				(at 7.62 2.54 180)
+				(at 8.89 2.54 180)
 				(length 2.54)
 				(name "OUT"
 					(effects
@@ -110,7 +121,7 @@
 				)
 			)
 			(pin power_in line
-				(at -7.62 2.54 0)
+				(at -8.89 2.54 0)
 				(length 2.54)
 				(name "VDD"
 					(effects
@@ -145,7 +156,7 @@
 		)
 		(symbol "ECS-2520MV_1_0"
 			(pin passive line
-				(at -7.62 -5.08 0)
+				(at -8.89 -5.08 0)
 				(length 2.54)
 				(name "EN"
 					(effects
@@ -165,8 +176,8 @@
 		)
 		(symbol "ECS-2520MV_1_1"
 			(rectangle
-				(start -5.08 5.08)
-				(end 5.08 -7.62)
+				(start -6.35 5.08)
+				(end 6.35 -7.62)
 				(stroke
 					(width 0.254)
 					(type solid)

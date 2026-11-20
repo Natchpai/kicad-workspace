@@ -63,6 +63,28 @@
 				)
 			)
 		)
+		(property "MFR" "TDK InvenSense"
+			(at 0 -44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MFR.P/N" "ICP-20100"
+			(at 0 -44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "ki_keywords" "TDK InvenSense barometer pressure altimeter MEMS"
 			(at 0 0 0)
 			(show_name no)

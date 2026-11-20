@@ -55,7 +55,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 0 0 0)
+			(at 0 7.62 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)

@@ -64,6 +64,17 @@
 				)
 			)
 		)
+		(property "MFR" "ST"
+			(at -19.05 -52.07 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "ki_keywords" "Arm Cortex-M3 STM32F1 STM32F100 Value Line"
 			(at 0 0 0)
 			(show_name no)
