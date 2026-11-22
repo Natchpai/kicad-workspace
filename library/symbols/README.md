@@ -8,11 +8,12 @@ KiCad 10 unpacked symbol libraries. Each **.kicad_symdir/** directory is one lib
 | **0_Capacitor** | 2 | **C**, **C_Polarized** |
 | **0_Conn_Card** | 1 | **Micro_SD_Card_Det1** |
 | **0_Conn_Ethernet** | 2 | **JXD0-0019NL**, **MGB005-1CF1B002H** |
-| **0_Conn_Generic** | 18 | **Conn_01x02**, **Conn_01x02_MountingPin**, **Conn_01x03**, **Conn_01x03_MountingPin**, **Conn_01x04_MountingPin**, **Conn_01x05_MountingPin**, **Conn_01x06**, **Conn_01x06_MountingPin**, **Conn_01x08_MountingPin**, **Conn_01x10_MountingPin**, **Conn_01x16_MountingPin**, **Conn_02x02_Top_Bottom**, **Conn_02x03_Top_Bottom**, **Conn_ARM_JTAG_SWD_10**, **Conn_JTAG_STDC10**, **SAMTEC_TSW-104-08-F-T-RA**, **SolderPad**, **XT30PW-M** |
+| **0_Conn_Generic** | 19 | **Conn_01x02**, **Conn_01x02_MountingPin**, **Conn_01x03**, **Conn_01x03_MountingPin**, **Conn_01x04_MountingPin**, **Conn_01x05_MountingPin**, **Conn_01x06**, **Conn_01x06_MountingPin**, **Conn_01x08_MountingPin**, **Conn_01x10_MountingPin**, **Conn_01x16_MountingPin**, **Conn_02x02_Top_Bottom**, **Conn_02x03_Top_Bottom**, **Conn_ARM_JTAG_SWD_10**, **Conn_JTAG_STDC10**, **SAMTEC_TSW-104-08-F-T-RA**, **SolderPad**, **TestPoint**, **XT30PW-M** |
 | **0_Conn_Mezzanine** | 1 | **10144518-101802LF** |
 | **0_Conn_USB** | 3 | **USB_B_Micro**, **USB_B_Mini**, **USB_C_Receptacle_USB2.0_16P** |
 | **0_Crystal** | 1 | **Crystal_GND24** |
-| **0_Diode** | 6 | **BAT54XV2**, **BAT60J**, **D_Schottky**, **MBR0520L**, **MBRA340**, **SL34A** |
+| **0_Device** | 1 | **NetTie_2** |
+| **0_Diode** | 7 | **BAT54XV2**, **BAT60J**, **D_Schottky**, **MBR0520L**, **MBR230LSFT1G**, **MBRA340**, **SL34A** |
 | **0_Driver_FET** | 1 | **UCC27282DRC** |
 | **0_Inductor** | 2 | **L**, **L_dot** |
 | **0_Interface_Ethernet** | 1 | **KSZ9131RNX** |

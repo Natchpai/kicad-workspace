@@ -8,7 +8,7 @@
 	(property "Reference" "REF**"
 		(at 0 -1.998 0)
 		(layer "F.SilkS")
-		(uuid "a0490261-c241-4017-8bc7-62aad5e4aa12")
+		(uuid "aa912905-12c0-41ef-a245-0cf6395d1ef4")
 		(effects
 			(font
 				(size 1 1)
@@ -19,11 +19,11 @@
 	(property "Value" "TestPoint_Pad_D2.0mm"
 		(at 0 2.05 0)
 		(layer "F.Fab")
-		(uuid "25b59393-1dad-4233-8be2-b5e06450ffc3")
+		(uuid "9edcf09f-6ee6-46cf-8339-ef0e09888aca")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
+				(thickness 0.1)
 			)
 		)
 	)
@@ -32,7 +32,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "2c773ea3-4fbd-47f8-a3c3-823817db0b9c")
+		(uuid "132d114d-b05c-4922-b030-18df2b7f04c2")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -45,7 +45,7 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "c20ae829-c256-46c0-bf71-d356dec44f4e")
+		(uuid "de1c27ba-1be1-4270-bebb-5af723811032")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -59,12 +59,12 @@
 		(center 0 0)
 		(end 0 1.2)
 		(stroke
-			(width 0.12)
+			(width 0.15)
 			(type solid)
 		)
 		(fill no)
 		(layer "F.SilkS")
-		(uuid "97771526-a279-43e8-a4b0-0fc520bfcdb2")
+		(uuid "f968c468-2cc4-40b7-8a86-7bfbb8427878")
 	)
 	(fp_circle
 		(center 0 0)
@@ -75,16 +75,16 @@
 		)
 		(fill no)
 		(layer "F.CrtYd")
-		(uuid "2e2d0ce6-7ace-41c0-bbed-b5e7e9cd9ec8")
+		(uuid "b31d2f2d-78e0-4aa7-8f02-d2270c9bfb71")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 -2 0)
 		(layer "F.Fab")
-		(uuid "76bdb3ad-2c3b-4af6-9496-d156a67a3089")
+		(uuid "36503516-93ff-4762-833f-ccd707012cd5")
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
+				(thickness 0.1)
 			)
 		)
 	)
@@ -92,7 +92,7 @@
 		(at 0 0)
 		(size 2 2)
 		(layers "F.Cu" "F.Mask")
-		(uuid "5ead1aa9-ff87-46dc-a24b-bc3a29d26fe6")
+		(uuid "34ad9268-fdb5-4d5a-be05-86e7bbe8b00a")
 	)
 	(embedded_fonts no)
 )

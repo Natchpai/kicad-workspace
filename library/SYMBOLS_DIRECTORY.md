@@ -2,17 +2,18 @@
 
 Custom KiCad 10 symbols are stored in symbols/ as unpacked .kicad_symdir libraries. Each file contains one symbol.
 
-Inventory: 42 libraries, 128 symbols.
+Inventory: 43 libraries, 131 symbols.
 
 - **0_Amplifier_Operational.kicad_symdir** (1) — TLV9061xDBV
 - **0_Capacitor.kicad_symdir** (2) — C, C_Polarized
 - **0_Conn_Card.kicad_symdir** (1) — Micro_SD_Card_Det1
 - **0_Conn_Ethernet.kicad_symdir** (2) — JXD0-0019NL, MGB005-1CF1B002H
-- **0_Conn_Generic.kicad_symdir** (18) — Conn_01x02, Conn_01x02_MountingPin, Conn_01x03, Conn_01x03_MountingPin, Conn_01x04_MountingPin, Conn_01x05_MountingPin, Conn_01x06, Conn_01x06_MountingPin, Conn_01x08_MountingPin, Conn_01x10_MountingPin, Conn_01x16_MountingPin, Conn_02x02_Top_Bottom, Conn_02x03_Top_Bottom, Conn_ARM_JTAG_SWD_10, Conn_JTAG_STDC10, SAMTEC_TSW-104-08-F-T-RA, SolderPad, XT30PW-M
+- **0_Conn_Generic.kicad_symdir** (19) — Conn_01x02, Conn_01x02_MountingPin, Conn_01x03, Conn_01x03_MountingPin, Conn_01x04_MountingPin, Conn_01x05_MountingPin, Conn_01x06, Conn_01x06_MountingPin, Conn_01x08_MountingPin, Conn_01x10_MountingPin, Conn_01x16_MountingPin, Conn_02x02_Top_Bottom, Conn_02x03_Top_Bottom, Conn_ARM_JTAG_SWD_10, Conn_JTAG_STDC10, SAMTEC_TSW-104-08-F-T-RA, SolderPad, TestPoint, XT30PW-M
 - **0_Conn_Mezzanine.kicad_symdir** (1) — 10144518-101802LF
 - **0_Conn_USB.kicad_symdir** (3) — USB_B_Micro, USB_B_Mini, USB_C_Receptacle_USB2.0_16P
 - **0_Crystal.kicad_symdir** (1) — Crystal_GND24
-- **0_Diode.kicad_symdir** (6) — BAT54XV2, BAT60J, D_Schottky, MBR0520L, MBRA340, SL34A
+- **0_Device.kicad_symdir** (1) — NetTie_2
+- **0_Diode.kicad_symdir** (7) — BAT54XV2, BAT60J, D_Schottky, MBR0520L, MBR230LSFT1G, MBRA340, SL34A
 - **0_Driver_FET.kicad_symdir** (1) — UCC27282DRC
 - **0_Inductor.kicad_symdir** (2) — L, L_dot
 - **0_Interface_Ethernet.kicad_symdir** (1) — KSZ9131RNX
